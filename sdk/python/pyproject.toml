@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "EulerApiSdk"
-version = "0.0.3"
-description = "A client library for accessing the Euler Stream TikTok LIVE API"
+version = "0.1.0"
+description = "A client library for accessing Euler Stream Sign API"
 authors = []
 readme = "README.md"
 packages = [
