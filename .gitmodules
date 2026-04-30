@@ -1,0 +1,5 @@
+[submodule "private"]
+	path = private
+	url = https://github.com/EulerStream/Euler-Api-Sdk-Private.git
+	update = none
+	fetchRecurseSubmodules = false
