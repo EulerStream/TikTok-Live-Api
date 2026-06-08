@@ -1,0 +1,44 @@
+{
+  "apis": [
+    {
+      "className": "AccountsApi",
+      "propName": "accounts"
+    },
+    {
+      "className": "AnalyticsApi",
+      "propName": "analytics"
+    },
+    {
+      "className": "AuthenticationApi",
+      "propName": "authentication"
+    },
+    {
+      "className": "TikTokCaptchasApi",
+      "propName": "captchas"
+    },
+    {
+      "className": "TikTokGeneralApi",
+      "propName": "general"
+    },
+    {
+      "className": "TikTokLIVEApi",
+      "propName": "webcast"
+    },
+    {
+      "className": "TikTokLIVEAlertTargetsApi",
+      "propName": "alertTargets"
+    },
+    {
+      "className": "TikTokLIVEAlertsApi",
+      "propName": "alerts"
+    },
+    {
+      "className": "TikTokLIVEModerationApi",
+      "propName": "moderation"
+    },
+    {
+      "className": "TikTokLIVEPremiumApi",
+      "propName": "premium"
+    }
+  ]
+}

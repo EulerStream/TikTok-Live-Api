@@ -11,3 +11,6 @@ openapi-python-client generate \
   --output-path ./ \
   --overwrite \
   --config config.yaml
+
+# Emit the test manifest from the freshly generated SDK
+python scripts/render_manifest.py

@@ -1,17 +1,38 @@
 import assert from "node:assert";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { fileURLToPath } from "node:url";
 import EulerStreamApiClient, { buildConfig } from "../src/index.js";
-import {
-    AccountsApi,
-    AnalyticsApi,
-    AuthenticationApi,
-    TikTokCaptchasApi,
-    TikTokGeneralApi,
-    TikTokLIVEApi,
-    TikTokLIVEAlertTargetsApi,
-    TikTokLIVEAlertsApi,
-    TikTokLIVEModerationApi,
-    TikTokLIVEPremiumApi,
-} from "../src/sdk/index.js";
+import * as Sdk from "../src/sdk/index.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// The API surface is determined dynamically at codegen time: render-template.ts
+// discovers every *Api class from the generated SDK (itself produced from the
+// live OpenAPI spec) and writes test/sdk-manifest.json. The tests below assert
+// against that manifest so they never go stale when the spec adds, renames, or
+// removes API groups.
+const MANIFEST_PATH = path.resolve(__dirname, "sdk-manifest.json");
+
+interface ApiEntry {
+    className: string;
+    propName: string;
+}
+
+function loadManifest(): ApiEntry[] {
+    if (!fs.existsSync(MANIFEST_PATH)) {
+        throw new Error(
+            `Manifest not found at ${MANIFEST_PATH}. Run codegen ('pnpm generate') first.`,
+        );
+    }
+    const manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, "utf-8"));
+    if (!Array.isArray(manifest.apis) || manifest.apis.length === 0) {
+        throw new Error(`Manifest at ${MANIFEST_PATH} contains no API entries.`);
+    }
+    return manifest.apis as ApiEntry[];
+}
+
+const apiEntries = loadManifest();
 
 let passed = 0;
 let failed = 0;
@@ -36,56 +57,27 @@ test("EulerStreamApiClient can be instantiated with no arguments", () => {
     assert.ok(client, "client should be truthy");
 });
 
-// 2. All API properties exist and are correct instances
-test("client.accounts is an AccountsApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.accounts instanceof AccountsApi);
-});
+// 2. Every API group from the manifest is exported by the generated SDK and
+//    exposed on the client as an instance of its API class.
+for (const { className, propName } of apiEntries) {
+    test(`SDK exports ${className}`, () => {
+        const ApiClass = (Sdk as Record<string, unknown>)[className];
+        assert.ok(
+            typeof ApiClass === "function",
+            `generated SDK should export a ${className} class`,
+        );
+    });
 
-test("client.analytics is an AnalyticsApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.analytics instanceof AnalyticsApi);
-});
-
-test("client.authentication is an AuthenticationApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.authentication instanceof AuthenticationApi);
-});
-
-test("client.captchas is a TikTokCaptchasApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.captchas instanceof TikTokCaptchasApi);
-});
-
-test("client.general is a TikTokGeneralApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.general instanceof TikTokGeneralApi);
-});
-
-test("client.webcast is a TikTokLIVEApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.webcast instanceof TikTokLIVEApi);
-});
-
-test("client.alertTargets is a TikTokLIVEAlertTargetsApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.alertTargets instanceof TikTokLIVEAlertTargetsApi);
-});
-
-test("client.alerts is a TikTokLIVEAlertsApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.alerts instanceof TikTokLIVEAlertsApi);
-});
-
-test("client.moderation is a TikTokLIVEModerationApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.moderation instanceof TikTokLIVEModerationApi);
-});
-
-test("client.premium is a TikTokLIVEPremiumApi instance", () => {
-    const client = new EulerStreamApiClient();
-    assert.ok(client.premium instanceof TikTokLIVEPremiumApi);
-});
+    test(`client.${propName} is a ${className} instance`, () => {
+        const ApiClass = (Sdk as Record<string, unknown>)[className] as (new (...args: any[]) => object);
+        const client = new EulerStreamApiClient();
+        const instance = (client as Record<string, unknown>)[propName];
+        assert.ok(
+            instance instanceof ApiClass,
+            `client.${propName} should be a ${className} instance`,
+        );
+    });
+}
 
 // 3. Client exposes the configuration property
 test("client exposes configuration property", () => {
