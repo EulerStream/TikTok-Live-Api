@@ -50,6 +50,7 @@ jobs:
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
+          rm -rf ./src/sdk
           npx openapi-generator-cli generate -i ./build/openapi.json -g typescript-axios -o ./src/sdk
 
       - name: Render client template
@@ -138,6 +139,7 @@ jobs:
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
+          rm -rf ./src/generated
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g csharp -o ./src/generated \
             --additional-properties=packageName=EulerApiSdk,targetFramework=net8.0,nullableReferenceTypes=true
@@ -188,6 +190,7 @@ jobs:
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
+          rm -rf ./src/generated
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g java -o ./src/generated \
             --additional-properties=groupId=io.github.isaackogan,artifactId=euler-api-sdk,apiPackage=io.github.isaackogan.api,modelPackage=io.github.isaackogan.model,invokerPackage=io.github.isaackogan
@@ -233,6 +236,7 @@ jobs:
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
+          rm -rf ./generated
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g go -o ./generated \
             --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/Euler-Api-Sdk/sdk/go
