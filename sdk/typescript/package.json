@@ -1,6 +1,6 @@
 {
   "name": "@eulerstream/euler-api-sdk",
-  "version": "0.3.0-beta1",
+  "version": "0.3.0",
   "description": "Node.js module for interacting with the Euler Stream TikTok LIVE API.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

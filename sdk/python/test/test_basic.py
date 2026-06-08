@@ -4,6 +4,7 @@ Basic tests for the EulerApiSdk Python SDK.
 Run with: python test/test_basic.py
 """
 
+import json
 import sys
 import os
 
@@ -12,6 +13,37 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 passed = 0
 failed = 0
+
+
+# ---------------------------------------------------------------------------
+# Manifest: the API surface is determined dynamically at codegen time.
+# scripts/render_manifest.py scans the generated SDK (itself produced from the
+# live OpenAPI spec) and writes test/sdk_manifest.json listing the generated API
+# modules and model exports. Reading it here keeps the tests in sync with the
+# spec automatically instead of hardcoding module/model names.
+# ---------------------------------------------------------------------------
+
+MANIFEST_PATH = os.path.join(os.path.dirname(__file__), "sdk_manifest.json")
+
+
+def load_manifest():
+    if not os.path.isfile(MANIFEST_PATH):
+        raise SystemExit(
+            f"Manifest not found at {MANIFEST_PATH}. "
+            "Run codegen (scripts/render_manifest.py) first."
+        )
+    with open(MANIFEST_PATH, encoding="utf-8") as fh:
+        manifest = json.load(fh)
+    if not manifest.get("api_modules"):
+        raise SystemExit(f"Manifest at {MANIFEST_PATH} lists no API modules.")
+    if not manifest.get("models"):
+        raise SystemExit(f"Manifest at {MANIFEST_PATH} lists no models.")
+    return manifest
+
+
+MANIFEST = load_manifest()
+API_MODULES = MANIFEST["api_modules"]
+EXPECTED_MODELS = MANIFEST["models"]
 
 
 def run_test(name, fn):
@@ -192,20 +224,6 @@ def test_authenticated_get_httpx_client_sets_auth_header():
 # 7. API module imports
 # ---------------------------------------------------------------------------
 
-API_MODULES = [
-    "accounts",
-    "analytics",
-    "authentication",
-    "tik_tok_captchas",
-    "tik_tok_general",
-    "tik_tok_live",
-    "tik_tok_live_alert_targets",
-    "tik_tok_live_alerts",
-    "tik_tok_live_moderation",
-    "tik_tok_live_premium",
-]
-
-
 def test_api_modules_importable():
     import importlib
     for module_name in API_MODULES:
@@ -230,9 +248,8 @@ def test_models_package_importable():
 
 def test_models_has_exports():
     from EulerApiSdk import models
-    # Spot-check a handful of expected model classes
-    expected = ["Account", "ApiKey", "Alert", "AlertTarget"]
-    for name in expected:
+    # Every model the generator exported (per the manifest) must be importable.
+    for name in EXPECTED_MODELS:
         assert hasattr(models, name), f"models module missing export: {name}"
 
 
