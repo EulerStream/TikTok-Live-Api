@@ -4,6 +4,10 @@
   "TikTokLIVEAlertTargetsApi": "alertTargets",
   "TikTokLIVEModerationApi": "moderation",
   "TikTokLIVEPremiumApi": "premium",
+  "TikTokLIVERoomsApi": "rooms",
+  "TikTokLIVEAnchorsApi": "anchors",
+  "TikTokLIVEGiftsApi": "gifts",
+  "TikTokLIVERankingsApi": "rankings",
   "TikTokCaptchasApi": "captchas",
   "TikTokGeneralApi": "general"
 }

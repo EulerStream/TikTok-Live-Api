@@ -49,6 +49,7 @@ jobs:
         run: |
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
+          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           npx openapi-generator-cli generate -i ./build/openapi.json -g typescript-axios -o ./src/sdk
 
       - name: Render client template
@@ -87,8 +88,11 @@ jobs:
       - name: Generate Python SDK
         working-directory: sdk/python
         run: |
+          mkdir -p build
+          wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
+          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           openapi-python-client generate \
-            --url https://tiktok.eulerstream.com/dashboard/openapi \
+            --path ./build/openapi.json \
             --output-path ./ \
             --overwrite \
             --config config.yaml
@@ -133,6 +137,7 @@ jobs:
         run: |
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
+          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g csharp -o ./src/generated \
             --additional-properties=packageName=EulerApiSdk,targetFramework=net8.0,nullableReferenceTypes=true
@@ -182,6 +187,7 @@ jobs:
         run: |
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
+          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g java -o ./src/generated \
             --additional-properties=groupId=io.github.isaackogan,artifactId=euler-api-sdk,apiPackage=io.github.isaackogan.api,modelPackage=io.github.isaackogan.model,invokerPackage=io.github.isaackogan
@@ -226,6 +232,7 @@ jobs:
         run: |
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
+          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g go -o ./generated \
             --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/Euler-Api-Sdk/sdk/go
@@ -272,6 +279,7 @@ jobs:
         run: |
           mkdir -p build
           wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi
+          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
 
       - name: Generate examples
         working-directory: sdk-examples
