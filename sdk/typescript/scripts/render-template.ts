@@ -28,7 +28,9 @@ const overrides: Record<string, string> = fs.existsSync(OVERRIDES_PATH)
 // Derive property name: use override, or strip "Api" and lower-first
 function toPropertyName(className: string): string {
     if (overrides[className]) return overrides[className];
-    const stripped = className.replace(/Api$/, '');
+    // Normalize the "LIVE" acronym to "Live" so unoverridden names read naturally
+    // (e.g. TikTokLIVERoomsApi -> tikTokLiveRooms, not tikTokLIVERooms).
+    const stripped = className.replace(/Api$/, '').replace(/LIVE/g, 'Live');
     return stripped.charAt(0).toLowerCase() + stripped.slice(1);
 }
 

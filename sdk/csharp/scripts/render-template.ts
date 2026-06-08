@@ -34,7 +34,9 @@ const overrides: Record<string, string> = fs.existsSync(OVERRIDES_PATH)
 // Derive property name: use override, or strip "Api" and keep PascalCase
 function toPropertyName(className: string): string {
     if (overrides[className]) return overrides[className];
-    return className.replace(/Api$/, '');
+    // Normalize the "LIVE" acronym to "Live" so unoverridden names read naturally
+    // (e.g. TikTokLIVERoomsApi -> TikTokLiveRooms, not TikTokLIVERooms).
+    return className.replace(/Api$/, '').replace(/LIVE/g, 'Live');
 }
 
 // Build replacements

@@ -37,7 +37,9 @@ const overrides: Record<string, string> = fs.existsSync(OVERRIDES_PATH)
 function toFieldName(serviceType: string): string {
     const apiFieldName: string = serviceType.replace(/Service$/, '');
     if (overrides[apiFieldName]) return overrides[apiFieldName];
-    return apiFieldName.replace(/API$/, '');
+    // Normalize the "LIVE" acronym to "Live" so unoverridden names read naturally
+    // (e.g. TikTokLIVERoomsAPI -> TikTokLiveRooms, not TikTokLIVERooms).
+    return apiFieldName.replace(/API$/, '').replace(/LIVE/g, 'Live');
 }
 
 // Build entries
