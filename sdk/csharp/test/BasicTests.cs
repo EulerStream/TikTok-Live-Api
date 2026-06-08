@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Reflection;
 using Xunit;
 using EulerApiSdk;
 using EulerApiSdk.Api;
@@ -19,10 +21,22 @@ namespace EulerApiSdk.Tests
             _client.Dispose();
         }
 
+        // The set of API groups is discovered dynamically: any public instance
+        // property whose type is an interface in the EulerApiSdk.Api namespace is
+        // an API group exposed by the client. Discovering them via reflection
+        // (instead of hardcoding Accounts/Webcast/Premium/...) keeps these tests
+        // in sync with the OpenAPI spec when API groups are added, renamed, or
+        // removed.
+        private static PropertyInfo[] ApiProperties() =>
+            typeof(EulerStreamApiClient)
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(p => p.PropertyType.IsInterface
+                            && p.PropertyType.Namespace == "EulerApiSdk.Api")
+                .ToArray();
+
         [Fact]
         public void Client_CanBeInstantiated()
         {
-            // The client was already created in the constructor; just verify it is not null.
             Assert.NotNull(_client);
         }
 
@@ -33,78 +47,22 @@ namespace EulerApiSdk.Tests
         }
 
         [Fact]
-        public void Accounts_IsNotNull()
+        public void Client_ExposesApiProperties()
         {
-            Assert.NotNull(_client.Accounts);
+            Assert.NotEmpty(ApiProperties());
         }
 
         [Fact]
-        public void Analytics_IsNotNull()
+        public void AllApiProperties_AreNonNullAndImplementTheirInterface()
         {
-            Assert.NotNull(_client.Analytics);
-        }
-
-        [Fact]
-        public void Authentication_IsNotNull()
-        {
-            Assert.NotNull(_client.Authentication);
-        }
-
-        [Fact]
-        public void Captchas_IsNotNull()
-        {
-            Assert.NotNull(_client.Captchas);
-        }
-
-        [Fact]
-        public void General_IsNotNull()
-        {
-            Assert.NotNull(_client.General);
-        }
-
-        [Fact]
-        public void Webcast_IsNotNull()
-        {
-            Assert.NotNull(_client.Webcast);
-        }
-
-        [Fact]
-        public void AlertTargets_IsNotNull()
-        {
-            Assert.NotNull(_client.AlertTargets);
-        }
-
-        [Fact]
-        public void Alerts_IsNotNull()
-        {
-            Assert.NotNull(_client.Alerts);
-        }
-
-        [Fact]
-        public void Moderation_IsNotNull()
-        {
-            Assert.NotNull(_client.Moderation);
-        }
-
-        [Fact]
-        public void Premium_IsNotNull()
-        {
-            Assert.NotNull(_client.Premium);
-        }
-
-        [Fact]
-        public void AllApiProperties_ImplementCorrectInterfaces()
-        {
-            Assert.IsAssignableFrom<IAccountsApi>(_client.Accounts);
-            Assert.IsAssignableFrom<IAnalyticsApi>(_client.Analytics);
-            Assert.IsAssignableFrom<IAuthenticationApi>(_client.Authentication);
-            Assert.IsAssignableFrom<ITikTokCaptchasApi>(_client.Captchas);
-            Assert.IsAssignableFrom<ITikTokGeneralApi>(_client.General);
-            Assert.IsAssignableFrom<ITikTokLIVEApi>(_client.Webcast);
-            Assert.IsAssignableFrom<ITikTokLIVEAlertTargetsApi>(_client.AlertTargets);
-            Assert.IsAssignableFrom<ITikTokLIVEAlertsApi>(_client.Alerts);
-            Assert.IsAssignableFrom<ITikTokLIVEModerationApi>(_client.Moderation);
-            Assert.IsAssignableFrom<ITikTokLIVEPremiumApi>(_client.Premium);
+            foreach (var prop in ApiProperties())
+            {
+                var value = prop.GetValue(_client);
+                Assert.True(value != null, $"{prop.Name} should not be null");
+                Assert.True(
+                    prop.PropertyType.IsInstanceOfType(value),
+                    $"{prop.Name} should implement {prop.PropertyType.Name}");
+            }
         }
 
         [Fact]

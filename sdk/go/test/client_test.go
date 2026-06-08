@@ -2,6 +2,8 @@ package eulerstream_test
 
 import (
 	"net/http"
+	"reflect"
+	"strings"
 	"testing"
 
 	eulerstream "github.com/EulerStream/Euler-Api-Sdk/sdk/go"
@@ -47,28 +49,29 @@ func TestNewEulerStreamClient_RawClientAccessible(t *testing.T) {
 	}
 }
 
+// The API service fields are discovered dynamically via reflection: any struct
+// field whose type is a *eulerapi.*APIService is an API group exposed by the
+// client. Discovering them this way (instead of hardcoding Accounts/Webcast/
+// Premium/...) keeps this test in sync with the OpenAPI spec when API groups are
+// added, renamed, or removed.
 func TestNewEulerStreamClient_AllServiceFieldsNonNil(t *testing.T) {
 	client := eulerstream.NewEulerStreamClient()
 
-	tests := []struct {
-		name  string
-		field interface{}
-	}{
-		{"Accounts", client.Accounts},
-		{"Analytics", client.Analytics},
-		{"Authentication", client.Authentication},
-		{"Captchas", client.Captchas},
-		{"General", client.General},
-		{"Webcast", client.Webcast},
-		{"AlertTargets", client.AlertTargets},
-		{"Alerts", client.Alerts},
-		{"Moderation", client.Moderation},
-		{"Premium", client.Premium},
+	v := reflect.ValueOf(client).Elem()
+	tp := v.Type()
+	found := 0
+	for i := 0; i < tp.NumField(); i++ {
+		field := tp.Field(i)
+		if !strings.HasSuffix(field.Type.String(), "APIService") {
+			continue
+		}
+		found++
+		if v.Field(i).IsNil() {
+			t.Errorf("expected service field %s to be non-nil", field.Name)
+		}
 	}
 
-	for _, tc := range tests {
-		if tc.field == nil {
-			t.Errorf("expected %s service field to be non-nil", tc.name)
-		}
+	if found == 0 {
+		t.Fatal("expected at least one API service field on the client")
 	}
 }
