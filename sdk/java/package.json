@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "generate": "mkdir -p build && wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi && npx @openapitools/openapi-generator-cli generate -i ./build/openapi.json -g java -o ./src/generated --additional-properties=groupId=io.github.isaackogan,artifactId=euler-api-sdk,apiPackage=io.github.isaackogan.api,modelPackage=io.github.isaackogan.model,invokerPackage=io.github.isaackogan && tsx ./scripts/render-template.ts",
+    "generate": "mkdir -p build && wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi && npx @openapitools/openapi-generator-cli generate -i ./build/openapi.json -g java -o ./src/generated --additional-properties=groupId=io.github.isaackogan,artifactId=euler-api-sdk,apiPackage=io.github.isaackogan.api,modelPackage=io.github.isaackogan.model,invokerPackage=io.github.isaackogan && tsx ./scripts/render-template.ts",
     "build": "cd src/generated && mvn package -DskipTests",
     "test": "cd src/generated && mvn test"
   }

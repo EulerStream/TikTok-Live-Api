@@ -9,7 +9,7 @@ export function buildConfig(baseConfig: Partial<ClientConfiguration>): ClientCon
 
   const config: ClientConfiguration = {
     ...{
-      basePath: 'https://tiktok.eulerstream.com', // Or your choice of alternate signature provider
+      basePath: 'https://api.eulerstream.com', // Or your choice of alternate signature provider
       baseOptions: {validateStatus: () => true} as AxiosRequestConfig,
       isJsonMime: (mime: string) => mime.toLowerCase().includes("application/json")
     },

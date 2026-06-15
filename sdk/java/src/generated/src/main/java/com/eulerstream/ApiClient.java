@@ -61,10 +61,10 @@ import com.eulerstream.auth.ApiKeyAuth;
  */
 public class ApiClient {
 
-    protected String basePath = "https://tiktok.eulerstream.com";
+    protected String basePath = "https://api.eulerstream.com";
     protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "https://tiktok.eulerstream.com",
+      "https://api.eulerstream.com",
       "Public Server (Community & Pro)",
       new HashMap<String, ServerVariable>()
     ),
@@ -173,7 +173,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g https://tiktok.eulerstream.com)
+     * @param basePath Base path of the URL (e.g https://api.eulerstream.com)
      * @return An instance of ApiClient
      */
     public ApiClient setBasePath(String basePath) {

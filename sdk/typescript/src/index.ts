@@ -6,8 +6,11 @@ import { AccountsApi,
   TikTokLIVEApi,
   TikTokLIVEAlertTargetsApi,
   TikTokLIVEAlertsApi,
+  TikTokLIVEAnchorsApi,
+  TikTokLIVEGiftsApi,
   TikTokLIVEModerationApi,
-  TikTokLIVEPremiumApi } from "@/sdk";
+  TikTokLIVERoomsApi,
+  TikTokWebSocketAPIApi } from "@/sdk";
 import {buildConfig, ClientConfiguration} from "@/utils";
 
 // Exports
@@ -25,8 +28,11 @@ export default class EulerStreamApiClient {
   public readonly webcast: TikTokLIVEApi;
   public readonly alertTargets: TikTokLIVEAlertTargetsApi;
   public readonly alerts: TikTokLIVEAlertsApi;
+  public readonly anchors: TikTokLIVEAnchorsApi;
+  public readonly gifts: TikTokLIVEGiftsApi;
   public readonly moderation: TikTokLIVEModerationApi;
-  public readonly premium: TikTokLIVEPremiumApi;
+  public readonly rooms: TikTokLIVERoomsApi;
+  public readonly tikTokWebSocketAPI: TikTokWebSocketAPIApi;
   public readonly configuration: ClientConfiguration;
 
   /**
@@ -50,8 +56,11 @@ export default class EulerStreamApiClient {
     this.webcast = new TikTokLIVEApi(this.configuration);
     this.alertTargets = new TikTokLIVEAlertTargetsApi(this.configuration);
     this.alerts = new TikTokLIVEAlertsApi(this.configuration);
+    this.anchors = new TikTokLIVEAnchorsApi(this.configuration);
+    this.gifts = new TikTokLIVEGiftsApi(this.configuration);
     this.moderation = new TikTokLIVEModerationApi(this.configuration);
-    this.premium = new TikTokLIVEPremiumApi(this.configuration);
+    this.rooms = new TikTokLIVERoomsApi(this.configuration);
+    this.tikTokWebSocketAPI = new TikTokWebSocketAPIApi(this.configuration);
 
   }
 

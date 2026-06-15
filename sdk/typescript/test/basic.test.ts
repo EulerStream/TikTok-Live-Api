@@ -91,7 +91,7 @@ console.log("\n--- buildConfig tests ---\n");
 
 test("buildConfig returns default basePath", () => {
     const config = buildConfig({});
-    assert.strictEqual(config.basePath, "https://tiktok.eulerstream.com");
+    assert.strictEqual(config.basePath, "https://api.eulerstream.com");
 });
 
 test("buildConfig returns baseOptions with validateStatus", () => {

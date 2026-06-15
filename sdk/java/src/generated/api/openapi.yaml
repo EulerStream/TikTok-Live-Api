@@ -9,7 +9,7 @@ info:
   version: dev
 servers:
 - description: Public Server (Community & Pro)
-  url: https://tiktok.eulerstream.com
+  url: https://api.eulerstream.com
 - description: Enterprise Server (Enterprise)
   url: https://tiktok.enterprise.eulerstream.com
 - description: Staging Server (Private Use)

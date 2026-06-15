@@ -357,7 +357,7 @@ namespace EulerApiSdk.Client
         /// <summary>
         /// The base path of the API
         /// </summary>
-        public const string BASE_ADDRESS = "https://tiktok.eulerstream.com";
+        public const string BASE_ADDRESS = "https://api.eulerstream.com";
 
         /// <summary>
         /// The scheme of the API
@@ -372,7 +372,7 @@ namespace EulerApiSdk.Client
         /// <summary>
         /// The host of the API
         /// </summary>
-        public const string HOST = "tiktok.eulerstream.com";
+        public const string HOST = "api.eulerstream.com";
 
         /// <summary>
         /// The format to use for DateTime serialization

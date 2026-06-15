@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Normalize a downloaded OpenAPI spec for code generation.
 
-The live spec at https://tiktok.eulerstream.com/dashboard/openapi is served
+The live spec at https://api.eulerstream.com/dashboard/openapi is served
 through a cache and is not always consistent between requests. Two variants
 have been observed to break the per-tag SDK generators (C#, Go, Java, and
 TypeScript), which emit one API class — and one ``I{OperationId}ApiResponse``

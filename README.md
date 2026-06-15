@@ -39,7 +39,7 @@ console.log(res.status, res.data);
 from EulerApiSdk import AuthenticatedClient
 from EulerApiSdk.api.tik_tok_live import fetch_webcast_url
 
-client = AuthenticatedClient(base_url="https://tiktok.eulerstream.com", token="YOUR_API_KEY")
+client = AuthenticatedClient(base_url="https://api.eulerstream.com", token="YOUR_API_KEY")
 
 with client as c:
     response = fetch_webcast_url.sync_detailed(client=c)

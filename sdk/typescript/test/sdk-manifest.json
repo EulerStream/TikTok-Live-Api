@@ -33,12 +33,24 @@
       "propName": "alerts"
     },
     {
+      "className": "TikTokLIVEAnchorsApi",
+      "propName": "anchors"
+    },
+    {
+      "className": "TikTokLIVEGiftsApi",
+      "propName": "gifts"
+    },
+    {
       "className": "TikTokLIVEModerationApi",
       "propName": "moderation"
     },
     {
-      "className": "TikTokLIVEPremiumApi",
-      "propName": "premium"
+      "className": "TikTokLIVERoomsApi",
+      "propName": "rooms"
+    },
+    {
+      "className": "TikTokWebSocketAPIApi",
+      "propName": "tikTokWebSocketAPI"
     }
   ]
 }

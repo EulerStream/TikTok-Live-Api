@@ -91,7 +91,7 @@ import com.eulerstream.api.AccountsApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://tiktok.eulerstream.com");
+    defaultClient.setBasePath("https://api.eulerstream.com");
     
     // Configure API key authorization: api_key_query
     ApiKeyAuth api_key_query = (ApiKeyAuth) defaultClient.getAuthentication("api_key_query");
@@ -124,7 +124,7 @@ public class Example {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://tiktok.eulerstream.com*
+All URIs are relative to *https://api.eulerstream.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

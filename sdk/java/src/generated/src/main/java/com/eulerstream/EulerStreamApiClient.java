@@ -215,7 +215,7 @@ public class EulerStreamApiClient {
      */
     public static class Builder {
 
-        private String basePath = "https://tiktok.eulerstream.com";
+        private String basePath = "https://api.eulerstream.com";
         private String apiKey;
         private ApiClient apiClient;
 

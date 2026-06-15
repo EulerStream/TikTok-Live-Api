@@ -74,7 +74,7 @@ ctx = context.WithValue(context.Background(), eulerapi.ContextOperationServerVar
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://tiktok.eulerstream.com*
+All URIs are relative to *https://api.eulerstream.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

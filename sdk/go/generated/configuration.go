@@ -93,7 +93,7 @@ func NewConfiguration() *Configuration {
 		Debug:            false,
 		Servers:          ServerConfigurations{
 			{
-				URL: "https://tiktok.eulerstream.com",
+				URL: "https://api.eulerstream.com",
 				Description: "Public Server (Community & Pro)",
 			},
 			{

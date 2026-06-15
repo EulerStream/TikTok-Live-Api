@@ -37,7 +37,7 @@ def test_get_hosts_sync_detailed():
     from EulerApiSdk import Client
     from EulerApiSdk.api.analytics import get_hosts
 
-    client = Client(base_url="https://tiktok.eulerstream.com")
+    client = Client(base_url="https://api.eulerstream.com")
     response = get_hosts.sync_detailed(client=client)
 
     assert response.status_code.value == 200, f"Expected status 200, got {response.status_code.value}"

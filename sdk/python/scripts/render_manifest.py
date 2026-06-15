@@ -1,7 +1,7 @@
 """Emit a manifest of the generated SDK's API surface for the test suite.
 
 The Python SDK is generated from the live OpenAPI spec
-(https://tiktok.eulerstream.com/dashboard/openapi) by openapi-python-client.
+(https://api.eulerstream.com/dashboard/openapi) by openapi-python-client.
 This script scans the *generated output* (not the spec) so the manifest is the
 generator's realized view of the spec, and writes it to test/sdk_manifest.json.
 
