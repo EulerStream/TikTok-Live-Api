@@ -12,7 +12,7 @@
     <Description>C# SDK for the EulerStream TikTok LIVE API. Provides typed clients for webcast signing, alerts, moderation, captchas, analytics, and more.</Description>
     <Copyright>Copyright (c) EulerStream</Copyright>
     <RootNamespace>EulerApiSdk</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EulerApiSdk.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/eulerstream/EulerApiSdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
