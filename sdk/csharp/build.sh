@@ -9,7 +9,7 @@ echo "Fetching latest OpenAPI spec from EulerStream..."
 mkdir -p "$SCRIPT_DIR/build"
 
 # Get the spec
-wget -O "$SCRIPT_DIR/build/openapi.json" https://tiktok.eulerstream.com/dashboard/openapi
+wget -O "$SCRIPT_DIR/build/openapi.json" https://api.eulerstream.com/dashboard/openapi
 
 # Generate C# SDK
 echo "Generating C# SDK..."

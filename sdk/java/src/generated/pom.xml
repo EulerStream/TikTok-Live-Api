@@ -1,33 +1,32 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.github.isaackogan</groupId>
+    <groupId>com.eulerstream</groupId>
     <artifactId>euler-api-sdk</artifactId>
     <packaging>jar</packaging>
     <name>euler-api-sdk</name>
-    <version>dev</version>
-    <url>https://github.com/openapitools/openapi-generator</url>
-    <description>OpenAPI Java</description>
+    <version>0.1.0</version>
+    <url>https://github.com/EulerStream/EulerApiSdk</url>
+    <description>Official EulerStream API SDK for Java — TikTok LIVE signing and API client.</description>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://github.com/openapitools/openapi-generator</url>
+        <connection>scm:git:https://github.com/EulerStream/EulerApiSdk.git</connection>
+        <developerConnection>scm:git:https://github.com/EulerStream/EulerApiSdk.git</developerConnection>
+        <url>https://github.com/EulerStream/EulerApiSdk</url>
     </scm>
 
     <licenses>
         <license>
-            <name>Unlicense</name>
-            <url>http://unlicense.org</url>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
 
     <developers>
         <developer>
-            <name>OpenAPI-Generator Contributors</name>
-            <email>team@openapitools.org</email>
-            <organization>OpenAPITools.org</organization>
-            <organizationUrl>http://openapitools.org</organizationUrl>
+            <id>eulerstream</id>
+            <name>EulerStream</name>
+            <url>https://www.eulerstream.com</url>
         </developer>
     </developers>
 
@@ -230,6 +229,25 @@
                 </java>
               </configuration>
             </plugin>
+                    <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
@@ -251,6 +269,12 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -326,8 +350,8 @@
         <gson-fire-version>1.9.0</gson-fire-version>
         <okhttp-version>4.12.0</okhttp-version>
         <gson-version>2.10.1</gson-version>
-        <commons-lang3-version>3.17.0</commons-lang3-version>
-        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
+        <commons-lang3-version>3.18.0</commons-lang3-version>
+        <jackson-databind-nullable-version>0.2.10</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <beanvalidation-version>2.0.2</beanvalidation-version>
         <junit-version>5.10.3</junit-version>

@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const SDK_API_DIR = path.resolve(__dirname, '..', 'src/generated/src/main/java/io/github/isaackogan/api');
+const SDK_API_DIR = path.resolve(__dirname, '..', 'src/generated/src/main/java/com/eulerstream/api');
 const TEMPLATE_PATH = path.resolve(__dirname, '..', 'src/EulerStreamApiClient.java.template');
-const OUTPUT_PATH = path.resolve(__dirname, '..', 'src/generated/src/main/java/io/github/isaackogan/EulerStreamApiClient.java');
+const OUTPUT_PATH = path.resolve(__dirname, '..', 'src/generated/src/main/java/com/eulerstream/EulerStreamApiClient.java');
 const OVERRIDES_PATH = path.resolve(__dirname, '..', 'overrides.json');
 
 // Discover all *Api classes from generated SDK directory
@@ -37,7 +37,7 @@ const entries = apiFiles.map(cls => ({
 }));
 
 const imports = entries
-    .map(e => `import io.github.isaackogan.api.${e.className};`)
+    .map(e => `import com.eulerstream.api.${e.className};`)
     .join('\n');
 
 const fields = entries

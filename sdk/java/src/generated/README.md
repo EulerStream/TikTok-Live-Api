@@ -2,8 +2,8 @@
 
 Euler Stream Sign API
 - API version: dev
-  - Build date: 2026-03-29T23:40:32.915556-04:00[America/Toronto]
-  - Generator version: 7.14.0
+  - Build date: 2026-06-14T20:43:07.534178-04:00[America/Toronto]
+  - Generator version: 7.23.0
 
 Sign Server API Documentation
 
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>io.github.isaackogan</groupId>
+  <groupId>com.eulerstream</groupId>
   <artifactId>euler-api-sdk</artifactId>
   <version>dev</version>
   <scope>compile</scope>
@@ -57,7 +57,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "io.github.isaackogan:euler-api-sdk:dev"
+     implementation "com.eulerstream:euler-api-sdk:dev"
   }
 ```
 
@@ -81,12 +81,12 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```java
 
 // Import classes:
-import io.github.isaackogan.ApiClient;
-import io.github.isaackogan.ApiException;
-import io.github.isaackogan.Configuration;
-import io.github.isaackogan.auth.*;
-import io.github.isaackogan.model.*;
-import io.github.isaackogan.api.AccountsApi;
+import com.eulerstream.ApiClient;
+import com.eulerstream.ApiException;
+import com.eulerstream.Configuration;
+import com.eulerstream.auth.*;
+import com.eulerstream.model.*;
+import com.eulerstream.api.AccountsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -106,11 +106,12 @@ public class Example {
     //api_key_header.setApiKeyPrefix("Token");
 
     AccountsApi apiInstance = new AccountsApi(defaultClient);
+    RateLimitType type = RateLimitType.fromValue("WEBCAST"); // RateLimitType | Which set of rate limits to retrieve. Defaults to the webcast (account) limits.
     try {
-      RetrieveAccountResponse result = apiInstance.retrieveAccountSelf();
+      GetRateLimits result = apiInstance.getRateLimits(type);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling AccountsApi#retrieveAccountSelf");
+      System.err.println("Exception when calling AccountsApi#getRateLimits");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -127,6 +128,7 @@ All URIs are relative to *https://tiktok.eulerstream.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AccountsApi* | [**getRateLimits**](docs/AccountsApi.md#getRateLimits) | **GET** /accounts/me/rate_limits | 
 *AccountsApi* | [**retrieveAccountSelf**](docs/AccountsApi.md#retrieveAccountSelf) | **GET** /accounts/me | 
 *AnalyticsApi* | [**fetchAgents**](docs/AnalyticsApi.md#fetchAgents) | **GET** /analytics/agents | 
 *AnalyticsApi* | [**getHosts**](docs/AnalyticsApi.md#getHosts) | **GET** /analytics/hosts | 
@@ -143,16 +145,16 @@ Class | Method | HTTP request | Description
 *TikTokCaptchasApi* | [**completeWhirlCaptcha**](docs/TikTokCaptchasApi.md#completeWhirlCaptcha) | **POST** /tiktok/captchas/whirl | 
 *TikTokCaptchasApi* | [**retrieveCaptchaCredits**](docs/TikTokCaptchasApi.md#retrieveCaptchaCredits) | **GET** /tiktok/captchas/credits | 
 *TikTokGeneralApi* | [**exchangeToken**](docs/TikTokGeneralApi.md#exchangeToken) | **POST** /tiktok/oauth/token | 
+*TikTokGeneralApi* | [**getPublicClient**](docs/TikTokGeneralApi.md#getPublicClient) | **GET** /tiktok/oauth/clients/{client_id} | 
+*TikTokGeneralApi* | [**getUserInfo**](docs/TikTokGeneralApi.md#getUserInfo) | **GET** /tiktok/oauth/userinfo | 
+*TikTokGeneralApi* | [**introspectToken**](docs/TikTokGeneralApi.md#introspectToken) | **POST** /tiktok/oauth/introspect | 
 *TikTokGeneralApi* | [**revokeToken**](docs/TikTokGeneralApi.md#revokeToken) | **POST** /tiktok/oauth/revoke | 
-*TikTokLiveApi* | [**fetchWebcastURL**](docs/TikTokLiveApi.md#fetchWebcastURL) | **GET** /webcast/fetch | 
-*TikTokLiveApi* | [**getRateLimits**](docs/TikTokLiveApi.md#getRateLimits) | **GET** /webcast/rate_limits | 
-*TikTokLiveApi* | [**retrieveGiftInfo**](docs/TikTokLiveApi.md#retrieveGiftInfo) | **GET** /webcast/gift_info | 
-*TikTokLiveApi* | [**retrieveHashtagList**](docs/TikTokLiveApi.md#retrieveHashtagList) | **GET** /webcast/hashtag_list | 
-*TikTokLiveApi* | [**retrieveRoomCover**](docs/TikTokLiveApi.md#retrieveRoomCover) | **GET** /webcast/room_cover | 
-*TikTokLiveApi* | [**retrieveRoomId**](docs/TikTokLiveApi.md#retrieveRoomId) | **GET** /webcast/room_id | 
-*TikTokLiveApi* | [**retrieveRoomVideo**](docs/TikTokLiveApi.md#retrieveRoomVideo) | **GET** /webcast/room_video | 
+*TikTokGeneralApi* | [**signTikTokUrl**](docs/TikTokGeneralApi.md#signTikTokUrl) | **POST** /tiktok/sign_url | 
+*TikTokGeneralApi* | [**validateRefreshToken**](docs/TikTokGeneralApi.md#validateRefreshToken) | **POST** /tiktok/oauth/validate-refresh | 
+*TikTokLiveApi* | [**retrieveBulkLiveCheck**](docs/TikTokLiveApi.md#retrieveBulkLiveCheck) | **POST** /webcast/bulk_live_check | 
+*TikTokLiveApi* | [**retrieveHashtagList**](docs/TikTokLiveApi.md#retrieveHashtagList) | **GET** /webcast/hashtags | 
+*TikTokLiveApi* | [**retrieveWebcastFeed**](docs/TikTokLiveApi.md#retrieveWebcastFeed) | **GET** /webcast/feed | 
 *TikTokLiveApi* | [**retrieveWebcastRankings**](docs/TikTokLiveApi.md#retrieveWebcastRankings) | **GET** /webcast/rankings | 
-*TikTokLiveApi* | [**signWebcastUrl**](docs/TikTokLiveApi.md#signWebcastUrl) | **POST** /webcast/sign_url | 
 *TikTokLiveAlertTargetsApi* | [**createAlertTarget**](docs/TikTokLiveAlertTargetsApi.md#createAlertTarget) | **PUT** /accounts/{account_id}/alerts/{alert_id}/targets/create | 
 *TikTokLiveAlertTargetsApi* | [**deleteAlertTarget**](docs/TikTokLiveAlertTargetsApi.md#deleteAlertTarget) | **DELETE** /accounts/{account_id}/alerts/{alert_id}/targets/{target_id}/delete | 
 *TikTokLiveAlertTargetsApi* | [**listAlertTargets**](docs/TikTokLiveAlertTargetsApi.md#listAlertTargets) | **GET** /accounts/{account_id}/alerts/{alert_id}/targets/list | 
@@ -161,24 +163,38 @@ Class | Method | HTTP request | Description
 *TikTokLiveAlertsApi* | [**deleteAlert**](docs/TikTokLiveAlertsApi.md#deleteAlert) | **DELETE** /accounts/{account_id}/alerts/{alert_id}/delete | 
 *TikTokLiveAlertsApi* | [**listAlerts**](docs/TikTokLiveAlertsApi.md#listAlerts) | **GET** /accounts/{account_id}/alerts/list | 
 *TikTokLiveAlertsApi* | [**retrieveAlert**](docs/TikTokLiveAlertsApi.md#retrieveAlert) | **GET** /accounts/{account_id}/alerts/{alert_id}/retrieve | 
-*TikTokLiveModerationApi* | [**addRoomModerator**](docs/TikTokLiveModerationApi.md#addRoomModerator) | **PUT** /webcast/moderation/moderators | 
-*TikTokLiveModerationApi* | [**kickRoomUser**](docs/TikTokLiveModerationApi.md#kickRoomUser) | **PUT** /webcast/moderation/bans | 
-*TikTokLiveModerationApi* | [**muteRoomUser**](docs/TikTokLiveModerationApi.md#muteRoomUser) | **PUT** /webcast/moderation/mutes | 
-*TikTokLiveModerationApi* | [**removeRoomModerator**](docs/TikTokLiveModerationApi.md#removeRoomModerator) | **DELETE** /webcast/moderation/moderators | 
-*TikTokLiveModerationApi* | [**retrieveRoomBannedUsers**](docs/TikTokLiveModerationApi.md#retrieveRoomBannedUsers) | **GET** /webcast/moderation/bans | 
-*TikTokLiveModerationApi* | [**retrieveRoomModerators**](docs/TikTokLiveModerationApi.md#retrieveRoomModerators) | **GET** /webcast/moderation/moderators | 
-*TikTokLiveModerationApi* | [**retrieveRoomMutedUsers**](docs/TikTokLiveModerationApi.md#retrieveRoomMutedUsers) | **GET** /webcast/moderation/mutes | 
-*TikTokLiveModerationApi* | [**toggleRoomComments**](docs/TikTokLiveModerationApi.md#toggleRoomComments) | **POST** /webcast/moderation/toggle_comments | 
-*TikTokLiveModerationApi* | [**unbanRoomUser**](docs/TikTokLiveModerationApi.md#unbanRoomUser) | **DELETE** /webcast/moderation/bans | 
-*TikTokLiveModerationApi* | [**unmuteRoomUser**](docs/TikTokLiveModerationApi.md#unmuteRoomUser) | **DELETE** /webcast/moderation/mutes | 
-*TikTokLivePremiumApi* | [**retrieveBulkLiveCheck**](docs/TikTokLivePremiumApi.md#retrieveBulkLiveCheck) | **POST** /webcast/bulk_live_check | 
-*TikTokLivePremiumApi* | [**retrieveLiveAnalyticsUserInteractions**](docs/TikTokLivePremiumApi.md#retrieveLiveAnalyticsUserInteractions) | **GET** /webcast/live_analytics/user_interactions | 
-*TikTokLivePremiumApi* | [**retrieveLiveAnalyticsVideoDetail**](docs/TikTokLivePremiumApi.md#retrieveLiveAnalyticsVideoDetail) | **GET** /webcast/live_analytics/video_detail | 
-*TikTokLivePremiumApi* | [**retrieveLiveAnalyticsVideoList**](docs/TikTokLivePremiumApi.md#retrieveLiveAnalyticsVideoList) | **GET** /webcast/live_analytics/video_list | 
-*TikTokLivePremiumApi* | [**retrieveRoomInfo**](docs/TikTokLivePremiumApi.md#retrieveRoomInfo) | **GET** /webcast/room_info | 
-*TikTokLivePremiumApi* | [**retrieveWebcastFeed**](docs/TikTokLivePremiumApi.md#retrieveWebcastFeed) | **GET** /webcast/feed | 
-*TikTokLivePremiumApi* | [**retrieveWebcastUserEarnings**](docs/TikTokLivePremiumApi.md#retrieveWebcastUserEarnings) | **GET** /webcast/user_earnings | 
-*TikTokLivePremiumApi* | [**sendRoomChat**](docs/TikTokLivePremiumApi.md#sendRoomChat) | **POST** /webcast/chat | 
+*TikTokLiveAnchorsApi* | [**addRoomModerator**](docs/TikTokLiveAnchorsApi.md#addRoomModerator) | **PUT** /webcast/anchors/{anchor_id}/moderation/moderators | 
+*TikTokLiveAnchorsApi* | [**removeRoomModerator**](docs/TikTokLiveAnchorsApi.md#removeRoomModerator) | **DELETE** /webcast/anchors/{anchor_id}/moderation/moderators | 
+*TikTokLiveAnchorsApi* | [**retrieveLiveAnalyticsUserInteractions**](docs/TikTokLiveAnchorsApi.md#retrieveLiveAnalyticsUserInteractions) | **GET** /webcast/anchors/me/rooms/{room_id}/interactions | 
+*TikTokLiveAnchorsApi* | [**retrieveLiveAnalyticsVideoDetail**](docs/TikTokLiveAnchorsApi.md#retrieveLiveAnalyticsVideoDetail) | **GET** /webcast/anchors/me/rooms/{room_id}/details | 
+*TikTokLiveAnchorsApi* | [**retrieveLiveAnalyticsVideoList**](docs/TikTokLiveAnchorsApi.md#retrieveLiveAnalyticsVideoList) | **GET** /webcast/anchors/me/rooms | 
+*TikTokLiveAnchorsApi* | [**retrieveRoomCover**](docs/TikTokLiveAnchorsApi.md#retrieveRoomCover) | **GET** /webcast/anchors/{unique_id}/room_cover | 
+*TikTokLiveAnchorsApi* | [**retrieveRoomId**](docs/TikTokLiveAnchorsApi.md#retrieveRoomId) | **GET** /webcast/anchors/{unique_id}/room_id | 
+*TikTokLiveAnchorsApi* | [**retrieveRoomInfo**](docs/TikTokLiveAnchorsApi.md#retrieveRoomInfo) | **GET** /webcast/anchors/{unique_id}/room_info | 
+*TikTokLiveAnchorsApi* | [**retrieveRoomModerators**](docs/TikTokLiveAnchorsApi.md#retrieveRoomModerators) | **GET** /webcast/anchors/{anchor_id}/moderation/moderators | 
+*TikTokLiveAnchorsApi* | [**retrieveRoomVideo**](docs/TikTokLiveAnchorsApi.md#retrieveRoomVideo) | **GET** /webcast/anchors/{unique_id}/room_video | 
+*TikTokLiveAnchorsApi* | [**retrieveWebcastGiftGallery**](docs/TikTokLiveAnchorsApi.md#retrieveWebcastGiftGallery) | **GET** /webcast/anchors/{unique_id}/gift_gallery | 
+*TikTokLiveAnchorsApi* | [**retrieveWebcastUserEarnings**](docs/TikTokLiveAnchorsApi.md#retrieveWebcastUserEarnings) | **GET** /webcast/anchors/{unique_id}/earnings | 
+*TikTokLiveAnchorsApi* | [**retrieveWebcastUserId**](docs/TikTokLiveAnchorsApi.md#retrieveWebcastUserId) | **GET** /webcast/anchors/{unique_id}/user_id | 
+*TikTokLiveGiftsApi* | [**listWebcastGifts**](docs/TikTokLiveGiftsApi.md#listWebcastGifts) | **GET** /webcast/gifts/catalog | 
+*TikTokLiveGiftsApi* | [**retrieveWebcastGift**](docs/TikTokLiveGiftsApi.md#retrieveWebcastGift) | **GET** /webcast/gifts/catalog/{gift_id} | 
+*TikTokLiveGiftsApi* | [**retrieveWebcastGifts**](docs/TikTokLiveGiftsApi.md#retrieveWebcastGifts) | **GET** /webcast/gifts | 
+*TikTokLiveGiftsApi* | [**searchWebcastGifts**](docs/TikTokLiveGiftsApi.md#searchWebcastGifts) | **POST** /webcast/gifts/catalog/search | 
+*TikTokLiveModerationApi* | [**addSensitiveWord**](docs/TikTokLiveModerationApi.md#addSensitiveWord) | **POST** /webcast/rooms/{room_id}/moderation/sensitive-words | 
+*TikTokLiveModerationApi* | [**deleteSensitiveWord**](docs/TikTokLiveModerationApi.md#deleteSensitiveWord) | **DELETE** /webcast/rooms/{room_id}/moderation/sensitive-words | 
+*TikTokLiveModerationApi* | [**getSensitiveWords**](docs/TikTokLiveModerationApi.md#getSensitiveWords) | **GET** /webcast/rooms/{room_id}/moderation/sensitive-words | 
+*TikTokLiveModerationApi* | [**kickRoomUser**](docs/TikTokLiveModerationApi.md#kickRoomUser) | **PUT** /webcast/rooms/{room_id}/moderation/bans | 
+*TikTokLiveModerationApi* | [**muteRoomUser**](docs/TikTokLiveModerationApi.md#muteRoomUser) | **PUT** /webcast/rooms/{room_id}/moderation/mutes | 
+*TikTokLiveModerationApi* | [**retrieveRoomBannedUsers**](docs/TikTokLiveModerationApi.md#retrieveRoomBannedUsers) | **GET** /webcast/rooms/{room_id}/moderation/bans | 
+*TikTokLiveModerationApi* | [**retrieveRoomMutedUsers**](docs/TikTokLiveModerationApi.md#retrieveRoomMutedUsers) | **GET** /webcast/rooms/{room_id}/moderation/mutes | 
+*TikTokLiveModerationApi* | [**toggleRoomComments**](docs/TikTokLiveModerationApi.md#toggleRoomComments) | **POST** /webcast/rooms/{room_id}/moderation/toggle_comments | 
+*TikTokLiveModerationApi* | [**unbanRoomUser**](docs/TikTokLiveModerationApi.md#unbanRoomUser) | **DELETE** /webcast/rooms/{room_id}/moderation/bans | 
+*TikTokLiveModerationApi* | [**unmuteRoomUser**](docs/TikTokLiveModerationApi.md#unmuteRoomUser) | **DELETE** /webcast/rooms/{room_id}/moderation/mutes | 
+*TikTokLiveRoomsApi* | [**fetchWebcastURL**](docs/TikTokLiveRoomsApi.md#fetchWebcastURL) | **GET** /webcast/rooms/{room_id}/connect | 
+*TikTokLiveRoomsApi* | [**retrieveRoomGifts**](docs/TikTokLiveRoomsApi.md#retrieveRoomGifts) | **GET** /webcast/rooms/{room_id}/gifts | 
+*TikTokLiveRoomsApi* | [**sendRoomChat**](docs/TikTokLiveRoomsApi.md#sendRoomChat) | **POST** /webcast/rooms/{room_id}/chat | 
+*TikTokWebSocketApiApi* | [**getWebSockets**](docs/TikTokWebSocketApiApi.md#getWebSockets) | **GET** /webcast/websockets/{account_id} | 
+*TikTokWebSocketApiApi* | [**retrieveWebSocketState**](docs/TikTokWebSocketApiApi.md#retrieveWebSocketState) | **GET** /webcast/websockets/{account_id}/{websocket_id} | 
 
 
 ## Documentation for Models
@@ -188,12 +204,8 @@ Class | Method | HTTP request | Description
  - [AccountScopes](docs/AccountScopes.md)
  - [AccountWithPermissionsSafe](docs/AccountWithPermissionsSafe.md)
  - [AccountsTableRequestLimits](docs/AccountsTableRequestLimits.md)
- - [Alert](docs/Alert.md)
- - [AlertConfig](docs/AlertConfig.md)
- - [AlertTarget](docs/AlertTarget.md)
- - [AlertTargetConfig](docs/AlertTargetConfig.md)
- - [AlertTargetFormat](docs/AlertTargetFormat.md)
- - [AlertTargetStatus](docs/AlertTargetStatus.md)
+ - [AlertResponseShape](docs/AlertResponseShape.md)
+ - [AlertTargetResponseShape](docs/AlertTargetResponseShape.md)
  - [ApiKey](docs/ApiKey.md)
  - [ApiKeyConfig](docs/ApiKeyConfig.md)
  - [CaptchaCreditsResponse](docs/CaptchaCreditsResponse.md)
@@ -208,12 +220,19 @@ Class | Method | HTTP request | Description
  - [DeleteAlertTargetResponse](docs/DeleteAlertTargetResponse.md)
  - [DeleteKeyResponse](docs/DeleteKeyResponse.md)
  - [ExchangeTokenRequest](docs/ExchangeTokenRequest.md)
+ - [GetPublicClientResponse](docs/GetPublicClientResponse.md)
  - [GetRateLimits](docs/GetRateLimits.md)
- - [GetSignWebcastUrlResponse](docs/GetSignWebcastUrlResponse.md)
+ - [GiftCatalogOrderBy](docs/GiftCatalogOrderBy.md)
+ - [GiftGalleryProgressItem](docs/GiftGalleryProgressItem.md)
+ - [GiftGallerySponsorInfo](docs/GiftGallerySponsorInfo.md)
+ - [GiftOverride](docs/GiftOverride.md)
+ - [GiftOverrideGiftSponsorInfo](docs/GiftOverrideGiftSponsorInfo.md)
  - [HashtagListAPIResponse](docs/HashtagListAPIResponse.md)
  - [HostsResponse](docs/HostsResponse.md)
  - [IconCaptchaResponse](docs/IconCaptchaResponse.md)
  - [IconsResult](docs/IconsResult.md)
+ - [IntrospectRequestBody](docs/IntrospectRequestBody.md)
+ - [IntrospectionResponse](docs/IntrospectionResponse.md)
  - [JSONResponse](docs/JSONResponse.md)
  - [JWTConfig](docs/JWTConfig.md)
  - [JWTConfigWebSocketData](docs/JWTConfigWebSocketData.md)
@@ -225,12 +244,16 @@ Class | Method | HTTP request | Description
  - [LiveAnalyticsUserInteractionsAPIResponse](docs/LiveAnalyticsUserInteractionsAPIResponse.md)
  - [LiveAnalyticsVideoDetailAPIResponse](docs/LiveAnalyticsVideoDetailAPIResponse.md)
  - [LiveAnalyticsVideoListAPIResponse](docs/LiveAnalyticsVideoListAPIResponse.md)
- - [LoadShedInfo](docs/LoadShedInfo.md)
+ - [LivePushAlertTargetFormat](docs/LivePushAlertTargetFormat.md)
+ - [LivePushAlertTargetStatus](docs/LivePushAlertTargetStatus.md)
  - [MuteDuration](docs/MuteDuration.md)
+ - [NormalGiftItem](docs/NormalGiftItem.md)
+ - [OAuthClientMode](docs/OAuthClientMode.md)
+ - [OAuthIntrospectResponse](docs/OAuthIntrospectResponse.md)
  - [OAuthRevokeResponse](docs/OAuthRevokeResponse.md)
  - [OAuthScope](docs/OAuthScope.md)
  - [OAuthTokenResponse](docs/OAuthTokenResponse.md)
- - [OxyLabsProxyRegion](docs/OxyLabsProxyRegion.md)
+ - [OAuthUserInfoResponse](docs/OAuthUserInfoResponse.md)
  - [PartialAvatarUrlStringNicknameStringSecUidStringNumericUidStringSignatureStringIsVerifiedBooleanFollowingNumberFollowersNumber](docs/PartialAvatarUrlStringNicknameStringSecUidStringNumericUidStringSignatureStringIsVerifiedBooleanFollowingNumberFollowersNumber.md)
  - [PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray](docs/PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray.md)
  - [PartialStatusNumberIsLiveBooleanIdStringCoverUrlStringTitleStringStartTimeNumberCurrentViewersNumberTotalViewersNumberHlsPullUrlStringFlvPullUrlStringHlsPullUrlLdStringFlvPullUrlLdString](docs/PartialStatusNumberIsLiveBooleanIdStringCoverUrlStringTitleStringStartTimeNumberCurrentViewersNumberTotalViewersNumberHlsPullUrlStringFlvPullUrlStringHlsPullUrlLdStringFlvPullUrlLdString.md)
@@ -241,9 +264,14 @@ Class | Method | HTTP request | Description
  - [PipResponse](docs/PipResponse.md)
  - [Pips200Response](docs/Pips200Response.md)
  - [Point](docs/Point.md)
+ - [PooledProxyRegion](docs/PooledProxyRegion.md)
+ - [PublicOAuthClientInfo](docs/PublicOAuthClientInfo.md)
  - [PuzzleCaptchaResponse](docs/PuzzleCaptchaResponse.md)
  - [PuzzleResult](docs/PuzzleResult.md)
+ - [RankingLeagueLevel](docs/RankingLeagueLevel.md)
  - [RateLimitInfo](docs/RateLimitInfo.md)
+ - [RateLimitType](docs/RateLimitType.md)
+ - [RecordStreamTypeStringOrUndefined](docs/RecordStreamTypeStringOrUndefined.md)
  - [RecordStringBooleanOrNumberValue](docs/RecordStringBooleanOrNumberValue.md)
  - [RecordStringIsLiveBooleanRoomIdStringOrNullValue](docs/RecordStringIsLiveBooleanRoomIdStringOrNullValue.md)
  - [RetrieveAccountResponse](docs/RetrieveAccountResponse.md)
@@ -255,9 +283,19 @@ Class | Method | HTTP request | Description
  - [RetrieveBulkLiveCheckRequest](docs/RetrieveBulkLiveCheckRequest.md)
  - [RetrieveBulkLiveCheckResponse](docs/RetrieveBulkLiveCheckResponse.md)
  - [RetrieveKeyResponse](docs/RetrieveKeyResponse.md)
+ - [RetrieveRoomCoverResponse](docs/RetrieveRoomCoverResponse.md)
+ - [RetrieveRoomVideoResponse](docs/RetrieveRoomVideoResponse.md)
+ - [RetrieveWebSocketRouteResponse](docs/RetrieveWebSocketRouteResponse.md)
+ - [RetrieveWebSocketState429Response](docs/RetrieveWebSocketState429Response.md)
+ - [RetrieveWebSocketsRouteResponse](docs/RetrieveWebSocketsRouteResponse.md)
  - [RevokeRequestBody](docs/RevokeRequestBody.md)
+ - [RoomAddSensitiveWordAPIResponse](docs/RoomAddSensitiveWordAPIResponse.md)
  - [RoomAdminUpdateAPIResponse](docs/RoomAdminUpdateAPIResponse.md)
  - [RoomCommentsToggleAPIResponse](docs/RoomCommentsToggleAPIResponse.md)
+ - [RoomDelSensitiveWordAPIResponse](docs/RoomDelSensitiveWordAPIResponse.md)
+ - [RoomGetSensitiveWordsAPIResponse](docs/RoomGetSensitiveWordsAPIResponse.md)
+ - [RoomGiftsResponse](docs/RoomGiftsResponse.md)
+ - [RoomGiftsResult](docs/RoomGiftsResult.md)
  - [RoomKickUserAPIResponse](docs/RoomKickUserAPIResponse.md)
  - [RoomKickedUsersAPIResponse](docs/RoomKickedUsersAPIResponse.md)
  - [RoomModeratorsAPIResponse](docs/RoomModeratorsAPIResponse.md)
@@ -270,22 +308,25 @@ Class | Method | HTTP request | Description
  - [ShapesResult](docs/ShapesResult.md)
  - [SignTikTokUrlBody](docs/SignTikTokUrlBody.md)
  - [SignTikTokUrlResponse](docs/SignTikTokUrlResponse.md)
- - [SignWebcastUrl200Response](docs/SignWebcastUrl200Response.md)
- - [SoaxProxyRegion](docs/SoaxProxyRegion.md)
  - [SolveResponseIconsResult](docs/SolveResponseIconsResult.md)
  - [SolveResponsePuzzleResult](docs/SolveResponsePuzzleResult.md)
  - [SolveResponseShapesResult](docs/SolveResponseShapesResult.md)
  - [SolveResponseWhirlResult](docs/SolveResponseWhirlResult.md)
  - [StreamType](docs/StreamType.md)
  - [TestAlertTargetResponse](docs/TestAlertTargetResponse.md)
+ - [TikTokGiftsServerGift](docs/TikTokGiftsServerGift.md)
  - [TikTokLiveUser](docs/TikTokLiveUser.md)
  - [TikTokLiveUserRaw](docs/TikTokLiveUserRaw.md)
  - [TikTokLiveUserUser](docs/TikTokLiveUserUser.md)
+ - [TikTokOAuthUserInfo](docs/TikTokOAuthUserInfo.md)
  - [TikTokSignLiveClient](docs/TikTokSignLiveClient.md)
  - [TokenErrorResponse](docs/TokenErrorResponse.md)
  - [TokenResponse](docs/TokenResponse.md)
  - [UpdateKeyPayload](docs/UpdateKeyPayload.md)
  - [UpdateKeyResponse](docs/UpdateKeyResponse.md)
+ - [ValidateRefreshRequest](docs/ValidateRefreshRequest.md)
+ - [ValidateRefreshResponse](docs/ValidateRefreshResponse.md)
+ - [WebSocketState](docs/WebSocketState.md)
  - [WebcastFeedResponse](docs/WebcastFeedResponse.md)
  - [WebcastFeedResponseExtra](docs/WebcastFeedResponseExtra.md)
  - [WebcastFeedResponseExtraLogPb](docs/WebcastFeedResponseExtraLogPb.md)
@@ -310,8 +351,12 @@ Class | Method | HTTP request | Description
  - [WebcastFeedRouteOutput](docs/WebcastFeedRouteOutput.md)
  - [WebcastFeedRouteResponse](docs/WebcastFeedRouteResponse.md)
  - [WebcastFetchPlatform](docs/WebcastFetchPlatform.md)
- - [WebcastGiftInfoOutput](docs/WebcastGiftInfoOutput.md)
- - [WebcastGiftInfoRouteResponse](docs/WebcastGiftInfoRouteResponse.md)
+ - [WebcastGiftGalleryData](docs/WebcastGiftGalleryData.md)
+ - [WebcastGiftGalleryResponse](docs/WebcastGiftGalleryResponse.md)
+ - [WebcastGiftResponse](docs/WebcastGiftResponse.md)
+ - [WebcastGiftSearchResponse](docs/WebcastGiftSearchResponse.md)
+ - [WebcastGiftcatalogResponse](docs/WebcastGiftcatalogResponse.md)
+ - [WebcastGiftsResponse](docs/WebcastGiftsResponse.md)
  - [WebcastHashtagListResponse](docs/WebcastHashtagListResponse.md)
  - [WebcastHashtagListResponseData](docs/WebcastHashtagListResponseData.md)
  - [WebcastHashtagListResponseExtra](docs/WebcastHashtagListResponseExtra.md)
@@ -322,6 +367,7 @@ Class | Method | HTTP request | Description
  - [WebcastHashtagListResponseImage](docs/WebcastHashtagListResponseImage.md)
  - [WebcastHashtagListRouteOutput](docs/WebcastHashtagListRouteOutput.md)
  - [WebcastIsLiveOutput](docs/WebcastIsLiveOutput.md)
+ - [WebcastLanguage](docs/WebcastLanguage.md)
  - [WebcastLiveAnalyticsUserInteractionsResponse](docs/WebcastLiveAnalyticsUserInteractionsResponse.md)
  - [WebcastLiveAnalyticsUserInteractionsResponseComment](docs/WebcastLiveAnalyticsUserInteractionsResponseComment.md)
  - [WebcastLiveAnalyticsUserInteractionsResponseData](docs/WebcastLiveAnalyticsUserInteractionsResponseData.md)
@@ -371,6 +417,10 @@ Class | Method | HTTP request | Description
  - [WebcastLiveAnalyticsVideoListRouteOutput](docs/WebcastLiveAnalyticsVideoListRouteOutput.md)
  - [WebcastRegionRankingsOutput](docs/WebcastRegionRankingsOutput.md)
  - [WebcastRegionRankingsResponse](docs/WebcastRegionRankingsResponse.md)
+ - [WebcastRoomAddSensitiveWordResponse](docs/WebcastRoomAddSensitiveWordResponse.md)
+ - [WebcastRoomAddSensitiveWordResponseData](docs/WebcastRoomAddSensitiveWordResponseData.md)
+ - [WebcastRoomAddSensitiveWordResponseExtra](docs/WebcastRoomAddSensitiveWordResponseExtra.md)
+ - [WebcastRoomAddSensitiveWordRouteOutput](docs/WebcastRoomAddSensitiveWordRouteOutput.md)
  - [WebcastRoomAdminListResponse](docs/WebcastRoomAdminListResponse.md)
  - [WebcastRoomAdminListResponseAdmin](docs/WebcastRoomAdminListResponseAdmin.md)
  - [WebcastRoomAdminListResponseExtra](docs/WebcastRoomAdminListResponseExtra.md)
@@ -385,6 +435,10 @@ Class | Method | HTTP request | Description
  - [WebcastRoomCommentsToggleResponse](docs/WebcastRoomCommentsToggleResponse.md)
  - [WebcastRoomCommentsToggleResponseExtra](docs/WebcastRoomCommentsToggleResponseExtra.md)
  - [WebcastRoomCommentsToggleRouteOutput](docs/WebcastRoomCommentsToggleRouteOutput.md)
+ - [WebcastRoomDelSensitiveWordResponse](docs/WebcastRoomDelSensitiveWordResponse.md)
+ - [WebcastRoomDelSensitiveWordRouteOutput](docs/WebcastRoomDelSensitiveWordRouteOutput.md)
+ - [WebcastRoomGetSensitiveWordResponse](docs/WebcastRoomGetSensitiveWordResponse.md)
+ - [WebcastRoomGetSensitiveWordRouteOutput](docs/WebcastRoomGetSensitiveWordRouteOutput.md)
  - [WebcastRoomIdRouteResponse](docs/WebcastRoomIdRouteResponse.md)
  - [WebcastRoomInfoRouteResponse](docs/WebcastRoomInfoRouteResponse.md)
  - [WebcastRoomKickUserResponse](docs/WebcastRoomKickUserResponse.md)
@@ -411,6 +465,8 @@ Class | Method | HTTP request | Description
  - [WebcastRoomMutedUsersResponseUser](docs/WebcastRoomMutedUsersResponseUser.md)
  - [WebcastRoomMutedUsersResponseUserAttr](docs/WebcastRoomMutedUsersResponseUserAttr.md)
  - [WebcastRoomMutedUsersRouteOutput](docs/WebcastRoomMutedUsersRouteOutput.md)
+ - [WebcastRoomSendChatResponse](docs/WebcastRoomSendChatResponse.md)
+ - [WebcastRoomSendChatResponseExtra](docs/WebcastRoomSendChatResponseExtra.md)
  - [WebcastRoomUnkickUserResponse](docs/WebcastRoomUnkickUserResponse.md)
  - [WebcastRoomUnkickUserResponseExtra](docs/WebcastRoomUnkickUserResponseExtra.md)
  - [WebcastRoomUnkickUserRouteOutput](docs/WebcastRoomUnkickUserRouteOutput.md)
@@ -420,6 +476,7 @@ Class | Method | HTTP request | Description
  - [WebcastUserEarningsOutput](docs/WebcastUserEarningsOutput.md)
  - [WebcastUserEarningsOutputPeriod](docs/WebcastUserEarningsOutputPeriod.md)
  - [WebcastUserEarningsResponse](docs/WebcastUserEarningsResponse.md)
+ - [WebcastUserIdResponse](docs/WebcastUserIdResponse.md)
  - [WhirlCaptchaResponse](docs/WhirlCaptchaResponse.md)
  - [WhirlResult](docs/WhirlResult.md)
 

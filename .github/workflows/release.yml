@@ -213,16 +213,16 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Bump version
-        working-directory: sdk/java/src/generated
+        working-directory: sdk/java
         run: |
-          CURRENT=$(grep -m1 '<version>' pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/' | tr -d ' ')
+          CURRENT=$(tr -d ' \n' < version.txt)
           IFS='.' read -r MAJ MIN PAT <<< "$CURRENT"
           case "${{ inputs.java_bump }}" in
             patch) PAT=$((PAT+1)) ;;
@@ -230,22 +230,23 @@ jobs:
             major) MAJ=$((MAJ+1)); MIN=0; PAT=0 ;;
           esac
           NEXT="$MAJ.$MIN.$PAT"
-          sed -i "0,/<version>$CURRENT<\/version>/s|<version>$CURRENT</version>|<version>$NEXT</version>|" pom.xml
+          echo "$NEXT" > version.txt
+          (cd src/generated && mvn -B -q versions:set -DnewVersion="$NEXT" -DgenerateBackupPoms=false)
           echo "Bumped Java version: $CURRENT → $NEXT"
 
       - name: Publish to Maven Central
         working-directory: sdk/java/src/generated
-        run: mvn deploy -DskipTests
+        run: mvn -B deploy -Psign-artifacts -DskipTests
         env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
       - name: Upload version file
         uses: actions/upload-artifact@v4
         with:
           name: java-version
-          path: sdk/java/src/generated/pom.xml
+          path: sdk/java/version.txt
 
   # ── Go → git tag ─────────────────────────────────────────────
 
@@ -333,7 +334,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: java-version
-          path: sdk/java/src/generated
+          path: sdk/java
 
       - name: Download SDK examples output
         uses: actions/download-artifact@v4
@@ -375,7 +376,7 @@ jobs:
             PARTS="${PARTS}csharp@${CS}"
           fi
           if [ "${{ needs.publish-java.result }}" = "success" ]; then
-            JV=$(grep -m1 '<version>' sdk/java/src/generated/pom.xml | sed 's/.*<version>\(.*\)<\/version>.*/\1/' | tr -d ' ')
+            JV=$(tr -d ' \n' < sdk/java/version.txt)
             [ -n "$PARTS" ] && PARTS="${PARTS}, "
             PARTS="${PARTS}java@${JV}"
           fi
@@ -385,7 +386,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sdk/typescript/package.json sdk/python/pyproject.toml sdk/csharp/src/EulerApiSdk.csproj sdk/java/src/generated/pom.xml 2>/dev/null || true
+          git add sdk/typescript/package.json sdk/python/pyproject.toml sdk/csharp/src/EulerApiSdk.csproj sdk/java/version.txt 2>/dev/null || true
           git add sdk-examples/output/*.json 2>/dev/null || true
           git diff --cached --quiet && exit 0
           git commit -m "${{ steps.msg.outputs.msg }}"

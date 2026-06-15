@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "generate": "openapi-python-client generate --url https://tiktok.eulerstream.com/dashboard/openapi --output-path ./ --overwrite --config config.yaml",
+    "generate": "openapi-python-client generate --url https://api.eulerstream.com/dashboard/openapi --output-path ./ --overwrite --config config.yaml",
     "build": "poetry build",
     "test": "python tests/test_basic.py"
   }

@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "generate": "mkdir -p build && wget -O ./build/openapi.json https://tiktok.eulerstream.com/dashboard/openapi && npx @openapitools/openapi-generator-cli generate -i ./build/openapi.json -g go -o ./generated --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/Euler-Api-Sdk/sdk/go && rm -f ./generated/go.mod ./generated/go.sum && tsx ./scripts/fix-enum-conflicts.ts && tsx ./scripts/render-template.ts",
+    "generate": "mkdir -p build && wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi && npx @openapitools/openapi-generator-cli generate -i ./build/openapi.json -g go -o ./generated --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/Euler-Api-Sdk/sdk/go && rm -f ./generated/go.mod ./generated/go.sum && tsx ./scripts/fix-enum-conflicts.ts && tsx ./scripts/render-template.ts",
     "build": "go build ./...",
     "test": "go test ./... -v"
   }

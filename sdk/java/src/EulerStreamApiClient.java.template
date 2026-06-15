@@ -1,4 +1,4 @@
-package io.github.isaackogan;
+package com.eulerstream;
 
 {{API_IMPORTS}}
 
