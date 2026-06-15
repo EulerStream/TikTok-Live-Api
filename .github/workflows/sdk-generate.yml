@@ -102,6 +102,13 @@ jobs:
         working-directory: sdk/python
         run: python scripts/render_manifest.py
 
+      # openapi-python-client regenerates pyproject.toml from config.yaml
+      # (package_version_override), clobbering the real version. version.txt is the
+      # persisted source of truth (outside the regenerated output); pin it back in.
+      - name: Pin version from version.txt
+        working-directory: sdk/python
+        run: poetry version "$(tr -d ' \n' < version.txt)"
+
       - name: Build
         working-directory: sdk/python
         run: poetry build
