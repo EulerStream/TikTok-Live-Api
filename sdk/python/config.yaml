@@ -2,6 +2,10 @@ project_name_override: EulerApiSdk
 http_timeout: 30
 package_version_override: 0.0.2
 
+# NOTE: auth defaults (X-Api-Key header, no prefix) come from the custom
+# templates/ dir, passed via --custom-template-path in update.sh / package.json.
+# (custom_template_path is a CLI-only flag, not a config-file field.)
+
 class_overrides:
   PartialAvatarUrlStringNicknameStringSecUidStringNumericUidStringSignatureStringIsVerifiedBooleanFollowingNumberFollowersNumber:
     class_name: PartialTikTokUserInfo

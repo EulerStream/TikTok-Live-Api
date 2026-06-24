@@ -160,8 +160,8 @@ class AuthenticatedClient:
             status code that was not documented in the source OpenAPI document. Can also be provided as a keyword
             argument to the constructor.
         token: The token to use for authentication
-        prefix: The prefix to use for the Authorization header
-        auth_header_name: The name of the Authorization header
+        prefix: The prefix to prepend to the token in the auth header. Empty by default so the raw API key is sent.
+        auth_header_name: The name of the auth header
     """
 
     raise_on_unexpected_status: bool = field(default=False, kw_only=True)
@@ -176,8 +176,8 @@ class AuthenticatedClient:
     _async_client: httpx.AsyncClient | None = field(default=None, init=False)
 
     token: str
-    prefix: str = "Bearer"
-    auth_header_name: str = "Authorization"
+    prefix: str = ""
+    auth_header_name: str = "X-Api-Key"
 
     def with_headers(self, headers: dict[str, str]) -> "AuthenticatedClient":
         """Get a new client matching this one with additional headers"""

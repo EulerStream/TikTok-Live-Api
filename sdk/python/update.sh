@@ -10,7 +10,8 @@ openapi-python-client generate \
   --url https://api.eulerstream.com/dashboard/openapi \
   --output-path ./ \
   --overwrite \
-  --config config.yaml
+  --config config.yaml \
+  --custom-template-path templates
 
 # Emit the test manifest from the freshly generated SDK
 python scripts/render_manifest.py

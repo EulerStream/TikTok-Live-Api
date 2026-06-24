@@ -215,9 +215,10 @@ def test_authenticated_get_httpx_client_sets_auth_header():
     client = AuthenticatedClient(base_url="https://example.com", token="secret")
     httpx_client = client.get_httpx_client()
     assert isinstance(httpx_client, httpx.Client)
-    # The auth header should have been injected
-    assert "Authorization" in httpx_client.headers
-    assert "secret" in httpx_client.headers["Authorization"]
+    # By default the Euler API authenticates with an X-Api-Key header carrying the
+    # raw token (no "Bearer " prefix). Not an Authorization header.
+    assert "Authorization" not in httpx_client.headers
+    assert httpx_client.headers["X-Api-Key"] == "secret"
 
 
 # ---------------------------------------------------------------------------

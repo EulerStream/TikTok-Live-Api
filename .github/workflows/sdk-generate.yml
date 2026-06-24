@@ -96,7 +96,8 @@ jobs:
             --path ./build/openapi.json \
             --output-path ./ \
             --overwrite \
-            --config config.yaml
+            --config config.yaml \
+            --custom-template-path templates
 
       - name: Render test manifest
         working-directory: sdk/python
