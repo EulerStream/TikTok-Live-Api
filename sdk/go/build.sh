@@ -14,7 +14,7 @@ npx @openapitools/openapi-generator-cli generate \
   -i ./go-sdk/build/openapi.json \
   -g go \
   -o ./go-sdk/generated \
-  --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/Euler-Api-Sdk/go-sdk
+  --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/TikTok-Live-Api/sdk/go
 
 # Remove the generated go.mod/go.sum — the root go-sdk/go.mod is the module root
 rm -f ./go-sdk/generated/go.mod ./go-sdk/generated/go.sum

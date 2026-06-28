@@ -5,7 +5,7 @@ variables:
   sdkImport: |
     import (
     	"context"
-    	eulerstream "github.com/EulerStream/Euler-Api-Sdk/sdk/go"
+    	eulerstream "github.com/EulerStream/TikTok-Live-Api/sdk/go"
     )
   clientConstruction: |
     client := eulerstream.NewEulerStreamClient(

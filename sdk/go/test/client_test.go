@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	eulerstream "github.com/EulerStream/Euler-Api-Sdk/sdk/go"
+	eulerstream "github.com/EulerStream/TikTok-Live-Api/sdk/go"
 )
 
 func TestNewEulerStreamClient_NoOptions(t *testing.T) {

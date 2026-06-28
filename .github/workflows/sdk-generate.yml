@@ -251,7 +251,7 @@ jobs:
           rm -rf ./generated
           npx @openapitools/openapi-generator-cli generate \
             -i ./build/openapi.json -g go -o ./generated \
-            --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/Euler-Api-Sdk/sdk/go
+            --additional-properties=packageName=eulerapi,moduleName=github.com/EulerStream/TikTok-Live-Api/sdk/go
           rm -f ./generated/go.mod ./generated/go.sum
 
       - name: Fix enum constant conflicts

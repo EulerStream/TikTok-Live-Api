@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"testing"
 
-	eulerstream "github.com/EulerStream/Euler-Api-Sdk/sdk/go"
+	eulerstream "github.com/EulerStream/TikTok-Live-Api/sdk/go"
 )
 
 func TestGetHosts_E2E(t *testing.T) {

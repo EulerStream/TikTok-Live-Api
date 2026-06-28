@@ -3,7 +3,7 @@ package eulerstream
 import (
 	"net/http"
 
-	eulerapi "github.com/EulerStream/Euler-Api-Sdk/sdk/go/generated"
+	eulerapi "github.com/EulerStream/TikTok-Live-Api/sdk/go/generated"
 )
 
 // EulerStreamClient is a convenience wrapper around the generated API client.

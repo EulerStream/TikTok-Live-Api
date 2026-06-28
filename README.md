@@ -14,7 +14,7 @@
 | Python | [`EulerApiSdk`](https://pypi.org/project/EulerApiSdk/) | `pip install EulerApiSdk` |
 | C# | [`EulerApiSdk`](https://www.nuget.org/packages/EulerApiSdk) | `dotnet add package EulerApiSdk` |
 | Java | [`io.github.isaackogan:euler-api-sdk`](https://central.sonatype.com/artifact/io.github.isaackogan/euler-api-sdk) | Maven / Gradle |
-| Go | [`github.com/EulerStream/Euler-Api-Sdk/go-sdk`](https://pkg.go.dev/github.com/EulerStream/Euler-Api-Sdk/go-sdk) | `go get github.com/EulerStream/Euler-Api-Sdk/go-sdk` |
+| Go | [`github.com/EulerStream/TikTok-Live-Api/sdk/go`](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go) | `go get github.com/EulerStream/TikTok-Live-Api/sdk/go` |
 
 > [!TIP]
 > Full API documentation and the interactive OpenAPI spec are available at [eulerstream.com/docs/openapi](https://www.eulerstream.com/docs/openapi).
@@ -52,7 +52,7 @@ with client as c:
 > - [Python SDK](./python-sdk/README.md)
 > - [C# SDK](./csharp-sdk/)
 > - [Java SDK](./java-sdk/)
-> - [Go SDK](./go-sdk/)
+> - [Go SDK](./sdk/go/)
 
 ## CI / Release Pipeline
 

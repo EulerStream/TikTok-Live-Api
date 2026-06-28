@@ -302,7 +302,7 @@ jobs:
           go-version: '1.22'
 
       - name: Index on Go module proxy
-        run: GOPROXY=proxy.golang.org go list -m github.com/EulerStream/Euler-Api-Sdk/sdk/go@v${{ steps.version.outputs.version }}
+        run: GOPROXY=proxy.golang.org go list -m github.com/EulerStream/TikTok-Live-Api/sdk/go@v${{ steps.version.outputs.version }}
 
   # ── Commit version bumps back ─────────────────────────────────
 
