@@ -79,6 +79,8 @@ SDKs are auto-generated from the [EulerStream OpenAPI spec](https://www.eulerstr
 </tr>
 </table>
 
+google-site-verification: google93ecefd594fb7167.html
+
 ## Community
 
 Questions, issues, or feedback? Join the [EulerStream Discord](https://www.eulerstream.com/discord).
