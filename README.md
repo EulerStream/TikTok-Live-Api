@@ -1,6 +1,6 @@
-# TikTok LIVE API
+# TikTok LIVE API (Unofficial)
 
-3rd-Party TikTok LIVE API Client - The #1 Worldwide freemium SaaS API for TikTok LIVE data retrieval, offered in all major languages! Official SDK libraries for the [EulerStream](https://www.eulerstream.com) TikTok LIVE API.
+Our TikTok LIVE API is the #1 Worldwide API for TikTok LIVE data retrieval, offered in most major languages! Official SDK libraries for the [EulerStream](https://www.eulerstream.com) TikTok LIVE API.
 
 [![Stars](https://img.shields.io/github/stars/EulerStream/EulerApiSdk?style=flat&color=0274b5)](https://github.com/EulerStream/EulerApiSdk)
 [![Issues](https://img.shields.io/github/issues/EulerStream/EulerApiSdk)](https://github.com/EulerStream/EulerApiSdk/issues)
