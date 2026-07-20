@@ -1,6 +1,6 @@
-# TikTok LIVE API (Unofficial): Real-Time Chat, Gifts, Likes & Events
+# TikTok LIVE API (Unofficial)
 
-Our [TikTok LIVE API](https://www.eulerstream.com/) allows you to connect to any TikTok LIVE stream and receive real-time chat messages, gifts, likes, follows, shares, viewer counts, room stats, and PK battles over a single managed WebSocket. Official SDKs for Node.js/TypeScript, Python, C#, Java, and Go. Powered by [EulerStream](https://www.eulerstream.com), the managed backend behind the popular [`TikTokLive`](https://github.com/isaackogan/TikTokLive) library.
+The [TikTok LIVE API](https://www.eulerstream.com/) allows you to connect to any TikTok LIVE stream and receive real-time chat messages, gifts, likes, follows, shares, viewer counts, room stats, and PK battles over a single managed WebSocket. Official SDKs for Node.js/TypeScript, Python, C#, Java, and Go. Powered by [EulerStream](https://www.eulerstream.com), the managed backend behind the popular [`TikTokLive`](https://github.com/isaackogan/TikTokLive) library.
 
 [![Stars](https://img.shields.io/github/stars/EulerStream/EulerApiSdk?style=flat&color=0274b5)](https://github.com/EulerStream/EulerApiSdk)
 [![Issues](https://img.shields.io/github/issues/EulerStream/EulerApiSdk)](https://github.com/EulerStream/EulerApiSdk/issues)
