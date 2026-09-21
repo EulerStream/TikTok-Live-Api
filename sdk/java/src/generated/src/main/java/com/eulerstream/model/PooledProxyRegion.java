@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Region enum shared across providers that route through the pooled DC vendors. Lives in its own file (with zero imports) so consumers can load it without dragging in &#x60;pooled-dc.ts&#x60;&#39;s singleton init — which itself depends on &#x60;OculusDc&#x60; / &#x60;OxyLabsDc&#x60; and would otherwise close a module-init cycle the bundler resolves into a TDZ violation.
+ * Gets or Sets PooledProxyRegion
  */
 @JsonAdapter(PooledProxyRegion.Adapter.class)
 public enum PooledProxyRegion {
@@ -34,8 +34,6 @@ public enum PooledProxyRegion {
   GB("GB"),
   
   DE("DE"),
-  
-  RO("RO"),
   
   ES("ES"),
   
@@ -99,7 +97,195 @@ public enum PooledProxyRegion {
   
   SE("SE"),
   
-  NZ("NZ");
+  NZ("NZ"),
+  
+  AM("AM"),
+  
+  AZ("AZ"),
+  
+  BD("BD"),
+  
+  BY("BY"),
+  
+  BO("BO"),
+  
+  BG("BG"),
+  
+  KH("KH"),
+  
+  CR("CR"),
+  
+  HR("HR"),
+  
+  CY("CY"),
+  
+  CZ("CZ"),
+  
+  DO("DO"),
+  
+  EC("EC"),
+  
+  EG("EG"),
+  
+  EE("EE"),
+  
+  FI("FI"),
+  
+  GE("GE"),
+  
+  GT("GT"),
+  
+  IS("IS"),
+  
+  IM("IM"),
+  
+  JM("JM"),
+  
+  KZ("KZ"),
+  
+  KW("KW"),
+  
+  LV("LV"),
+  
+  LT("LT"),
+  
+  LU("LU"),
+  
+  MY("MY"),
+  
+  MD("MD"),
+  
+  MA("MA"),
+  
+  PK("PK"),
+  
+  PA("PA"),
+  
+  PH("PH"),
+  
+  RO("RO"),
+  
+  ZA("ZA"),
+  
+  LK("LK"),
+  
+  TW("TW"),
+  
+  TR("TR"),
+  
+  UA("UA"),
+  
+  AE("AE"),
+  
+  VN("VN"),
+  
+  AL("AL"),
+  
+  DZ("DZ"),
+  
+  AD("AD"),
+  
+  AO("AO"),
+  
+  BS("BS"),
+  
+  BH("BH"),
+  
+  BZ("BZ"),
+  
+  BM("BM"),
+  
+  BT("BT"),
+  
+  BA("BA"),
+  
+  BN("BN"),
+  
+  CM("CM"),
+  
+  CV("CV"),
+  
+  KY("KY"),
+  
+  CU("CU"),
+  
+  CD("CD"),
+  
+  SV("SV"),
+  
+  FJ("FJ"),
+  
+  GA("GA"),
+  
+  GH("GH"),
+  
+  GL("GL"),
+  
+  HT("HT"),
+  
+  HN("HN"),
+  
+  IQ("IQ"),
+  
+  JE("JE"),
+  
+  KE("KE"),
+  
+  XK("XK"),
+  
+  LB("LB"),
+  
+  LI("LI"),
+  
+  MK("MK"),
+  
+  MV("MV"),
+  
+  MT("MT"),
+  
+  MH("MH"),
+  
+  MR("MR"),
+  
+  MU("MU"),
+  
+  MC("MC"),
+  
+  MN("MN"),
+  
+  ME("ME"),
+  
+  MZ("MZ"),
+  
+  MM("MM"),
+  
+  NP("NP"),
+  
+  NG("NG"),
+  
+  OM("OM"),
+  
+  PY("PY"),
+  
+  PR("PR"),
+  
+  QA("QA"),
+  
+  RS("RS"),
+  
+  SL("SL"),
+  
+  SI("SI"),
+  
+  TG("TG"),
+  
+  TT("TT"),
+  
+  TN("TN"),
+  
+  UG("UG"),
+  
+  UY("UY");
 
   private String value;
 

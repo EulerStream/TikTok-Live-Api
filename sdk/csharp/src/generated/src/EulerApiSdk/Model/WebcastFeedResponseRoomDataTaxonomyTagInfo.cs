@@ -34,10 +34,12 @@ namespace EulerApiSdk.Model
         /// Initializes a new instance of the <see cref="WebcastFeedResponseRoomDataTaxonomyTagInfo" /> class.
         /// </summary>
         /// <param name="level2Tag">level2Tag</param>
+        /// <param name="level1Tag">level1Tag</param>
         [JsonConstructor]
-        public WebcastFeedResponseRoomDataTaxonomyTagInfo(string level2Tag)
+        public WebcastFeedResponseRoomDataTaxonomyTagInfo(string level2Tag, Option<List<string>?> level1Tag = default)
         {
             Level2Tag = level2Tag;
+            Level1TagOption = level1Tag;
             OnCreated();
         }
 
@@ -50,6 +52,19 @@ namespace EulerApiSdk.Model
         public string Level2Tag { get; set; }
 
         /// <summary>
+        /// Used to track the state of Level1Tag
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<string>?> Level1TagOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Level1Tag
+        /// </summary>
+        [JsonPropertyName("level1_tag")]
+        public List<string>? Level1Tag { get { return this.Level1TagOption.Value; } set { this.Level1TagOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -58,6 +73,7 @@ namespace EulerApiSdk.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class WebcastFeedResponseRoomDataTaxonomyTagInfo {\n");
             sb.Append("  Level2Tag: ").Append(Level2Tag).Append("\n");
+            sb.Append("  Level1Tag: ").Append(Level1Tag).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -76,8 +92,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseRoomDataTaxonomyTagInfo" />
     /// </summary>
-    public class WebcastFeedResponseRoomDataTaxonomyTagInfoJsonConverter : JsonConverter<WebcastFeedResponseRoomDataTaxonomyTagInfo>
+    public partial class WebcastFeedResponseRoomDataTaxonomyTagInfoJsonConverter : JsonConverter<WebcastFeedResponseRoomDataTaxonomyTagInfo>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseRoomDataTaxonomyTagInfoJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseRoomDataTaxonomyTagInfoJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseRoomDataTaxonomyTagInfo" />
         /// </summary>
@@ -96,6 +122,7 @@ namespace EulerApiSdk.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string?> level2Tag = default;
+            Option<List<string>?> level1Tag = default;
 
             while (utf8JsonReader.Read())
             {
@@ -115,6 +142,9 @@ namespace EulerApiSdk.Model
                         case "level2_tag":
                             level2Tag = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "level1_tag":
+                            level1Tag = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
@@ -127,7 +157,10 @@ namespace EulerApiSdk.Model
             if (level2Tag.IsSet && level2Tag.Value == null)
                 throw new ArgumentNullException(nameof(level2Tag), "Property is not nullable for class WebcastFeedResponseRoomDataTaxonomyTagInfo.");
 
-            return new WebcastFeedResponseRoomDataTaxonomyTagInfo(level2Tag.Value!);
+            if (level1Tag.IsSet && level1Tag.Value == null)
+                throw new ArgumentNullException(nameof(level1Tag), "Property is not nullable for class WebcastFeedResponseRoomDataTaxonomyTagInfo.");
+
+            return new WebcastFeedResponseRoomDataTaxonomyTagInfo(level2Tag.Value!, level1Tag);
         }
 
         /// <summary>
@@ -157,7 +190,16 @@ namespace EulerApiSdk.Model
             if (webcastFeedResponseRoomDataTaxonomyTagInfo.Level2Tag == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseRoomDataTaxonomyTagInfo.Level2Tag), "Property is required for class WebcastFeedResponseRoomDataTaxonomyTagInfo.");
 
+            if (webcastFeedResponseRoomDataTaxonomyTagInfo.Level1TagOption.IsSet && webcastFeedResponseRoomDataTaxonomyTagInfo.Level1Tag == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseRoomDataTaxonomyTagInfo.Level1Tag), "Property is required for class WebcastFeedResponseRoomDataTaxonomyTagInfo.");
+
             writer.WriteString("level2_tag", webcastFeedResponseRoomDataTaxonomyTagInfo.Level2Tag);
+
+            if (webcastFeedResponseRoomDataTaxonomyTagInfo.Level1TagOption.IsSet)
+            {
+                writer.WritePropertyName("level1_tag");
+                JsonSerializer.Serialize(writer, webcastFeedResponseRoomDataTaxonomyTagInfo.Level1Tag, jsonSerializerOptions);
+            }
         }
     }
 }

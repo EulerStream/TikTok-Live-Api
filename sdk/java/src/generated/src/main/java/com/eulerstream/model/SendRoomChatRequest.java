@@ -59,7 +59,7 @@ import com.google.gson.JsonParseException;
 
 import com.eulerstream.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class SendRoomChatRequest extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(SendRoomChatRequest.class.getName());
 

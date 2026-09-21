@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "generate": "openapi-python-client generate --url https://api.eulerstream.com/dashboard/openapi --output-path ./ --overwrite --config config.yaml --custom-template-path templates",
+    "generate": "mkdir -p build && cp ../../spec/openapi.json ./build/openapi.json && python3 ../../.github/scripts/normalize_spec.py ./build/openapi.json && openapi-python-client generate --path ./build/openapi.json --output-path ./ --overwrite --config config.yaml --custom-template-path templates && python3 scripts/render_manifest.py && poetry version \"$(tr -d ' \\n' < version.txt)\"",
     "build": "poetry build",
-    "test": "python tests/test_basic.py"
+    "test": "python3 test/test_basic.py"
   }
 }

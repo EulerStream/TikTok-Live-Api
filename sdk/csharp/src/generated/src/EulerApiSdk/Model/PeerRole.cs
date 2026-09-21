@@ -144,7 +144,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, PeerRole peerRole, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(peerRole.ToString());
+            writer.WriteStringValue(PeerRoleValueConverter.ToJsonValue(peerRole).ToString());
         }
     }
 
@@ -162,6 +162,9 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override PeerRole? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             PeerRole? result = rawValue == null
@@ -175,14 +178,17 @@ namespace EulerApiSdk.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the PeerRole to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="peerRole"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, PeerRole? peerRole, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(peerRole?.ToString() ?? "null");
+            if (peerRole.HasValue)
+                writer.WriteStringValue(PeerRoleValueConverter.ToJsonValue(peerRole.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

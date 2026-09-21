@@ -138,7 +138,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets OpenWebURL
         /// </summary>
         [JsonPropertyName("OpenWebURL")]
-        public string? OpenWebURL { get { return this.OpenWebURLOption; } set { this.OpenWebURLOption = new(value); } }
+        public string? OpenWebURL { get { return this.OpenWebURLOption.Value; } set { this.OpenWebURLOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Combine
@@ -151,7 +151,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Combine
         /// </summary>
         [JsonPropertyName("combine")]
-        public WebcastRoomMutedUsersResponseBadgeCombine? Combine { get { return this.CombineOption; } set { this.CombineOption = new(value); } }
+        public WebcastRoomMutedUsersResponseBadgeCombine? Combine { get { return this.CombineOption.Value; } set { this.CombineOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Text
@@ -164,7 +164,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Text
         /// </summary>
         [JsonPropertyName("text")]
-        public WebcastRoomMutedUsersResponseBadgeText? Text { get { return this.TextOption; } set { this.TextOption = new(value); } }
+        public WebcastRoomMutedUsersResponseBadgeText? Text { get { return this.TextOption.Value; } set { this.TextOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -205,8 +205,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomMutedUsersResponseBadge" />
     /// </summary>
-    public class WebcastRoomMutedUsersResponseBadgeJsonConverter : JsonConverter<WebcastRoomMutedUsersResponseBadge>
+    public partial class WebcastRoomMutedUsersResponseBadgeJsonConverter : JsonConverter<WebcastRoomMutedUsersResponseBadge>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomMutedUsersResponseBadgeJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomMutedUsersResponseBadgeJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomMutedUsersResponseBadge" />
         /// </summary>

@@ -14,11 +14,14 @@
 package com.eulerstream.api;
 
 import com.eulerstream.ApiException;
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.HashtagListAPIResponse;
 import com.eulerstream.model.PooledProxyRegion;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveBulkLiveCheckRequest;
 import com.eulerstream.model.RetrieveBulkLiveCheckResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RouteImageSource;
 import com.eulerstream.model.WebcastFeedRouteResponse;
 import com.eulerstream.model.WebcastRegionRankingsResponse;
 import org.junit.jupiter.api.Disabled;
@@ -58,7 +61,8 @@ public class TikTokLiveApiTest {
      */
     @Test
     public void retrieveHashtagListTest() throws ApiException {
-        HashtagListAPIResponse response = api.retrieveHashtagList();
+        RouteImageSource xImageSource = null;
+        HashtagListAPIResponse response = api.retrieveHashtagList(xImageSource);
         // TODO: test validations
     }
 
@@ -70,12 +74,13 @@ public class TikTokLiveApiTest {
     @Test
     public void retrieveWebcastFeedTest() throws ApiException {
         PooledProxyRegion region = null;
-        WebcastFeedRouteResponse response = api.retrieveWebcastFeed(region);
+        RouteImageSource xImageSource = null;
+        WebcastFeedRouteResponse response = api.retrieveWebcastFeed(region, xImageSource);
         // TODO: test validations
     }
 
     /**
-     * Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      *
      * @throws ApiException if the Api call fails
      */
@@ -87,7 +92,8 @@ public class TikTokLiveApiTest {
         String xCookieHeader = null;
         String sessionId = null;
         String ttTargetIdc = null;
-        WebcastRegionRankingsResponse response = api.retrieveWebcastRankings(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+        RouteImageSource xImageSource = null;
+        WebcastRegionRankingsResponse response = api.retrieveWebcastRankings(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
         // TODO: test validations
     }
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,30 +19,24 @@ T = TypeVar("T", bound="IconCaptchaResponse")
 class IconCaptchaResponse:
     """
     Attributes:
-        response (IconsResult | None):
-        cached (bool):
         code (float):
+        cached (bool):
+        response (IconsResult):
         message (str | Unset):
     """
 
-    response: IconsResult | None
-    cached: bool
     code: float
+    cached: bool
+    response: IconsResult
     message: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.icons_result import IconsResult
-
-        response: dict[str, Any] | None
-        if isinstance(self.response, IconsResult):
-            response = self.response.to_dict()
-        else:
-            response = self.response
+        code = self.code
 
         cached = self.cached
 
-        code = self.code
+        response = self.response.to_dict()
 
         message = self.message
 
@@ -50,9 +44,9 @@ class IconCaptchaResponse:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "response": response,
-                "cached": cached,
                 "code": code,
+                "cached": cached,
+                "response": response,
             }
         )
         if message is not UNSET:
@@ -65,32 +59,18 @@ class IconCaptchaResponse:
         from ..models.icons_result import IconsResult
 
         d = dict(src_dict)
-
-        def _parse_response(data: object) -> IconsResult | None:
-            if data is None:
-                return data
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                response_type_1 = IconsResult.from_dict(data)
-
-                return response_type_1
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            return cast(IconsResult | None, data)
-
-        response = _parse_response(d.pop("response"))
+        code = d.pop("code")
 
         cached = d.pop("cached")
 
-        code = d.pop("code")
+        response = IconsResult.from_dict(d.pop("response"))
 
         message = d.pop("message", UNSET)
 
         icon_captcha_response = cls(
-            response=response,
-            cached=cached,
             code=code,
+            cached=cached,
+            response=response,
             message=message,
         )
 

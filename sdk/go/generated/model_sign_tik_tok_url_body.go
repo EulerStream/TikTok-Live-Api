@@ -30,6 +30,7 @@ type SignTikTokUrlBody struct {
 	Payload *string `json:"payload,omitempty"`
 	Type *string `json:"type,omitempty"`
 	IncludeBrowserParams *bool `json:"includeBrowserParams,omitempty"`
+	// Deprecated
 	IncludeVerifyFp *bool `json:"includeVerifyFp,omitempty"`
 }
 
@@ -334,6 +335,7 @@ func (o *SignTikTokUrlBody) SetIncludeBrowserParams(v bool) {
 }
 
 // GetIncludeVerifyFp returns the IncludeVerifyFp field value if set, zero value otherwise.
+// Deprecated
 func (o *SignTikTokUrlBody) GetIncludeVerifyFp() bool {
 	if o == nil || IsNil(o.IncludeVerifyFp) {
 		var ret bool
@@ -344,6 +346,7 @@ func (o *SignTikTokUrlBody) GetIncludeVerifyFp() bool {
 
 // GetIncludeVerifyFpOk returns a tuple with the IncludeVerifyFp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *SignTikTokUrlBody) GetIncludeVerifyFpOk() (*bool, bool) {
 	if o == nil || IsNil(o.IncludeVerifyFp) {
 		return nil, false
@@ -361,6 +364,7 @@ func (o *SignTikTokUrlBody) HasIncludeVerifyFp() bool {
 }
 
 // SetIncludeVerifyFp gets a reference to the given bool and assigns it to the IncludeVerifyFp field.
+// Deprecated
 func (o *SignTikTokUrlBody) SetIncludeVerifyFp(v bool) {
 	o.IncludeVerifyFp = &v
 }

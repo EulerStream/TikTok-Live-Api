@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomAdminUpdateRouteOutput" />
     /// </summary>
-    public class WebcastRoomAdminUpdateRouteOutputJsonConverter : JsonConverter<WebcastRoomAdminUpdateRouteOutput>
+    public partial class WebcastRoomAdminUpdateRouteOutputJsonConverter : JsonConverter<WebcastRoomAdminUpdateRouteOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomAdminUpdateRouteOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomAdminUpdateRouteOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomAdminUpdateRouteOutput" />
         /// </summary>

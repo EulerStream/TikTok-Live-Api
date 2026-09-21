@@ -25,6 +25,10 @@
       "propName": "webcast"
     },
     {
+      "className": "TikTokLIVEAgenciesApi",
+      "propName": "agencies"
+    },
+    {
       "className": "TikTokLIVEAlertTargetsApi",
       "propName": "alertTargets"
     },
@@ -37,6 +41,10 @@
       "propName": "anchors"
     },
     {
+      "className": "TikTokLIVEEventsApi",
+      "propName": "tikTokLiveEvents"
+    },
+    {
       "className": "TikTokLIVEGiftsApi",
       "propName": "gifts"
     },
@@ -45,8 +53,24 @@
       "propName": "moderation"
     },
     {
+      "className": "TikTokLIVERankingsApi",
+      "propName": "rankings"
+    },
+    {
       "className": "TikTokLIVERoomsApi",
       "propName": "rooms"
+    },
+    {
+      "className": "TikTokSigningApi",
+      "propName": "signing"
+    },
+    {
+      "className": "TikTokUsersApi",
+      "propName": "tikTokUsers"
+    },
+    {
+      "className": "TikTokVideosApi",
+      "propName": "tikTokVideos"
     },
     {
       "className": "TikTokWebSocketAPIApi",

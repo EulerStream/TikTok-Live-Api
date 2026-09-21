@@ -50,7 +50,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastRoomIdRouteResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastRoomIdRouteResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -81,6 +81,11 @@ public class WebcastRoomIdRouteResponse {
   @SerializedName(SERIALIZED_NAME_ROOM_ID)
   @javax.annotation.Nullable
   private String roomId;
+
+  public static final String SERIALIZED_NAME_ROOM_STATUS = "room_status";
+  @SerializedName(SERIALIZED_NAME_ROOM_STATUS)
+  @javax.annotation.Nullable
+  private Double roomStatus;
 
   public static final String SERIALIZED_NAME_SOURCE = "source";
   @SerializedName(SERIALIZED_NAME_SOURCE)
@@ -212,13 +217,32 @@ public class WebcastRoomIdRouteResponse {
   }
 
 
+  public WebcastRoomIdRouteResponse roomStatus(@javax.annotation.Nullable Double roomStatus) {
+    this.roomStatus = roomStatus;
+    return this;
+  }
+
+  /**
+   * Get roomStatus
+   * @return roomStatus
+   */
+  @javax.annotation.Nullable
+  public Double getRoomStatus() {
+    return roomStatus;
+  }
+
+  public void setRoomStatus(@javax.annotation.Nullable Double roomStatus) {
+    this.roomStatus = roomStatus;
+  }
+
+
   public WebcastRoomIdRouteResponse source(@javax.annotation.Nullable String source) {
     this.source = source;
     return this;
   }
 
   /**
-   * Where the room id came from: \&quot;alerts_server\&quot; or the room-info route used.
+   * Get source
    * @return source
    */
   @javax.annotation.Nullable
@@ -247,12 +271,13 @@ public class WebcastRoomIdRouteResponse {
         Objects.equals(this.routesAttempted, webcastRoomIdRouteResponse.routesAttempted) &&
         Objects.equals(this.isLive, webcastRoomIdRouteResponse.isLive) &&
         Objects.equals(this.roomId, webcastRoomIdRouteResponse.roomId) &&
+        Objects.equals(this.roomStatus, webcastRoomIdRouteResponse.roomStatus) &&
         Objects.equals(this.source, webcastRoomIdRouteResponse.source);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, ok, routesAttempted, isLive, roomId, source);
+    return Objects.hash(code, message, ok, routesAttempted, isLive, roomId, roomStatus, source);
   }
 
   @Override
@@ -265,6 +290,7 @@ public class WebcastRoomIdRouteResponse {
     sb.append("    routesAttempted: ").append(toIndentedString(routesAttempted)).append("\n");
     sb.append("    isLive: ").append(toIndentedString(isLive)).append("\n");
     sb.append("    roomId: ").append(toIndentedString(roomId)).append("\n");
+    sb.append("    roomStatus: ").append(toIndentedString(roomStatus)).append("\n");
     sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -284,7 +310,7 @@ public class WebcastRoomIdRouteResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "ok", "routes_attempted", "is_live", "room_id", "source"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "ok", "routes_attempted", "is_live", "room_id", "room_status", "source"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "ok", "routes_attempted"));

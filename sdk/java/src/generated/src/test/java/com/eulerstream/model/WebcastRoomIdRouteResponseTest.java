@@ -88,6 +88,14 @@ public class WebcastRoomIdRouteResponseTest {
     }
 
     /**
+     * Test the property 'roomStatus'
+     */
+    @Test
+    public void roomStatusTest() {
+        // TODO: test roomStatus
+    }
+
+    /**
      * Test the property 'source'
      */
     @Test

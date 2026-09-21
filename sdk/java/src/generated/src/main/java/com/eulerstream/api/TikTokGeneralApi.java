@@ -34,10 +34,9 @@ import com.eulerstream.model.OAuthIntrospectResponse;
 import com.eulerstream.model.OAuthRevokeResponse;
 import com.eulerstream.model.OAuthTokenResponse;
 import com.eulerstream.model.OAuthUserInfoResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RevokeRequestBody;
-import com.eulerstream.model.SignTikTokUrlBody;
-import com.eulerstream.model.SignTikTokUrlResponse;
 import com.eulerstream.model.ValidateRefreshRequest;
 import com.eulerstream.model.ValidateRefreshResponse;
 
@@ -755,149 +754,6 @@ public class TikTokGeneralApi {
 
         okhttp3.Call localVarCall = revokeTokenValidateBeforeCall(revokeRequestBody, _callback);
         Type localVarReturnType = new TypeToken<OAuthRevokeResponse>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for signTikTokUrl
-     * @param signTikTokUrlBody Config for the signature generation (required)
-     * @param client The TikTokLive client making the request (optional, default to ttlive-other)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call signTikTokUrlCall(@javax.annotation.Nonnull SignTikTokUrlBody signTikTokUrlBody, @javax.annotation.Nullable String client, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
-        Object localVarPostBody = signTikTokUrlBody;
-
-        // create path and map variables
-        String localVarPath = "/tiktok/sign_url";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        if (client != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client", client));
-        }
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarContentType != null) {
-            localVarHeaderParams.put("Content-Type", localVarContentType);
-        }
-
-        String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
-        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call signTikTokUrlValidateBeforeCall(@javax.annotation.Nonnull SignTikTokUrlBody signTikTokUrlBody, @javax.annotation.Nullable String client, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'signTikTokUrlBody' is set
-        if (signTikTokUrlBody == null) {
-            throw new ApiException("Missing the required parameter 'signTikTokUrlBody' when calling signTikTokUrl(Async)");
-        }
-
-        return signTikTokUrlCall(signTikTokUrlBody, client, _callback);
-
-    }
-
-    /**
-     * 
-     * Sign a non-LIVE TikTok URL. This is NOT available to customers in any public package, and access is approved on a case-by-case basis.
-     * @param signTikTokUrlBody Config for the signature generation (required)
-     * @param client The TikTokLive client making the request (optional, default to ttlive-other)
-     * @return SignTikTokUrlResponse
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-     </table>
-     */
-    public SignTikTokUrlResponse signTikTokUrl(@javax.annotation.Nonnull SignTikTokUrlBody signTikTokUrlBody, @javax.annotation.Nullable String client) throws ApiException {
-        ApiResponse<SignTikTokUrlResponse> localVarResp = signTikTokUrlWithHttpInfo(signTikTokUrlBody, client);
-        return localVarResp.getData();
-    }
-
-    /**
-     * 
-     * Sign a non-LIVE TikTok URL. This is NOT available to customers in any public package, and access is approved on a case-by-case basis.
-     * @param signTikTokUrlBody Config for the signature generation (required)
-     * @param client The TikTokLive client making the request (optional, default to ttlive-other)
-     * @return ApiResponse&lt;SignTikTokUrlResponse&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<SignTikTokUrlResponse> signTikTokUrlWithHttpInfo(@javax.annotation.Nonnull SignTikTokUrlBody signTikTokUrlBody, @javax.annotation.Nullable String client) throws ApiException {
-        okhttp3.Call localVarCall = signTikTokUrlValidateBeforeCall(signTikTokUrlBody, client, null);
-        Type localVarReturnType = new TypeToken<SignTikTokUrlResponse>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
-    }
-
-    /**
-     *  (asynchronously)
-     * Sign a non-LIVE TikTok URL. This is NOT available to customers in any public package, and access is approved on a case-by-case basis.
-     * @param signTikTokUrlBody Config for the signature generation (required)
-     * @param client The TikTokLive client making the request (optional, default to ttlive-other)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call signTikTokUrlAsync(@javax.annotation.Nonnull SignTikTokUrlBody signTikTokUrlBody, @javax.annotation.Nullable String client, final ApiCallback<SignTikTokUrlResponse> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = signTikTokUrlValidateBeforeCall(signTikTokUrlBody, client, _callback);
-        Type localVarReturnType = new TypeToken<SignTikTokUrlResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

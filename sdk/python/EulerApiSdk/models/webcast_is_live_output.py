@@ -9,9 +9,7 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.record_string_is_live_boolean_room_id_string_or_null import (
-        RecordStringIsLiveBooleanRoomIdStringOrNull,
-    )
+    from ..models.webcast_is_live_output_data import WebcastIsLiveOutputData
 
 
 T = TypeVar("T", bound="WebcastIsLiveOutput")
@@ -21,11 +19,10 @@ T = TypeVar("T", bound="WebcastIsLiveOutput")
 class WebcastIsLiveOutput:
     """
     Attributes:
-        data (RecordStringIsLiveBooleanRoomIdStringOrNull | Unset): Construct a type with a set of properties K of type
-            T
+        data (WebcastIsLiveOutputData | Unset):
     """
 
-    data: RecordStringIsLiveBooleanRoomIdStringOrNull | Unset = UNSET
+    data: WebcastIsLiveOutputData | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -43,17 +40,15 @@ class WebcastIsLiveOutput:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.record_string_is_live_boolean_room_id_string_or_null import (
-            RecordStringIsLiveBooleanRoomIdStringOrNull,
-        )
+        from ..models.webcast_is_live_output_data import WebcastIsLiveOutputData
 
         d = dict(src_dict)
         _data = d.pop("data", UNSET)
-        data: RecordStringIsLiveBooleanRoomIdStringOrNull | Unset
+        data: WebcastIsLiveOutputData | Unset
         if isinstance(_data, Unset):
             data = UNSET
         else:
-            data = RecordStringIsLiveBooleanRoomIdStringOrNull.from_dict(_data)
+            data = WebcastIsLiveOutputData.from_dict(_data)
 
         webcast_is_live_output = cls(
             data=data,

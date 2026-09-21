@@ -51,18 +51,50 @@ namespace EulerApiSdk.Test.Api
         }
 
         /// <summary>
-        /// Test AddRoomModerator
+        /// Test AddSensitiveWord
         /// </summary>
         [Fact (Skip = "not implemented")]
-        public async Task AddRoomModeratorAsyncTest()
+        public async Task AddSensitiveWordAsyncTest()
         {
-            string toUserId = default!;
-            string anchorId = default!;
+            string word = default!;
+            string secAnchorId = default!;
+            string roomId = default!;
             Client.Option<string> xOauthToken = default!;
             Client.Option<string> xCookieHeader = default!;
-            var response = await _instance.AddRoomModeratorAsync(toUserId, anchorId, xOauthToken, xCookieHeader);
+            var response = await _instance.AddSensitiveWordAsync(word, secAnchorId, roomId, xOauthToken, xCookieHeader);
             var model = response.Ok();
-            Assert.IsType<RoomAdminUpdateAPIResponse>(model);
+            Assert.IsType<RoomAddSensitiveWordAPIResponse>(model);
+        }
+
+        /// <summary>
+        /// Test DeleteSensitiveWord
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task DeleteSensitiveWordAsyncTest()
+        {
+            string wordId = default!;
+            string secAnchorId = default!;
+            string roomId = default!;
+            Client.Option<string> xOauthToken = default!;
+            Client.Option<string> xCookieHeader = default!;
+            var response = await _instance.DeleteSensitiveWordAsync(wordId, secAnchorId, roomId, xOauthToken, xCookieHeader);
+            var model = response.Ok();
+            Assert.IsType<RoomDelSensitiveWordAPIResponse>(model);
+        }
+
+        /// <summary>
+        /// Test GetSensitiveWords
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetSensitiveWordsAsyncTest()
+        {
+            string secAnchorId = default!;
+            string roomId = default!;
+            Client.Option<string> xOauthToken = default!;
+            Client.Option<string> xCookieHeader = default!;
+            var response = await _instance.GetSensitiveWordsAsync(secAnchorId, roomId, xOauthToken, xCookieHeader);
+            var model = response.Ok();
+            Assert.IsType<RoomGetSensitiveWordsAPIResponse>(model);
         }
 
         /// <summary>
@@ -99,21 +131,6 @@ namespace EulerApiSdk.Test.Api
         }
 
         /// <summary>
-        /// Test RemoveRoomModerator
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task RemoveRoomModeratorAsyncTest()
-        {
-            string toUserId = default!;
-            string anchorId = default!;
-            Client.Option<string> xOauthToken = default!;
-            Client.Option<string> xCookieHeader = default!;
-            var response = await _instance.RemoveRoomModeratorAsync(toUserId, anchorId, xOauthToken, xCookieHeader);
-            var model = response.Ok();
-            Assert.IsType<RoomAdminUpdateAPIResponse>(model);
-        }
-
-        /// <summary>
         /// Test RetrieveRoomBannedUsers
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -129,20 +146,6 @@ namespace EulerApiSdk.Test.Api
         }
 
         /// <summary>
-        /// Test RetrieveRoomModerators
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task RetrieveRoomModeratorsAsyncTest()
-        {
-            string anchorId = default!;
-            Client.Option<string> xOauthToken = default!;
-            Client.Option<string> xCookieHeader = default!;
-            var response = await _instance.RetrieveRoomModeratorsAsync(anchorId, xOauthToken, xCookieHeader);
-            var model = response.Ok();
-            Assert.IsType<RoomModeratorsAPIResponse>(model);
-        }
-
-        /// <summary>
         /// Test RetrieveRoomMutedUsers
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -152,7 +155,8 @@ namespace EulerApiSdk.Test.Api
             Client.Option<double> page = default!;
             Client.Option<string> xOauthToken = default!;
             Client.Option<string> xCookieHeader = default!;
-            var response = await _instance.RetrieveRoomMutedUsersAsync(roomId, page, xOauthToken, xCookieHeader);
+            Client.Option<RouteImageSource> xImageSource = default!;
+            var response = await _instance.RetrieveRoomMutedUsersAsync(roomId, page, xOauthToken, xCookieHeader, xImageSource);
             var model = response.Ok();
             Assert.IsType<RoomMutedUsersAPIResponse>(model);
         }

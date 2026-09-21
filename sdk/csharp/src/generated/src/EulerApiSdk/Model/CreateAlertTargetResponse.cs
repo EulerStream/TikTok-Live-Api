@@ -37,7 +37,7 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="target">target</param>
         [JsonConstructor]
-        public CreateAlertTargetResponse(double code, Option<string?> message = default, Option<AlertTarget?> target = default)
+        public CreateAlertTargetResponse(double code, Option<string?> message = default, Option<AlertTargetResponseShape?> target = default)
         {
             Code = code;
             MessageOption = message;
@@ -64,20 +64,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Target
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<AlertTarget?> TargetOption { get; private set; }
+        public Option<AlertTargetResponseShape?> TargetOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Target
         /// </summary>
         [JsonPropertyName("target")]
-        public AlertTarget? Target { get { return this.TargetOption; } set { this.TargetOption = new(value); } }
+        public AlertTargetResponseShape? Target { get { return this.TargetOption.Value; } set { this.TargetOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="CreateAlertTargetResponse" />
     /// </summary>
-    public class CreateAlertTargetResponseJsonConverter : JsonConverter<CreateAlertTargetResponse>
+    public partial class CreateAlertTargetResponseJsonConverter : JsonConverter<CreateAlertTargetResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateAlertTargetResponseJsonConverter" /> class.
+        /// </summary>
+        public CreateAlertTargetResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CreateAlertTargetResponse" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace EulerApiSdk.Model
 
             Option<double?> code = default;
             Option<string?> message = default;
-            Option<AlertTarget?> target = default;
+            Option<AlertTargetResponseShape?> target = default;
 
             while (utf8JsonReader.Read())
             {
@@ -153,7 +163,7 @@ namespace EulerApiSdk.Model
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "target":
-                            target = new Option<AlertTarget?>(JsonSerializer.Deserialize<AlertTarget>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            target = new Option<AlertTargetResponseShape?>(JsonSerializer.Deserialize<AlertTargetResponseShape>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

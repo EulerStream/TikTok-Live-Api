@@ -27,8 +27,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.eulerstream.model.GetAvailableDates503Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveWebSocketRouteResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.RetrieveWebSocketsRouteResponse;
 
 import java.lang.reflect.Type;

@@ -87,7 +87,17 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Enum Userconsents for value: user:consents
         /// </summary>
-        Userconsents = 12
+        Userconsents = 12,
+
+        /// <summary>
+        /// Enum Userinfo for value: user:info
+        /// </summary>
+        Userinfo = 13,
+
+        /// <summary>
+        /// Enum WebcastsensitiveWords for value: webcast:sensitive_words
+        /// </summary>
+        WebcastsensitiveWords = 14
     }
 
     /// <summary>
@@ -138,6 +148,12 @@ namespace EulerApiSdk.Model
             if (value.Equals("user:consents"))
                 return OAuthScope.Userconsents;
 
+            if (value.Equals("user:info"))
+                return OAuthScope.Userinfo;
+
+            if (value.Equals("webcast:sensitive_words"))
+                return OAuthScope.WebcastsensitiveWords;
+
             throw new NotImplementedException($"Could not convert value to type OAuthScope: '{value}'");
         }
 
@@ -183,6 +199,12 @@ namespace EulerApiSdk.Model
 
             if (value.Equals("user:consents"))
                 return OAuthScope.Userconsents;
+
+            if (value.Equals("user:info"))
+                return OAuthScope.Userinfo;
+
+            if (value.Equals("webcast:sensitive_words"))
+                return OAuthScope.WebcastsensitiveWords;
 
             return null;
         }
@@ -231,6 +253,12 @@ namespace EulerApiSdk.Model
             if (value == OAuthScope.Userconsents)
                 return "user:consents";
 
+            if (value == OAuthScope.Userinfo)
+                return "user:info";
+
+            if (value == OAuthScope.WebcastsensitiveWords)
+                return "webcast:sensitive_words";
+
             throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
     }
@@ -270,7 +298,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OAuthScope oAuthScope, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(oAuthScope.ToString());
+            writer.WriteStringValue(OAuthScopeValueConverter.ToJsonValue(oAuthScope).ToString());
         }
     }
 
@@ -288,6 +316,9 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override OAuthScope? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             OAuthScope? result = rawValue == null
@@ -301,14 +332,17 @@ namespace EulerApiSdk.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the OAuthScope to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="oAuthScope"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, OAuthScope? oAuthScope, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(oAuthScope?.ToString() ?? "null");
+            if (oAuthScope.HasValue)
+                writer.WriteStringValue(OAuthScopeValueConverter.ToJsonValue(oAuthScope.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

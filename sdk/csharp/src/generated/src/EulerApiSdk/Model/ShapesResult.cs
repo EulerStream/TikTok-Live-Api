@@ -94,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="ShapesResult" />
     /// </summary>
-    public class ShapesResultJsonConverter : JsonConverter<ShapesResult>
+    public partial class ShapesResultJsonConverter : JsonConverter<ShapesResult>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShapesResultJsonConverter" /> class.
+        /// </summary>
+        public ShapesResultJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ShapesResult" />
         /// </summary>

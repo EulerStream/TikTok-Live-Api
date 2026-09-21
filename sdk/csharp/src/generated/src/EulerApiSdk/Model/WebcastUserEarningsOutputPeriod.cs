@@ -116,7 +116,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, WebcastUserEarningsOutputPeriod webcastUserEarningsOutputPeriod, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(webcastUserEarningsOutputPeriod.ToString());
+            writer.WriteStringValue(WebcastUserEarningsOutputPeriodValueConverter.ToJsonValue(webcastUserEarningsOutputPeriod).ToString());
         }
     }
 
@@ -134,6 +134,9 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override WebcastUserEarningsOutputPeriod? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             WebcastUserEarningsOutputPeriod? result = rawValue == null
@@ -147,14 +150,17 @@ namespace EulerApiSdk.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the WebcastUserEarningsOutputPeriod to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="webcastUserEarningsOutputPeriod"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, WebcastUserEarningsOutputPeriod? webcastUserEarningsOutputPeriod, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(webcastUserEarningsOutputPeriod?.ToString() ?? "null");
+            if (webcastUserEarningsOutputPeriod.HasValue)
+                writer.WriteStringValue(WebcastUserEarningsOutputPeriodValueConverter.ToJsonValue(webcastUserEarningsOutputPeriod.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

@@ -27,12 +27,12 @@ type ApiCreateJWTRequest struct {
 	ctx context.Context
 	ApiService *AuthenticationAPIService
 	accountId float64
-	jWTCreateConfig *JWTCreateConfig
+	createJWTRequest *CreateJWTRequest
 }
 
 // The configuration for the JWT
-func (r ApiCreateJWTRequest) JWTCreateConfig(jWTCreateConfig JWTCreateConfig) ApiCreateJWTRequest {
-	r.jWTCreateConfig = &jWTCreateConfig
+func (r ApiCreateJWTRequest) CreateJWTRequest(createJWTRequest CreateJWTRequest) ApiCreateJWTRequest {
+	r.createJWTRequest = &createJWTRequest
 	return r
 }
 
@@ -43,8 +43,7 @@ func (r ApiCreateJWTRequest) Execute() (*CreateJWTResponse, *http.Response, erro
 /*
 CreateJWT Method for CreateJWT
 
-Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated Webcast endpoints.
-They function to attach the rate limits of the API key to the request for client-sided applications.
+Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated Webcast endpoints. They function to attach the rate limits of the API key to the request for client-sided applications.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param accountId The ID of the account to create the JWT for
@@ -79,8 +78,8 @@ func (a *AuthenticationAPIService) CreateJWTExecute(r ApiCreateJWTRequest) (*Cre
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.jWTCreateConfig == nil {
-		return localVarReturnValue, nil, reportError("jWTCreateConfig is required and must be specified")
+	if r.createJWTRequest == nil {
+		return localVarReturnValue, nil, reportError("createJWTRequest is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -101,7 +100,7 @@ func (a *AuthenticationAPIService) CreateJWTExecute(r ApiCreateJWTRequest) (*Cre
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.jWTCreateConfig
+	localVarPostBody = r.createJWTRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -151,6 +150,27 @@ func (a *AuthenticationAPIService) CreateJWTExecute(r ApiCreateJWTRequest) (*Cre
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -294,6 +314,27 @@ func (a *AuthenticationAPIService) CreateKeyExecute(r ApiCreateKeyRequest) (*Cre
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -448,6 +489,27 @@ func (a *AuthenticationAPIService) DeleteKeyExecute(r ApiDeleteKeyRequest) (*Del
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -533,6 +595,7 @@ func (a *AuthenticationAPIService) GetKeyExecute(r ApiGetKeyRequest) (*RetrieveK
 		parameterAddToHeaderOrQuery(localVarQueryParams, "retrieve_by", r.retrieveBy, "form", "")
 	} else {
 		var defaultValue string = "value"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "retrieve_by", defaultValue, "form", "")
 		r.retrieveBy = &defaultValue
 	}
 	parameterAddToHeaderOrQuery(localVarQueryParams, "retrieve_param", r.retrieveParam, "form", "")
@@ -602,6 +665,27 @@ func (a *AuthenticationAPIService) GetKeyExecute(r ApiGetKeyRequest) (*RetrieveK
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -733,6 +817,27 @@ func (a *AuthenticationAPIService) ListKeysExecute(r ApiListKeysRequest) (*ListK
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -898,6 +1003,27 @@ func (a *AuthenticationAPIService) UpdateKeyExecute(r ApiUpdateKeyRequest) (*Upd
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

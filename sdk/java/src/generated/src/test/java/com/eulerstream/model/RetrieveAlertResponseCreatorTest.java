@@ -38,35 +38,11 @@ public class RetrieveAlertResponseCreatorTest {
     }
 
     /**
-     * Test the property 'lastNickname'
+     * Test the property 'uniqueId'
      */
     @Test
-    public void lastNicknameTest() {
-        // TODO: test lastNickname
-    }
-
-    /**
-     * Test the property 'lastAvatarUrl'
-     */
-    @Test
-    public void lastAvatarUrlTest() {
-        // TODO: test lastAvatarUrl
-    }
-
-    /**
-     * Test the property 'roomId'
-     */
-    @Test
-    public void roomIdTest() {
-        // TODO: test roomId
-    }
-
-    /**
-     * Test the property 'stateLabel'
-     */
-    @Test
-    public void stateLabelTest() {
-        // TODO: test stateLabel
+    public void uniqueIdTest() {
+        // TODO: test uniqueId
     }
 
     /**
@@ -78,11 +54,35 @@ public class RetrieveAlertResponseCreatorTest {
     }
 
     /**
-     * Test the property 'uniqueId'
+     * Test the property 'stateLabel'
      */
     @Test
-    public void uniqueIdTest() {
-        // TODO: test uniqueId
+    public void stateLabelTest() {
+        // TODO: test stateLabel
+    }
+
+    /**
+     * Test the property 'roomId'
+     */
+    @Test
+    public void roomIdTest() {
+        // TODO: test roomId
+    }
+
+    /**
+     * Test the property 'lastAvatarUrl'
+     */
+    @Test
+    public void lastAvatarUrlTest() {
+        // TODO: test lastAvatarUrl
+    }
+
+    /**
+     * Test the property 'lastNickname'
+     */
+    @Test
+    public void lastNicknameTest() {
+        // TODO: test lastNickname
     }
 
 }

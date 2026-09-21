@@ -8,6 +8,8 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.delete_key_delete_by import DeleteKeyDeleteBy
 from ...models.delete_key_response import DeleteKeyResponse
+from ...models.delete_key_response_429 import DeleteKeyResponse429
+from ...models.delete_key_response_500 import DeleteKeyResponse500
 from ...types import UNSET, Response
 
 
@@ -37,11 +39,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> DeleteKeyResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500 | None:
     if response.status_code == 200:
         response_200 = DeleteKeyResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = DeleteKeyResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = DeleteKeyResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -49,7 +63,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[DeleteKeyResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -64,7 +80,7 @@ def sync_detailed(
     client: AuthenticatedClient,
     delete_by: DeleteKeyDeleteBy,
     delete_param: str,
-) -> Response[DeleteKeyResponse]:
+) -> Response[DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500]:
     """Delete an API key by its key value, name, or ID
 
     Args:
@@ -77,7 +93,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[DeleteKeyResponse]
+        Response[DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -99,7 +115,7 @@ def sync(
     client: AuthenticatedClient,
     delete_by: DeleteKeyDeleteBy,
     delete_param: str,
-) -> DeleteKeyResponse | None:
+) -> DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500 | None:
     """Delete an API key by its key value, name, or ID
 
     Args:
@@ -112,7 +128,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        DeleteKeyResponse
+        DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500
     """
 
     return sync_detailed(
@@ -129,7 +145,7 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     delete_by: DeleteKeyDeleteBy,
     delete_param: str,
-) -> Response[DeleteKeyResponse]:
+) -> Response[DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500]:
     """Delete an API key by its key value, name, or ID
 
     Args:
@@ -142,7 +158,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[DeleteKeyResponse]
+        Response[DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -162,7 +178,7 @@ async def asyncio(
     client: AuthenticatedClient,
     delete_by: DeleteKeyDeleteBy,
     delete_param: str,
-) -> DeleteKeyResponse | None:
+) -> DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500 | None:
     """Delete an API key by its key value, name, or ID
 
     Args:
@@ -175,7 +191,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        DeleteKeyResponse
+        DeleteKeyResponse | DeleteKeyResponse429 | DeleteKeyResponse500
     """
 
     return (

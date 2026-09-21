@@ -24,7 +24,6 @@ type WebcastFeedResponseItem struct {
 	Type float64 `json:"type"`
 	Rid string `json:"rid"`
 	Data WebcastFeedResponseRoomData `json:"data"`
-	// Construct a type with a set of properties K of type T
 	FlareInfo map[string]interface{} `json:"flare_info"`
 	RoomEventTracking string `json:"room_event_tracking"`
 }

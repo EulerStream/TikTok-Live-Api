@@ -54,12 +54,12 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'StateLabel'
+        /// Test the property 'UniqueId'
         /// </summary>
         [Fact]
-        public void StateLabelTest()
+        public void UniqueIdTest()
         {
-            // TODO unit test for the property 'StateLabel'
+            // TODO unit test for the property 'UniqueId'
         }
 
         /// <summary>
@@ -72,21 +72,21 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'UniqueId'
+        /// Test the property 'StateLabel'
         /// </summary>
         [Fact]
-        public void UniqueIdTest()
+        public void StateLabelTest()
         {
-            // TODO unit test for the property 'UniqueId'
+            // TODO unit test for the property 'StateLabel'
         }
 
         /// <summary>
-        /// Test the property 'LastNickname'
+        /// Test the property 'RoomId'
         /// </summary>
         [Fact]
-        public void LastNicknameTest()
+        public void RoomIdTest()
         {
-            // TODO unit test for the property 'LastNickname'
+            // TODO unit test for the property 'RoomId'
         }
 
         /// <summary>
@@ -99,12 +99,12 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'RoomId'
+        /// Test the property 'LastNickname'
         /// </summary>
         [Fact]
-        public void RoomIdTest()
+        public void LastNicknameTest()
         {
-            // TODO unit test for the property 'RoomId'
+            // TODO unit test for the property 'LastNickname'
         }
     }
 }

@@ -33,7 +33,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WebcastLiveAnalyticsVideoDetailResponseWatcherRank" /> class.
         /// </summary>
-        /// <param name="user">Construct a type with a set of properties K of type T</param>
+        /// <param name="user">user</param>
         /// <param name="value">value</param>
         [JsonConstructor]
         public WebcastLiveAnalyticsVideoDetailResponseWatcherRank(Dictionary<string, Object> user, double value)
@@ -46,9 +46,8 @@ namespace EulerApiSdk.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets User
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("user")]
         public Dictionary<string, Object> User { get; set; }
 
@@ -86,8 +85,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastLiveAnalyticsVideoDetailResponseWatcherRank" />
     /// </summary>
-    public class WebcastLiveAnalyticsVideoDetailResponseWatcherRankJsonConverter : JsonConverter<WebcastLiveAnalyticsVideoDetailResponseWatcherRank>
+    public partial class WebcastLiveAnalyticsVideoDetailResponseWatcherRankJsonConverter : JsonConverter<WebcastLiveAnalyticsVideoDetailResponseWatcherRank>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastLiveAnalyticsVideoDetailResponseWatcherRankJsonConverter" /> class.
+        /// </summary>
+        public WebcastLiveAnalyticsVideoDetailResponseWatcherRankJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastLiveAnalyticsVideoDetailResponseWatcherRank" />
         /// </summary>

@@ -14,13 +14,16 @@
 package com.eulerstream.api;
 
 import com.eulerstream.ApiException;
-import com.eulerstream.model.PooledProxyRegion;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.GetAvailableDates503Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RoomGiftsResponse;
+import com.eulerstream.model.RouteImageSource;
 import com.eulerstream.model.SendRoomChatRequest;
 import com.eulerstream.model.WebcastFetchPlatform;
 import com.eulerstream.model.WebcastLanguage;
 import com.eulerstream.model.WebcastRoomChatRouteResponse;
+import com.eulerstream.model.WebcastRoomInfoByRoomIdRouteResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -46,17 +49,13 @@ public class TikTokLiveRoomsApiTest {
     public void fetchWebcastURLTest() throws ApiException {
         String roomId = null;
         String client = null;
-        String uniqueId = null;
         String cursor = null;
         String userAgent = null;
         Boolean clientEnter = null;
-        PooledProxyRegion country = null;
         WebcastFetchPlatform platform = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        String sessionId = null;
-        String ttTargetIdc = null;
-        Object response = api.fetchWebcastURL(roomId, client, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+        Object response = api.fetchWebcastURL(roomId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader);
         // TODO: test validations
     }
 
@@ -70,6 +69,19 @@ public class TikTokLiveRoomsApiTest {
         String roomId = null;
         WebcastLanguage webcastLanguage = null;
         RoomGiftsResponse response = api.retrieveRoomGifts(roomId, webcastLanguage);
+        // TODO: test validations
+    }
+
+    /**
+     * Retrieve TikTok LIVE room information by room ID.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void retrieveRoomInfoByRoomIdTest() throws ApiException {
+        String roomId = null;
+        RouteImageSource xImageSource = null;
+        WebcastRoomInfoByRoomIdRouteResponse response = api.retrieveRoomInfoByRoomId(roomId, xImageSource);
         // TODO: test validations
     }
 

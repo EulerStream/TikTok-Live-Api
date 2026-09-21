@@ -48,7 +48,7 @@ import com.eulerstream.JSON;
 /**
  * SignTikTokUrlBody
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class SignTikTokUrlBody {
   public static final String SERIALIZED_NAME_URL = "url";
   @SerializedName(SERIALIZED_NAME_URL)
@@ -210,6 +210,7 @@ public class SignTikTokUrlBody {
   private Boolean includeBrowserParams;
 
   public static final String SERIALIZED_NAME_INCLUDE_VERIFY_FP = "includeVerifyFp";
+  @Deprecated
   @SerializedName(SERIALIZED_NAME_INCLUDE_VERIFY_FP)
   @javax.annotation.Nullable
   private Boolean includeVerifyFp;
@@ -388,6 +389,7 @@ public class SignTikTokUrlBody {
   }
 
 
+  @Deprecated
   public SignTikTokUrlBody includeVerifyFp(@javax.annotation.Nullable Boolean includeVerifyFp) {
     this.includeVerifyFp = includeVerifyFp;
     return this;
@@ -396,12 +398,15 @@ public class SignTikTokUrlBody {
   /**
    * Get includeVerifyFp
    * @return includeVerifyFp
+   * @deprecated
    */
+  @Deprecated
   @javax.annotation.Nullable
   public Boolean getIncludeVerifyFp() {
     return includeVerifyFp;
   }
 
+  @Deprecated
   public void setIncludeVerifyFp(@javax.annotation.Nullable Boolean includeVerifyFp) {
     this.includeVerifyFp = includeVerifyFp;
   }

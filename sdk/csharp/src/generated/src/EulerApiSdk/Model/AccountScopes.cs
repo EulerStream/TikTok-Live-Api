@@ -87,7 +87,27 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Enum _15 for value: 15
         /// </summary>
-        _15 = 12
+        _15 = 12,
+
+        /// <summary>
+        /// Enum _16 for value: 16
+        /// </summary>
+        _16 = 13,
+
+        /// <summary>
+        /// Enum _17 for value: 17
+        /// </summary>
+        _17 = 14,
+
+        /// <summary>
+        /// Enum _18 for value: 18
+        /// </summary>
+        _18 = 15,
+
+        /// <summary>
+        /// Enum _19 for value: 19
+        /// </summary>
+        _19 = 16
     }
 
     /// <summary>
@@ -102,41 +122,53 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public static AccountScopes FromString(string value)
         {
-            if (value.Equals("-1"))
+            if (value.Equals((-1m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._1;
 
-            if (value.Equals("0"))
+            if (value.Equals((0m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._0;
 
-            if (value.Equals("1"))
+            if (value.Equals((1m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._12;
 
-            if (value.Equals("3"))
+            if (value.Equals((3m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._3;
 
-            if (value.Equals("10"))
+            if (value.Equals((10m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._10;
 
-            if (value.Equals("11"))
+            if (value.Equals((11m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._11;
 
-            if (value.Equals("8"))
+            if (value.Equals((8m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._8;
 
-            if (value.Equals("6"))
+            if (value.Equals((6m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._6;
 
-            if (value.Equals("12"))
+            if (value.Equals((12m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._12;
 
-            if (value.Equals("13"))
+            if (value.Equals((13m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._13;
 
-            if (value.Equals("14"))
+            if (value.Equals((14m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._14;
 
-            if (value.Equals("15"))
+            if (value.Equals((15m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._15;
+
+            if (value.Equals((16m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._16;
+
+            if (value.Equals((17m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._17;
+
+            if (value.Equals((18m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._18;
+
+            if (value.Equals((19m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._19;
 
             throw new NotImplementedException($"Could not convert value to type AccountScopes: '{value}'");
         }
@@ -148,41 +180,53 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public static AccountScopes? FromStringOrDefault(string value)
         {
-            if (value.Equals("-1"))
+            if (value.Equals((-1m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._1;
 
-            if (value.Equals("0"))
+            if (value.Equals((0m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._0;
 
-            if (value.Equals("1"))
+            if (value.Equals((1m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._12;
 
-            if (value.Equals("3"))
+            if (value.Equals((3m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._3;
 
-            if (value.Equals("10"))
+            if (value.Equals((10m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._10;
 
-            if (value.Equals("11"))
+            if (value.Equals((11m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._11;
 
-            if (value.Equals("8"))
+            if (value.Equals((8m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._8;
 
-            if (value.Equals("6"))
+            if (value.Equals((6m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._6;
 
-            if (value.Equals("12"))
+            if (value.Equals((12m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._12;
 
-            if (value.Equals("13"))
+            if (value.Equals((13m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._13;
 
-            if (value.Equals("14"))
+            if (value.Equals((14m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._14;
 
-            if (value.Equals("15"))
+            if (value.Equals((15m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return AccountScopes._15;
+
+            if (value.Equals((16m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._16;
+
+            if (value.Equals((17m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._17;
+
+            if (value.Equals((18m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._18;
+
+            if (value.Equals((19m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
+                return AccountScopes._19;
 
             return null;
         }
@@ -193,9 +237,57 @@ namespace EulerApiSdk.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static int ToJsonValue(AccountScopes value)
+        public static decimal ToJsonValue(AccountScopes value)
         {
-            return (int) value;
+            if (value == AccountScopes._1)
+                return -1m;
+
+            if (value == AccountScopes._0)
+                return 0m;
+
+            if (value == AccountScopes._12)
+                return 1m;
+
+            if (value == AccountScopes._3)
+                return 3m;
+
+            if (value == AccountScopes._10)
+                return 10m;
+
+            if (value == AccountScopes._11)
+                return 11m;
+
+            if (value == AccountScopes._8)
+                return 8m;
+
+            if (value == AccountScopes._6)
+                return 6m;
+
+            if (value == AccountScopes._12)
+                return 12m;
+
+            if (value == AccountScopes._13)
+                return 13m;
+
+            if (value == AccountScopes._14)
+                return 14m;
+
+            if (value == AccountScopes._15)
+                return 15m;
+
+            if (value == AccountScopes._16)
+                return 16m;
+
+            if (value == AccountScopes._17)
+                return 17m;
+
+            if (value == AccountScopes._18)
+                return 18m;
+
+            if (value == AccountScopes._19)
+                return 19m;
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
     }
 
@@ -214,15 +306,10 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override AccountScopes Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
-
-            AccountScopes? result = rawValue == null
-                ? null
-                : AccountScopesValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            AccountScopes? result = AccountScopesValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -234,7 +321,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, AccountScopes accountScopes, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(accountScopes.ToString());
+            writer.WriteNumberValue(AccountScopesValueConverter.ToJsonValue(accountScopes));
         }
     }
 
@@ -252,27 +339,28 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override AccountScopes? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            AccountScopes? result = rawValue == null
-                ? null
-                : AccountScopesValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            AccountScopes? result = AccountScopesValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the AccountScopes to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="accountScopes"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, AccountScopes? accountScopes, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(accountScopes?.ToString() ?? "null");
+            if (accountScopes.HasValue)
+                writer.WriteNumberValue(AccountScopesValueConverter.ToJsonValue(accountScopes.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 }

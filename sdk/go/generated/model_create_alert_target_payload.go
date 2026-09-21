@@ -22,7 +22,6 @@ var _ MappedNullable = &CreateAlertTargetPayload{}
 // CreateAlertTargetPayload struct for CreateAlertTargetPayload
 type CreateAlertTargetPayload struct {
 	Url string `json:"url"`
-	// Construct a type with a set of properties K of type T
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
 }
 

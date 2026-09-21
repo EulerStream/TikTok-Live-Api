@@ -19,6 +19,7 @@ T = TypeVar("T", bound="WebcastRegionRankingsOutput")
 class WebcastRegionRankingsOutput:
     """
     Attributes:
+        attempts (float):
         ranks (list[PartialWebcastRegionRankingsOutputRank]):
         rank_title (None | str):
         rank_type (None | str):
@@ -26,6 +27,7 @@ class WebcastRegionRankingsOutput:
         resets_in (float | None):
     """
 
+    attempts: float
     ranks: list[PartialWebcastRegionRankingsOutputRank]
     rank_title: None | str
     rank_type: None | str
@@ -34,6 +36,8 @@ class WebcastRegionRankingsOutput:
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
+        attempts = self.attempts
+
         ranks = []
         for ranks_item_data in self.ranks:
             ranks_item = ranks_item_data.to_dict()
@@ -58,6 +62,7 @@ class WebcastRegionRankingsOutput:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "attempts": attempts,
                 "ranks": ranks,
                 "rank_title": rank_title,
                 "rank_type": rank_type,
@@ -73,6 +78,8 @@ class WebcastRegionRankingsOutput:
         from ..models.partial_webcast_region_rankings_output_rank import PartialWebcastRegionRankingsOutputRank
 
         d = dict(src_dict)
+        attempts = d.pop("attempts")
+
         ranks = []
         _ranks = d.pop("ranks")
         for ranks_item_data in _ranks:
@@ -117,6 +124,7 @@ class WebcastRegionRankingsOutput:
         resets_in = _parse_resets_in(d.pop("resets_in"))
 
         webcast_region_rankings_output = cls(
+            attempts=attempts,
             ranks=ranks,
             rank_title=rank_title,
             rank_type=rank_type,

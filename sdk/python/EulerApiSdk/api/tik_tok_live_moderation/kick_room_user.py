@@ -1,17 +1,21 @@
 from http import HTTPStatus
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.kick_room_user_response_429 import KickRoomUserResponse429
+from ...models.kick_room_user_response_500 import KickRoomUserResponse500
+from ...models.kick_room_user_response_503 import KickRoomUserResponse503
 from ...models.room_kick_user_api_response import RoomKickUserAPIResponse
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
-    *,
     room_id: str,
+    *,
     tiktok_user_id: str,
     comment_msg_id: str | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
@@ -26,8 +30,6 @@ def _get_kwargs(
 
     params: dict[str, Any] = {}
 
-    params["room_id"] = room_id
-
     params["tiktok_user_id"] = tiktok_user_id
 
     params["comment_msg_id"] = comment_msg_id
@@ -36,7 +38,9 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "put",
-        "url": "/webcast/moderation/bans",
+        "url": "/webcast/rooms/{room_id}/moderation/bans".format(
+            room_id=quote(str(room_id), safe=""),
+        ),
         "params": params,
     }
 
@@ -46,11 +50,26 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> RoomKickUserAPIResponse | None:
+) -> KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse | None:
     if response.status_code == 200:
         response_200 = RoomKickUserAPIResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = KickRoomUserResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = KickRoomUserResponse500.from_dict(response.json())
+
+        return response_500
+
+    if response.status_code == 503:
+        response_503 = KickRoomUserResponse503.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -60,7 +79,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[RoomKickUserAPIResponse]:
+) -> Response[KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -70,15 +89,15 @@ def _build_response(
 
 
 def sync_detailed(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     comment_msg_id: str | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[RoomKickUserAPIResponse]:
-    """Requires Premium Routes Addon - Kick a user from a livestream room.
+) -> Response[KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse]:
+    """Kick a user from a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -98,7 +117,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoomKickUserAPIResponse]
+        Response[KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse]
     """
 
     kwargs = _get_kwargs(
@@ -117,15 +136,15 @@ def sync_detailed(
 
 
 def sync(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     comment_msg_id: str | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> RoomKickUserAPIResponse | None:
-    """Requires Premium Routes Addon - Kick a user from a livestream room.
+) -> KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse | None:
+    """Kick a user from a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -145,12 +164,12 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RoomKickUserAPIResponse
+        KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse
     """
 
     return sync_detailed(
-        client=client,
         room_id=room_id,
+        client=client,
         tiktok_user_id=tiktok_user_id,
         comment_msg_id=comment_msg_id,
         x_oauth_token=x_oauth_token,
@@ -159,15 +178,15 @@ def sync(
 
 
 async def asyncio_detailed(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     comment_msg_id: str | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[RoomKickUserAPIResponse]:
-    """Requires Premium Routes Addon - Kick a user from a livestream room.
+) -> Response[KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse]:
+    """Kick a user from a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -187,7 +206,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoomKickUserAPIResponse]
+        Response[KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse]
     """
 
     kwargs = _get_kwargs(
@@ -204,15 +223,15 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     comment_msg_id: str | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> RoomKickUserAPIResponse | None:
-    """Requires Premium Routes Addon - Kick a user from a livestream room.
+) -> KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse | None:
+    """Kick a user from a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -232,13 +251,13 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RoomKickUserAPIResponse
+        KickRoomUserResponse429 | KickRoomUserResponse500 | KickRoomUserResponse503 | RoomKickUserAPIResponse
     """
 
     return (
         await asyncio_detailed(
-            client=client,
             room_id=room_id,
+            client=client,
             tiktok_user_id=tiktok_user_id,
             comment_msg_id=comment_msg_id,
             x_oauth_token=x_oauth_token,

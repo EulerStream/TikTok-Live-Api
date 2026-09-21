@@ -27,8 +27,10 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.MuteDuration;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RoomAddSensitiveWordAPIResponse;
 import com.eulerstream.model.RoomCommentsToggleAPIResponse;
 import com.eulerstream.model.RoomDelSensitiveWordAPIResponse;
@@ -39,6 +41,7 @@ import com.eulerstream.model.RoomMuteUserAPIResponse;
 import com.eulerstream.model.RoomMutedUsersAPIResponse;
 import com.eulerstream.model.RoomUnkickUserAPIResponse;
 import com.eulerstream.model.RoomUnmuteUserAPIResponse;
+import com.eulerstream.model.RouteImageSource;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -1154,6 +1157,7 @@ public class TikTokLiveModerationApi {
      * @param page Page number for pagination (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1167,7 +1171,7 @@ public class TikTokLiveModerationApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomMutedUsersCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomMutedUsersCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1222,18 +1226,23 @@ public class TikTokLiveModerationApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveRoomMutedUsersValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveRoomMutedUsersValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'roomId' is set
         if (roomId == null) {
             throw new ApiException("Missing the required parameter 'roomId' when calling retrieveRoomMutedUsers(Async)");
         }
 
-        return retrieveRoomMutedUsersCall(roomId, page, xOauthToken, xCookieHeader, _callback);
+        return retrieveRoomMutedUsersCall(roomId, page, xOauthToken, xCookieHeader, xImageSource, _callback);
 
     }
 
@@ -1244,6 +1253,7 @@ public class TikTokLiveModerationApi {
      * @param page Page number for pagination (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return RoomMutedUsersAPIResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1256,8 +1266,8 @@ public class TikTokLiveModerationApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public RoomMutedUsersAPIResponse retrieveRoomMutedUsers(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        ApiResponse<RoomMutedUsersAPIResponse> localVarResp = retrieveRoomMutedUsersWithHttpInfo(roomId, page, xOauthToken, xCookieHeader);
+    public RoomMutedUsersAPIResponse retrieveRoomMutedUsers(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<RoomMutedUsersAPIResponse> localVarResp = retrieveRoomMutedUsersWithHttpInfo(roomId, page, xOauthToken, xCookieHeader, xImageSource);
         return localVarResp.getData();
     }
 
@@ -1268,6 +1278,7 @@ public class TikTokLiveModerationApi {
      * @param page Page number for pagination (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;RoomMutedUsersAPIResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1280,8 +1291,8 @@ public class TikTokLiveModerationApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<RoomMutedUsersAPIResponse> retrieveRoomMutedUsersWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        okhttp3.Call localVarCall = retrieveRoomMutedUsersValidateBeforeCall(roomId, page, xOauthToken, xCookieHeader, null);
+    public ApiResponse<RoomMutedUsersAPIResponse> retrieveRoomMutedUsersWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveRoomMutedUsersValidateBeforeCall(roomId, page, xOauthToken, xCookieHeader, xImageSource, null);
         Type localVarReturnType = new TypeToken<RoomMutedUsersAPIResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1293,6 +1304,7 @@ public class TikTokLiveModerationApi {
      * @param page Page number for pagination (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1306,9 +1318,9 @@ public class TikTokLiveModerationApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomMutedUsersAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<RoomMutedUsersAPIResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomMutedUsersAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable Double page, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<RoomMutedUsersAPIResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveRoomMutedUsersValidateBeforeCall(roomId, page, xOauthToken, xCookieHeader, _callback);
+        okhttp3.Call localVarCall = retrieveRoomMutedUsersValidateBeforeCall(roomId, page, xOauthToken, xCookieHeader, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<RoomMutedUsersAPIResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

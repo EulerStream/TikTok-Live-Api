@@ -49,18 +49,8 @@ import com.eulerstream.JSON;
 /**
  * ShapesCaptchaResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class ShapesCaptchaResponse {
-  public static final String SERIALIZED_NAME_RESPONSE = "response";
-  @SerializedName(SERIALIZED_NAME_RESPONSE)
-  @javax.annotation.Nullable
-  private ShapesResult response;
-
-  public static final String SERIALIZED_NAME_CACHED = "cached";
-  @SerializedName(SERIALIZED_NAME_CACHED)
-  @javax.annotation.Nonnull
-  private Boolean cached;
-
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
   @javax.annotation.Nonnull
@@ -71,46 +61,18 @@ public class ShapesCaptchaResponse {
   @javax.annotation.Nullable
   private String message;
 
+  public static final String SERIALIZED_NAME_RESPONSE = "response";
+  @SerializedName(SERIALIZED_NAME_RESPONSE)
+  @javax.annotation.Nullable
+  private ShapesResult response;
+
+  public static final String SERIALIZED_NAME_CACHED = "cached";
+  @SerializedName(SERIALIZED_NAME_CACHED)
+  @javax.annotation.Nonnull
+  private Boolean cached;
+
   public ShapesCaptchaResponse() {
   }
-
-  public ShapesCaptchaResponse response(@javax.annotation.Nullable ShapesResult response) {
-    this.response = response;
-    return this;
-  }
-
-  /**
-   * Get response
-   * @return response
-   */
-  @javax.annotation.Nullable
-  public ShapesResult getResponse() {
-    return response;
-  }
-
-  public void setResponse(@javax.annotation.Nullable ShapesResult response) {
-    this.response = response;
-  }
-
-
-  public ShapesCaptchaResponse cached(@javax.annotation.Nonnull Boolean cached) {
-    this.cached = cached;
-    return this;
-  }
-
-  /**
-   * Get cached
-   * @return cached
-   */
-  @javax.annotation.Nonnull
-  public Boolean getCached() {
-    return cached;
-  }
-
-  public void setCached(@javax.annotation.Nonnull Boolean cached) {
-    this.cached = cached;
-  }
-
 
   public ShapesCaptchaResponse code(@javax.annotation.Nonnull Double code) {
     this.code = code;
@@ -150,6 +112,44 @@ public class ShapesCaptchaResponse {
   }
 
 
+  public ShapesCaptchaResponse response(@javax.annotation.Nullable ShapesResult response) {
+    this.response = response;
+    return this;
+  }
+
+  /**
+   * Get response
+   * @return response
+   */
+  @javax.annotation.Nullable
+  public ShapesResult getResponse() {
+    return response;
+  }
+
+  public void setResponse(@javax.annotation.Nullable ShapesResult response) {
+    this.response = response;
+  }
+
+
+  public ShapesCaptchaResponse cached(@javax.annotation.Nonnull Boolean cached) {
+    this.cached = cached;
+    return this;
+  }
+
+  /**
+   * Get cached
+   * @return cached
+   */
+  @javax.annotation.Nonnull
+  public Boolean getCached() {
+    return cached;
+  }
+
+  public void setCached(@javax.annotation.Nonnull Boolean cached) {
+    this.cached = cached;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -160,25 +160,25 @@ public class ShapesCaptchaResponse {
       return false;
     }
     ShapesCaptchaResponse shapesCaptchaResponse = (ShapesCaptchaResponse) o;
-    return Objects.equals(this.response, shapesCaptchaResponse.response) &&
-        Objects.equals(this.cached, shapesCaptchaResponse.cached) &&
-        Objects.equals(this.code, shapesCaptchaResponse.code) &&
-        Objects.equals(this.message, shapesCaptchaResponse.message);
+    return Objects.equals(this.code, shapesCaptchaResponse.code) &&
+        Objects.equals(this.message, shapesCaptchaResponse.message) &&
+        Objects.equals(this.response, shapesCaptchaResponse.response) &&
+        Objects.equals(this.cached, shapesCaptchaResponse.cached);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(response, cached, code, message);
+    return Objects.hash(code, message, response, cached);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ShapesCaptchaResponse {\n");
-    sb.append("    response: ").append(toIndentedString(response)).append("\n");
-    sb.append("    cached: ").append(toIndentedString(cached)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
+    sb.append("    response: ").append(toIndentedString(response)).append("\n");
+    sb.append("    cached: ").append(toIndentedString(cached)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -197,10 +197,10 @@ public class ShapesCaptchaResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("response", "cached", "code", "message"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "response", "cached"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("response", "cached", "code"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "response", "cached"));
   }
 
   /**
@@ -231,12 +231,12 @@ public class ShapesCaptchaResponse {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
+      }
       if (jsonObj.get("response") != null && !jsonObj.get("response").isJsonNull()) {
       // validate the required field `response`
       ShapesResult.validateJsonElement(jsonObj.get("response"));
-      }
-      if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
       }
   }
 

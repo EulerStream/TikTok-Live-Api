@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public WebcastLiveAnalyticsVideoListRouteOutput? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public WebcastLiveAnalyticsVideoListRouteOutput? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="LiveAnalyticsVideoListAPIResponse" />
     /// </summary>
-    public class LiveAnalyticsVideoListAPIResponseJsonConverter : JsonConverter<LiveAnalyticsVideoListAPIResponse>
+    public partial class LiveAnalyticsVideoListAPIResponseJsonConverter : JsonConverter<LiveAnalyticsVideoListAPIResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LiveAnalyticsVideoListAPIResponseJsonConverter" /> class.
+        /// </summary>
+        public LiveAnalyticsVideoListAPIResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="LiveAnalyticsVideoListAPIResponse" />
         /// </summary>

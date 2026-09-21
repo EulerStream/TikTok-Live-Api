@@ -22,6 +22,7 @@ var _ MappedNullable = &WebcastFeedResponseRoomDataTaxonomyTagInfo{}
 // WebcastFeedResponseRoomDataTaxonomyTagInfo struct for WebcastFeedResponseRoomDataTaxonomyTagInfo
 type WebcastFeedResponseRoomDataTaxonomyTagInfo struct {
 	Level2Tag string `json:"level2_tag"`
+	Level1Tag []string `json:"level1_tag,omitempty"`
 }
 
 type _WebcastFeedResponseRoomDataTaxonomyTagInfo WebcastFeedResponseRoomDataTaxonomyTagInfo
@@ -68,6 +69,38 @@ func (o *WebcastFeedResponseRoomDataTaxonomyTagInfo) SetLevel2Tag(v string) {
 	o.Level2Tag = v
 }
 
+// GetLevel1Tag returns the Level1Tag field value if set, zero value otherwise.
+func (o *WebcastFeedResponseRoomDataTaxonomyTagInfo) GetLevel1Tag() []string {
+	if o == nil || IsNil(o.Level1Tag) {
+		var ret []string
+		return ret
+	}
+	return o.Level1Tag
+}
+
+// GetLevel1TagOk returns a tuple with the Level1Tag field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WebcastFeedResponseRoomDataTaxonomyTagInfo) GetLevel1TagOk() ([]string, bool) {
+	if o == nil || IsNil(o.Level1Tag) {
+		return nil, false
+	}
+	return o.Level1Tag, true
+}
+
+// HasLevel1Tag returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomDataTaxonomyTagInfo) HasLevel1Tag() bool {
+	if o != nil && !IsNil(o.Level1Tag) {
+		return true
+	}
+
+	return false
+}
+
+// SetLevel1Tag gets a reference to the given []string and assigns it to the Level1Tag field.
+func (o *WebcastFeedResponseRoomDataTaxonomyTagInfo) SetLevel1Tag(v []string) {
+	o.Level1Tag = v
+}
+
 func (o WebcastFeedResponseRoomDataTaxonomyTagInfo) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -79,6 +112,9 @@ func (o WebcastFeedResponseRoomDataTaxonomyTagInfo) MarshalJSON() ([]byte, error
 func (o WebcastFeedResponseRoomDataTaxonomyTagInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["level2_tag"] = o.Level2Tag
+	if !IsNil(o.Level1Tag) {
+		toSerialize["level1_tag"] = o.Level1Tag
+	}
 	return toSerialize, nil
 }
 

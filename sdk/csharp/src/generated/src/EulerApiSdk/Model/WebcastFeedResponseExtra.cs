@@ -35,7 +35,7 @@ namespace EulerApiSdk.Model
         /// </summary>
         /// <param name="now">now</param>
         /// <param name="unreadExtra">unreadExtra</param>
-        /// <param name="banner">Construct a type with a set of properties K of type T</param>
+        /// <param name="banner">banner</param>
         /// <param name="total">total</param>
         /// <param name="maxTime">maxTime</param>
         /// <param name="cost">cost</param>
@@ -72,9 +72,8 @@ namespace EulerApiSdk.Model
         public string UnreadExtra { get; set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets Banner
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("banner")]
         public Dictionary<string, Object> Banner { get; set; }
 
@@ -149,8 +148,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseExtra" />
     /// </summary>
-    public class WebcastFeedResponseExtraJsonConverter : JsonConverter<WebcastFeedResponseExtra>
+    public partial class WebcastFeedResponseExtraJsonConverter : JsonConverter<WebcastFeedResponseExtra>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseExtraJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseExtraJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseExtra" />
         /// </summary>

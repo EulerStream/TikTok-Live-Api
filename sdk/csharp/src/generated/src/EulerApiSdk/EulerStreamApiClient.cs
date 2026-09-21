@@ -43,6 +43,11 @@ namespace EulerApiSdk
         public ITikTokGeneralApi General { get; }
 
         /// <summary>
+        /// TikTokLiveAgencies API group.
+        /// </summary>
+        public ITikTokLIVEAgenciesApi TikTokLiveAgencies { get; }
+
+        /// <summary>
         /// AlertTargets API group.
         /// </summary>
         public ITikTokLIVEAlertTargetsApi AlertTargets { get; }
@@ -53,9 +58,24 @@ namespace EulerApiSdk
         public ITikTokLIVEAlertsApi Alerts { get; }
 
         /// <summary>
+        /// TikTokLiveAnchors API group.
+        /// </summary>
+        public ITikTokLIVEAnchorsApi TikTokLiveAnchors { get; }
+
+        /// <summary>
         /// Webcast API group.
         /// </summary>
         public ITikTokLIVEApi Webcast { get; }
+
+        /// <summary>
+        /// TikTokLiveEvents API group.
+        /// </summary>
+        public ITikTokLIVEEventsApi TikTokLiveEvents { get; }
+
+        /// <summary>
+        /// TikTokLiveGifts API group.
+        /// </summary>
+        public ITikTokLIVEGiftsApi TikTokLiveGifts { get; }
 
         /// <summary>
         /// Moderation API group.
@@ -63,9 +83,34 @@ namespace EulerApiSdk
         public ITikTokLIVEModerationApi Moderation { get; }
 
         /// <summary>
-        /// Premium API group.
+        /// TikTokLiveRankings API group.
         /// </summary>
-        public ITikTokLIVEPremiumApi Premium { get; }
+        public ITikTokLIVERankingsApi TikTokLiveRankings { get; }
+
+        /// <summary>
+        /// TikTokLiveRooms API group.
+        /// </summary>
+        public ITikTokLIVERoomsApi TikTokLiveRooms { get; }
+
+        /// <summary>
+        /// TikTokSigning API group.
+        /// </summary>
+        public ITikTokSigningApi TikTokSigning { get; }
+
+        /// <summary>
+        /// TikTokUsers API group.
+        /// </summary>
+        public ITikTokUsersApi TikTokUsers { get; }
+
+        /// <summary>
+        /// TikTokVideos API group.
+        /// </summary>
+        public ITikTokVideosApi TikTokVideos { get; }
+
+        /// <summary>
+        /// TikTokWebSocketAPI API group.
+        /// </summary>
+        public ITikTokWebSocketAPIApi TikTokWebSocketAPI { get; }
 
         /// <summary>
         /// Creates a new EulerStream API Client.
@@ -112,11 +157,20 @@ namespace EulerApiSdk
             Authentication = _serviceProvider.GetRequiredService<IAuthenticationApi>();
             Captchas = _serviceProvider.GetRequiredService<ITikTokCaptchasApi>();
             General = _serviceProvider.GetRequiredService<ITikTokGeneralApi>();
+            TikTokLiveAgencies = _serviceProvider.GetRequiredService<ITikTokLIVEAgenciesApi>();
             AlertTargets = _serviceProvider.GetRequiredService<ITikTokLIVEAlertTargetsApi>();
             Alerts = _serviceProvider.GetRequiredService<ITikTokLIVEAlertsApi>();
+            TikTokLiveAnchors = _serviceProvider.GetRequiredService<ITikTokLIVEAnchorsApi>();
             Webcast = _serviceProvider.GetRequiredService<ITikTokLIVEApi>();
+            TikTokLiveEvents = _serviceProvider.GetRequiredService<ITikTokLIVEEventsApi>();
+            TikTokLiveGifts = _serviceProvider.GetRequiredService<ITikTokLIVEGiftsApi>();
             Moderation = _serviceProvider.GetRequiredService<ITikTokLIVEModerationApi>();
-            Premium = _serviceProvider.GetRequiredService<ITikTokLIVEPremiumApi>();
+            TikTokLiveRankings = _serviceProvider.GetRequiredService<ITikTokLIVERankingsApi>();
+            TikTokLiveRooms = _serviceProvider.GetRequiredService<ITikTokLIVERoomsApi>();
+            TikTokSigning = _serviceProvider.GetRequiredService<ITikTokSigningApi>();
+            TikTokUsers = _serviceProvider.GetRequiredService<ITikTokUsersApi>();
+            TikTokVideos = _serviceProvider.GetRequiredService<ITikTokVideosApi>();
+            TikTokWebSocketAPI = _serviceProvider.GetRequiredService<ITikTokWebSocketAPIApi>();
         }
 
         /// <inheritdoc />

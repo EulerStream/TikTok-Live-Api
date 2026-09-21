@@ -50,7 +50,7 @@ import com.eulerstream.JSON;
 /**
  * CreateAlertTargetPayload
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class CreateAlertTargetPayload {
   public static final String SERIALIZED_NAME_URL = "url";
   @SerializedName(SERIALIZED_NAME_URL)
@@ -98,7 +98,7 @@ public class CreateAlertTargetPayload {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get metadata
    * @return metadata
    */
   @javax.annotation.Nullable

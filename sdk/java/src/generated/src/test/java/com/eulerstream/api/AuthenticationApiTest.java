@@ -14,14 +14,15 @@
 package com.eulerstream.api;
 
 import com.eulerstream.ApiException;
+import com.eulerstream.model.CreateJWTRequest;
 import com.eulerstream.model.CreateJWTResponse;
 import com.eulerstream.model.CreateKeyPayload;
 import com.eulerstream.model.CreateKeyResponse;
 import com.eulerstream.model.DeleteKeyResponse;
-import com.eulerstream.model.JWTCreateConfig;
 import com.eulerstream.model.ListKeysResponse;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveKeyResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.UpdateKeyPayload;
 import com.eulerstream.model.UpdateKeyResponse;
 import org.junit.jupiter.api.Disabled;
@@ -48,8 +49,8 @@ public class AuthenticationApiTest {
     @Test
     public void createJWTTest() throws ApiException {
         Double accountId = null;
-        JWTCreateConfig jwTCreateConfig = null;
-        CreateJWTResponse response = api.createJWT(accountId, jwTCreateConfig);
+        CreateJWTRequest createJWTRequest = null;
+        CreateJWTResponse response = api.createJWT(accountId, createJWTRequest);
         // TODO: test validations
     }
 

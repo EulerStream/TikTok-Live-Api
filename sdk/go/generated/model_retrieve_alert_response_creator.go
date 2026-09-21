@@ -21,12 +21,12 @@ var _ MappedNullable = &RetrieveAlertResponseCreator{}
 
 // RetrieveAlertResponseCreator struct for RetrieveAlertResponseCreator
 type RetrieveAlertResponseCreator struct {
-	LastNickname NullableString `json:"last_nickname"`
-	LastAvatarUrl NullableString `json:"last_avatar_url"`
-	RoomId NullableString `json:"room_id"`
-	StateLabel string `json:"state_label"`
-	State float64 `json:"state"`
 	UniqueId string `json:"unique_id"`
+	State float64 `json:"state"`
+	StateLabel string `json:"state_label"`
+	RoomId NullableString `json:"room_id"`
+	LastAvatarUrl NullableString `json:"last_avatar_url"`
+	LastNickname NullableString `json:"last_nickname"`
 }
 
 type _RetrieveAlertResponseCreator RetrieveAlertResponseCreator
@@ -35,14 +35,14 @@ type _RetrieveAlertResponseCreator RetrieveAlertResponseCreator
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRetrieveAlertResponseCreator(lastNickname NullableString, lastAvatarUrl NullableString, roomId NullableString, stateLabel string, state float64, uniqueId string) *RetrieveAlertResponseCreator {
+func NewRetrieveAlertResponseCreator(uniqueId string, state float64, stateLabel string, roomId NullableString, lastAvatarUrl NullableString, lastNickname NullableString) *RetrieveAlertResponseCreator {
 	this := RetrieveAlertResponseCreator{}
-	this.LastNickname = lastNickname
-	this.LastAvatarUrl = lastAvatarUrl
-	this.RoomId = roomId
-	this.StateLabel = stateLabel
-	this.State = state
 	this.UniqueId = uniqueId
+	this.State = state
+	this.StateLabel = stateLabel
+	this.RoomId = roomId
+	this.LastAvatarUrl = lastAvatarUrl
+	this.LastNickname = lastNickname
 	return &this
 }
 
@@ -54,56 +54,76 @@ func NewRetrieveAlertResponseCreatorWithDefaults() *RetrieveAlertResponseCreator
 	return &this
 }
 
-// GetLastNickname returns the LastNickname field value
-// If the value is explicit nil, the zero value for string will be returned
-func (o *RetrieveAlertResponseCreator) GetLastNickname() string {
-	if o == nil || o.LastNickname.Get() == nil {
+// GetUniqueId returns the UniqueId field value
+func (o *RetrieveAlertResponseCreator) GetUniqueId() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.LastNickname.Get()
+	return o.UniqueId
 }
 
-// GetLastNicknameOk returns a tuple with the LastNickname field value
+// GetUniqueIdOk returns a tuple with the UniqueId field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RetrieveAlertResponseCreator) GetLastNicknameOk() (*string, bool) {
+func (o *RetrieveAlertResponseCreator) GetUniqueIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.LastNickname.Get(), o.LastNickname.IsSet()
+	return &o.UniqueId, true
 }
 
-// SetLastNickname sets field value
-func (o *RetrieveAlertResponseCreator) SetLastNickname(v string) {
-	o.LastNickname.Set(&v)
+// SetUniqueId sets field value
+func (o *RetrieveAlertResponseCreator) SetUniqueId(v string) {
+	o.UniqueId = v
 }
 
-// GetLastAvatarUrl returns the LastAvatarUrl field value
-// If the value is explicit nil, the zero value for string will be returned
-func (o *RetrieveAlertResponseCreator) GetLastAvatarUrl() string {
-	if o == nil || o.LastAvatarUrl.Get() == nil {
+// GetState returns the State field value
+func (o *RetrieveAlertResponseCreator) GetState() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.State
+}
+
+// GetStateOk returns a tuple with the State field value
+// and a boolean to check if the value has been set.
+func (o *RetrieveAlertResponseCreator) GetStateOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.State, true
+}
+
+// SetState sets field value
+func (o *RetrieveAlertResponseCreator) SetState(v float64) {
+	o.State = v
+}
+
+// GetStateLabel returns the StateLabel field value
+func (o *RetrieveAlertResponseCreator) GetStateLabel() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return *o.LastAvatarUrl.Get()
+	return o.StateLabel
 }
 
-// GetLastAvatarUrlOk returns a tuple with the LastAvatarUrl field value
+// GetStateLabelOk returns a tuple with the StateLabel field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *RetrieveAlertResponseCreator) GetLastAvatarUrlOk() (*string, bool) {
+func (o *RetrieveAlertResponseCreator) GetStateLabelOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.LastAvatarUrl.Get(), o.LastAvatarUrl.IsSet()
+	return &o.StateLabel, true
 }
 
-// SetLastAvatarUrl sets field value
-func (o *RetrieveAlertResponseCreator) SetLastAvatarUrl(v string) {
-	o.LastAvatarUrl.Set(&v)
+// SetStateLabel sets field value
+func (o *RetrieveAlertResponseCreator) SetStateLabel(v string) {
+	o.StateLabel = v
 }
 
 // GetRoomId returns the RoomId field value
@@ -132,76 +152,56 @@ func (o *RetrieveAlertResponseCreator) SetRoomId(v string) {
 	o.RoomId.Set(&v)
 }
 
-// GetStateLabel returns the StateLabel field value
-func (o *RetrieveAlertResponseCreator) GetStateLabel() string {
-	if o == nil {
+// GetLastAvatarUrl returns the LastAvatarUrl field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *RetrieveAlertResponseCreator) GetLastAvatarUrl() string {
+	if o == nil || o.LastAvatarUrl.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.StateLabel
+	return *o.LastAvatarUrl.Get()
 }
 
-// GetStateLabelOk returns a tuple with the StateLabel field value
+// GetLastAvatarUrlOk returns a tuple with the LastAvatarUrl field value
 // and a boolean to check if the value has been set.
-func (o *RetrieveAlertResponseCreator) GetStateLabelOk() (*string, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *RetrieveAlertResponseCreator) GetLastAvatarUrlOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.StateLabel, true
+	return o.LastAvatarUrl.Get(), o.LastAvatarUrl.IsSet()
 }
 
-// SetStateLabel sets field value
-func (o *RetrieveAlertResponseCreator) SetStateLabel(v string) {
-	o.StateLabel = v
+// SetLastAvatarUrl sets field value
+func (o *RetrieveAlertResponseCreator) SetLastAvatarUrl(v string) {
+	o.LastAvatarUrl.Set(&v)
 }
 
-// GetState returns the State field value
-func (o *RetrieveAlertResponseCreator) GetState() float64 {
-	if o == nil {
-		var ret float64
-		return ret
-	}
-
-	return o.State
-}
-
-// GetStateOk returns a tuple with the State field value
-// and a boolean to check if the value has been set.
-func (o *RetrieveAlertResponseCreator) GetStateOk() (*float64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.State, true
-}
-
-// SetState sets field value
-func (o *RetrieveAlertResponseCreator) SetState(v float64) {
-	o.State = v
-}
-
-// GetUniqueId returns the UniqueId field value
-func (o *RetrieveAlertResponseCreator) GetUniqueId() string {
-	if o == nil {
+// GetLastNickname returns the LastNickname field value
+// If the value is explicit nil, the zero value for string will be returned
+func (o *RetrieveAlertResponseCreator) GetLastNickname() string {
+	if o == nil || o.LastNickname.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.UniqueId
+	return *o.LastNickname.Get()
 }
 
-// GetUniqueIdOk returns a tuple with the UniqueId field value
+// GetLastNicknameOk returns a tuple with the LastNickname field value
 // and a boolean to check if the value has been set.
-func (o *RetrieveAlertResponseCreator) GetUniqueIdOk() (*string, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *RetrieveAlertResponseCreator) GetLastNicknameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.UniqueId, true
+	return o.LastNickname.Get(), o.LastNickname.IsSet()
 }
 
-// SetUniqueId sets field value
-func (o *RetrieveAlertResponseCreator) SetUniqueId(v string) {
-	o.UniqueId = v
+// SetLastNickname sets field value
+func (o *RetrieveAlertResponseCreator) SetLastNickname(v string) {
+	o.LastNickname.Set(&v)
 }
 
 func (o RetrieveAlertResponseCreator) MarshalJSON() ([]byte, error) {
@@ -214,12 +214,12 @@ func (o RetrieveAlertResponseCreator) MarshalJSON() ([]byte, error) {
 
 func (o RetrieveAlertResponseCreator) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["last_nickname"] = o.LastNickname.Get()
-	toSerialize["last_avatar_url"] = o.LastAvatarUrl.Get()
-	toSerialize["room_id"] = o.RoomId.Get()
-	toSerialize["state_label"] = o.StateLabel
-	toSerialize["state"] = o.State
 	toSerialize["unique_id"] = o.UniqueId
+	toSerialize["state"] = o.State
+	toSerialize["state_label"] = o.StateLabel
+	toSerialize["room_id"] = o.RoomId.Get()
+	toSerialize["last_avatar_url"] = o.LastAvatarUrl.Get()
+	toSerialize["last_nickname"] = o.LastNickname.Get()
 	return toSerialize, nil
 }
 
@@ -228,12 +228,12 @@ func (o *RetrieveAlertResponseCreator) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"last_nickname",
-		"last_avatar_url",
-		"room_id",
-		"state_label",
-		"state",
 		"unique_id",
+		"state",
+		"state_label",
+		"room_id",
+		"last_avatar_url",
+		"last_nickname",
 	}
 
 	allProperties := make(map[string]interface{})

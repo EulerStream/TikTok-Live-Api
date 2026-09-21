@@ -48,114 +48,57 @@ import com.eulerstream.JSON;
 /**
  * RetrieveAlertResponseCreator
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class RetrieveAlertResponseCreator {
-  public static final String SERIALIZED_NAME_LAST_NICKNAME = "last_nickname";
-  @SerializedName(SERIALIZED_NAME_LAST_NICKNAME)
-  @javax.annotation.Nullable
-  private String lastNickname;
-
-  public static final String SERIALIZED_NAME_LAST_AVATAR_URL = "last_avatar_url";
-  @SerializedName(SERIALIZED_NAME_LAST_AVATAR_URL)
-  @javax.annotation.Nullable
-  private String lastAvatarUrl;
-
-  public static final String SERIALIZED_NAME_ROOM_ID = "room_id";
-  @SerializedName(SERIALIZED_NAME_ROOM_ID)
-  @javax.annotation.Nullable
-  private String roomId;
-
-  public static final String SERIALIZED_NAME_STATE_LABEL = "state_label";
-  @SerializedName(SERIALIZED_NAME_STATE_LABEL)
+  public static final String SERIALIZED_NAME_UNIQUE_ID = "unique_id";
+  @SerializedName(SERIALIZED_NAME_UNIQUE_ID)
   @javax.annotation.Nonnull
-  private String stateLabel;
+  private String uniqueId;
 
   public static final String SERIALIZED_NAME_STATE = "state";
   @SerializedName(SERIALIZED_NAME_STATE)
   @javax.annotation.Nonnull
   private Double state;
 
-  public static final String SERIALIZED_NAME_UNIQUE_ID = "unique_id";
-  @SerializedName(SERIALIZED_NAME_UNIQUE_ID)
+  public static final String SERIALIZED_NAME_STATE_LABEL = "state_label";
+  @SerializedName(SERIALIZED_NAME_STATE_LABEL)
   @javax.annotation.Nonnull
-  private String uniqueId;
+  private String stateLabel;
+
+  public static final String SERIALIZED_NAME_ROOM_ID = "room_id";
+  @SerializedName(SERIALIZED_NAME_ROOM_ID)
+  @javax.annotation.Nullable
+  private String roomId;
+
+  public static final String SERIALIZED_NAME_LAST_AVATAR_URL = "last_avatar_url";
+  @SerializedName(SERIALIZED_NAME_LAST_AVATAR_URL)
+  @javax.annotation.Nullable
+  private String lastAvatarUrl;
+
+  public static final String SERIALIZED_NAME_LAST_NICKNAME = "last_nickname";
+  @SerializedName(SERIALIZED_NAME_LAST_NICKNAME)
+  @javax.annotation.Nullable
+  private String lastNickname;
 
   public RetrieveAlertResponseCreator() {
   }
 
-  public RetrieveAlertResponseCreator lastNickname(@javax.annotation.Nullable String lastNickname) {
-    this.lastNickname = lastNickname;
+  public RetrieveAlertResponseCreator uniqueId(@javax.annotation.Nonnull String uniqueId) {
+    this.uniqueId = uniqueId;
     return this;
   }
 
   /**
-   * Get lastNickname
-   * @return lastNickname
-   */
-  @javax.annotation.Nullable
-  public String getLastNickname() {
-    return lastNickname;
-  }
-
-  public void setLastNickname(@javax.annotation.Nullable String lastNickname) {
-    this.lastNickname = lastNickname;
-  }
-
-
-  public RetrieveAlertResponseCreator lastAvatarUrl(@javax.annotation.Nullable String lastAvatarUrl) {
-    this.lastAvatarUrl = lastAvatarUrl;
-    return this;
-  }
-
-  /**
-   * Get lastAvatarUrl
-   * @return lastAvatarUrl
-   */
-  @javax.annotation.Nullable
-  public String getLastAvatarUrl() {
-    return lastAvatarUrl;
-  }
-
-  public void setLastAvatarUrl(@javax.annotation.Nullable String lastAvatarUrl) {
-    this.lastAvatarUrl = lastAvatarUrl;
-  }
-
-
-  public RetrieveAlertResponseCreator roomId(@javax.annotation.Nullable String roomId) {
-    this.roomId = roomId;
-    return this;
-  }
-
-  /**
-   * Get roomId
-   * @return roomId
-   */
-  @javax.annotation.Nullable
-  public String getRoomId() {
-    return roomId;
-  }
-
-  public void setRoomId(@javax.annotation.Nullable String roomId) {
-    this.roomId = roomId;
-  }
-
-
-  public RetrieveAlertResponseCreator stateLabel(@javax.annotation.Nonnull String stateLabel) {
-    this.stateLabel = stateLabel;
-    return this;
-  }
-
-  /**
-   * Get stateLabel
-   * @return stateLabel
+   * Get uniqueId
+   * @return uniqueId
    */
   @javax.annotation.Nonnull
-  public String getStateLabel() {
-    return stateLabel;
+  public String getUniqueId() {
+    return uniqueId;
   }
 
-  public void setStateLabel(@javax.annotation.Nonnull String stateLabel) {
-    this.stateLabel = stateLabel;
+  public void setUniqueId(@javax.annotation.Nonnull String uniqueId) {
+    this.uniqueId = uniqueId;
   }
 
 
@@ -178,22 +121,79 @@ public class RetrieveAlertResponseCreator {
   }
 
 
-  public RetrieveAlertResponseCreator uniqueId(@javax.annotation.Nonnull String uniqueId) {
-    this.uniqueId = uniqueId;
+  public RetrieveAlertResponseCreator stateLabel(@javax.annotation.Nonnull String stateLabel) {
+    this.stateLabel = stateLabel;
     return this;
   }
 
   /**
-   * Get uniqueId
-   * @return uniqueId
+   * Get stateLabel
+   * @return stateLabel
    */
   @javax.annotation.Nonnull
-  public String getUniqueId() {
-    return uniqueId;
+  public String getStateLabel() {
+    return stateLabel;
   }
 
-  public void setUniqueId(@javax.annotation.Nonnull String uniqueId) {
-    this.uniqueId = uniqueId;
+  public void setStateLabel(@javax.annotation.Nonnull String stateLabel) {
+    this.stateLabel = stateLabel;
+  }
+
+
+  public RetrieveAlertResponseCreator roomId(@javax.annotation.Nullable String roomId) {
+    this.roomId = roomId;
+    return this;
+  }
+
+  /**
+   * Get roomId
+   * @return roomId
+   */
+  @javax.annotation.Nullable
+  public String getRoomId() {
+    return roomId;
+  }
+
+  public void setRoomId(@javax.annotation.Nullable String roomId) {
+    this.roomId = roomId;
+  }
+
+
+  public RetrieveAlertResponseCreator lastAvatarUrl(@javax.annotation.Nullable String lastAvatarUrl) {
+    this.lastAvatarUrl = lastAvatarUrl;
+    return this;
+  }
+
+  /**
+   * Get lastAvatarUrl
+   * @return lastAvatarUrl
+   */
+  @javax.annotation.Nullable
+  public String getLastAvatarUrl() {
+    return lastAvatarUrl;
+  }
+
+  public void setLastAvatarUrl(@javax.annotation.Nullable String lastAvatarUrl) {
+    this.lastAvatarUrl = lastAvatarUrl;
+  }
+
+
+  public RetrieveAlertResponseCreator lastNickname(@javax.annotation.Nullable String lastNickname) {
+    this.lastNickname = lastNickname;
+    return this;
+  }
+
+  /**
+   * Get lastNickname
+   * @return lastNickname
+   */
+  @javax.annotation.Nullable
+  public String getLastNickname() {
+    return lastNickname;
+  }
+
+  public void setLastNickname(@javax.annotation.Nullable String lastNickname) {
+    this.lastNickname = lastNickname;
   }
 
 
@@ -207,29 +207,29 @@ public class RetrieveAlertResponseCreator {
       return false;
     }
     RetrieveAlertResponseCreator retrieveAlertResponseCreator = (RetrieveAlertResponseCreator) o;
-    return Objects.equals(this.lastNickname, retrieveAlertResponseCreator.lastNickname) &&
-        Objects.equals(this.lastAvatarUrl, retrieveAlertResponseCreator.lastAvatarUrl) &&
-        Objects.equals(this.roomId, retrieveAlertResponseCreator.roomId) &&
-        Objects.equals(this.stateLabel, retrieveAlertResponseCreator.stateLabel) &&
+    return Objects.equals(this.uniqueId, retrieveAlertResponseCreator.uniqueId) &&
         Objects.equals(this.state, retrieveAlertResponseCreator.state) &&
-        Objects.equals(this.uniqueId, retrieveAlertResponseCreator.uniqueId);
+        Objects.equals(this.stateLabel, retrieveAlertResponseCreator.stateLabel) &&
+        Objects.equals(this.roomId, retrieveAlertResponseCreator.roomId) &&
+        Objects.equals(this.lastAvatarUrl, retrieveAlertResponseCreator.lastAvatarUrl) &&
+        Objects.equals(this.lastNickname, retrieveAlertResponseCreator.lastNickname);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lastNickname, lastAvatarUrl, roomId, stateLabel, state, uniqueId);
+    return Objects.hash(uniqueId, state, stateLabel, roomId, lastAvatarUrl, lastNickname);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class RetrieveAlertResponseCreator {\n");
-    sb.append("    lastNickname: ").append(toIndentedString(lastNickname)).append("\n");
-    sb.append("    lastAvatarUrl: ").append(toIndentedString(lastAvatarUrl)).append("\n");
-    sb.append("    roomId: ").append(toIndentedString(roomId)).append("\n");
-    sb.append("    stateLabel: ").append(toIndentedString(stateLabel)).append("\n");
-    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    uniqueId: ").append(toIndentedString(uniqueId)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    stateLabel: ").append(toIndentedString(stateLabel)).append("\n");
+    sb.append("    roomId: ").append(toIndentedString(roomId)).append("\n");
+    sb.append("    lastAvatarUrl: ").append(toIndentedString(lastAvatarUrl)).append("\n");
+    sb.append("    lastNickname: ").append(toIndentedString(lastNickname)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -248,10 +248,10 @@ public class RetrieveAlertResponseCreator {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("last_nickname", "last_avatar_url", "room_id", "state_label", "state", "unique_id"));
+    openapiFields = new HashSet<String>(Arrays.asList("unique_id", "state", "state_label", "room_id", "last_avatar_url", "last_nickname"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("last_nickname", "last_avatar_url", "room_id", "state_label", "state", "unique_id"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("unique_id", "state", "state_label", "room_id", "last_avatar_url", "last_nickname"));
   }
 
   /**
@@ -282,20 +282,20 @@ public class RetrieveAlertResponseCreator {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if ((jsonObj.get("last_nickname") != null && !jsonObj.get("last_nickname").isJsonNull()) && !jsonObj.get("last_nickname").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `last_nickname` to be a primitive type in the JSON string but got `%s`", jsonObj.get("last_nickname").toString()));
-      }
-      if ((jsonObj.get("last_avatar_url") != null && !jsonObj.get("last_avatar_url").isJsonNull()) && !jsonObj.get("last_avatar_url").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `last_avatar_url` to be a primitive type in the JSON string but got `%s`", jsonObj.get("last_avatar_url").toString()));
-      }
-      if ((jsonObj.get("room_id") != null && !jsonObj.get("room_id").isJsonNull()) && !jsonObj.get("room_id").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `room_id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("room_id").toString()));
+      if (!jsonObj.get("unique_id").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `unique_id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("unique_id").toString()));
       }
       if (!jsonObj.get("state_label").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `state_label` to be a primitive type in the JSON string but got `%s`", jsonObj.get("state_label").toString()));
       }
-      if (!jsonObj.get("unique_id").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `unique_id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("unique_id").toString()));
+      if ((jsonObj.get("room_id") != null && !jsonObj.get("room_id").isJsonNull()) && !jsonObj.get("room_id").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `room_id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("room_id").toString()));
+      }
+      if ((jsonObj.get("last_avatar_url") != null && !jsonObj.get("last_avatar_url").isJsonNull()) && !jsonObj.get("last_avatar_url").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `last_avatar_url` to be a primitive type in the JSON string but got `%s`", jsonObj.get("last_avatar_url").toString()));
+      }
+      if ((jsonObj.get("last_nickname") != null && !jsonObj.get("last_nickname").isJsonNull()) && !jsonObj.get("last_nickname").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `last_nickname` to be a primitive type in the JSON string but got `%s`", jsonObj.get("last_nickname").toString()));
       }
   }
 

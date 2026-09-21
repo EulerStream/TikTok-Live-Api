@@ -12,13 +12,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using EulerApiSdk.Client;
+using EulerApiSdk.Logging;
 using EulerApiSdk.Model;
 using System.Diagnostics.CodeAnalysis;
 
@@ -39,190 +42,82 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// A bulk-check endpoint to determine if a group of TikTok users (up to 50 at once) are live. It uses a highly optimized job-based system for checking large numbers of users quickly.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="varClient">The client library identifier. Used for metrics. (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="roomId">The room ID to fetch the Webcast URL for. (optional)</param>
-        /// <param name="uniqueId">The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. (optional)</param>
-        /// <param name="cursor">Starting cursor for the webcast connection, if any (optional)</param>
-        /// <param name="userAgent">Override the user agent used for signing and fetching (optional)</param>
-        /// <param name="clientEnter">Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)</param>
-        /// <param name="country">Country code to make the request from. (optional)</param>
-        /// <param name="platform">Platform to connect with (optional)</param>
+        /// <param name="retrieveBulkLiveCheckRequest">The body of the request containing user numeric IDs (e.g. 7602356191083907865).</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
-        /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IFetchWebcastURLApiResponse"/>&gt;</returns>
-        Task<IFetchWebcastURLApiResponse> FetchWebcastURLAsync(Option<string> varClient = default, Option<string> roomId = default, Option<string> uniqueId = default, Option<string> cursor = default, Option<string> userAgent = default, Option<bool> clientEnter = default, Option<SoaxProxyRegion> country = default, Option<WebcastFetchPlatform> platform = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveBulkLiveCheckApiResponse"/>&gt;</returns>
+        Task<IRetrieveBulkLiveCheckApiResponse> RetrieveBulkLiveCheckAsync(RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// A bulk-check endpoint to determine if a group of TikTok users (up to 50 at once) are live. It uses a highly optimized job-based system for checking large numbers of users quickly.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
-        /// <param name="varClient">The client library identifier. Used for metrics. (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="roomId">The room ID to fetch the Webcast URL for. (optional)</param>
-        /// <param name="uniqueId">The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. (optional)</param>
-        /// <param name="cursor">Starting cursor for the webcast connection, if any (optional)</param>
-        /// <param name="userAgent">Override the user agent used for signing and fetching (optional)</param>
-        /// <param name="clientEnter">Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)</param>
-        /// <param name="country">Country code to make the request from. (optional)</param>
-        /// <param name="platform">Platform to connect with (optional)</param>
+        /// <param name="retrieveBulkLiveCheckRequest">The body of the request containing user numeric IDs (e.g. 7602356191083907865).</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
-        /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IFetchWebcastURLApiResponse"/>?&gt;</returns>
-        Task<IFetchWebcastURLApiResponse?> FetchWebcastURLOrDefaultAsync(Option<string> varClient = default, Option<string> roomId = default, Option<string> uniqueId = default, Option<string> cursor = default, Option<string> userAgent = default, Option<bool> clientEnter = default, Option<SoaxProxyRegion> country = default, Option<WebcastFetchPlatform> platform = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveBulkLiveCheckApiResponse"/>?&gt;</returns>
+        Task<IRetrieveBulkLiveCheckApiResponse?> RetrieveBulkLiveCheckOrDefaultAsync(RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Retrieve the rate limits for the provided API key (or the unauthenticated limits if no key is provided)
+        /// Retrieve the list of available hashtags for TikTok LIVE streams.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetRateLimitsApiResponse"/>&gt;</returns>
-        Task<IGetRateLimitsApiResponse> GetRateLimitsAsync(System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Retrieve the rate limits for the provided API key (or the unauthenticated limits if no key is provided)
-        /// </remarks>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetRateLimitsApiResponse"/>?&gt;</returns>
-        Task<IGetRateLimitsApiResponse?> GetRateLimitsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Retrieve TikTok Live Room Gift List
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="roomId">The room ID of the TikTok LIVE session</param>
-        /// <param name="webcastLanguage">Webcast language for locale-based fields (optional, default to &quot;en&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveGiftInfoApiResponse"/>&gt;</returns>
-        Task<IRetrieveGiftInfoApiResponse> RetrieveGiftInfoAsync(string roomId, Option<string> webcastLanguage = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Retrieve TikTok Live Room Gift List
-        /// </remarks>
-        /// <param name="roomId">The room ID of the TikTok LIVE session</param>
-        /// <param name="webcastLanguage">Webcast language for locale-based fields (optional, default to &quot;en&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveGiftInfoApiResponse"/>?&gt;</returns>
-        Task<IRetrieveGiftInfoApiResponse?> RetrieveGiftInfoOrDefaultAsync(string roomId, Option<string> webcastLanguage = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of available hashtags for TikTok LIVE streams.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveHashtagListApiResponse"/>&gt;</returns>
-        Task<IRetrieveHashtagListApiResponse> RetrieveHashtagListAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<IRetrieveHashtagListApiResponse> RetrieveHashtagListAsync(Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of available hashtags for TikTok LIVE streams.
+        /// Retrieve the list of available hashtags for TikTok LIVE streams.
         /// </remarks>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveHashtagListApiResponse"/>?&gt;</returns>
-        Task<IRetrieveHashtagListApiResponse?> RetrieveHashtagListOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
+        Task<IRetrieveHashtagListApiResponse?> RetrieveHashtagListOrDefaultAsync(Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Business Plan - Fetch TikTok LIVE Stream Cover URL given a uniqueId.
+        /// Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the cover for.</param>
+        /// <param name="region">The region (country) with which to fetch a feed from.</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomCoverApiResponse"/>&gt;</returns>
-        Task<IRetrieveRoomCoverApiResponse> RetrieveRoomCoverAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastFeedApiResponse"/>&gt;</returns>
+        Task<IRetrieveWebcastFeedApiResponse> RetrieveWebcastFeedAsync(PooledProxyRegion region, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Business Plan - Fetch TikTok LIVE Stream Cover URL given a uniqueId.
+        /// Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
         /// </remarks>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the cover for.</param>
+        /// <param name="region">The region (country) with which to fetch a feed from.</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomCoverApiResponse"/>?&gt;</returns>
-        Task<IRetrieveRoomCoverApiResponse?> RetrieveRoomCoverOrDefaultAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastFeedApiResponse"/>?&gt;</returns>
+        Task<IRetrieveWebcastFeedApiResponse?> RetrieveWebcastFeedOrDefaultAsync(PooledProxyRegion region, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Business Plan - Fetch Room ID for a given uniqueId &amp; whether that user is live.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="uniqueId">The unique ID of the TikTok user to fetch the data for.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomIdApiResponse"/>&gt;</returns>
-        Task<IRetrieveRoomIdApiResponse> RetrieveRoomIdAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Business Plan - Fetch Room ID for a given uniqueId &amp; whether that user is live.
-        /// </remarks>
-        /// <param name="uniqueId">The unique ID of the TikTok user to fetch the data for.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomIdApiResponse"/>?&gt;</returns>
-        Task<IRetrieveRoomIdApiResponse?> RetrieveRoomIdOrDefaultAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Business Plan - Fetch TikTok LIVE Stream video given a uniqueId.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the data for.</param>
-        /// <param name="streamType">The type of video stream to fetch. Default is HLS_SD. (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomVideoApiResponse"/>&gt;</returns>
-        Task<IRetrieveRoomVideoApiResponse> RetrieveRoomVideoAsync(string uniqueId, Option<StreamType> streamType = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Business Plan - Fetch TikTok LIVE Stream video given a uniqueId.
-        /// </remarks>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the data for.</param>
-        /// <param name="streamType">The type of video stream to fetch. Default is HLS_SD. (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomVideoApiResponse"/>?&gt;</returns>
-        Task<IRetrieveRoomVideoApiResponse?> RetrieveRoomVideoOrDefaultAsync(string uniqueId, Option<StreamType> streamType = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="region">The region (country) with which to fetch a feed from.</param>
@@ -231,15 +126,16 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
         /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastRankingsApiResponse"/>&gt;</returns>
-        Task<IRetrieveWebcastRankingsApiResponse> RetrieveWebcastRankingsAsync(OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IRetrieveWebcastRankingsApiResponse> RetrieveWebcastRankingsAsync(PooledProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="region">The region (country) with which to fetch a feed from.</param>
         /// <param name="rankType">The type of ranking to fetch. See documentation for more details.</param>
@@ -247,142 +143,130 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
         /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional) (deprecated)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastRankingsApiResponse"/>?&gt;</returns>
-        Task<IRetrieveWebcastRankingsApiResponse?> RetrieveWebcastRankingsOrDefaultAsync(OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"> (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ISignWebcastUrlApiResponse"/>&gt;</returns>
-        Task<ISignWebcastUrlApiResponse> SignWebcastUrlAsync(SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"> (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ISignWebcastUrlApiResponse"/>?&gt;</returns>
-        Task<ISignWebcastUrlApiResponse?> SignWebcastUrlOrDefaultAsync(SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IRetrieveWebcastRankingsApiResponse?> RetrieveWebcastRankingsOrDefaultAsync(PooledProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
-    /// The <see cref="IFetchWebcastURLApiResponse"/>
+    /// The <see cref="IRetrieveBulkLiveCheckApiResponse"/>
     /// </summary>
-    public interface IFetchWebcastURLApiResponse : EulerApiSdk.Client.IApiResponse, IOk<Object?>
+    public interface IRetrieveBulkLiveCheckApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RetrieveBulkLiveCheckResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
-    }
 
-    /// <summary>
-    /// The <see cref="IGetRateLimitsApiResponse"/>
-    /// </summary>
-    public interface IGetRateLimitsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.GetRateLimits?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 429 TooManyRequests
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
-    }
+        bool IsTooManyRequests { get; }
 
-    /// <summary>
-    /// The <see cref="IRetrieveGiftInfoApiResponse"/>
-    /// </summary>
-    public interface IRetrieveGiftInfoApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WebcastGiftInfoRouteResponse?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 500 InternalServerError
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IRetrieveHashtagListApiResponse"/>
     /// </summary>
-    public interface IRetrieveHashtagListApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.HashtagListAPIResponse?>
+    public interface IRetrieveHashtagListApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.HashtagListAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
-    /// The <see cref="IRetrieveRoomCoverApiResponse"/>
+    /// The <see cref="IRetrieveWebcastFeedApiResponse"/>
     /// </summary>
-    public interface IRetrieveRoomCoverApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.JSONResponse?>
+    public interface IRetrieveWebcastFeedApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WebcastFeedRouteResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
-    }
 
-    /// <summary>
-    /// The <see cref="IRetrieveRoomIdApiResponse"/>
-    /// </summary>
-    public interface IRetrieveRoomIdApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WebcastRoomIdRouteResponse?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 429 TooManyRequests
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
-    }
+        bool IsTooManyRequests { get; }
 
-    /// <summary>
-    /// The <see cref="IRetrieveRoomVideoApiResponse"/>
-    /// </summary>
-    public interface IRetrieveRoomVideoApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.JSONResponse?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 500 InternalServerError
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IRetrieveWebcastRankingsApiResponse"/>
     /// </summary>
-    public interface IRetrieveWebcastRankingsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WebcastRegionRankingsResponse?>
+    public interface IRetrieveWebcastRankingsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WebcastRegionRankingsResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
-    }
 
-    /// <summary>
-    /// The <see cref="ISignWebcastUrlApiResponse"/>
-    /// </summary>
-    public interface ISignWebcastUrlApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.SignWebcastUrl200Response?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 429 TooManyRequests
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
@@ -393,61 +277,21 @@ namespace EulerApiSdk.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnFetchWebcastURL;
+        public event EventHandler<ApiResponseEventArgs>? OnRetrieveBulkLiveCheck;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorFetchWebcastURL;
+        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveBulkLiveCheck;
 
-        internal void ExecuteOnFetchWebcastURL(TikTokLIVEApi.FetchWebcastURLApiResponse apiResponse)
+        internal void ExecuteOnRetrieveBulkLiveCheck(TikTokLIVEApi.RetrieveBulkLiveCheckApiResponse apiResponse)
         {
-            OnFetchWebcastURL?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+            OnRetrieveBulkLiveCheck?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
-        internal void ExecuteOnErrorFetchWebcastURL(Exception exception)
+        internal void ExecuteOnErrorRetrieveBulkLiveCheck(Exception exception)
         {
-            OnErrorFetchWebcastURL?.Invoke(this, new ExceptionEventArgs(exception));
-        }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnGetRateLimits;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorGetRateLimits;
-
-        internal void ExecuteOnGetRateLimits(TikTokLIVEApi.GetRateLimitsApiResponse apiResponse)
-        {
-            OnGetRateLimits?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorGetRateLimits(Exception exception)
-        {
-            OnErrorGetRateLimits?.Invoke(this, new ExceptionEventArgs(exception));
-        }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnRetrieveGiftInfo;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveGiftInfo;
-
-        internal void ExecuteOnRetrieveGiftInfo(TikTokLIVEApi.RetrieveGiftInfoApiResponse apiResponse)
-        {
-            OnRetrieveGiftInfo?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorRetrieveGiftInfo(Exception exception)
-        {
-            OnErrorRetrieveGiftInfo?.Invoke(this, new ExceptionEventArgs(exception));
+            OnErrorRetrieveBulkLiveCheck?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -473,61 +317,21 @@ namespace EulerApiSdk.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnRetrieveRoomCover;
+        public event EventHandler<ApiResponseEventArgs>? OnRetrieveWebcastFeed;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveRoomCover;
+        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveWebcastFeed;
 
-        internal void ExecuteOnRetrieveRoomCover(TikTokLIVEApi.RetrieveRoomCoverApiResponse apiResponse)
+        internal void ExecuteOnRetrieveWebcastFeed(TikTokLIVEApi.RetrieveWebcastFeedApiResponse apiResponse)
         {
-            OnRetrieveRoomCover?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+            OnRetrieveWebcastFeed?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
-        internal void ExecuteOnErrorRetrieveRoomCover(Exception exception)
+        internal void ExecuteOnErrorRetrieveWebcastFeed(Exception exception)
         {
-            OnErrorRetrieveRoomCover?.Invoke(this, new ExceptionEventArgs(exception));
-        }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnRetrieveRoomId;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveRoomId;
-
-        internal void ExecuteOnRetrieveRoomId(TikTokLIVEApi.RetrieveRoomIdApiResponse apiResponse)
-        {
-            OnRetrieveRoomId?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorRetrieveRoomId(Exception exception)
-        {
-            OnErrorRetrieveRoomId?.Invoke(this, new ExceptionEventArgs(exception));
-        }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnRetrieveRoomVideo;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveRoomVideo;
-
-        internal void ExecuteOnRetrieveRoomVideo(TikTokLIVEApi.RetrieveRoomVideoApiResponse apiResponse)
-        {
-            OnRetrieveRoomVideo?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorRetrieveRoomVideo(Exception exception)
-        {
-            OnErrorRetrieveRoomVideo?.Invoke(this, new ExceptionEventArgs(exception));
+            OnErrorRetrieveWebcastFeed?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -549,26 +353,6 @@ namespace EulerApiSdk.Api
         {
             OnErrorRetrieveWebcastRankings?.Invoke(this, new ExceptionEventArgs(exception));
         }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnSignWebcastUrl;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorSignWebcastUrl;
-
-        internal void ExecuteOnSignWebcastUrl(TikTokLIVEApi.SignWebcastUrlApiResponse apiResponse)
-        {
-            OnSignWebcastUrl?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorSignWebcastUrl(Exception exception)
-        {
-            OnErrorSignWebcastUrl?.Invoke(this, new ExceptionEventArgs(exception));
-        }
     }
 
     /// <summary>
@@ -577,11 +361,6 @@ namespace EulerApiSdk.Api
     public sealed partial class TikTokLIVEApi : ITikTokLIVEApi
     {
         private JsonSerializerOptions _jsonSerializerOptions;
-
-        /// <summary>
-        /// The logger factory
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; }
 
         /// <summary>
         /// The logger
@@ -607,84 +386,50 @@ namespace EulerApiSdk.Api
         /// Initializes a new instance of the <see cref="TikTokLIVEApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public TikTokLIVEApi(ILogger<TikTokLIVEApi> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, TikTokLIVEApiEvents tikTokLIVEApiEvents,
+        public TikTokLIVEApi(ILogger<TikTokLIVEApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, TikTokLIVEApiEvents tikTokLIVEApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            LoggerFactory = loggerFactory;
-            Logger = LoggerFactory.CreateLogger<TikTokLIVEApi>();
+            Logger = logger;
             HttpClient = httpClient;
             Events = tikTokLIVEApiEvents;
             ApiKeyProvider = apiKeyProvider;
         }
 
-        partial void FormatFetchWebcastURL(ref Option<string> varClient, ref Option<string> roomId, ref Option<string> uniqueId, ref Option<string> cursor, ref Option<string> userAgent, ref Option<bool> clientEnter, ref Option<SoaxProxyRegion> country, ref Option<WebcastFetchPlatform> platform, ref Option<string> xOauthToken, ref Option<string> xCookieHeader, ref Option<string> sessionId, ref Option<string> ttTargetIdc);
+        partial void FormatRetrieveBulkLiveCheck(RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="varClient"></param>
-        /// <param name="roomId"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="cursor"></param>
-        /// <param name="userAgent"></param>
+        /// <param name="retrieveBulkLiveCheckRequest"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="ttTargetIdc"></param>
         /// <returns></returns>
-        private void ValidateFetchWebcastURL(Option<string> varClient, Option<string> roomId, Option<string> uniqueId, Option<string> cursor, Option<string> userAgent, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc)
+        private void ValidateRetrieveBulkLiveCheck(RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken, Option<string> xCookieHeader)
         {
-            if (varClient.IsSet && varClient.Value == null)
-                throw new ArgumentNullException(nameof(varClient));
-
-            if (roomId.IsSet && roomId.Value == null)
-                throw new ArgumentNullException(nameof(roomId));
-
-            if (uniqueId.IsSet && uniqueId.Value == null)
-                throw new ArgumentNullException(nameof(uniqueId));
-
-            if (cursor.IsSet && cursor.Value == null)
-                throw new ArgumentNullException(nameof(cursor));
-
-            if (userAgent.IsSet && userAgent.Value == null)
-                throw new ArgumentNullException(nameof(userAgent));
+            if (retrieveBulkLiveCheckRequest == null)
+                throw new ArgumentNullException(nameof(retrieveBulkLiveCheckRequest));
 
             if (xOauthToken.IsSet && xOauthToken.Value == null)
                 throw new ArgumentNullException(nameof(xOauthToken));
 
             if (xCookieHeader.IsSet && xCookieHeader.Value == null)
                 throw new ArgumentNullException(nameof(xCookieHeader));
-
-            if (sessionId.IsSet && sessionId.Value == null)
-                throw new ArgumentNullException(nameof(sessionId));
-
-            if (ttTargetIdc.IsSet && ttTargetIdc.Value == null)
-                throw new ArgumentNullException(nameof(ttTargetIdc));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="varClient"></param>
-        /// <param name="roomId"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="cursor"></param>
-        /// <param name="userAgent"></param>
-        /// <param name="clientEnter"></param>
-        /// <param name="country"></param>
-        /// <param name="platform"></param>
+        /// <param name="retrieveBulkLiveCheckRequest"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="ttTargetIdc"></param>
-        private void AfterFetchWebcastURLDefaultImplementation(IFetchWebcastURLApiResponse apiResponseLocalVar, Option<string> varClient, Option<string> roomId, Option<string> uniqueId, Option<string> cursor, Option<string> userAgent, Option<bool> clientEnter, Option<SoaxProxyRegion> country, Option<WebcastFetchPlatform> platform, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc)
+        private void AfterRetrieveBulkLiveCheckDefaultImplementation(IRetrieveBulkLiveCheckApiResponse apiResponseLocalVar, RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken, Option<string> xCookieHeader)
         {
             bool suppressDefaultLog = false;
-            AfterFetchWebcastURL(ref suppressDefaultLog, apiResponseLocalVar, varClient, roomId, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+            AfterRetrieveBulkLiveCheck(ref suppressDefaultLog, apiResponseLocalVar, retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -692,19 +437,10 @@ namespace EulerApiSdk.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="varClient"></param>
-        /// <param name="roomId"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="cursor"></param>
-        /// <param name="userAgent"></param>
-        /// <param name="clientEnter"></param>
-        /// <param name="country"></param>
-        /// <param name="platform"></param>
+        /// <param name="retrieveBulkLiveCheckRequest"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="ttTargetIdc"></param>
-        partial void AfterFetchWebcastURL(ref bool suppressDefaultLog, IFetchWebcastURLApiResponse apiResponseLocalVar, Option<string> varClient, Option<string> roomId, Option<string> uniqueId, Option<string> cursor, Option<string> userAgent, Option<bool> clientEnter, Option<SoaxProxyRegion> country, Option<WebcastFetchPlatform> platform, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc);
+        partial void AfterRetrieveBulkLiveCheck(ref bool suppressDefaultLog, IRetrieveBulkLiveCheckApiResponse apiResponseLocalVar, RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -712,24 +448,15 @@ namespace EulerApiSdk.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="varClient"></param>
-        /// <param name="roomId"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="cursor"></param>
-        /// <param name="userAgent"></param>
-        /// <param name="clientEnter"></param>
-        /// <param name="country"></param>
-        /// <param name="platform"></param>
+        /// <param name="retrieveBulkLiveCheckRequest"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="ttTargetIdc"></param>
-        private void OnErrorFetchWebcastURLDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<string> varClient, Option<string> roomId, Option<string> uniqueId, Option<string> cursor, Option<string> userAgent, Option<bool> clientEnter, Option<SoaxProxyRegion> country, Option<WebcastFetchPlatform> platform, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc)
+        private void OnErrorRetrieveBulkLiveCheckDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken, Option<string> xCookieHeader)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorFetchWebcastURL(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, varClient, roomId, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+            OnErrorRetrieveBulkLiveCheck(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -739,42 +466,24 @@ namespace EulerApiSdk.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="varClient"></param>
-        /// <param name="roomId"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="cursor"></param>
-        /// <param name="userAgent"></param>
-        /// <param name="clientEnter"></param>
-        /// <param name="country"></param>
-        /// <param name="platform"></param>
+        /// <param name="retrieveBulkLiveCheckRequest"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        /// <param name="sessionId"></param>
-        /// <param name="ttTargetIdc"></param>
-        partial void OnErrorFetchWebcastURL(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<string> varClient, Option<string> roomId, Option<string> uniqueId, Option<string> cursor, Option<string> userAgent, Option<bool> clientEnter, Option<SoaxProxyRegion> country, Option<WebcastFetchPlatform> platform, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc);
+        partial void OnErrorRetrieveBulkLiveCheck(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  A bulk-check endpoint to determine if a group of TikTok users (up to 50 at once) are live. It uses a highly optimized job-based system for checking large numbers of users quickly.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
-        /// <param name="varClient">The client library identifier. Used for metrics. (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="roomId">The room ID to fetch the Webcast URL for. (optional)</param>
-        /// <param name="uniqueId">The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. (optional)</param>
-        /// <param name="cursor">Starting cursor for the webcast connection, if any (optional)</param>
-        /// <param name="userAgent">Override the user agent used for signing and fetching (optional)</param>
-        /// <param name="clientEnter">Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)</param>
-        /// <param name="country">Country code to make the request from. (optional)</param>
-        /// <param name="platform">Platform to connect with (optional)</param>
+        /// <param name="retrieveBulkLiveCheckRequest">The body of the request containing user numeric IDs (e.g. 7602356191083907865).</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional)</param>
-        /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IFetchWebcastURLApiResponse"/>&gt;</returns>
-        public async Task<IFetchWebcastURLApiResponse?> FetchWebcastURLOrDefaultAsync(Option<string> varClient = default, Option<string> roomId = default, Option<string> uniqueId = default, Option<string> cursor = default, Option<string> userAgent = default, Option<bool> clientEnter = default, Option<SoaxProxyRegion> country = default, Option<WebcastFetchPlatform> platform = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveBulkLiveCheckApiResponse"/>&gt;</returns>
+        public async Task<IRetrieveBulkLiveCheckApiResponse?> RetrieveBulkLiveCheckOrDefaultAsync(RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await FetchWebcastURLAsync(varClient, roomId, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, cancellationToken).ConfigureAwait(false);
+                return await RetrieveBulkLiveCheckAsync(retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -783,32 +492,23 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  A bulk-check endpoint to determine if a group of TikTok users (up to 50 at once) are live. It uses a highly optimized job-based system for checking large numbers of users quickly.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="varClient">The client library identifier. Used for metrics. (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="roomId">The room ID to fetch the Webcast URL for. (optional)</param>
-        /// <param name="uniqueId">The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. (optional)</param>
-        /// <param name="cursor">Starting cursor for the webcast connection, if any (optional)</param>
-        /// <param name="userAgent">Override the user agent used for signing and fetching (optional)</param>
-        /// <param name="clientEnter">Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)</param>
-        /// <param name="country">Country code to make the request from. (optional)</param>
-        /// <param name="platform">Platform to connect with (optional)</param>
+        /// <param name="retrieveBulkLiveCheckRequest">The body of the request containing user numeric IDs (e.g. 7602356191083907865).</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional)</param>
-        /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IFetchWebcastURLApiResponse"/>&gt;</returns>
-        public async Task<IFetchWebcastURLApiResponse> FetchWebcastURLAsync(Option<string> varClient = default, Option<string> roomId = default, Option<string> uniqueId = default, Option<string> cursor = default, Option<string> userAgent = default, Option<bool> clientEnter = default, Option<SoaxProxyRegion> country = default, Option<WebcastFetchPlatform> platform = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveBulkLiveCheckApiResponse"/>&gt;</returns>
+        public async Task<IRetrieveBulkLiveCheckApiResponse> RetrieveBulkLiveCheckAsync(RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateFetchWebcastURL(varClient, roomId, uniqueId, cursor, userAgent, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+                ValidateRetrieveBulkLiveCheck(retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader);
 
-                FormatFetchWebcastURL(ref varClient, ref roomId, ref uniqueId, ref cursor, ref userAgent, ref clientEnter, ref country, ref platform, ref xOauthToken, ref xCookieHeader, ref sessionId, ref ttTargetIdc);
+                FormatRetrieveBulkLiveCheck(retrieveBulkLiveCheckRequest, ref xOauthToken, ref xCookieHeader);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -816,48 +516,420 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/fetch"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/fetch");
+                        ? "/webcast/bulk_live_check"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/bulk_live_check");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    if (varClient.IsSet)
-                        parseQueryStringLocalVar["client"] = ClientUtils.ParameterToString(varClient.Value);
-
-                    if (roomId.IsSet)
-                        parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId.Value);
-
-                    if (uniqueId.IsSet)
-                        parseQueryStringLocalVar["unique_id"] = ClientUtils.ParameterToString(uniqueId.Value);
-
-                    if (cursor.IsSet)
-                        parseQueryStringLocalVar["cursor"] = ClientUtils.ParameterToString(cursor.Value);
-
-                    if (userAgent.IsSet)
-                        parseQueryStringLocalVar["user_agent"] = ClientUtils.ParameterToString(userAgent.Value);
-
-                    if (clientEnter.IsSet)
-                        parseQueryStringLocalVar["client_enter"] = ClientUtils.ParameterToString(clientEnter.Value);
-
-                    if (country.IsSet)
-                        parseQueryStringLocalVar["country"] = ClientUtils.ParameterToString(country.Value);
-
-                    if (platform.IsSet)
-                        parseQueryStringLocalVar["platform"] = ClientUtils.ParameterToString(platform.Value);
-
-                    if (sessionId.IsSet)
-                        parseQueryStringLocalVar["session_id"] = ClientUtils.ParameterToString(sessionId.Value);
-
-                    if (ttTargetIdc.IsSet)
-                        parseQueryStringLocalVar["tt_target_idc"] = ClientUtils.ParameterToString(ttTargetIdc.Value);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+                    httpRequestMessageLocalVar.Content = (retrieveBulkLiveCheckRequest as object) is EulerApiSdk.Client.FileParameter fileParameterLocalVar
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(fileParameterLocalVar.Content)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(retrieveBulkLiveCheckRequest, _jsonSerializerOptions));
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+
+                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
+                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        RetrieveBulkLiveCheckApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/bulk_live_check", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterRetrieveBulkLiveCheckDefaultImplementation(apiResponseLocalVar, retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader);
+
+                        Events.ExecuteOnRetrieveBulkLiveCheck(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorRetrieveBulkLiveCheckDefaultImplementation(e, "/webcast/bulk_live_check", uriBuilderLocalVar.Path, retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader);
+                Events.ExecuteOnErrorRetrieveBulkLiveCheck(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="RetrieveBulkLiveCheckApiResponse"/>
+        /// </summary>
+        public partial class RetrieveBulkLiveCheckApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveBulkLiveCheckApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TikTokLIVEApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="RetrieveBulkLiveCheckApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveBulkLiveCheckApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveBulkLiveCheckApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveBulkLiveCheckApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveBulkLiveCheckResponse? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveBulkLiveCheckResponse>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveBulkLiveCheckResponse? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatRetrieveHashtagList(ref Option<RouteImageSource> xImageSource);
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="xImageSource"></param>
+        private void AfterRetrieveHashtagListDefaultImplementation(IRetrieveHashtagListApiResponse apiResponseLocalVar, Option<RouteImageSource> xImageSource)
+        {
+            bool suppressDefaultLog = false;
+            AfterRetrieveHashtagList(ref suppressDefaultLog, apiResponseLocalVar, xImageSource);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="xImageSource"></param>
+        partial void AfterRetrieveHashtagList(ref bool suppressDefaultLog, IRetrieveHashtagListApiResponse apiResponseLocalVar, Option<RouteImageSource> xImageSource);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="xImageSource"></param>
+        private void OnErrorRetrieveHashtagListDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<RouteImageSource> xImageSource)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorRetrieveHashtagList(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, xImageSource);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="xImageSource"></param>
+        partial void OnErrorRetrieveHashtagList(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, Option<RouteImageSource> xImageSource);
+
+        /// <summary>
+        ///  Retrieve the list of available hashtags for TikTok LIVE streams.
+        /// </summary>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveHashtagListApiResponse"/>&gt;</returns>
+        public async Task<IRetrieveHashtagListApiResponse?> RetrieveHashtagListOrDefaultAsync(Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await RetrieveHashtagListAsync(xImageSource, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  Retrieve the list of available hashtags for TikTok LIVE streams.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveHashtagListApiResponse"/>&gt;</returns>
+        public async Task<IRetrieveHashtagListApiResponse> RetrieveHashtagListAsync(Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                FormatRetrieveHashtagList(ref xImageSource);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/webcast/hashtags"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/hashtags");
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    if (xImageSource.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-image-source".                    
+                      if (ClientUtils.IsContentHeader("x-image-source"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -880,223 +952,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<FetchWebcastURLApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<FetchWebcastURLApiResponse>();
-
-                        FetchWebcastURLApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/fetch", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterFetchWebcastURLDefaultImplementation(apiResponseLocalVar, varClient, roomId, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
-
-                        Events.ExecuteOnFetchWebcastURL(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorFetchWebcastURLDefaultImplementation(e, "/webcast/fetch", uriBuilderLocalVar.Path, varClient, roomId, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
-                Events.ExecuteOnErrorFetchWebcastURL(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="FetchWebcastURLApiResponse"/>
-        /// </summary>
-        public partial class FetchWebcastURLApiResponse : EulerApiSdk.Client.ApiResponse, IFetchWebcastURLApiResponse
-        {
-            /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<FetchWebcastURLApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="FetchWebcastURLApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public FetchWebcastURLApiResponse(ILogger<FetchWebcastURLApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
-
-            /// <summary>
-            /// Deserializes the response if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public Object? Ok()
-            {
-                // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<Object>(RawContent, _jsonSerializerOptions)
-                    : null;
-            }
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
-            /// </summary>
-            /// <param name="result"></param>
-            /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out Object? result)
-            {
-                result = null;
-
-                try
-                {
-                    result = Ok();
-                } catch (Exception e)
-                {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
-                }
-
-                return result != null;
-            }
-
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterGetRateLimitsDefaultImplementation(IGetRateLimitsApiResponse apiResponseLocalVar)
-        {
-            bool suppressDefaultLog = false;
-            AfterGetRateLimits(ref suppressDefaultLog, apiResponseLocalVar);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterGetRateLimits(ref bool suppressDefaultLog, IGetRateLimitsApiResponse apiResponseLocalVar);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        private void OnErrorGetRateLimitsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorGetRateLimits(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        partial void OnErrorGetRateLimits(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
-
-        /// <summary>
-        ///  Retrieve the rate limits for the provided API key (or the unauthenticated limits if no key is provided)
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetRateLimitsApiResponse"/>&gt;</returns>
-        public async Task<IGetRateLimitsApiResponse?> GetRateLimitsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await GetRateLimitsAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Retrieve the rate limits for the provided API key (or the unauthenticated limits if no key is provided)
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IGetRateLimitsApiResponse"/>&gt;</returns>
-        public async Task<IGetRateLimitsApiResponse> GetRateLimitsAsync(System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/rate_limits"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/rate_limits");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1104,476 +963,32 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        RetrieveHashtagListApiResponse apiResponseLocalVar;
 
-                        ILogger<GetRateLimitsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<GetRateLimitsApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/hashtags", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        GetRateLimitsApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rate_limits", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
-                        AfterGetRateLimitsDefaultImplementation(apiResponseLocalVar);
-
-                        Events.ExecuteOnGetRateLimits(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorGetRateLimitsDefaultImplementation(e, "/webcast/rate_limits", uriBuilderLocalVar.Path);
-                Events.ExecuteOnErrorGetRateLimits(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="GetRateLimitsApiResponse"/>
-        /// </summary>
-        public partial class GetRateLimitsApiResponse : EulerApiSdk.Client.ApiResponse, IGetRateLimitsApiResponse
-        {
-            /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<GetRateLimitsApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="GetRateLimitsApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public GetRateLimitsApiResponse(ILogger<GetRateLimitsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
-
-            /// <summary>
-            /// Deserializes the response if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public EulerApiSdk.Model.GetRateLimits? Ok()
-            {
-                // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetRateLimits>(RawContent, _jsonSerializerOptions)
-                    : null;
-            }
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
-            /// </summary>
-            /// <param name="result"></param>
-            /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.GetRateLimits? result)
-            {
-                result = null;
-
-                try
-                {
-                    result = Ok();
-                } catch (Exception e)
-                {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
-                }
-
-                return result != null;
-            }
-
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        partial void FormatRetrieveGiftInfo(ref string roomId, ref Option<string> webcastLanguage);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="roomId"></param>
-        /// <param name="webcastLanguage"></param>
-        /// <returns></returns>
-        private void ValidateRetrieveGiftInfo(string roomId, Option<string> webcastLanguage)
-        {
-            if (roomId == null)
-                throw new ArgumentNullException(nameof(roomId));
-
-            if (webcastLanguage.IsSet && webcastLanguage.Value == null)
-                throw new ArgumentNullException(nameof(webcastLanguage));
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="roomId"></param>
-        /// <param name="webcastLanguage"></param>
-        private void AfterRetrieveGiftInfoDefaultImplementation(IRetrieveGiftInfoApiResponse apiResponseLocalVar, string roomId, Option<string> webcastLanguage)
-        {
-            bool suppressDefaultLog = false;
-            AfterRetrieveGiftInfo(ref suppressDefaultLog, apiResponseLocalVar, roomId, webcastLanguage);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="roomId"></param>
-        /// <param name="webcastLanguage"></param>
-        partial void AfterRetrieveGiftInfo(ref bool suppressDefaultLog, IRetrieveGiftInfoApiResponse apiResponseLocalVar, string roomId, Option<string> webcastLanguage);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="roomId"></param>
-        /// <param name="webcastLanguage"></param>
-        private void OnErrorRetrieveGiftInfoDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<string> webcastLanguage)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveGiftInfo(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, webcastLanguage);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="roomId"></param>
-        /// <param name="webcastLanguage"></param>
-        partial void OnErrorRetrieveGiftInfo(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<string> webcastLanguage);
-
-        /// <summary>
-        ///  Retrieve TikTok Live Room Gift List
-        /// </summary>
-        /// <param name="roomId">The room ID of the TikTok LIVE session</param>
-        /// <param name="webcastLanguage">Webcast language for locale-based fields (optional, default to &quot;en&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveGiftInfoApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveGiftInfoApiResponse?> RetrieveGiftInfoOrDefaultAsync(string roomId, Option<string> webcastLanguage = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await RetrieveGiftInfoAsync(roomId, webcastLanguage, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Retrieve TikTok Live Room Gift List
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="roomId">The room ID of the TikTok LIVE session</param>
-        /// <param name="webcastLanguage">Webcast language for locale-based fields (optional, default to &quot;en&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveGiftInfoApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveGiftInfoApiResponse> RetrieveGiftInfoAsync(string roomId, Option<string> webcastLanguage = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                ValidateRetrieveGiftInfo(roomId, webcastLanguage);
-
-                FormatRetrieveGiftInfo(ref roomId, ref webcastLanguage);
-
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/gift_info"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/gift_info");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
-
-                    if (webcastLanguage.IsSet)
-                        parseQueryStringLocalVar["webcast_language"] = ClientUtils.ParameterToString(webcastLanguage.Value);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<RetrieveGiftInfoApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveGiftInfoApiResponse>();
-
-                        RetrieveGiftInfoApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/gift_info", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterRetrieveGiftInfoDefaultImplementation(apiResponseLocalVar, roomId, webcastLanguage);
-
-                        Events.ExecuteOnRetrieveGiftInfo(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorRetrieveGiftInfoDefaultImplementation(e, "/webcast/gift_info", uriBuilderLocalVar.Path, roomId, webcastLanguage);
-                Events.ExecuteOnErrorRetrieveGiftInfo(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="RetrieveGiftInfoApiResponse"/>
-        /// </summary>
-        public partial class RetrieveGiftInfoApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveGiftInfoApiResponse
-        {
-            /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<RetrieveGiftInfoApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="RetrieveGiftInfoApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public RetrieveGiftInfoApiResponse(ILogger<RetrieveGiftInfoApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
-
-            /// <summary>
-            /// Deserializes the response if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public EulerApiSdk.Model.WebcastGiftInfoRouteResponse? Ok()
-            {
-                // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.WebcastGiftInfoRouteResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
-            }
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
-            /// </summary>
-            /// <param name="result"></param>
-            /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.WebcastGiftInfoRouteResponse? result)
-            {
-                result = null;
-
-                try
-                {
-                    result = Ok();
-                } catch (Exception e)
-                {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
-                }
-
-                return result != null;
-            }
-
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        private void AfterRetrieveHashtagListDefaultImplementation(IRetrieveHashtagListApiResponse apiResponseLocalVar)
-        {
-            bool suppressDefaultLog = false;
-            AfterRetrieveHashtagList(ref suppressDefaultLog, apiResponseLocalVar);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        partial void AfterRetrieveHashtagList(ref bool suppressDefaultLog, IRetrieveHashtagListApiResponse apiResponseLocalVar);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        private void OnErrorRetrieveHashtagListDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveHashtagList(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        partial void OnErrorRetrieveHashtagList(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
-
-        /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of available hashtags for TikTok LIVE streams.
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveHashtagListApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveHashtagListApiResponse?> RetrieveHashtagListOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await RetrieveHashtagListAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of available hashtags for TikTok LIVE streams.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveHashtagListApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveHashtagListApiResponse> RetrieveHashtagListAsync(System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/hashtag_list"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/hashtag_list");
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<RetrieveHashtagListApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveHashtagListApiResponse>();
-
-                        RetrieveHashtagListApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/hashtag_list", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterRetrieveHashtagListDefaultImplementation(apiResponseLocalVar);
+                        AfterRetrieveHashtagListDefaultImplementation(apiResponseLocalVar, xImageSource);
 
                         Events.ExecuteOnRetrieveHashtagList(apiResponseLocalVar);
 
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
                         return apiResponseLocalVar;
                     }
                 }
             }
             catch(Exception e)
             {
-                OnErrorRetrieveHashtagListDefaultImplementation(e, "/webcast/hashtag_list", uriBuilderLocalVar.Path);
+                OnErrorRetrieveHashtagListDefaultImplementation(e, "/webcast/hashtags", uriBuilderLocalVar.Path, xImageSource);
                 Events.ExecuteOnErrorRetrieveHashtagList(e);
                 throw;
             }
@@ -1587,7 +1002,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<RetrieveHashtagListApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RetrieveHashtagListApiResponse"/>
@@ -1599,7 +1014,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public RetrieveHashtagListApiResponse(ILogger<RetrieveHashtagListApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public RetrieveHashtagListApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveHashtagListApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveHashtagListApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1645,41 +1076,145 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatRetrieveRoomCover(ref string uniqueId);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="uniqueId"></param>
-        /// <returns></returns>
-        private void ValidateRetrieveRoomCover(string uniqueId)
-        {
-            if (uniqueId == null)
-                throw new ArgumentNullException(nameof(uniqueId));
-        }
+        partial void FormatRetrieveWebcastFeed(ref PooledProxyRegion region, ref Option<RouteImageSource> xImageSource);
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        private void AfterRetrieveRoomCoverDefaultImplementation(IRetrieveRoomCoverApiResponse apiResponseLocalVar, string uniqueId)
+        /// <param name="region"></param>
+        /// <param name="xImageSource"></param>
+        private void AfterRetrieveWebcastFeedDefaultImplementation(IRetrieveWebcastFeedApiResponse apiResponseLocalVar, PooledProxyRegion region, Option<RouteImageSource> xImageSource)
         {
             bool suppressDefaultLog = false;
-            AfterRetrieveRoomCover(ref suppressDefaultLog, apiResponseLocalVar, uniqueId);
+            AfterRetrieveWebcastFeed(ref suppressDefaultLog, apiResponseLocalVar, region, xImageSource);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1687,8 +1222,9 @@ namespace EulerApiSdk.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        partial void AfterRetrieveRoomCover(ref bool suppressDefaultLog, IRetrieveRoomCoverApiResponse apiResponseLocalVar, string uniqueId);
+        /// <param name="region"></param>
+        /// <param name="xImageSource"></param>
+        partial void AfterRetrieveWebcastFeed(ref bool suppressDefaultLog, IRetrieveWebcastFeedApiResponse apiResponseLocalVar, PooledProxyRegion region, Option<RouteImageSource> xImageSource);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1696,13 +1232,14 @@ namespace EulerApiSdk.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        private void OnErrorRetrieveRoomCoverDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string uniqueId)
+        /// <param name="region"></param>
+        /// <param name="xImageSource"></param>
+        private void OnErrorRetrieveWebcastFeedDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, PooledProxyRegion region, Option<RouteImageSource> xImageSource)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveRoomCover(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, uniqueId);
+            OnErrorRetrieveWebcastFeed(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, region, xImageSource);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1712,20 +1249,22 @@ namespace EulerApiSdk.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        partial void OnErrorRetrieveRoomCover(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string uniqueId);
+        /// <param name="region"></param>
+        /// <param name="xImageSource"></param>
+        partial void OnErrorRetrieveWebcastFeed(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, PooledProxyRegion region, Option<RouteImageSource> xImageSource);
 
         /// <summary>
-        ///  Requires Business Plan - Fetch TikTok LIVE Stream Cover URL given a uniqueId.
+        ///  Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
         /// </summary>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the cover for.</param>
+        /// <param name="region">The region (country) with which to fetch a feed from.</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomCoverApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomCoverApiResponse?> RetrieveRoomCoverOrDefaultAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastFeedApiResponse"/>&gt;</returns>
+        public async Task<IRetrieveWebcastFeedApiResponse?> RetrieveWebcastFeedOrDefaultAsync(PooledProxyRegion region, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await RetrieveRoomCoverAsync(uniqueId, cancellationToken).ConfigureAwait(false);
+                return await RetrieveWebcastFeedAsync(region, xImageSource, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -1734,21 +1273,20 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Business Plan - Fetch TikTok LIVE Stream Cover URL given a uniqueId.
+        ///  Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the cover for.</param>
+        /// <param name="region">The region (country) with which to fetch a feed from.</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomCoverApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomCoverApiResponse> RetrieveRoomCoverAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastFeedApiResponse"/>&gt;</returns>
+        public async Task<IRetrieveWebcastFeedApiResponse> RetrieveWebcastFeedAsync(PooledProxyRegion region, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateRetrieveRoomCover(uniqueId);
-
-                FormatRetrieveRoomCover(ref uniqueId);
+                FormatRetrieveWebcastFeed(ref region, ref xImageSource);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -1756,14 +1294,27 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/room_cover"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/room_cover");
+                        ? "/webcast/feed"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/feed");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["uniqueId"] = ClientUtils.ParameterToString(uniqueId);
+                    parseQueryStringLocalVar["region"] = ClientUtils.ParameterToString(region);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    if (xImageSource.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-image-source".                    
+                      if (ClientUtils.IsContentHeader("x-image-source"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -1786,10 +1337,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1797,15 +1348,20 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        RetrieveWebcastFeedApiResponse apiResponseLocalVar;
 
-                        ILogger<RetrieveRoomCoverApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveRoomCoverApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/feed", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        RetrieveRoomCoverApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/room_cover", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
-                        AfterRetrieveRoomCoverDefaultImplementation(apiResponseLocalVar, uniqueId);
+                        AfterRetrieveWebcastFeedDefaultImplementation(apiResponseLocalVar, region, xImageSource);
 
-                        Events.ExecuteOnRetrieveRoomCover(apiResponseLocalVar);
+                        Events.ExecuteOnRetrieveWebcastFeed(apiResponseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -1817,24 +1373,24 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorRetrieveRoomCoverDefaultImplementation(e, "/webcast/room_cover", uriBuilderLocalVar.Path, uniqueId);
-                Events.ExecuteOnErrorRetrieveRoomCover(e);
+                OnErrorRetrieveWebcastFeedDefaultImplementation(e, "/webcast/feed", uriBuilderLocalVar.Path, region, xImageSource);
+                Events.ExecuteOnErrorRetrieveWebcastFeed(e);
                 throw;
             }
         }
 
         /// <summary>
-        /// The <see cref="RetrieveRoomCoverApiResponse"/>
+        /// The <see cref="RetrieveWebcastFeedApiResponse"/>
         /// </summary>
-        public partial class RetrieveRoomCoverApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveRoomCoverApiResponse
+        public partial class RetrieveWebcastFeedApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveWebcastFeedApiResponse
         {
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<RetrieveRoomCoverApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEApi> Logger { get; }
 
             /// <summary>
-            /// The <see cref="RetrieveRoomCoverApiResponse"/>
+            /// The <see cref="RetrieveWebcastFeedApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -1843,7 +1399,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public RetrieveRoomCoverApiResponse(ILogger<RetrieveRoomCoverApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public RetrieveWebcastFeedApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveWebcastFeedApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveWebcastFeedApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1861,11 +1433,11 @@ namespace EulerApiSdk.Api
             /// Deserializes the response if the response is 200 Ok
             /// </summary>
             /// <returns></returns>
-            public EulerApiSdk.Model.JSONResponse? Ok()
+            public EulerApiSdk.Model.WebcastFeedRouteResponse? Ok()
             {
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.JSONResponse>(RawContent, _jsonSerializerOptions)
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.WebcastFeedRouteResponse>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
@@ -1874,7 +1446,7 @@ namespace EulerApiSdk.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.JSONResponse? result)
+            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.WebcastFeedRouteResponse? result)
             {
                 result = null;
 
@@ -1889,245 +1461,115 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        partial void FormatRetrieveRoomId(ref string uniqueId);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="uniqueId"></param>
-        /// <returns></returns>
-        private void ValidateRetrieveRoomId(string uniqueId)
-        {
-            if (uniqueId == null)
-                throw new ArgumentNullException(nameof(uniqueId));
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        private void AfterRetrieveRoomIdDefaultImplementation(IRetrieveRoomIdApiResponse apiResponseLocalVar, string uniqueId)
-        {
-            bool suppressDefaultLog = false;
-            AfterRetrieveRoomId(ref suppressDefaultLog, apiResponseLocalVar, uniqueId);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        partial void AfterRetrieveRoomId(ref bool suppressDefaultLog, IRetrieveRoomIdApiResponse apiResponseLocalVar, string uniqueId);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        private void OnErrorRetrieveRoomIdDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string uniqueId)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveRoomId(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, uniqueId);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        partial void OnErrorRetrieveRoomId(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string uniqueId);
-
-        /// <summary>
-        ///  Requires Business Plan - Fetch Room ID for a given uniqueId &amp; whether that user is live.
-        /// </summary>
-        /// <param name="uniqueId">The unique ID of the TikTok user to fetch the data for.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomIdApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomIdApiResponse?> RetrieveRoomIdOrDefaultAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await RetrieveRoomIdAsync(uniqueId, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Requires Business Plan - Fetch Room ID for a given uniqueId &amp; whether that user is live.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="uniqueId">The unique ID of the TikTok user to fetch the data for.</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomIdApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomIdApiResponse> RetrieveRoomIdAsync(string uniqueId, System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                ValidateRetrieveRoomId(uniqueId);
-
-                FormatRetrieveRoomId(ref uniqueId);
-
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/room_id"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/room_id");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["uniqueId"] = ClientUtils.ParameterToString(uniqueId);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-jwt-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    ApiKeyToken apiKeyTokenLocalVar3 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar3);
-                    apiKeyTokenLocalVar3.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<RetrieveRoomIdApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveRoomIdApiResponse>();
-
-                        RetrieveRoomIdApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/room_id", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterRetrieveRoomIdDefaultImplementation(apiResponseLocalVar, uniqueId);
-
-                        Events.ExecuteOnRetrieveRoomId(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorRetrieveRoomIdDefaultImplementation(e, "/webcast/room_id", uriBuilderLocalVar.Path, uniqueId);
-                Events.ExecuteOnErrorRetrieveRoomId(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="RetrieveRoomIdApiResponse"/>
-        /// </summary>
-        public partial class RetrieveRoomIdApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveRoomIdApiResponse
-        {
             /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<RetrieveRoomIdApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="RetrieveRoomIdApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public RetrieveRoomIdApiResponse(ILogger<RetrieveRoomIdApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
+            /// Returns true if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
 
             /// <summary>
-            /// Deserializes the response if the response is 200 Ok
+            /// Deserializes the response if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public EulerApiSdk.Model.WebcastRoomIdRouteResponse? Ok()
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
             {
                 // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.WebcastRoomIdRouteResponse>(RawContent, _jsonSerializerOptions)
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
             /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.WebcastRoomIdRouteResponse? result)
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
             {
                 result = null;
 
                 try
                 {
-                    result = Ok();
+                    result = TooManyRequests();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
                 }
 
                 return result != null;
@@ -2138,266 +1580,13 @@ namespace EulerApiSdk.Api
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatRetrieveRoomVideo(ref string uniqueId, ref Option<StreamType> streamType);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="uniqueId"></param>
-        /// <returns></returns>
-        private void ValidateRetrieveRoomVideo(string uniqueId)
-        {
-            if (uniqueId == null)
-                throw new ArgumentNullException(nameof(uniqueId));
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="streamType"></param>
-        private void AfterRetrieveRoomVideoDefaultImplementation(IRetrieveRoomVideoApiResponse apiResponseLocalVar, string uniqueId, Option<StreamType> streamType)
-        {
-            bool suppressDefaultLog = false;
-            AfterRetrieveRoomVideo(ref suppressDefaultLog, apiResponseLocalVar, uniqueId, streamType);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="streamType"></param>
-        partial void AfterRetrieveRoomVideo(ref bool suppressDefaultLog, IRetrieveRoomVideoApiResponse apiResponseLocalVar, string uniqueId, Option<StreamType> streamType);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="streamType"></param>
-        private void OnErrorRetrieveRoomVideoDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string uniqueId, Option<StreamType> streamType)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveRoomVideo(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, uniqueId, streamType);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="uniqueId"></param>
-        /// <param name="streamType"></param>
-        partial void OnErrorRetrieveRoomVideo(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string uniqueId, Option<StreamType> streamType);
-
-        /// <summary>
-        ///  Requires Business Plan - Fetch TikTok LIVE Stream video given a uniqueId.
-        /// </summary>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the data for.</param>
-        /// <param name="streamType">The type of video stream to fetch. Default is HLS_SD. (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomVideoApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomVideoApiResponse?> RetrieveRoomVideoOrDefaultAsync(string uniqueId, Option<StreamType> streamType = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await RetrieveRoomVideoAsync(uniqueId, streamType, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Requires Business Plan - Fetch TikTok LIVE Stream video given a uniqueId.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="uniqueId">The unique ID of the TikTok to fetch the data for.</param>
-        /// <param name="streamType">The type of video stream to fetch. Default is HLS_SD. (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomVideoApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomVideoApiResponse> RetrieveRoomVideoAsync(string uniqueId, Option<StreamType> streamType = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                ValidateRetrieveRoomVideo(uniqueId);
-
-                FormatRetrieveRoomVideo(ref uniqueId, ref streamType);
-
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/room_video"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/room_video");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["uniqueId"] = ClientUtils.ParameterToString(uniqueId);
-
-                    if (streamType.IsSet)
-                        parseQueryStringLocalVar["streamType"] = ClientUtils.ParameterToString(streamType.Value);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-jwt-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    ApiKeyToken apiKeyTokenLocalVar3 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar3);
-                    apiKeyTokenLocalVar3.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<RetrieveRoomVideoApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveRoomVideoApiResponse>();
-
-                        RetrieveRoomVideoApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/room_video", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterRetrieveRoomVideoDefaultImplementation(apiResponseLocalVar, uniqueId, streamType);
-
-                        Events.ExecuteOnRetrieveRoomVideo(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorRetrieveRoomVideoDefaultImplementation(e, "/webcast/room_video", uriBuilderLocalVar.Path, uniqueId, streamType);
-                Events.ExecuteOnErrorRetrieveRoomVideo(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="RetrieveRoomVideoApiResponse"/>
-        /// </summary>
-        public partial class RetrieveRoomVideoApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveRoomVideoApiResponse
-        {
-            /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<RetrieveRoomVideoApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="RetrieveRoomVideoApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public RetrieveRoomVideoApiResponse(ILogger<RetrieveRoomVideoApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
-
-            /// <summary>
-            /// Deserializes the response if the response is 200 Ok
-            /// </summary>
-            /// <returns></returns>
-            public EulerApiSdk.Model.JSONResponse? Ok()
-            {
-                // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.JSONResponse>(RawContent, _jsonSerializerOptions)
-                    : null;
-            }
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
-            /// </summary>
-            /// <param name="result"></param>
-            /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.JSONResponse? result)
-            {
-                result = null;
-
-                try
-                {
-                    result = Ok();
-                } catch (Exception e)
-                {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
-                }
-
-                return result != null;
-            }
-
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        partial void FormatRetrieveWebcastRankings(ref OxyLabsProxyRegion region, ref string rankType, ref Option<string> xOauthToken, ref Option<string> xCookieHeader, ref Option<string> sessionId, ref Option<string> ttTargetIdc);
+        partial void FormatRetrieveWebcastRankings(ref PooledProxyRegion region, ref string rankType, ref Option<string> xOauthToken, ref Option<string> xCookieHeader, ref Option<string> sessionId, ref Option<string> ttTargetIdc, ref Option<RouteImageSource> xImageSource);
 
         /// <summary>
         /// Validates the request parameters
@@ -2436,12 +1625,13 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader"></param>
         /// <param name="sessionId"></param>
         /// <param name="ttTargetIdc"></param>
-        private void AfterRetrieveWebcastRankingsDefaultImplementation(IRetrieveWebcastRankingsApiResponse apiResponseLocalVar, OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc)
+        /// <param name="xImageSource"></param>
+        private void AfterRetrieveWebcastRankingsDefaultImplementation(IRetrieveWebcastRankingsApiResponse apiResponseLocalVar, PooledProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc, Option<RouteImageSource> xImageSource)
         {
             bool suppressDefaultLog = false;
-            AfterRetrieveWebcastRankings(ref suppressDefaultLog, apiResponseLocalVar, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+            AfterRetrieveWebcastRankings(ref suppressDefaultLog, apiResponseLocalVar, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2455,7 +1645,8 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader"></param>
         /// <param name="sessionId"></param>
         /// <param name="ttTargetIdc"></param>
-        partial void AfterRetrieveWebcastRankings(ref bool suppressDefaultLog, IRetrieveWebcastRankingsApiResponse apiResponseLocalVar, OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc);
+        /// <param name="xImageSource"></param>
+        partial void AfterRetrieveWebcastRankings(ref bool suppressDefaultLog, IRetrieveWebcastRankingsApiResponse apiResponseLocalVar, PooledProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc, Option<RouteImageSource> xImageSource);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2469,12 +1660,13 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader"></param>
         /// <param name="sessionId"></param>
         /// <param name="ttTargetIdc"></param>
-        private void OnErrorRetrieveWebcastRankingsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc)
+        /// <param name="xImageSource"></param>
+        private void OnErrorRetrieveWebcastRankingsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, PooledProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc, Option<RouteImageSource> xImageSource)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveWebcastRankings(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+            OnErrorRetrieveWebcastRankings(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2490,10 +1682,11 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader"></param>
         /// <param name="sessionId"></param>
         /// <param name="ttTargetIdc"></param>
-        partial void OnErrorRetrieveWebcastRankings(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc);
+        /// <param name="xImageSource"></param>
+        partial void OnErrorRetrieveWebcastRankings(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, PooledProxyRegion region, string rankType, Option<string> xOauthToken, Option<string> xCookieHeader, Option<string> sessionId, Option<string> ttTargetIdc, Option<RouteImageSource> xImageSource);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="region">The region (country) with which to fetch a feed from.</param>
         /// <param name="rankType">The type of ranking to fetch. See documentation for more details.</param>
@@ -2501,13 +1694,14 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional)</param>
         /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastRankingsApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveWebcastRankingsApiResponse?> RetrieveWebcastRankingsOrDefaultAsync(OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IRetrieveWebcastRankingsApiResponse?> RetrieveWebcastRankingsOrDefaultAsync(PooledProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await RetrieveWebcastRankingsAsync(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, cancellationToken).ConfigureAwait(false);
+                return await RetrieveWebcastRankingsAsync(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2516,7 +1710,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="region">The region (country) with which to fetch a feed from.</param>
@@ -2525,9 +1719,10 @@ namespace EulerApiSdk.Api
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="sessionId">Use x-oauth-token or x-cookie-header instead (optional)</param>
         /// <param name="ttTargetIdc">Use x-oauth-token or x-cookie-header instead (optional)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveWebcastRankingsApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveWebcastRankingsApiResponse> RetrieveWebcastRankingsAsync(OxyLabsProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IRetrieveWebcastRankingsApiResponse> RetrieveWebcastRankingsAsync(PooledProxyRegion region, string rankType, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<string> sessionId = default, Option<string> ttTargetIdc = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2535,7 +1730,7 @@ namespace EulerApiSdk.Api
             {
                 ValidateRetrieveWebcastRankings(rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
 
-                FormatRetrieveWebcastRankings(ref region, ref rankType, ref xOauthToken, ref xCookieHeader, ref sessionId, ref ttTargetIdc);
+                FormatRetrieveWebcastRankings(ref region, ref rankType, ref xOauthToken, ref xCookieHeader, ref sessionId, ref ttTargetIdc, ref xImageSource);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2544,7 +1739,7 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/webcast/rankings"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/rankings");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rankings");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -2560,10 +1755,43 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
+
+                    if (xImageSource.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-image-source".                    
+                      if (ClientUtils.IsContentHeader("x-image-source"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -2582,10 +1810,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -2593,13 +1821,18 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        RetrieveWebcastRankingsApiResponse apiResponseLocalVar;
 
-                        ILogger<RetrieveWebcastRankingsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveWebcastRankingsApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rankings", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        RetrieveWebcastRankingsApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rankings", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
-                        AfterRetrieveWebcastRankingsDefaultImplementation(apiResponseLocalVar, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+                        AfterRetrieveWebcastRankingsDefaultImplementation(apiResponseLocalVar, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
 
                         Events.ExecuteOnRetrieveWebcastRankings(apiResponseLocalVar);
 
@@ -2613,7 +1846,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorRetrieveWebcastRankingsDefaultImplementation(e, "/webcast/rankings", uriBuilderLocalVar.Path, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+                OnErrorRetrieveWebcastRankingsDefaultImplementation(e, "/webcast/rankings", uriBuilderLocalVar.Path, region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
                 Events.ExecuteOnErrorRetrieveWebcastRankings(e);
                 throw;
             }
@@ -2627,7 +1860,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<RetrieveWebcastRankingsApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RetrieveWebcastRankingsApiResponse"/>
@@ -2639,7 +1872,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public RetrieveWebcastRankingsApiResponse(ILogger<RetrieveWebcastRankingsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public RetrieveWebcastRankingsApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveWebcastRankingsApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveWebcastRankingsApiResponse(ILogger<TikTokLIVEApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -2685,265 +1934,115 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        partial void FormatSignWebcastUrl(SignTikTokUrlBody signTikTokUrlBody, ref Option<string> varClient);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"></param>
-        /// <returns></returns>
-        private void ValidateSignWebcastUrl(SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient)
-        {
-            if (signTikTokUrlBody == null)
-                throw new ArgumentNullException(nameof(signTikTokUrlBody));
-
-            if (varClient.IsSet && varClient.Value == null)
-                throw new ArgumentNullException(nameof(varClient));
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"></param>
-        private void AfterSignWebcastUrlDefaultImplementation(ISignWebcastUrlApiResponse apiResponseLocalVar, SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient)
-        {
-            bool suppressDefaultLog = false;
-            AfterSignWebcastUrl(ref suppressDefaultLog, apiResponseLocalVar, signTikTokUrlBody, varClient);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"></param>
-        partial void AfterSignWebcastUrl(ref bool suppressDefaultLog, ISignWebcastUrlApiResponse apiResponseLocalVar, SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"></param>
-        private void OnErrorSignWebcastUrlDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorSignWebcastUrl(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, signTikTokUrlBody, varClient);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"></param>
-        partial void OnErrorSignWebcastUrl(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient);
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"> (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ISignWebcastUrlApiResponse"/>&gt;</returns>
-        public async Task<ISignWebcastUrlApiResponse?> SignWebcastUrlOrDefaultAsync(SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await SignWebcastUrlAsync(signTikTokUrlBody, varClient, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="signTikTokUrlBody"></param>
-        /// <param name="varClient"> (optional, default to &quot;ttlive-other&quot;)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="ISignWebcastUrlApiResponse"/>&gt;</returns>
-        public async Task<ISignWebcastUrlApiResponse> SignWebcastUrlAsync(SignTikTokUrlBody signTikTokUrlBody, Option<string> varClient = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                ValidateSignWebcastUrl(signTikTokUrlBody, varClient);
-
-                FormatSignWebcastUrl(signTikTokUrlBody, ref varClient);
-
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/sign_url"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/sign_url");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    if (varClient.IsSet)
-                        parseQueryStringLocalVar["client"] = ClientUtils.ParameterToString(varClient.Value);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    httpRequestMessageLocalVar.Content = (signTikTokUrlBody as object) is System.IO.Stream stream
-                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(signTikTokUrlBody, _jsonSerializerOptions));
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] contentTypes = new string[] {
-                        "application/json"
-                    };
-
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<SignWebcastUrlApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<SignWebcastUrlApiResponse>();
-
-                        SignWebcastUrlApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/sign_url", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterSignWebcastUrlDefaultImplementation(apiResponseLocalVar, signTikTokUrlBody, varClient);
-
-                        Events.ExecuteOnSignWebcastUrl(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorSignWebcastUrlDefaultImplementation(e, "/webcast/sign_url", uriBuilderLocalVar.Path, signTikTokUrlBody, varClient);
-                Events.ExecuteOnErrorSignWebcastUrl(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="SignWebcastUrlApiResponse"/>
-        /// </summary>
-        public partial class SignWebcastUrlApiResponse : EulerApiSdk.Client.ApiResponse, ISignWebcastUrlApiResponse
-        {
             /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<SignWebcastUrlApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="SignWebcastUrlApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public SignWebcastUrlApiResponse(ILogger<SignWebcastUrlApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
+            /// Returns true if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
 
             /// <summary>
-            /// Deserializes the response if the response is 200 Ok
+            /// Deserializes the response if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public EulerApiSdk.Model.SignWebcastUrl200Response? Ok()
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
             {
                 // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.SignWebcastUrl200Response>(RawContent, _jsonSerializerOptions)
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
             /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.SignWebcastUrl200Response? result)
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
             {
                 result = null;
 
                 try
                 {
-                    result = Ok();
+                    result = TooManyRequests();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
                 }
 
                 return result != null;
@@ -2954,7 +2053,7 @@ namespace EulerApiSdk.Api
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);

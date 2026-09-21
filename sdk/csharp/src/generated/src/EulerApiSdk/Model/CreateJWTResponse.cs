@@ -38,7 +38,7 @@ namespace EulerApiSdk.Model
         /// <param name="token">token</param>
         /// <param name="config">config</param>
         [JsonConstructor]
-        public CreateJWTResponse(double code, Option<string?> message = default, Option<string?> token = default, Option<JWTConfig?> config = default)
+        public CreateJWTResponse(double code, Option<string?> message = default, Option<string?> token = default, Option<SignedJWTConfiguration?> config = default)
         {
             Code = code;
             MessageOption = message;
@@ -66,7 +66,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Token
@@ -79,20 +79,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Token
         /// </summary>
         [JsonPropertyName("token")]
-        public string? Token { get { return this.TokenOption; } set { this.TokenOption = new(value); } }
+        public string? Token { get { return this.TokenOption.Value; } set { this.TokenOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Config
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<JWTConfig?> ConfigOption { get; private set; }
+        public Option<SignedJWTConfiguration?> ConfigOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Config
         /// </summary>
         [JsonPropertyName("config")]
-        public JWTConfig? Config { get { return this.ConfigOption; } set { this.ConfigOption = new(value); } }
+        public SignedJWTConfiguration? Config { get { return this.ConfigOption.Value; } set { this.ConfigOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -124,8 +124,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="CreateJWTResponse" />
     /// </summary>
-    public class CreateJWTResponseJsonConverter : JsonConverter<CreateJWTResponse>
+    public partial class CreateJWTResponseJsonConverter : JsonConverter<CreateJWTResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateJWTResponseJsonConverter" /> class.
+        /// </summary>
+        public CreateJWTResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CreateJWTResponse" />
         /// </summary>
@@ -146,7 +156,7 @@ namespace EulerApiSdk.Model
             Option<double?> code = default;
             Option<string?> message = default;
             Option<string?> token = default;
-            Option<JWTConfig?> config = default;
+            Option<SignedJWTConfiguration?> config = default;
 
             while (utf8JsonReader.Read())
             {
@@ -173,7 +183,7 @@ namespace EulerApiSdk.Model
                             token = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "config":
-                            config = new Option<JWTConfig?>(JsonSerializer.Deserialize<JWTConfig>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            config = new Option<SignedJWTConfiguration?>(JsonSerializer.Deserialize<SignedJWTConfiguration>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

@@ -148,7 +148,7 @@ namespace EulerApiSdk.Model
         /// </summary>
         /// <value>Required for authorization_code grant</value>
         [JsonPropertyName("code")]
-        public string? Code { get { return this.CodeOption; } set { this.CodeOption = new(value); } }
+        public string? Code { get { return this.CodeOption.Value; } set { this.CodeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of RedirectUri
@@ -162,7 +162,7 @@ namespace EulerApiSdk.Model
         /// </summary>
         /// <value>Required for authorization_code grant</value>
         [JsonPropertyName("redirect_uri")]
-        public string? RedirectUri { get { return this.RedirectUriOption; } set { this.RedirectUriOption = new(value); } }
+        public string? RedirectUri { get { return this.RedirectUriOption.Value; } set { this.RedirectUriOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of RefreshToken
@@ -176,7 +176,7 @@ namespace EulerApiSdk.Model
         /// </summary>
         /// <value>Required for refresh_token grant</value>
         [JsonPropertyName("refresh_token")]
-        public string? RefreshToken { get { return this.RefreshTokenOption; } set { this.RefreshTokenOption = new(value); } }
+        public string? RefreshToken { get { return this.RefreshTokenOption.Value; } set { this.RefreshTokenOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -210,8 +210,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="ExchangeTokenRequest" />
     /// </summary>
-    public class ExchangeTokenRequestJsonConverter : JsonConverter<ExchangeTokenRequest>
+    public partial class ExchangeTokenRequestJsonConverter : JsonConverter<ExchangeTokenRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExchangeTokenRequestJsonConverter" /> class.
+        /// </summary>
+        public ExchangeTokenRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ExchangeTokenRequest" />
         /// </summary>

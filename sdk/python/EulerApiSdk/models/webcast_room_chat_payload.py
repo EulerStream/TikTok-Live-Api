@@ -4,6 +4,7 @@ from collections.abc import Mapping
 from typing import Any, TypeVar
 
 from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
@@ -15,14 +16,16 @@ class WebcastRoomChatPayload:
     """
     Attributes:
         content (str): The chat message content to send
-        target_room_id (str | Unset): The room ID to send the chat to (either this or targetUniqueId is required)
+        target_room_id (str | Unset):
         target_unique_id (str | Unset): The username of the room to send the chat to (either this or targetRoomId is
-            required)
+            required).
+            Pass room_id = 0 to parameter for this to work.
     """
 
     content: str
     target_room_id: str | Unset = UNSET
     target_unique_id: str | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         content = self.content
@@ -32,7 +35,7 @@ class WebcastRoomChatPayload:
         target_unique_id = self.target_unique_id
 
         field_dict: dict[str, Any] = {}
-
+        field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "content": content,
@@ -60,4 +63,21 @@ class WebcastRoomChatPayload:
             target_unique_id=target_unique_id,
         )
 
+        webcast_room_chat_payload.additional_properties = d
         return webcast_room_chat_payload
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

@@ -25,7 +25,7 @@ namespace EulerApiSdk.Test.Api
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient =
-            Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder([]).ConfigureApi((context, options) =>
             {
                 ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.ApiKey, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
@@ -39,7 +39,7 @@ namespace EulerApiSdk.Test.Api
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder([]).ConfigureApi((context, options) =>
             {
                 ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.ApiKey, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
@@ -112,17 +112,44 @@ namespace EulerApiSdk.Test.Api
             var tikTokLIVEApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEApi>();
             Assert.True(tikTokLIVEApi.HttpClient.BaseAddress != null);
 
+            var tikTokLIVEAgenciesApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEAgenciesApi>();
+            Assert.True(tikTokLIVEAgenciesApi.HttpClient.BaseAddress != null);
+
             var tikTokLIVEAlertTargetsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEAlertTargetsApi>();
             Assert.True(tikTokLIVEAlertTargetsApi.HttpClient.BaseAddress != null);
 
             var tikTokLIVEAlertsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEAlertsApi>();
             Assert.True(tikTokLIVEAlertsApi.HttpClient.BaseAddress != null);
 
+            var tikTokLIVEAnchorsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEAnchorsApi>();
+            Assert.True(tikTokLIVEAnchorsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVEEventsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEEventsApi>();
+            Assert.True(tikTokLIVEEventsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVEGiftsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEGiftsApi>();
+            Assert.True(tikTokLIVEGiftsApi.HttpClient.BaseAddress != null);
+
             var tikTokLIVEModerationApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEModerationApi>();
             Assert.True(tikTokLIVEModerationApi.HttpClient.BaseAddress != null);
 
-            var tikTokLIVEPremiumApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVEPremiumApi>();
-            Assert.True(tikTokLIVEPremiumApi.HttpClient.BaseAddress != null);
+            var tikTokLIVERankingsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVERankingsApi>();
+            Assert.True(tikTokLIVERankingsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVERoomsApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokLIVERoomsApi>();
+            Assert.True(tikTokLIVERoomsApi.HttpClient.BaseAddress != null);
+
+            var tikTokSigningApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokSigningApi>();
+            Assert.True(tikTokSigningApi.HttpClient.BaseAddress != null);
+
+            var tikTokUsersApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokUsersApi>();
+            Assert.True(tikTokUsersApi.HttpClient.BaseAddress != null);
+
+            var tikTokVideosApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokVideosApi>();
+            Assert.True(tikTokVideosApi.HttpClient.BaseAddress != null);
+
+            var tikTokWebSocketAPIApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<ITikTokWebSocketAPIApi>();
+            Assert.True(tikTokWebSocketAPIApi.HttpClient.BaseAddress != null);
         }
 
         /// <summary>
@@ -149,17 +176,44 @@ namespace EulerApiSdk.Test.Api
             var tikTokLIVEApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEApi>();
             Assert.True(tikTokLIVEApi.HttpClient.BaseAddress != null);
 
+            var tikTokLIVEAgenciesApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEAgenciesApi>();
+            Assert.True(tikTokLIVEAgenciesApi.HttpClient.BaseAddress != null);
+
             var tikTokLIVEAlertTargetsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEAlertTargetsApi>();
             Assert.True(tikTokLIVEAlertTargetsApi.HttpClient.BaseAddress != null);
 
             var tikTokLIVEAlertsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEAlertsApi>();
             Assert.True(tikTokLIVEAlertsApi.HttpClient.BaseAddress != null);
 
+            var tikTokLIVEAnchorsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEAnchorsApi>();
+            Assert.True(tikTokLIVEAnchorsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVEEventsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEEventsApi>();
+            Assert.True(tikTokLIVEEventsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVEGiftsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEGiftsApi>();
+            Assert.True(tikTokLIVEGiftsApi.HttpClient.BaseAddress != null);
+
             var tikTokLIVEModerationApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEModerationApi>();
             Assert.True(tikTokLIVEModerationApi.HttpClient.BaseAddress != null);
 
-            var tikTokLIVEPremiumApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVEPremiumApi>();
-            Assert.True(tikTokLIVEPremiumApi.HttpClient.BaseAddress != null);
+            var tikTokLIVERankingsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVERankingsApi>();
+            Assert.True(tikTokLIVERankingsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVERoomsApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokLIVERoomsApi>();
+            Assert.True(tikTokLIVERoomsApi.HttpClient.BaseAddress != null);
+
+            var tikTokSigningApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokSigningApi>();
+            Assert.True(tikTokSigningApi.HttpClient.BaseAddress != null);
+
+            var tikTokUsersApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokUsersApi>();
+            Assert.True(tikTokUsersApi.HttpClient.BaseAddress != null);
+
+            var tikTokVideosApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokVideosApi>();
+            Assert.True(tikTokVideosApi.HttpClient.BaseAddress != null);
+
+            var tikTokWebSocketAPIApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<ITikTokWebSocketAPIApi>();
+            Assert.True(tikTokWebSocketAPIApi.HttpClient.BaseAddress != null);
         }
 
         /// <summary>
@@ -186,17 +240,44 @@ namespace EulerApiSdk.Test.Api
             var tikTokLIVEApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEApi>();
             Assert.True(tikTokLIVEApi.HttpClient.BaseAddress != null);
             
+            var tikTokLIVEAgenciesApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEAgenciesApi>();
+            Assert.True(tikTokLIVEAgenciesApi.HttpClient.BaseAddress != null);
+            
             var tikTokLIVEAlertTargetsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEAlertTargetsApi>();
             Assert.True(tikTokLIVEAlertTargetsApi.HttpClient.BaseAddress != null);
             
             var tikTokLIVEAlertsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEAlertsApi>();
             Assert.True(tikTokLIVEAlertsApi.HttpClient.BaseAddress != null);
             
+            var tikTokLIVEAnchorsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEAnchorsApi>();
+            Assert.True(tikTokLIVEAnchorsApi.HttpClient.BaseAddress != null);
+            
+            var tikTokLIVEEventsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEEventsApi>();
+            Assert.True(tikTokLIVEEventsApi.HttpClient.BaseAddress != null);
+            
+            var tikTokLIVEGiftsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEGiftsApi>();
+            Assert.True(tikTokLIVEGiftsApi.HttpClient.BaseAddress != null);
+            
             var tikTokLIVEModerationApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEModerationApi>();
             Assert.True(tikTokLIVEModerationApi.HttpClient.BaseAddress != null);
             
-            var tikTokLIVEPremiumApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVEPremiumApi>();
-            Assert.True(tikTokLIVEPremiumApi.HttpClient.BaseAddress != null);
+            var tikTokLIVERankingsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVERankingsApi>();
+            Assert.True(tikTokLIVERankingsApi.HttpClient.BaseAddress != null);
+            
+            var tikTokLIVERoomsApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokLIVERoomsApi>();
+            Assert.True(tikTokLIVERoomsApi.HttpClient.BaseAddress != null);
+            
+            var tikTokSigningApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokSigningApi>();
+            Assert.True(tikTokSigningApi.HttpClient.BaseAddress != null);
+            
+            var tikTokUsersApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokUsersApi>();
+            Assert.True(tikTokUsersApi.HttpClient.BaseAddress != null);
+            
+            var tikTokVideosApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokVideosApi>();
+            Assert.True(tikTokVideosApi.HttpClient.BaseAddress != null);
+            
+            var tikTokWebSocketAPIApi = _hostUsingAddWithAClient.Services.GetRequiredService<ITikTokWebSocketAPIApi>();
+            Assert.True(tikTokWebSocketAPIApi.HttpClient.BaseAddress != null);
         }
 
         /// <summary>
@@ -223,17 +304,44 @@ namespace EulerApiSdk.Test.Api
             var tikTokLIVEApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEApi>();
             Assert.True(tikTokLIVEApi.HttpClient.BaseAddress != null);
 
+            var tikTokLIVEAgenciesApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEAgenciesApi>();
+            Assert.True(tikTokLIVEAgenciesApi.HttpClient.BaseAddress != null);
+
             var tikTokLIVEAlertTargetsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEAlertTargetsApi>();
             Assert.True(tikTokLIVEAlertTargetsApi.HttpClient.BaseAddress != null);
 
             var tikTokLIVEAlertsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEAlertsApi>();
             Assert.True(tikTokLIVEAlertsApi.HttpClient.BaseAddress != null);
 
+            var tikTokLIVEAnchorsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEAnchorsApi>();
+            Assert.True(tikTokLIVEAnchorsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVEEventsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEEventsApi>();
+            Assert.True(tikTokLIVEEventsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVEGiftsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEGiftsApi>();
+            Assert.True(tikTokLIVEGiftsApi.HttpClient.BaseAddress != null);
+
             var tikTokLIVEModerationApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEModerationApi>();
             Assert.True(tikTokLIVEModerationApi.HttpClient.BaseAddress != null);
 
-            var tikTokLIVEPremiumApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVEPremiumApi>();
-            Assert.True(tikTokLIVEPremiumApi.HttpClient.BaseAddress != null);
+            var tikTokLIVERankingsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVERankingsApi>();
+            Assert.True(tikTokLIVERankingsApi.HttpClient.BaseAddress != null);
+
+            var tikTokLIVERoomsApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokLIVERoomsApi>();
+            Assert.True(tikTokLIVERoomsApi.HttpClient.BaseAddress != null);
+
+            var tikTokSigningApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokSigningApi>();
+            Assert.True(tikTokSigningApi.HttpClient.BaseAddress != null);
+
+            var tikTokUsersApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokUsersApi>();
+            Assert.True(tikTokUsersApi.HttpClient.BaseAddress != null);
+
+            var tikTokVideosApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokVideosApi>();
+            Assert.True(tikTokVideosApi.HttpClient.BaseAddress != null);
+
+            var tikTokWebSocketAPIApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<ITikTokWebSocketAPIApi>();
+            Assert.True(tikTokWebSocketAPIApi.HttpClient.BaseAddress != null);
         }
     }
 }

@@ -54,6 +54,15 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Attempts'
+        /// </summary>
+        [Fact]
+        public void AttemptsTest()
+        {
+            // TODO unit test for the property 'Attempts'
+        }
+
+        /// <summary>
         /// Test the property 'Ranks'
         /// </summary>
         [Fact]

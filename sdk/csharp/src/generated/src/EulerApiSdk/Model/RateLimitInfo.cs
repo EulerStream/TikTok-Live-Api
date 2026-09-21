@@ -94,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RateLimitInfo" />
     /// </summary>
-    public class RateLimitInfoJsonConverter : JsonConverter<RateLimitInfo>
+    public partial class RateLimitInfoJsonConverter : JsonConverter<RateLimitInfo>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RateLimitInfoJsonConverter" /> class.
+        /// </summary>
+        public RateLimitInfoJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RateLimitInfo" />
         /// </summary>

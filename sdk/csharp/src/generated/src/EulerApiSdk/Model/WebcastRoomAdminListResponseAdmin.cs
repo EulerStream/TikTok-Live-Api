@@ -33,7 +33,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WebcastRoomAdminListResponseAdmin" /> class.
         /// </summary>
-        /// <param name="adminPermissions">Construct a type with a set of properties K of type T</param>
+        /// <param name="adminPermissions">adminPermissions</param>
         /// <param name="avatarLarge">avatarLarge</param>
         /// <param name="avatarThumb">avatarThumb</param>
         /// <param name="displayId">displayId</param>
@@ -58,9 +58,8 @@ namespace EulerApiSdk.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets AdminPermissions
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("admin_permissions")]
         public Dictionary<string, double> AdminPermissions { get; set; }
 
@@ -140,8 +139,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomAdminListResponseAdmin" />
     /// </summary>
-    public class WebcastRoomAdminListResponseAdminJsonConverter : JsonConverter<WebcastRoomAdminListResponseAdmin>
+    public partial class WebcastRoomAdminListResponseAdminJsonConverter : JsonConverter<WebcastRoomAdminListResponseAdmin>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomAdminListResponseAdminJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomAdminListResponseAdminJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomAdminListResponseAdmin" />
         /// </summary>

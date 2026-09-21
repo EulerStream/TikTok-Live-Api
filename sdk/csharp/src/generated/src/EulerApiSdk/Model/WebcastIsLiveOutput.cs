@@ -33,9 +33,9 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WebcastIsLiveOutput" /> class.
         /// </summary>
-        /// <param name="data">Construct a type with a set of properties K of type T</param>
+        /// <param name="data">data</param>
         [JsonConstructor]
-        public WebcastIsLiveOutput(Option<Dictionary<string, RecordStringIsLiveBooleanRoomIdStringOrNullValue>?> data = default)
+        public WebcastIsLiveOutput(Option<Dictionary<string, WebcastIsLiveOutputDataValue>?> data = default)
         {
             DataOption = data;
             OnCreated();
@@ -48,14 +48,13 @@ namespace EulerApiSdk.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Dictionary<string, RecordStringIsLiveBooleanRoomIdStringOrNullValue>?> DataOption { get; private set; }
+        public Option<Dictionary<string, WebcastIsLiveOutputDataValue>?> DataOption { get; private set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets Data
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("data")]
-        public Dictionary<string, RecordStringIsLiveBooleanRoomIdStringOrNullValue>? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public Dictionary<string, WebcastIsLiveOutputDataValue>? Data { get { return this.DataOption.Value; } set { this.DataOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,8 +83,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastIsLiveOutput" />
     /// </summary>
-    public class WebcastIsLiveOutputJsonConverter : JsonConverter<WebcastIsLiveOutput>
+    public partial class WebcastIsLiveOutputJsonConverter : JsonConverter<WebcastIsLiveOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastIsLiveOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastIsLiveOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastIsLiveOutput" />
         /// </summary>
@@ -103,7 +112,7 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Dictionary<string, RecordStringIsLiveBooleanRoomIdStringOrNullValue>?> data = default;
+            Option<Dictionary<string, WebcastIsLiveOutputDataValue>?> data = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +130,7 @@ namespace EulerApiSdk.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "data":
-                            data = new Option<Dictionary<string, RecordStringIsLiveBooleanRoomIdStringOrNullValue>?>(JsonSerializer.Deserialize<Dictionary<string, RecordStringIsLiveBooleanRoomIdStringOrNullValue>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            data = new Option<Dictionary<string, WebcastIsLiveOutputDataValue>?>(JsonSerializer.Deserialize<Dictionary<string, WebcastIsLiveOutputDataValue>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

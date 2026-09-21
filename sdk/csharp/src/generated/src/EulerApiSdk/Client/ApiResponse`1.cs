@@ -36,6 +36,11 @@ namespace EulerApiSdk.Client
         /// The raw content of this response.
         /// </summary>
         string RawContent { get; }
+        
+        /// <summary>
+        /// The raw binary stream (only set for binary responses)
+        /// </summary>
+        System.IO.Stream? ContentStream { get; }
 
         /// <summary>
         /// The DateTime when the request was retrieved.
@@ -46,6 +51,11 @@ namespace EulerApiSdk.Client
         /// The headers contained in the api response
         /// </summary>
         System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
+
+        /// <summary>
+        /// The headers contained in the api response related to the content
+        /// </summary>
+        System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
 
         /// <summary>
         /// The path used when making the request.
@@ -85,6 +95,11 @@ namespace EulerApiSdk.Client
         public string RawContent { get; protected set; }
 
         /// <summary>
+        /// The raw binary stream (only set for binary responses)
+        /// </summary>
+        public System.IO.Stream? ContentStream { get; protected set; }
+
+        /// <summary>
         /// The IsSuccessStatusCode from the api response
         /// </summary>
         public bool IsSuccessStatusCode { get; }
@@ -98,6 +113,11 @@ namespace EulerApiSdk.Client
         /// The headers contained in the api response
         /// </summary>
         public System.Net.Http.Headers.HttpResponseHeaders Headers { get; }
+
+        /// <summary>
+        /// The headers contained in the api response related to the content
+        /// </summary>
+        public System.Net.Http.Headers.HttpContentHeaders ContentHeaders { get; }
 
         /// <summary>
         /// The DateTime when the request was retrieved.
@@ -137,6 +157,7 @@ namespace EulerApiSdk.Client
         {
             StatusCode = httpResponseMessage.StatusCode;
             Headers = httpResponseMessage.Headers;
+            ContentHeaders = httpResponseMessage.Content.Headers;
             IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
             ReasonPhrase = httpResponseMessage.ReasonPhrase;
             RawContent = rawContent;
@@ -147,7 +168,73 @@ namespace EulerApiSdk.Client
             OnCreated(httpRequestMessage, httpResponseMessage);
         }
 
+        /// <summary>
+        /// Construct the response using an HttpResponseMessage
+        /// </summary>
+        /// <param name="httpRequestMessage"></param>
+        /// <param name="httpResponseMessage"></param>
+        /// <param name="contentStream"></param>
+        /// <param name="path"></param>
+        /// <param name="requestedAt"></param>
+        /// <param name="jsonSerializerOptions"></param>
+        public ApiResponse(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions)
+        {
+            StatusCode = httpResponseMessage.StatusCode;
+            Headers = httpResponseMessage.Headers;
+            ContentHeaders = httpResponseMessage.Content.Headers;
+            IsSuccessStatusCode = httpResponseMessage.IsSuccessStatusCode;
+            ReasonPhrase = httpResponseMessage.ReasonPhrase;
+            ContentStream = contentStream;
+            RawContent = string.Empty;
+            Path = path;
+            RequestUri = httpRequestMessage.RequestUri;
+            RequestedAt = requestedAt;
+            _jsonSerializerOptions = jsonSerializerOptions;
+            OnCreated(httpRequestMessage, httpResponseMessage);
+        }
+
+
         partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+    }
+
+    /// <summary>
+    /// An interface for responses of type 
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    public interface ITooManyRequests<TType> : IApiResponse
+    {
+        /// <summary>
+        /// Deserializes the response if the response is TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        TType TooManyRequests();
+
+        /// <summary>
+        /// Returns true if the response is TooManyRequests and the deserialized response is not null
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        bool TryTooManyRequests([NotNullWhen(true)]out TType? result);
+    }
+
+    /// <summary>
+    /// An interface for responses of type 
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    public interface IServiceUnavailable<TType> : IApiResponse
+    {
+        /// <summary>
+        /// Deserializes the response if the response is ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        TType ServiceUnavailable();
+
+        /// <summary>
+        /// Returns true if the response is ServiceUnavailable and the deserialized response is not null
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        bool TryServiceUnavailable([NotNullWhen(true)]out TType? result);
     }
 
     /// <summary>
@@ -168,5 +255,25 @@ namespace EulerApiSdk.Client
         /// <param name="result"></param>
         /// <returns></returns>
         bool TryOk([NotNullWhen(true)]out TType? result);
+    }
+
+    /// <summary>
+    /// An interface for responses of type 
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    public interface IInternalServerError<TType> : IApiResponse
+    {
+        /// <summary>
+        /// Deserializes the response if the response is InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        TType InternalServerError();
+
+        /// <summary>
+        /// Returns true if the response is InternalServerError and the deserialized response is not null
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        bool TryInternalServerError([NotNullWhen(true)]out TType? result);
     }
 }

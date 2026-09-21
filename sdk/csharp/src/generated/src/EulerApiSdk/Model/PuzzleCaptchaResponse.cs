@@ -33,27 +33,21 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PuzzleCaptchaResponse" /> class.
         /// </summary>
-        /// <param name="cached">cached</param>
         /// <param name="code">code</param>
-        /// <param name="response">response</param>
+        /// <param name="cached">cached</param>
         /// <param name="message">message</param>
+        /// <param name="response">response</param>
         [JsonConstructor]
-        public PuzzleCaptchaResponse(bool cached, double code, PuzzleResult? response = default, Option<string?> message = default)
+        public PuzzleCaptchaResponse(double code, bool cached, Option<string?> message = default, PuzzleResult? response = default)
         {
-            Cached = cached;
             Code = code;
-            Response = response;
+            Cached = cached;
             MessageOption = message;
+            Response = response;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets Cached
-        /// </summary>
-        [JsonPropertyName("cached")]
-        public bool Cached { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
@@ -62,10 +56,10 @@ namespace EulerApiSdk.Model
         public double Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Response
+        /// Gets or Sets Cached
         /// </summary>
-        [JsonPropertyName("response")]
-        public PuzzleResult? Response { get; set; }
+        [JsonPropertyName("cached")]
+        public bool Cached { get; set; }
 
         /// <summary>
         /// Used to track the state of Message
@@ -78,7 +72,13 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
+
+        /// <summary>
+        /// Gets or Sets Response
+        /// </summary>
+        [JsonPropertyName("response")]
+        public PuzzleResult? Response { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,10 +88,10 @@ namespace EulerApiSdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class PuzzleCaptchaResponse {\n");
-            sb.Append("  Cached: ").Append(Cached).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Response: ").Append(Response).Append("\n");
+            sb.Append("  Cached: ").Append(Cached).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Response: ").Append(Response).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -110,8 +110,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="PuzzleCaptchaResponse" />
     /// </summary>
-    public class PuzzleCaptchaResponseJsonConverter : JsonConverter<PuzzleCaptchaResponse>
+    public partial class PuzzleCaptchaResponseJsonConverter : JsonConverter<PuzzleCaptchaResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PuzzleCaptchaResponseJsonConverter" /> class.
+        /// </summary>
+        public PuzzleCaptchaResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PuzzleCaptchaResponse" />
         /// </summary>
@@ -129,10 +139,10 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<bool?> cached = default;
             Option<double?> code = default;
-            Option<PuzzleResult?> response = default;
+            Option<bool?> cached = default;
             Option<string?> message = default;
+            Option<PuzzleResult?> response = default;
 
             while (utf8JsonReader.Read())
             {
@@ -149,17 +159,17 @@ namespace EulerApiSdk.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "cached":
-                            cached = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
-                            break;
                         case "code":
                             code = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
-                        case "response":
-                            response = new Option<PuzzleResult?>(JsonSerializer.Deserialize<PuzzleResult>(ref utf8JsonReader, jsonSerializerOptions));
+                        case "cached":
+                            cached = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "response":
+                            response = new Option<PuzzleResult?>(JsonSerializer.Deserialize<PuzzleResult>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -167,25 +177,25 @@ namespace EulerApiSdk.Model
                 }
             }
 
-            if (!cached.IsSet)
-                throw new ArgumentException("Property is required for class PuzzleCaptchaResponse.", nameof(cached));
-
             if (!code.IsSet)
                 throw new ArgumentException("Property is required for class PuzzleCaptchaResponse.", nameof(code));
+
+            if (!cached.IsSet)
+                throw new ArgumentException("Property is required for class PuzzleCaptchaResponse.", nameof(cached));
 
             if (!response.IsSet)
                 throw new ArgumentException("Property is required for class PuzzleCaptchaResponse.", nameof(response));
 
-            if (cached.IsSet && cached.Value == null)
-                throw new ArgumentNullException(nameof(cached), "Property is not nullable for class PuzzleCaptchaResponse.");
-
             if (code.IsSet && code.Value == null)
                 throw new ArgumentNullException(nameof(code), "Property is not nullable for class PuzzleCaptchaResponse.");
+
+            if (cached.IsSet && cached.Value == null)
+                throw new ArgumentNullException(nameof(cached), "Property is not nullable for class PuzzleCaptchaResponse.");
 
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class PuzzleCaptchaResponse.");
 
-            return new PuzzleCaptchaResponse(cached.Value!.Value!, code.Value!.Value!, response.Value!, message);
+            return new PuzzleCaptchaResponse(code.Value!.Value!, cached.Value!.Value!, message, response.Value!);
         }
 
         /// <summary>
@@ -215,9 +225,12 @@ namespace EulerApiSdk.Model
             if (puzzleCaptchaResponse.MessageOption.IsSet && puzzleCaptchaResponse.Message == null)
                 throw new ArgumentNullException(nameof(puzzleCaptchaResponse.Message), "Property is required for class PuzzleCaptchaResponse.");
 
+            writer.WriteNumber("code", puzzleCaptchaResponse.Code);
+
             writer.WriteBoolean("cached", puzzleCaptchaResponse.Cached);
 
-            writer.WriteNumber("code", puzzleCaptchaResponse.Code);
+            if (puzzleCaptchaResponse.MessageOption.IsSet)
+                writer.WriteString("message", puzzleCaptchaResponse.Message);
 
             if (puzzleCaptchaResponse.Response != null)
             {
@@ -226,8 +239,6 @@ namespace EulerApiSdk.Model
             }
             else
                 writer.WriteNull("response");
-            if (puzzleCaptchaResponse.MessageOption.IsSet)
-                writer.WriteString("message", puzzleCaptchaResponse.Message);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WebcastLiveAnalyticsUserInteractionsResponseUserAttr" /> class.
         /// </summary>
-        /// <param name="adminPermissions">Construct a type with a set of properties K of type T</param>
+        /// <param name="adminPermissions">adminPermissions</param>
         /// <param name="hasVotingFunction">hasVotingFunction</param>
         /// <param name="isAdmin">isAdmin</param>
         /// <param name="isChannelAdmin">isChannelAdmin</param>
@@ -56,9 +56,8 @@ namespace EulerApiSdk.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets AdminPermissions
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("admin_permissions")]
         public Dictionary<string, Object> AdminPermissions { get; set; }
 
@@ -131,8 +130,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastLiveAnalyticsUserInteractionsResponseUserAttr" />
     /// </summary>
-    public class WebcastLiveAnalyticsUserInteractionsResponseUserAttrJsonConverter : JsonConverter<WebcastLiveAnalyticsUserInteractionsResponseUserAttr>
+    public partial class WebcastLiveAnalyticsUserInteractionsResponseUserAttrJsonConverter : JsonConverter<WebcastLiveAnalyticsUserInteractionsResponseUserAttr>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastLiveAnalyticsUserInteractionsResponseUserAttrJsonConverter" /> class.
+        /// </summary>
+        public WebcastLiveAnalyticsUserInteractionsResponseUserAttrJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastLiveAnalyticsUserInteractionsResponseUserAttr" />
         /// </summary>

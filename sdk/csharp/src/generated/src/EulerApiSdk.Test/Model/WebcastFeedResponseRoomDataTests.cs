@@ -162,30 +162,12 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'LiveTypeThirdParty'
-        /// </summary>
-        [Fact]
-        public void LiveTypeThirdPartyTest()
-        {
-            // TODO unit test for the property 'LiveTypeThirdParty'
-        }
-
-        /// <summary>
         /// Test the property 'RoomAuth'
         /// </summary>
         [Fact]
         public void RoomAuthTest()
         {
             // TODO unit test for the property 'RoomAuth'
-        }
-
-        /// <summary>
-        /// Test the property 'LikeCount'
-        /// </summary>
-        [Fact]
-        public void LikeCountTest()
-        {
-            // TODO unit test for the property 'LikeCount'
         }
 
         /// <summary>
@@ -207,39 +189,12 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'LiveRoomMode'
-        /// </summary>
-        [Fact]
-        public void LiveRoomModeTest()
-        {
-            // TODO unit test for the property 'LiveRoomMode'
-        }
-
-        /// <summary>
         /// Test the property 'StreamUrlFilteredInfo'
         /// </summary>
         [Fact]
         public void StreamUrlFilteredInfoTest()
         {
             // TODO unit test for the property 'StreamUrlFilteredInfo'
-        }
-
-        /// <summary>
-        /// Test the property 'SquareCoverImg'
-        /// </summary>
-        [Fact]
-        public void SquareCoverImgTest()
-        {
-            // TODO unit test for the property 'SquareCoverImg'
-        }
-
-        /// <summary>
-        /// Test the property 'RectangleCoverImg'
-        /// </summary>
-        [Fact]
-        public void RectangleCoverImgTest()
-        {
-            // TODO unit test for the property 'RectangleCoverImg'
         }
 
         /// <summary>
@@ -261,6 +216,60 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'LiveTypeThirdParty'
+        /// </summary>
+        [Fact]
+        public void LiveTypeThirdPartyTest()
+        {
+            // TODO unit test for the property 'LiveTypeThirdParty'
+        }
+
+        /// <summary>
+        /// Test the property 'LikeCount'
+        /// </summary>
+        [Fact]
+        public void LikeCountTest()
+        {
+            // TODO unit test for the property 'LikeCount'
+        }
+
+        /// <summary>
+        /// Test the property 'Hashtag'
+        /// </summary>
+        [Fact]
+        public void HashtagTest()
+        {
+            // TODO unit test for the property 'Hashtag'
+        }
+
+        /// <summary>
+        /// Test the property 'LiveRoomMode'
+        /// </summary>
+        [Fact]
+        public void LiveRoomModeTest()
+        {
+            // TODO unit test for the property 'LiveRoomMode'
+        }
+
+        /// <summary>
+        /// Test the property 'SquareCoverImg'
+        /// </summary>
+        [Fact]
+        public void SquareCoverImgTest()
+        {
+            // TODO unit test for the property 'SquareCoverImg'
+        }
+
+        /// <summary>
+        /// Test the property 'RectangleCoverImg'
+        /// </summary>
+        [Fact]
+        public void RectangleCoverImgTest()
+        {
+            // TODO unit test for the property 'RectangleCoverImg'
+        }
+
+        /// <summary>
         /// Test the property 'GameTagDetail'
         /// </summary>
         [Fact]
@@ -276,15 +285,6 @@ namespace EulerApiSdk.Test.Model
         public void TaxonomyTagInfoTest()
         {
             // TODO unit test for the property 'TaxonomyTagInfo'
-        }
-
-        /// <summary>
-        /// Test the property 'Hashtag'
-        /// </summary>
-        [Fact]
-        public void HashtagTest()
-        {
-            // TODO unit test for the property 'Hashtag'
         }
     }
 }

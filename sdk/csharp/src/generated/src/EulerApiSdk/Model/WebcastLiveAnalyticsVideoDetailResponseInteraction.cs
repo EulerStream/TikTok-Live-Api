@@ -103,8 +103,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastLiveAnalyticsVideoDetailResponseInteraction" />
     /// </summary>
-    public class WebcastLiveAnalyticsVideoDetailResponseInteractionJsonConverter : JsonConverter<WebcastLiveAnalyticsVideoDetailResponseInteraction>
+    public partial class WebcastLiveAnalyticsVideoDetailResponseInteractionJsonConverter : JsonConverter<WebcastLiveAnalyticsVideoDetailResponseInteraction>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastLiveAnalyticsVideoDetailResponseInteractionJsonConverter" /> class.
+        /// </summary>
+        public WebcastLiveAnalyticsVideoDetailResponseInteractionJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastLiveAnalyticsVideoDetailResponseInteraction" />
         /// </summary>

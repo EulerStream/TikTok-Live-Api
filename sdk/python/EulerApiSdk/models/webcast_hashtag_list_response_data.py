@@ -4,6 +4,7 @@ from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
     from ..models.webcast_hashtag_list_response_game_tag import WebcastHashtagListResponseGameTag
@@ -31,6 +32,7 @@ class WebcastHashtagListResponseData:
     live_studio_hashtag: list[WebcastHashtagListResponseHashtag]
     live_voice_hashtag: list[WebcastHashtagListResponseHashtag]
     third_party_hashtag: list[WebcastHashtagListResponseHashtag]
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         game_hashtag = self.game_hashtag.to_dict()
@@ -61,7 +63,7 @@ class WebcastHashtagListResponseData:
             third_party_hashtag.append(third_party_hashtag_item)
 
         field_dict: dict[str, Any] = {}
-
+        field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "game_hashtag": game_hashtag,
@@ -127,4 +129,21 @@ class WebcastHashtagListResponseData:
             third_party_hashtag=third_party_hashtag,
         )
 
+        webcast_hashtag_list_response_data.additional_properties = d
         return webcast_hashtag_list_response_data
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

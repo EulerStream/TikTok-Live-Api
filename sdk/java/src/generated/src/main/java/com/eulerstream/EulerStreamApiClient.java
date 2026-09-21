@@ -5,13 +5,19 @@ import com.eulerstream.api.AnalyticsApi;
 import com.eulerstream.api.AuthenticationApi;
 import com.eulerstream.api.TikTokCaptchasApi;
 import com.eulerstream.api.TikTokGeneralApi;
+import com.eulerstream.api.TikTokLiveAgenciesApi;
 import com.eulerstream.api.TikTokLiveAlertTargetsApi;
 import com.eulerstream.api.TikTokLiveAlertsApi;
 import com.eulerstream.api.TikTokLiveAnchorsApi;
 import com.eulerstream.api.TikTokLiveApi;
+import com.eulerstream.api.TikTokLiveEventsApi;
 import com.eulerstream.api.TikTokLiveGiftsApi;
 import com.eulerstream.api.TikTokLiveModerationApi;
+import com.eulerstream.api.TikTokLiveRankingsApi;
 import com.eulerstream.api.TikTokLiveRoomsApi;
+import com.eulerstream.api.TikTokSigningApi;
+import com.eulerstream.api.TikTokUsersApi;
+import com.eulerstream.api.TikTokVideosApi;
 import com.eulerstream.api.TikTokWebSocketApiApi;
 
 /**
@@ -38,13 +44,19 @@ public class EulerStreamApiClient {
     private final AuthenticationApi authentication;
     private final TikTokCaptchasApi captchas;
     private final TikTokGeneralApi general;
+    private final TikTokLiveAgenciesApi tikTokLiveAgencies;
     private final TikTokLiveAlertTargetsApi alertTargets;
     private final TikTokLiveAlertsApi alerts;
     private final TikTokLiveAnchorsApi tikTokLiveAnchors;
     private final TikTokLiveApi webcast;
+    private final TikTokLiveEventsApi tikTokLiveEvents;
     private final TikTokLiveGiftsApi tikTokLiveGifts;
     private final TikTokLiveModerationApi moderation;
+    private final TikTokLiveRankingsApi tikTokLiveRankings;
     private final TikTokLiveRoomsApi tikTokLiveRooms;
+    private final TikTokSigningApi tikTokSigning;
+    private final TikTokUsersApi tikTokUsers;
+    private final TikTokVideosApi tikTokVideos;
     private final TikTokWebSocketApiApi tikTokWebSocketApi;
 
     private EulerStreamApiClient(ApiClient apiClient) {
@@ -56,13 +68,19 @@ public class EulerStreamApiClient {
         this.authentication = new AuthenticationApi(apiClient);
         this.captchas = new TikTokCaptchasApi(apiClient);
         this.general = new TikTokGeneralApi(apiClient);
+        this.tikTokLiveAgencies = new TikTokLiveAgenciesApi(apiClient);
         this.alertTargets = new TikTokLiveAlertTargetsApi(apiClient);
         this.alerts = new TikTokLiveAlertsApi(apiClient);
         this.tikTokLiveAnchors = new TikTokLiveAnchorsApi(apiClient);
         this.webcast = new TikTokLiveApi(apiClient);
+        this.tikTokLiveEvents = new TikTokLiveEventsApi(apiClient);
         this.tikTokLiveGifts = new TikTokLiveGiftsApi(apiClient);
         this.moderation = new TikTokLiveModerationApi(apiClient);
+        this.tikTokLiveRankings = new TikTokLiveRankingsApi(apiClient);
         this.tikTokLiveRooms = new TikTokLiveRoomsApi(apiClient);
+        this.tikTokSigning = new TikTokSigningApi(apiClient);
+        this.tikTokUsers = new TikTokUsersApi(apiClient);
+        this.tikTokVideos = new TikTokVideosApi(apiClient);
         this.tikTokWebSocketApi = new TikTokWebSocketApiApi(apiClient);
     }
 
@@ -121,6 +139,15 @@ public class EulerStreamApiClient {
     }
 
     /**
+     * Get the TikTokLiveAgenciesApi instance.
+     *
+     * @return the TikTokLiveAgenciesApi
+     */
+    public TikTokLiveAgenciesApi tikTokLiveAgencies() {
+        return tikTokLiveAgencies;
+    }
+
+    /**
      * Get the TikTokLiveAlertTargetsApi instance.
      *
      * @return the TikTokLiveAlertTargetsApi
@@ -157,6 +184,15 @@ public class EulerStreamApiClient {
     }
 
     /**
+     * Get the TikTokLiveEventsApi instance.
+     *
+     * @return the TikTokLiveEventsApi
+     */
+    public TikTokLiveEventsApi tikTokLiveEvents() {
+        return tikTokLiveEvents;
+    }
+
+    /**
      * Get the TikTokLiveGiftsApi instance.
      *
      * @return the TikTokLiveGiftsApi
@@ -175,12 +211,48 @@ public class EulerStreamApiClient {
     }
 
     /**
+     * Get the TikTokLiveRankingsApi instance.
+     *
+     * @return the TikTokLiveRankingsApi
+     */
+    public TikTokLiveRankingsApi tikTokLiveRankings() {
+        return tikTokLiveRankings;
+    }
+
+    /**
      * Get the TikTokLiveRoomsApi instance.
      *
      * @return the TikTokLiveRoomsApi
      */
     public TikTokLiveRoomsApi tikTokLiveRooms() {
         return tikTokLiveRooms;
+    }
+
+    /**
+     * Get the TikTokSigningApi instance.
+     *
+     * @return the TikTokSigningApi
+     */
+    public TikTokSigningApi tikTokSigning() {
+        return tikTokSigning;
+    }
+
+    /**
+     * Get the TikTokUsersApi instance.
+     *
+     * @return the TikTokUsersApi
+     */
+    public TikTokUsersApi tikTokUsers() {
+        return tikTokUsers;
+    }
+
+    /**
+     * Get the TikTokVideosApi instance.
+     *
+     * @return the TikTokVideosApi
+     */
+    public TikTokVideosApi tikTokVideos() {
+        return tikTokVideos;
     }
 
     /**

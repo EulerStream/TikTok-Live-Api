@@ -58,7 +58,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets SD1
         /// </summary>
         [JsonPropertyName("SD1")]
-        public string? SD1 { get { return this.SD1Option; } set { this.SD1Option = new(value); } }
+        public string? SD1 { get { return this.SD1Option.Value; } set { this.SD1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of SD2
@@ -71,7 +71,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets SD2
         /// </summary>
         [JsonPropertyName("SD2")]
-        public string? SD2 { get { return this.SD2Option; } set { this.SD2Option = new(value); } }
+        public string? SD2 { get { return this.SD2Option.Value; } set { this.SD2Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of HD1
@@ -84,7 +84,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets HD1
         /// </summary>
         [JsonPropertyName("HD1")]
-        public string? HD1 { get { return this.HD1Option; } set { this.HD1Option = new(value); } }
+        public string? HD1 { get { return this.HD1Option.Value; } set { this.HD1Option = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -115,8 +115,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseStreamUrlFlvPullUrl" />
     /// </summary>
-    public class WebcastFeedResponseStreamUrlFlvPullUrlJsonConverter : JsonConverter<WebcastFeedResponseStreamUrlFlvPullUrl>
+    public partial class WebcastFeedResponseStreamUrlFlvPullUrlJsonConverter : JsonConverter<WebcastFeedResponseStreamUrlFlvPullUrl>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseStreamUrlFlvPullUrlJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseStreamUrlFlvPullUrlJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseStreamUrlFlvPullUrl" />
         /// </summary>

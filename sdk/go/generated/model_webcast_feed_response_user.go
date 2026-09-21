@@ -23,18 +23,16 @@ var _ MappedNullable = &WebcastFeedResponseUser{}
 type WebcastFeedResponseUser struct {
 	Id float64 `json:"id"`
 	Nickname string `json:"nickname"`
-	BioDescription string `json:"bio_description"`
+	BioDescription *string `json:"bio_description,omitempty"`
 	AvatarThumb WebcastFeedResponseImage `json:"avatar_thumb"`
 	AvatarMedium WebcastFeedResponseImage `json:"avatar_medium"`
 	AvatarLarge WebcastFeedResponseImage `json:"avatar_large"`
 	Status float64 `json:"status"`
 	ModifyTime float64 `json:"modify_time"`
 	FollowInfo WebcastFeedResponseUserFollowInfo `json:"follow_info"`
-	// Construct a type with a set of properties K of type T
 	PayGrade map[string]interface{} `json:"pay_grade"`
-	// Construct a type with a set of properties K of type T
 	UserAttr map[string]interface{} `json:"user_attr"`
-	OwnRoom WebcastFeedResponseUserOwnRoom `json:"own_room"`
+	OwnRoom *WebcastFeedResponseUserOwnRoom `json:"own_room,omitempty"`
 	DisplayId string `json:"display_id"`
 	SecUid string `json:"sec_uid"`
 	IdStr string `json:"id_str"`
@@ -46,11 +44,10 @@ type _WebcastFeedResponseUser WebcastFeedResponseUser
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastFeedResponseUser(id float64, nickname string, bioDescription string, avatarThumb WebcastFeedResponseImage, avatarMedium WebcastFeedResponseImage, avatarLarge WebcastFeedResponseImage, status float64, modifyTime float64, followInfo WebcastFeedResponseUserFollowInfo, payGrade map[string]interface{}, userAttr map[string]interface{}, ownRoom WebcastFeedResponseUserOwnRoom, displayId string, secUid string, idStr string) *WebcastFeedResponseUser {
+func NewWebcastFeedResponseUser(id float64, nickname string, avatarThumb WebcastFeedResponseImage, avatarMedium WebcastFeedResponseImage, avatarLarge WebcastFeedResponseImage, status float64, modifyTime float64, followInfo WebcastFeedResponseUserFollowInfo, payGrade map[string]interface{}, userAttr map[string]interface{}, displayId string, secUid string, idStr string) *WebcastFeedResponseUser {
 	this := WebcastFeedResponseUser{}
 	this.Id = id
 	this.Nickname = nickname
-	this.BioDescription = bioDescription
 	this.AvatarThumb = avatarThumb
 	this.AvatarMedium = avatarMedium
 	this.AvatarLarge = avatarLarge
@@ -59,7 +56,6 @@ func NewWebcastFeedResponseUser(id float64, nickname string, bioDescription stri
 	this.FollowInfo = followInfo
 	this.PayGrade = payGrade
 	this.UserAttr = userAttr
-	this.OwnRoom = ownRoom
 	this.DisplayId = displayId
 	this.SecUid = secUid
 	this.IdStr = idStr
@@ -122,28 +118,36 @@ func (o *WebcastFeedResponseUser) SetNickname(v string) {
 	o.Nickname = v
 }
 
-// GetBioDescription returns the BioDescription field value
+// GetBioDescription returns the BioDescription field value if set, zero value otherwise.
 func (o *WebcastFeedResponseUser) GetBioDescription() string {
-	if o == nil {
+	if o == nil || IsNil(o.BioDescription) {
 		var ret string
 		return ret
 	}
-
-	return o.BioDescription
+	return *o.BioDescription
 }
 
-// GetBioDescriptionOk returns a tuple with the BioDescription field value
+// GetBioDescriptionOk returns a tuple with the BioDescription field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseUser) GetBioDescriptionOk() (*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.BioDescription) {
 		return nil, false
 	}
-	return &o.BioDescription, true
+	return o.BioDescription, true
 }
 
-// SetBioDescription sets field value
+// HasBioDescription returns a boolean if a field has been set.
+func (o *WebcastFeedResponseUser) HasBioDescription() bool {
+	if o != nil && !IsNil(o.BioDescription) {
+		return true
+	}
+
+	return false
+}
+
+// SetBioDescription gets a reference to the given string and assigns it to the BioDescription field.
 func (o *WebcastFeedResponseUser) SetBioDescription(v string) {
-	o.BioDescription = v
+	o.BioDescription = &v
 }
 
 // GetAvatarThumb returns the AvatarThumb field value
@@ -338,28 +342,36 @@ func (o *WebcastFeedResponseUser) SetUserAttr(v map[string]interface{}) {
 	o.UserAttr = v
 }
 
-// GetOwnRoom returns the OwnRoom field value
+// GetOwnRoom returns the OwnRoom field value if set, zero value otherwise.
 func (o *WebcastFeedResponseUser) GetOwnRoom() WebcastFeedResponseUserOwnRoom {
-	if o == nil {
+	if o == nil || IsNil(o.OwnRoom) {
 		var ret WebcastFeedResponseUserOwnRoom
 		return ret
 	}
-
-	return o.OwnRoom
+	return *o.OwnRoom
 }
 
-// GetOwnRoomOk returns a tuple with the OwnRoom field value
+// GetOwnRoomOk returns a tuple with the OwnRoom field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseUser) GetOwnRoomOk() (*WebcastFeedResponseUserOwnRoom, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.OwnRoom) {
 		return nil, false
 	}
-	return &o.OwnRoom, true
+	return o.OwnRoom, true
 }
 
-// SetOwnRoom sets field value
+// HasOwnRoom returns a boolean if a field has been set.
+func (o *WebcastFeedResponseUser) HasOwnRoom() bool {
+	if o != nil && !IsNil(o.OwnRoom) {
+		return true
+	}
+
+	return false
+}
+
+// SetOwnRoom gets a reference to the given WebcastFeedResponseUserOwnRoom and assigns it to the OwnRoom field.
 func (o *WebcastFeedResponseUser) SetOwnRoom(v WebcastFeedResponseUserOwnRoom) {
-	o.OwnRoom = v
+	o.OwnRoom = &v
 }
 
 // GetDisplayId returns the DisplayId field value
@@ -446,7 +458,9 @@ func (o WebcastFeedResponseUser) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["nickname"] = o.Nickname
-	toSerialize["bio_description"] = o.BioDescription
+	if !IsNil(o.BioDescription) {
+		toSerialize["bio_description"] = o.BioDescription
+	}
 	toSerialize["avatar_thumb"] = o.AvatarThumb
 	toSerialize["avatar_medium"] = o.AvatarMedium
 	toSerialize["avatar_large"] = o.AvatarLarge
@@ -455,7 +469,9 @@ func (o WebcastFeedResponseUser) ToMap() (map[string]interface{}, error) {
 	toSerialize["follow_info"] = o.FollowInfo
 	toSerialize["pay_grade"] = o.PayGrade
 	toSerialize["user_attr"] = o.UserAttr
-	toSerialize["own_room"] = o.OwnRoom
+	if !IsNil(o.OwnRoom) {
+		toSerialize["own_room"] = o.OwnRoom
+	}
 	toSerialize["display_id"] = o.DisplayId
 	toSerialize["sec_uid"] = o.SecUid
 	toSerialize["id_str"] = o.IdStr
@@ -469,7 +485,6 @@ func (o *WebcastFeedResponseUser) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"id",
 		"nickname",
-		"bio_description",
 		"avatar_thumb",
 		"avatar_medium",
 		"avatar_large",
@@ -478,7 +493,6 @@ func (o *WebcastFeedResponseUser) UnmarshalJSON(data []byte) (err error) {
 		"follow_info",
 		"pay_grade",
 		"user_attr",
-		"own_room",
 		"display_id",
 		"sec_uid",
 		"id_str",

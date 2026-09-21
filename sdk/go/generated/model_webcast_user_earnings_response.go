@@ -23,7 +23,7 @@ var _ MappedNullable = &WebcastUserEarningsResponse{}
 type WebcastUserEarningsResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	Response *WebcastUserEarningsOutput `json:"response,omitempty"`
+	Response *StableWebcastUserEarningsOutput `json:"response,omitempty"`
 }
 
 type _WebcastUserEarningsResponse WebcastUserEarningsResponse
@@ -103,9 +103,9 @@ func (o *WebcastUserEarningsResponse) SetMessage(v string) {
 }
 
 // GetResponse returns the Response field value if set, zero value otherwise.
-func (o *WebcastUserEarningsResponse) GetResponse() WebcastUserEarningsOutput {
+func (o *WebcastUserEarningsResponse) GetResponse() StableWebcastUserEarningsOutput {
 	if o == nil || IsNil(o.Response) {
-		var ret WebcastUserEarningsOutput
+		var ret StableWebcastUserEarningsOutput
 		return ret
 	}
 	return *o.Response
@@ -113,7 +113,7 @@ func (o *WebcastUserEarningsResponse) GetResponse() WebcastUserEarningsOutput {
 
 // GetResponseOk returns a tuple with the Response field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WebcastUserEarningsResponse) GetResponseOk() (*WebcastUserEarningsOutput, bool) {
+func (o *WebcastUserEarningsResponse) GetResponseOk() (*StableWebcastUserEarningsOutput, bool) {
 	if o == nil || IsNil(o.Response) {
 		return nil, false
 	}
@@ -129,8 +129,8 @@ func (o *WebcastUserEarningsResponse) HasResponse() bool {
 	return false
 }
 
-// SetResponse gets a reference to the given WebcastUserEarningsOutput and assigns it to the Response field.
-func (o *WebcastUserEarningsResponse) SetResponse(v WebcastUserEarningsOutput) {
+// SetResponse gets a reference to the given StableWebcastUserEarningsOutput and assigns it to the Response field.
+func (o *WebcastUserEarningsResponse) SetResponse(v StableWebcastUserEarningsOutput) {
 	o.Response = &v
 }
 

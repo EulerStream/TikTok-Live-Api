@@ -85,8 +85,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastHashtagListResponseGameCategory" />
     /// </summary>
-    public class WebcastHashtagListResponseGameCategoryJsonConverter : JsonConverter<WebcastHashtagListResponseGameCategory>
+    public partial class WebcastHashtagListResponseGameCategoryJsonConverter : JsonConverter<WebcastHashtagListResponseGameCategory>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastHashtagListResponseGameCategoryJsonConverter" /> class.
+        /// </summary>
+        public WebcastHashtagListResponseGameCategoryJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastHashtagListResponseGameCategory" />
         /// </summary>

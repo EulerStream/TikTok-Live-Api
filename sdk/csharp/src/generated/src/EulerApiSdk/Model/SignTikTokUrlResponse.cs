@@ -37,7 +37,7 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="response">response</param>
         [JsonConstructor]
-        public SignTikTokUrlResponse(double code, Option<string?> message = default, Option<PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray?> response = default)
+        public SignTikTokUrlResponse(double code, Option<string?> message = default, Option<ProxySignResult?> response = default)
         {
             Code = code;
             MessageOption = message;
@@ -64,20 +64,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray?> ResponseOption { get; private set; }
+        public Option<ProxySignResult?> ResponseOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public ProxySignResult? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="SignTikTokUrlResponse" />
     /// </summary>
-    public class SignTikTokUrlResponseJsonConverter : JsonConverter<SignTikTokUrlResponse>
+    public partial class SignTikTokUrlResponseJsonConverter : JsonConverter<SignTikTokUrlResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignTikTokUrlResponseJsonConverter" /> class.
+        /// </summary>
+        public SignTikTokUrlResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="SignTikTokUrlResponse" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace EulerApiSdk.Model
 
             Option<double?> code = default;
             Option<string?> message = default;
-            Option<PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray?> response = default;
+            Option<ProxySignResult?> response = default;
 
             while (utf8JsonReader.Read())
             {
@@ -153,7 +163,7 @@ namespace EulerApiSdk.Model
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "response":
-                            response = new Option<PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray?>(JsonSerializer.Deserialize<PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            response = new Option<ProxySignResult?>(JsonSerializer.Deserialize<ProxySignResult>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

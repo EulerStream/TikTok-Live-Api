@@ -26,7 +26,6 @@ type GetRateLimits struct {
 	Day *RateLimitInfo `json:"day,omitempty"`
 	Hour *RateLimitInfo `json:"hour,omitempty"`
 	Minute *RateLimitInfo `json:"minute,omitempty"`
-	LoadShedding LoadShedInfo `json:"load_shedding"`
 }
 
 type _GetRateLimits GetRateLimits
@@ -35,10 +34,9 @@ type _GetRateLimits GetRateLimits
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetRateLimits(code float64, loadShedding LoadShedInfo) *GetRateLimits {
+func NewGetRateLimits(code float64) *GetRateLimits {
 	this := GetRateLimits{}
 	this.Code = code
-	this.LoadShedding = loadShedding
 	return &this
 }
 
@@ -202,30 +200,6 @@ func (o *GetRateLimits) SetMinute(v RateLimitInfo) {
 	o.Minute = &v
 }
 
-// GetLoadShedding returns the LoadShedding field value
-func (o *GetRateLimits) GetLoadShedding() LoadShedInfo {
-	if o == nil {
-		var ret LoadShedInfo
-		return ret
-	}
-
-	return o.LoadShedding
-}
-
-// GetLoadSheddingOk returns a tuple with the LoadShedding field value
-// and a boolean to check if the value has been set.
-func (o *GetRateLimits) GetLoadSheddingOk() (*LoadShedInfo, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.LoadShedding, true
-}
-
-// SetLoadShedding sets field value
-func (o *GetRateLimits) SetLoadShedding(v LoadShedInfo) {
-	o.LoadShedding = v
-}
-
 func (o GetRateLimits) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -249,7 +223,6 @@ func (o GetRateLimits) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Minute) {
 		toSerialize["minute"] = o.Minute
 	}
-	toSerialize["load_shedding"] = o.LoadShedding
 	return toSerialize, nil
 }
 
@@ -259,7 +232,6 @@ func (o *GetRateLimits) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"code",
-		"load_shedding",
 	}
 
 	allProperties := make(map[string]interface{})

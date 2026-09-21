@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="UpdateKeyPayload" />
     /// </summary>
-    public class UpdateKeyPayloadJsonConverter : JsonConverter<UpdateKeyPayload>
+    public partial class UpdateKeyPayloadJsonConverter : JsonConverter<UpdateKeyPayload>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateKeyPayloadJsonConverter" /> class.
+        /// </summary>
+        public UpdateKeyPayloadJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="UpdateKeyPayload" />
         /// </summary>

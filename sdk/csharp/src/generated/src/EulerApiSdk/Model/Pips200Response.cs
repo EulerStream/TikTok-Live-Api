@@ -54,7 +54,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Gets or Sets PipResponse
         /// </summary>
-        public PipResponse? PipResponse { get { return this.PipResponseOption; } set { this.PipResponseOption = new(value); } }
+        public PipResponse? PipResponse { get { return this.PipResponseOption.Value; } set { this.PipResponseOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of String
@@ -66,7 +66,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Gets or Sets String
         /// </summary>
-        public string? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
+        public string? String { get { return this.StringOption.Value; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -94,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="Pips200Response" />
     /// </summary>
-    public class Pips200ResponseJsonConverter : JsonConverter<Pips200Response>
+    public partial class Pips200ResponseJsonConverter : JsonConverter<Pips200Response>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pips200ResponseJsonConverter" /> class.
+        /// </summary>
+        public Pips200ResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="Pips200Response" />
         /// </summary>
@@ -179,8 +189,8 @@ namespace EulerApiSdk.Model
 
             if (pips200Response.PipResponseOption.IsSet && pips200Response.PipResponseOption.Value != null)
             {
-                PipResponseJsonConverter PipResponseJsonConverter = (PipResponseJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pips200Response.PipResponseOption.Value.GetType()));
-                PipResponseJsonConverter.WriteProperties(writer, pips200Response.PipResponseOption.Value, jsonSerializerOptions);
+                PipResponseJsonConverter pipResponseJsonConverter = (PipResponseJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(pips200Response.PipResponseOption.Value.GetType()));
+                pipResponseJsonConverter.WriteProperties(writer, pips200Response.PipResponseOption.Value, jsonSerializerOptions);
             }
 
             if (pips200Response.StringOption.IsSet && pips200Response.StringOption.Value != null)

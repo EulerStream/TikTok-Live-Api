@@ -14,7 +14,7 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.JWTConfig;
+import com.eulerstream.model.SignedJWTConfiguration;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -49,7 +49,7 @@ import com.eulerstream.JSON;
 /**
  * CreateJWTResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class CreateJWTResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -69,7 +69,7 @@ public class CreateJWTResponse {
   public static final String SERIALIZED_NAME_CONFIG = "config";
   @SerializedName(SERIALIZED_NAME_CONFIG)
   @javax.annotation.Nullable
-  private JWTConfig config;
+  private SignedJWTConfiguration config;
 
   public CreateJWTResponse() {
   }
@@ -131,7 +131,7 @@ public class CreateJWTResponse {
   }
 
 
-  public CreateJWTResponse config(@javax.annotation.Nullable JWTConfig config) {
+  public CreateJWTResponse config(@javax.annotation.Nullable SignedJWTConfiguration config) {
     this.config = config;
     return this;
   }
@@ -141,11 +141,11 @@ public class CreateJWTResponse {
    * @return config
    */
   @javax.annotation.Nullable
-  public JWTConfig getConfig() {
+  public SignedJWTConfiguration getConfig() {
     return config;
   }
 
-  public void setConfig(@javax.annotation.Nullable JWTConfig config) {
+  public void setConfig(@javax.annotation.Nullable SignedJWTConfiguration config) {
     this.config = config;
   }
 
@@ -239,7 +239,7 @@ public class CreateJWTResponse {
       }
       // validate the optional field `config`
       if (jsonObj.get("config") != null && !jsonObj.get("config").isJsonNull()) {
-        JWTConfig.validateJsonElement(jsonObj.get("config"));
+        SignedJWTConfiguration.validateJsonElement(jsonObj.get("config"));
       }
   }
 

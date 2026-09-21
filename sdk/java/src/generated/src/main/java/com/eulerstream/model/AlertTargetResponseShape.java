@@ -49,9 +49,9 @@ import java.util.Set;
 import com.eulerstream.JSON;
 
 /**
- * Public, snake_case response shape for an alert target.  Mirrors the legacy (&#x60;old-schema.json&#x60;) target shape as closely as the new gRPC {@link LivePushAlertTarget} model allows: field casing is converted, &#x60;metadata&#x60; is re-hydrated from the stored JSON string, the unix-ms timestamps are threaded back into ISO &#x60;created_at&#x60; / &#x60;updated_at&#x60;, and &#x60;alert_creator_id&#x60; is coerced to a number.
+ * Public, snake_case response shape for an alert target. Mirrors the legacy (&#x60;old-schema.json&#x60;) target shape as closely as the new gRPC {@link LivePushAlertTarget} model allows: field casing is converted, &#x60;metadata&#x60; is re-hydrated from the stored JSON string, the unix-ms timestamps are threaded back into ISO &#x60;created_at&#x60; / &#x60;updated_at&#x60;, and &#x60;alert_creator_id&#x60; is coerced to a number.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class AlertTargetResponseShape {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

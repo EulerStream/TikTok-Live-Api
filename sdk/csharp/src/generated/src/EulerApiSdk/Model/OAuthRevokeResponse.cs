@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Error
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Error
         /// </summary>
         [JsonPropertyName("error")]
-        public TokenErrorResponse? Error { get { return this.ErrorOption; } set { this.ErrorOption = new(value); } }
+        public TokenErrorResponse? Error { get { return this.ErrorOption.Value; } set { this.ErrorOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="OAuthRevokeResponse" />
     /// </summary>
-    public class OAuthRevokeResponseJsonConverter : JsonConverter<OAuthRevokeResponse>
+    public partial class OAuthRevokeResponseJsonConverter : JsonConverter<OAuthRevokeResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OAuthRevokeResponseJsonConverter" /> class.
+        /// </summary>
+        public OAuthRevokeResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="OAuthRevokeResponse" />
         /// </summary>

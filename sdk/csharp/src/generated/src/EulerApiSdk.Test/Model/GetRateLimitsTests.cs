@@ -63,15 +63,6 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'LoadShedding'
-        /// </summary>
-        [Fact]
-        public void LoadSheddingTest()
-        {
-            // TODO unit test for the property 'LoadShedding'
-        }
-
-        /// <summary>
         /// Test the property 'Message'
         /// </summary>
         [Fact]

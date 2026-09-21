@@ -27,9 +27,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.GiftCatalogOrderBy;
 import com.eulerstream.model.PooledProxyRegion;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.WebcastGiftResponse;
 import com.eulerstream.model.WebcastGiftSearchResponse;
 import com.eulerstream.model.WebcastGiftcatalogResponse;

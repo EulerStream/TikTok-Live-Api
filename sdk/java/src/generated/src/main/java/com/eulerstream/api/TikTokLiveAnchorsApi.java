@@ -27,16 +27,19 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.LiveAnalyticsUserInteractionsAPIResponse;
 import com.eulerstream.model.LiveAnalyticsVideoDetailAPIResponse;
 import com.eulerstream.model.LiveAnalyticsVideoListAPIResponse;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveRoomCoverResponse;
-import com.eulerstream.model.RetrieveRoomVideoResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.RoomAdminUpdateAPIResponse;
 import com.eulerstream.model.RoomModeratorsAPIResponse;
-import com.eulerstream.model.StreamType;
+import com.eulerstream.model.RouteImageSource;
+import com.eulerstream.model.WebcastFetchPlatform;
 import com.eulerstream.model.WebcastGiftGalleryResponse;
+import com.eulerstream.model.WebcastLanguage;
 import com.eulerstream.model.WebcastRoomIdRouteResponse;
 import com.eulerstream.model.WebcastRoomInfoRouteResponse;
 import com.eulerstream.model.WebcastUserEarningsOutputPeriod;
@@ -257,6 +260,204 @@ public class TikTokLiveAnchorsApi {
         return localVarCall;
     }
     /**
+     * Build call for fetchWebcastURLByUniqueId
+     * @param uniqueId The unique ID (handle) of the TikTok user whose LIVE room to connect to. (required)
+     * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
+     * @param cursor Starting cursor for the webcast connection, if any (optional)
+     * @param userAgent Override the user agent used for signing and fetching (optional)
+     * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
+     * @param platform Platform to connect with (optional)
+     * @param xOauthToken OAuth access token for session resolution (optional)
+     * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fetchWebcastURLByUniqueIdCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/webcast/anchors/{unique_id}/connect"
+            .replace("{" + "unique_id" + "}", localVarApiClient.escapeString(uniqueId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (client != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client", client));
+        }
+
+        if (cursor != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("cursor", cursor));
+        }
+
+        if (userAgent != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("user_agent", userAgent));
+        }
+
+        if (clientEnter != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_enter", clientEnter));
+        }
+
+        if (platform != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("platform", platform));
+        }
+
+        final String[] localVarAccepts = {
+            "application/protobuf",
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xOauthToken != null) {
+            localVarHeaderParams.put("x-oauth-token", localVarApiClient.parameterToString(xOauthToken));
+        }
+
+
+        if (xCookieHeader != null) {
+            localVarHeaderParams.put("x-cookie-header", localVarApiClient.parameterToString(xCookieHeader));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "api_key_query", "jwt_key_header", "api_key_header" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call fetchWebcastURLByUniqueIdValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'uniqueId' is set
+        if (uniqueId == null) {
+            throw new ApiException("Missing the required parameter 'uniqueId' when calling fetchWebcastURLByUniqueId(Async)");
+        }
+
+        return fetchWebcastURLByUniqueIdCall(uniqueId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader, _callback);
+
+    }
+
+    /**
+     * 
+     * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given the anchor&#39;s unique ID (handle).  Resolves the handle to its current Room ID, then behaves exactly as fetching by Room ID. Requires the Business plan.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * @param uniqueId The unique ID (handle) of the TikTok user whose LIVE room to connect to. (required)
+     * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
+     * @param cursor Starting cursor for the webcast connection, if any (optional)
+     * @param userAgent Override the user agent used for signing and fetching (optional)
+     * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
+     * @param platform Platform to connect with (optional)
+     * @param xOauthToken OAuth access token for session resolution (optional)
+     * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public Object fetchWebcastURLByUniqueId(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
+        ApiResponse<Object> localVarResp = fetchWebcastURLByUniqueIdWithHttpInfo(uniqueId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader);
+        return localVarResp.getData();
+    }
+
+    /**
+     * 
+     * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given the anchor&#39;s unique ID (handle).  Resolves the handle to its current Room ID, then behaves exactly as fetching by Room ID. Requires the Business plan.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * @param uniqueId The unique ID (handle) of the TikTok user whose LIVE room to connect to. (required)
+     * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
+     * @param cursor Starting cursor for the webcast connection, if any (optional)
+     * @param userAgent Override the user agent used for signing and fetching (optional)
+     * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
+     * @param platform Platform to connect with (optional)
+     * @param xOauthToken OAuth access token for session resolution (optional)
+     * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Object> fetchWebcastURLByUniqueIdWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
+        okhttp3.Call localVarCall = fetchWebcastURLByUniqueIdValidateBeforeCall(uniqueId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     *  (asynchronously)
+     * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given the anchor&#39;s unique ID (handle).  Resolves the handle to its current Room ID, then behaves exactly as fetching by Room ID. Requires the Business plan.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * @param uniqueId The unique ID (handle) of the TikTok user whose LIVE room to connect to. (required)
+     * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
+     * @param cursor Starting cursor for the webcast connection, if any (optional)
+     * @param userAgent Override the user agent used for signing and fetching (optional)
+     * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
+     * @param platform Platform to connect with (optional)
+     * @param xOauthToken OAuth access token for session resolution (optional)
+     * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fetchWebcastURLByUniqueIdAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = fetchWebcastURLByUniqueIdValidateBeforeCall(uniqueId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for removeRoomModerator
      * @param toUserId The user ID to remove as moderator (required)
      * @param anchorId The streamer&#39;s user ID (required)
@@ -432,6 +633,7 @@ public class TikTokLiveAnchorsApi {
      * @param userId The numeric user ID to get interactions for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -445,7 +647,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveLiveAnalyticsUserInteractionsCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveLiveAnalyticsUserInteractionsCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -500,12 +702,17 @@ public class TikTokLiveAnchorsApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveLiveAnalyticsUserInteractionsValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveLiveAnalyticsUserInteractionsValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'roomId' is set
         if (roomId == null) {
             throw new ApiException("Missing the required parameter 'roomId' when calling retrieveLiveAnalyticsUserInteractions(Async)");
@@ -516,7 +723,7 @@ public class TikTokLiveAnchorsApi {
             throw new ApiException("Missing the required parameter 'userId' when calling retrieveLiveAnalyticsUserInteractions(Async)");
         }
 
-        return retrieveLiveAnalyticsUserInteractionsCall(roomId, userId, xOauthToken, xCookieHeader, _callback);
+        return retrieveLiveAnalyticsUserInteractionsCall(roomId, userId, xOauthToken, xCookieHeader, xImageSource, _callback);
 
     }
 
@@ -527,6 +734,7 @@ public class TikTokLiveAnchorsApi {
      * @param userId The numeric user ID to get interactions for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return LiveAnalyticsUserInteractionsAPIResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -539,8 +747,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public LiveAnalyticsUserInteractionsAPIResponse retrieveLiveAnalyticsUserInteractions(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        ApiResponse<LiveAnalyticsUserInteractionsAPIResponse> localVarResp = retrieveLiveAnalyticsUserInteractionsWithHttpInfo(roomId, userId, xOauthToken, xCookieHeader);
+    public LiveAnalyticsUserInteractionsAPIResponse retrieveLiveAnalyticsUserInteractions(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<LiveAnalyticsUserInteractionsAPIResponse> localVarResp = retrieveLiveAnalyticsUserInteractionsWithHttpInfo(roomId, userId, xOauthToken, xCookieHeader, xImageSource);
         return localVarResp.getData();
     }
 
@@ -551,6 +759,7 @@ public class TikTokLiveAnchorsApi {
      * @param userId The numeric user ID to get interactions for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;LiveAnalyticsUserInteractionsAPIResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -563,8 +772,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<LiveAnalyticsUserInteractionsAPIResponse> retrieveLiveAnalyticsUserInteractionsWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        okhttp3.Call localVarCall = retrieveLiveAnalyticsUserInteractionsValidateBeforeCall(roomId, userId, xOauthToken, xCookieHeader, null);
+    public ApiResponse<LiveAnalyticsUserInteractionsAPIResponse> retrieveLiveAnalyticsUserInteractionsWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveLiveAnalyticsUserInteractionsValidateBeforeCall(roomId, userId, xOauthToken, xCookieHeader, xImageSource, null);
         Type localVarReturnType = new TypeToken<LiveAnalyticsUserInteractionsAPIResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -576,6 +785,7 @@ public class TikTokLiveAnchorsApi {
      * @param userId The numeric user ID to get interactions for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -589,9 +799,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveLiveAnalyticsUserInteractionsAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<LiveAnalyticsUserInteractionsAPIResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveLiveAnalyticsUserInteractionsAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nonnull String userId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<LiveAnalyticsUserInteractionsAPIResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveLiveAnalyticsUserInteractionsValidateBeforeCall(roomId, userId, xOauthToken, xCookieHeader, _callback);
+        okhttp3.Call localVarCall = retrieveLiveAnalyticsUserInteractionsValidateBeforeCall(roomId, userId, xOauthToken, xCookieHeader, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<LiveAnalyticsUserInteractionsAPIResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -601,6 +811,7 @@ public class TikTokLiveAnchorsApi {
      * @param roomId The room ID of the livestream to get analytics for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -614,7 +825,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveLiveAnalyticsVideoDetailCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveLiveAnalyticsVideoDetailCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -665,18 +876,23 @@ public class TikTokLiveAnchorsApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveLiveAnalyticsVideoDetailValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveLiveAnalyticsVideoDetailValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'roomId' is set
         if (roomId == null) {
             throw new ApiException("Missing the required parameter 'roomId' when calling retrieveLiveAnalyticsVideoDetail(Async)");
         }
 
-        return retrieveLiveAnalyticsVideoDetailCall(roomId, xOauthToken, xCookieHeader, _callback);
+        return retrieveLiveAnalyticsVideoDetailCall(roomId, xOauthToken, xCookieHeader, xImageSource, _callback);
 
     }
 
@@ -686,6 +902,7 @@ public class TikTokLiveAnchorsApi {
      * @param roomId The room ID of the livestream to get analytics for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return LiveAnalyticsVideoDetailAPIResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -698,8 +915,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public LiveAnalyticsVideoDetailAPIResponse retrieveLiveAnalyticsVideoDetail(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        ApiResponse<LiveAnalyticsVideoDetailAPIResponse> localVarResp = retrieveLiveAnalyticsVideoDetailWithHttpInfo(roomId, xOauthToken, xCookieHeader);
+    public LiveAnalyticsVideoDetailAPIResponse retrieveLiveAnalyticsVideoDetail(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<LiveAnalyticsVideoDetailAPIResponse> localVarResp = retrieveLiveAnalyticsVideoDetailWithHttpInfo(roomId, xOauthToken, xCookieHeader, xImageSource);
         return localVarResp.getData();
     }
 
@@ -709,6 +926,7 @@ public class TikTokLiveAnchorsApi {
      * @param roomId The room ID of the livestream to get analytics for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;LiveAnalyticsVideoDetailAPIResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -721,8 +939,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<LiveAnalyticsVideoDetailAPIResponse> retrieveLiveAnalyticsVideoDetailWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoDetailValidateBeforeCall(roomId, xOauthToken, xCookieHeader, null);
+    public ApiResponse<LiveAnalyticsVideoDetailAPIResponse> retrieveLiveAnalyticsVideoDetailWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoDetailValidateBeforeCall(roomId, xOauthToken, xCookieHeader, xImageSource, null);
         Type localVarReturnType = new TypeToken<LiveAnalyticsVideoDetailAPIResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -733,6 +951,7 @@ public class TikTokLiveAnchorsApi {
      * @param roomId The room ID of the livestream to get analytics for (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -746,9 +965,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveLiveAnalyticsVideoDetailAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<LiveAnalyticsVideoDetailAPIResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveLiveAnalyticsVideoDetailAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<LiveAnalyticsVideoDetailAPIResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoDetailValidateBeforeCall(roomId, xOauthToken, xCookieHeader, _callback);
+        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoDetailValidateBeforeCall(roomId, xOauthToken, xCookieHeader, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<LiveAnalyticsVideoDetailAPIResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -759,6 +978,7 @@ public class TikTokLiveAnchorsApi {
      * @param offset Pagination offset (default: 0) (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -772,7 +992,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveLiveAnalyticsVideoListCall(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveLiveAnalyticsVideoListCall(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -830,13 +1050,18 @@ public class TikTokLiveAnchorsApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveLiveAnalyticsVideoListValidateBeforeCall(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
-        return retrieveLiveAnalyticsVideoListCall(count, offset, xOauthToken, xCookieHeader, _callback);
+    private okhttp3.Call retrieveLiveAnalyticsVideoListValidateBeforeCall(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
+        return retrieveLiveAnalyticsVideoListCall(count, offset, xOauthToken, xCookieHeader, xImageSource, _callback);
 
     }
 
@@ -847,6 +1072,7 @@ public class TikTokLiveAnchorsApi {
      * @param offset Pagination offset (default: 0) (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return LiveAnalyticsVideoListAPIResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -859,8 +1085,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public LiveAnalyticsVideoListAPIResponse retrieveLiveAnalyticsVideoList(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        ApiResponse<LiveAnalyticsVideoListAPIResponse> localVarResp = retrieveLiveAnalyticsVideoListWithHttpInfo(count, offset, xOauthToken, xCookieHeader);
+    public LiveAnalyticsVideoListAPIResponse retrieveLiveAnalyticsVideoList(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<LiveAnalyticsVideoListAPIResponse> localVarResp = retrieveLiveAnalyticsVideoListWithHttpInfo(count, offset, xOauthToken, xCookieHeader, xImageSource);
         return localVarResp.getData();
     }
 
@@ -871,6 +1097,7 @@ public class TikTokLiveAnchorsApi {
      * @param offset Pagination offset (default: 0) (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;LiveAnalyticsVideoListAPIResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -883,8 +1110,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<LiveAnalyticsVideoListAPIResponse> retrieveLiveAnalyticsVideoListWithHttpInfo(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoListValidateBeforeCall(count, offset, xOauthToken, xCookieHeader, null);
+    public ApiResponse<LiveAnalyticsVideoListAPIResponse> retrieveLiveAnalyticsVideoListWithHttpInfo(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoListValidateBeforeCall(count, offset, xOauthToken, xCookieHeader, xImageSource, null);
         Type localVarReturnType = new TypeToken<LiveAnalyticsVideoListAPIResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -896,6 +1123,7 @@ public class TikTokLiveAnchorsApi {
      * @param offset Pagination offset (default: 0) (optional, default to 0)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -909,9 +1137,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveLiveAnalyticsVideoListAsync(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<LiveAnalyticsVideoListAPIResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveLiveAnalyticsVideoListAsync(@javax.annotation.Nullable Double count, @javax.annotation.Nullable Double offset, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<LiveAnalyticsVideoListAPIResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoListValidateBeforeCall(count, offset, xOauthToken, xCookieHeader, _callback);
+        okhttp3.Call localVarCall = retrieveLiveAnalyticsVideoListValidateBeforeCall(count, offset, xOauthToken, xCookieHeader, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<LiveAnalyticsVideoListAPIResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -920,6 +1148,7 @@ public class TikTokLiveAnchorsApi {
      * Build call for retrieveRoomCover
      * @param uniqueId The unique ID of the TikTok to fetch the cover for. (required)
      * @param redirect Whether to redirect to the URL directly (optional, default to true)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -933,7 +1162,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomCoverCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomCoverCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -978,18 +1207,23 @@ public class TikTokLiveAnchorsApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "jwt_key_header", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveRoomCoverValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveRoomCoverValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'uniqueId' is set
         if (uniqueId == null) {
             throw new ApiException("Missing the required parameter 'uniqueId' when calling retrieveRoomCover(Async)");
         }
 
-        return retrieveRoomCoverCall(uniqueId, redirect, _callback);
+        return retrieveRoomCoverCall(uniqueId, redirect, xImageSource, _callback);
 
     }
 
@@ -998,6 +1232,7 @@ public class TikTokLiveAnchorsApi {
      * Fetch TikTok LIVE Stream Cover URL given a uniqueId.
      * @param uniqueId The unique ID of the TikTok to fetch the cover for. (required)
      * @param redirect Whether to redirect to the URL directly (optional, default to true)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return RetrieveRoomCoverResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1010,8 +1245,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public RetrieveRoomCoverResponse retrieveRoomCover(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect) throws ApiException {
-        ApiResponse<RetrieveRoomCoverResponse> localVarResp = retrieveRoomCoverWithHttpInfo(uniqueId, redirect);
+    public RetrieveRoomCoverResponse retrieveRoomCover(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<RetrieveRoomCoverResponse> localVarResp = retrieveRoomCoverWithHttpInfo(uniqueId, redirect, xImageSource);
         return localVarResp.getData();
     }
 
@@ -1020,6 +1255,7 @@ public class TikTokLiveAnchorsApi {
      * Fetch TikTok LIVE Stream Cover URL given a uniqueId.
      * @param uniqueId The unique ID of the TikTok to fetch the cover for. (required)
      * @param redirect Whether to redirect to the URL directly (optional, default to true)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;RetrieveRoomCoverResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1032,8 +1268,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<RetrieveRoomCoverResponse> retrieveRoomCoverWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect) throws ApiException {
-        okhttp3.Call localVarCall = retrieveRoomCoverValidateBeforeCall(uniqueId, redirect, null);
+    public ApiResponse<RetrieveRoomCoverResponse> retrieveRoomCoverWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveRoomCoverValidateBeforeCall(uniqueId, redirect, xImageSource, null);
         Type localVarReturnType = new TypeToken<RetrieveRoomCoverResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1043,6 +1279,7 @@ public class TikTokLiveAnchorsApi {
      * Fetch TikTok LIVE Stream Cover URL given a uniqueId.
      * @param uniqueId The unique ID of the TikTok to fetch the cover for. (required)
      * @param redirect Whether to redirect to the URL directly (optional, default to true)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1056,9 +1293,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomCoverAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, final ApiCallback<RetrieveRoomCoverResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomCoverAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable Boolean redirect, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<RetrieveRoomCoverResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveRoomCoverValidateBeforeCall(uniqueId, redirect, _callback);
+        okhttp3.Call localVarCall = retrieveRoomCoverValidateBeforeCall(uniqueId, redirect, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<RetrieveRoomCoverResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1205,6 +1442,7 @@ public class TikTokLiveAnchorsApi {
     /**
      * Build call for retrieveRoomInfo
      * @param uniqueId The unique identifier for the TikTok user or room (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1218,7 +1456,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomInfoCall(@javax.annotation.Nonnull String uniqueId, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomInfoCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1259,18 +1497,23 @@ public class TikTokLiveAnchorsApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveRoomInfoValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveRoomInfoValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'uniqueId' is set
         if (uniqueId == null) {
             throw new ApiException("Missing the required parameter 'uniqueId' when calling retrieveRoomInfo(Async)");
         }
 
-        return retrieveRoomInfoCall(uniqueId, _callback);
+        return retrieveRoomInfoCall(uniqueId, xImageSource, _callback);
 
     }
 
@@ -1278,6 +1521,7 @@ public class TikTokLiveAnchorsApi {
      * 
      * Retrieve TikTok Live Room Information
      * @param uniqueId The unique identifier for the TikTok user or room (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return WebcastRoomInfoRouteResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1290,8 +1534,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public WebcastRoomInfoRouteResponse retrieveRoomInfo(@javax.annotation.Nonnull String uniqueId) throws ApiException {
-        ApiResponse<WebcastRoomInfoRouteResponse> localVarResp = retrieveRoomInfoWithHttpInfo(uniqueId);
+    public WebcastRoomInfoRouteResponse retrieveRoomInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<WebcastRoomInfoRouteResponse> localVarResp = retrieveRoomInfoWithHttpInfo(uniqueId, xImageSource);
         return localVarResp.getData();
     }
 
@@ -1299,6 +1543,7 @@ public class TikTokLiveAnchorsApi {
      * 
      * Retrieve TikTok Live Room Information
      * @param uniqueId The unique identifier for the TikTok user or room (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;WebcastRoomInfoRouteResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1311,8 +1556,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<WebcastRoomInfoRouteResponse> retrieveRoomInfoWithHttpInfo(@javax.annotation.Nonnull String uniqueId) throws ApiException {
-        okhttp3.Call localVarCall = retrieveRoomInfoValidateBeforeCall(uniqueId, null);
+    public ApiResponse<WebcastRoomInfoRouteResponse> retrieveRoomInfoWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveRoomInfoValidateBeforeCall(uniqueId, xImageSource, null);
         Type localVarReturnType = new TypeToken<WebcastRoomInfoRouteResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1321,6 +1566,7 @@ public class TikTokLiveAnchorsApi {
      *  (asynchronously)
      * Retrieve TikTok Live Room Information
      * @param uniqueId The unique identifier for the TikTok user or room (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1334,9 +1580,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomInfoAsync(@javax.annotation.Nonnull String uniqueId, final ApiCallback<WebcastRoomInfoRouteResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomInfoAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<WebcastRoomInfoRouteResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveRoomInfoValidateBeforeCall(uniqueId, _callback);
+        okhttp3.Call localVarCall = retrieveRoomInfoValidateBeforeCall(uniqueId, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<WebcastRoomInfoRouteResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1346,6 +1592,7 @@ public class TikTokLiveAnchorsApi {
      * @param anchorId The streamer&#39;s numeric user ID (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1359,7 +1606,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomModeratorsCall(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomModeratorsCall(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1410,18 +1657,23 @@ public class TikTokLiveAnchorsApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveRoomModeratorsValidateBeforeCall(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveRoomModeratorsValidateBeforeCall(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'anchorId' is set
         if (anchorId == null) {
             throw new ApiException("Missing the required parameter 'anchorId' when calling retrieveRoomModerators(Async)");
         }
 
-        return retrieveRoomModeratorsCall(anchorId, xOauthToken, xCookieHeader, _callback);
+        return retrieveRoomModeratorsCall(anchorId, xOauthToken, xCookieHeader, xImageSource, _callback);
 
     }
 
@@ -1431,6 +1683,7 @@ public class TikTokLiveAnchorsApi {
      * @param anchorId The streamer&#39;s numeric user ID (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return RoomModeratorsAPIResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1443,8 +1696,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public RoomModeratorsAPIResponse retrieveRoomModerators(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        ApiResponse<RoomModeratorsAPIResponse> localVarResp = retrieveRoomModeratorsWithHttpInfo(anchorId, xOauthToken, xCookieHeader);
+    public RoomModeratorsAPIResponse retrieveRoomModerators(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<RoomModeratorsAPIResponse> localVarResp = retrieveRoomModeratorsWithHttpInfo(anchorId, xOauthToken, xCookieHeader, xImageSource);
         return localVarResp.getData();
     }
 
@@ -1454,6 +1707,7 @@ public class TikTokLiveAnchorsApi {
      * @param anchorId The streamer&#39;s numeric user ID (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;RoomModeratorsAPIResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1466,8 +1720,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<RoomModeratorsAPIResponse> retrieveRoomModeratorsWithHttpInfo(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        okhttp3.Call localVarCall = retrieveRoomModeratorsValidateBeforeCall(anchorId, xOauthToken, xCookieHeader, null);
+    public ApiResponse<RoomModeratorsAPIResponse> retrieveRoomModeratorsWithHttpInfo(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveRoomModeratorsValidateBeforeCall(anchorId, xOauthToken, xCookieHeader, xImageSource, null);
         Type localVarReturnType = new TypeToken<RoomModeratorsAPIResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1478,6 +1732,7 @@ public class TikTokLiveAnchorsApi {
      * @param anchorId The streamer&#39;s numeric user ID (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1491,173 +1746,20 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveRoomModeratorsAsync(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<RoomModeratorsAPIResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveRoomModeratorsAsync(@javax.annotation.Nonnull String anchorId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<RoomModeratorsAPIResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveRoomModeratorsValidateBeforeCall(anchorId, xOauthToken, xCookieHeader, _callback);
+        okhttp3.Call localVarCall = retrieveRoomModeratorsValidateBeforeCall(anchorId, xOauthToken, xCookieHeader, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<RoomModeratorsAPIResponse>(){}.getType();
-        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
-        return localVarCall;
-    }
-    /**
-     * Build call for retrieveRoomVideo
-     * @param uniqueId The unique ID of the TikTok to fetch the data for. (required)
-     * @param streamType The type of video stream to fetch. Default is HLS_SD. (optional)
-     * @param redirect Whether to redirect or return as JSON (optional, default to true)
-     * @param _callback Callback for upload/download progress
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call retrieveRoomVideoCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable StreamType streamType, @javax.annotation.Nullable Boolean redirect, final ApiCallback _callback) throws ApiException {
-        String basePath = null;
-        // Operation Servers
-        String[] localBasePaths = new String[] {  };
-
-        // Determine Base Path to Use
-        if (localCustomBaseUrl != null){
-            basePath = localCustomBaseUrl;
-        } else if ( localBasePaths.length > 0 ) {
-            basePath = localBasePaths[localHostIndex];
-        } else {
-            basePath = null;
-        }
-
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/webcast/anchors/{unique_id}/room_video"
-            .replace("{" + "unique_id" + "}", localVarApiClient.escapeString(uniqueId.toString()));
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        if (streamType != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("streamType", streamType));
-        }
-
-        if (redirect != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("redirect", redirect));
-        }
-
-        final String[] localVarAccepts = {
-            "application/json"
-        };
-        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) {
-            localVarHeaderParams.put("Accept", localVarAccept);
-        }
-
-        final String[] localVarContentTypes = {
-        };
-        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
-        if (localVarContentType != null) {
-            localVarHeaderParams.put("Content-Type", localVarContentType);
-        }
-
-        String[] localVarAuthNames = new String[] { "api_key_query", "jwt_key_header", "api_key_header" };
-        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveRoomVideoValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable StreamType streamType, @javax.annotation.Nullable Boolean redirect, final ApiCallback _callback) throws ApiException {
-        // verify the required parameter 'uniqueId' is set
-        if (uniqueId == null) {
-            throw new ApiException("Missing the required parameter 'uniqueId' when calling retrieveRoomVideo(Async)");
-        }
-
-        return retrieveRoomVideoCall(uniqueId, streamType, redirect, _callback);
-
-    }
-
-    /**
-     * 
-     * Fetch TikTok LIVE Stream video given a uniqueId.
-     * @param uniqueId The unique ID of the TikTok to fetch the data for. (required)
-     * @param streamType The type of video stream to fetch. Default is HLS_SD. (optional)
-     * @param redirect Whether to redirect or return as JSON (optional, default to true)
-     * @return RetrieveRoomVideoResponse
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
-     </table>
-     */
-    public RetrieveRoomVideoResponse retrieveRoomVideo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable StreamType streamType, @javax.annotation.Nullable Boolean redirect) throws ApiException {
-        ApiResponse<RetrieveRoomVideoResponse> localVarResp = retrieveRoomVideoWithHttpInfo(uniqueId, streamType, redirect);
-        return localVarResp.getData();
-    }
-
-    /**
-     * 
-     * Fetch TikTok LIVE Stream video given a uniqueId.
-     * @param uniqueId The unique ID of the TikTok to fetch the data for. (required)
-     * @param streamType The type of video stream to fetch. Default is HLS_SD. (optional)
-     * @param redirect Whether to redirect or return as JSON (optional, default to true)
-     * @return ApiResponse&lt;RetrieveRoomVideoResponse&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
-     </table>
-     */
-    public ApiResponse<RetrieveRoomVideoResponse> retrieveRoomVideoWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable StreamType streamType, @javax.annotation.Nullable Boolean redirect) throws ApiException {
-        okhttp3.Call localVarCall = retrieveRoomVideoValidateBeforeCall(uniqueId, streamType, redirect, null);
-        Type localVarReturnType = new TypeToken<RetrieveRoomVideoResponse>(){}.getType();
-        return localVarApiClient.execute(localVarCall, localVarReturnType);
-    }
-
-    /**
-     *  (asynchronously)
-     * Fetch TikTok LIVE Stream video given a uniqueId.
-     * @param uniqueId The unique ID of the TikTok to fetch the data for. (required)
-     * @param streamType The type of video stream to fetch. Default is HLS_SD. (optional)
-     * @param redirect Whether to redirect or return as JSON (optional, default to true)
-     * @param _callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     * @http.response.details
-     <table border="1">
-       <caption>Response Details</caption>
-        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
-        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
-        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
-        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
-     </table>
-     */
-    public okhttp3.Call retrieveRoomVideoAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable StreamType streamType, @javax.annotation.Nullable Boolean redirect, final ApiCallback<RetrieveRoomVideoResponse> _callback) throws ApiException {
-
-        okhttp3.Call localVarCall = retrieveRoomVideoValidateBeforeCall(uniqueId, streamType, redirect, _callback);
-        Type localVarReturnType = new TypeToken<RetrieveRoomVideoResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
     /**
      * Build call for retrieveWebcastGiftGallery
      * @param uniqueId The creator&#39;s unique ID (handle). (required)
+     * @param webcastLanguage Webcast language for locale-based fields (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1671,7 +1773,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastGiftGalleryCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastGiftGalleryCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastLanguage webcastLanguage, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1696,6 +1798,10 @@ public class TikTokLiveAnchorsApi {
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (webcastLanguage != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("webcast_language", webcastLanguage));
+        }
 
         final String[] localVarAccepts = {
             "application/json"
@@ -1722,18 +1828,23 @@ public class TikTokLiveAnchorsApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "jwt_key_header", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveWebcastGiftGalleryValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveWebcastGiftGalleryValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastLanguage webcastLanguage, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'uniqueId' is set
         if (uniqueId == null) {
             throw new ApiException("Missing the required parameter 'uniqueId' when calling retrieveWebcastGiftGallery(Async)");
         }
 
-        return retrieveWebcastGiftGalleryCall(uniqueId, xOauthToken, xCookieHeader, _callback);
+        return retrieveWebcastGiftGalleryCall(uniqueId, webcastLanguage, xOauthToken, xCookieHeader, xImageSource, _callback);
 
     }
 
@@ -1741,8 +1852,10 @@ public class TikTokLiveAnchorsApi {
      * 
      * Retrieve the TikTok LIVE gift gallery (sponsorable gifts + sponsorship progress) for a creator.  The gallery is rendered per-viewer, so a session is required.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      * @param uniqueId The creator&#39;s unique ID (handle). (required)
+     * @param webcastLanguage Webcast language for locale-based fields (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return WebcastGiftGalleryResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1755,8 +1868,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public WebcastGiftGalleryResponse retrieveWebcastGiftGallery(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        ApiResponse<WebcastGiftGalleryResponse> localVarResp = retrieveWebcastGiftGalleryWithHttpInfo(uniqueId, xOauthToken, xCookieHeader);
+    public WebcastGiftGalleryResponse retrieveWebcastGiftGallery(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastLanguage webcastLanguage, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<WebcastGiftGalleryResponse> localVarResp = retrieveWebcastGiftGalleryWithHttpInfo(uniqueId, webcastLanguage, xOauthToken, xCookieHeader, xImageSource);
         return localVarResp.getData();
     }
 
@@ -1764,8 +1877,10 @@ public class TikTokLiveAnchorsApi {
      * 
      * Retrieve the TikTok LIVE gift gallery (sponsorable gifts + sponsorship progress) for a creator.  The gallery is rendered per-viewer, so a session is required.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      * @param uniqueId The creator&#39;s unique ID (handle). (required)
+     * @param webcastLanguage Webcast language for locale-based fields (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;WebcastGiftGalleryResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1778,8 +1893,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<WebcastGiftGalleryResponse> retrieveWebcastGiftGalleryWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
-        okhttp3.Call localVarCall = retrieveWebcastGiftGalleryValidateBeforeCall(uniqueId, xOauthToken, xCookieHeader, null);
+    public ApiResponse<WebcastGiftGalleryResponse> retrieveWebcastGiftGalleryWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastLanguage webcastLanguage, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveWebcastGiftGalleryValidateBeforeCall(uniqueId, webcastLanguage, xOauthToken, xCookieHeader, xImageSource, null);
         Type localVarReturnType = new TypeToken<WebcastGiftGalleryResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1788,8 +1903,10 @@ public class TikTokLiveAnchorsApi {
      *  (asynchronously)
      * Retrieve the TikTok LIVE gift gallery (sponsorable gifts + sponsorship progress) for a creator.  The gallery is rendered per-viewer, so a session is required.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      * @param uniqueId The creator&#39;s unique ID (handle). (required)
+     * @param webcastLanguage Webcast language for locale-based fields (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1803,9 +1920,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastGiftGalleryAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<WebcastGiftGalleryResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastGiftGalleryAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastLanguage webcastLanguage, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<WebcastGiftGalleryResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveWebcastGiftGalleryValidateBeforeCall(uniqueId, xOauthToken, xCookieHeader, _callback);
+        okhttp3.Call localVarCall = retrieveWebcastGiftGalleryValidateBeforeCall(uniqueId, webcastLanguage, xOauthToken, xCookieHeader, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<WebcastGiftGalleryResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -1818,6 +1935,7 @@ public class TikTokLiveAnchorsApi {
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -1831,7 +1949,7 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastUserEarningsCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastUserEarningsCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -1894,18 +2012,23 @@ public class TikTokLiveAnchorsApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveWebcastUserEarningsValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveWebcastUserEarningsValidateBeforeCall(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'uniqueId' is set
         if (uniqueId == null) {
             throw new ApiException("Missing the required parameter 'uniqueId' when calling retrieveWebcastUserEarnings(Async)");
         }
 
-        return retrieveWebcastUserEarningsCall(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, _callback);
+        return retrieveWebcastUserEarningsCall(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, _callback);
 
     }
 
@@ -1918,6 +2041,7 @@ public class TikTokLiveAnchorsApi {
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return WebcastUserEarningsResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1930,8 +2054,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public WebcastUserEarningsResponse retrieveWebcastUserEarnings(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc) throws ApiException {
-        ApiResponse<WebcastUserEarningsResponse> localVarResp = retrieveWebcastUserEarningsWithHttpInfo(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+    public WebcastUserEarningsResponse retrieveWebcastUserEarnings(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<WebcastUserEarningsResponse> localVarResp = retrieveWebcastUserEarningsWithHttpInfo(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
         return localVarResp.getData();
     }
 
@@ -1944,6 +2068,7 @@ public class TikTokLiveAnchorsApi {
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;WebcastUserEarningsResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -1956,8 +2081,8 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<WebcastUserEarningsResponse> retrieveWebcastUserEarningsWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc) throws ApiException {
-        okhttp3.Call localVarCall = retrieveWebcastUserEarningsValidateBeforeCall(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, null);
+    public ApiResponse<WebcastUserEarningsResponse> retrieveWebcastUserEarningsWithHttpInfo(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveWebcastUserEarningsValidateBeforeCall(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, null);
         Type localVarReturnType = new TypeToken<WebcastUserEarningsResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -1971,6 +2096,7 @@ public class TikTokLiveAnchorsApi {
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -1984,9 +2110,9 @@ public class TikTokLiveAnchorsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastUserEarningsAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback<WebcastUserEarningsResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastUserEarningsAsync(@javax.annotation.Nonnull String uniqueId, @javax.annotation.Nullable WebcastUserEarningsOutputPeriod period, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<WebcastUserEarningsResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveWebcastUserEarningsValidateBeforeCall(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, _callback);
+        okhttp3.Call localVarCall = retrieveWebcastUserEarningsValidateBeforeCall(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<WebcastUserEarningsResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -2065,7 +2191,7 @@ public class TikTokLiveAnchorsApi {
 
     /**
      * 
-     * Resolve a TikTok
+     * Resolve a TikTok @unique_id (handle) to its numeric TikTok user ID.
      * @param uniqueId The unique ID (handle) of the TikTok user. (required)
      * @return WebcastUserIdResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -2086,7 +2212,7 @@ public class TikTokLiveAnchorsApi {
 
     /**
      * 
-     * Resolve a TikTok
+     * Resolve a TikTok @unique_id (handle) to its numeric TikTok user ID.
      * @param uniqueId The unique ID (handle) of the TikTok user. (required)
      * @return ApiResponse&lt;WebcastUserIdResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -2108,7 +2234,7 @@ public class TikTokLiveAnchorsApi {
 
     /**
      *  (asynchronously)
-     * Resolve a TikTok
+     * Resolve a TikTok @unique_id (handle) to its numeric TikTok user ID.
      * @param uniqueId The unique ID (handle) of the TikTok user. (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call

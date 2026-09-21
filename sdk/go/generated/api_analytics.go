@@ -106,6 +106,27 @@ func (a *AnalyticsAPIService) FetchAgentsExecute(r ApiFetchAgentsRequest) (*Retr
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -204,6 +225,27 @@ func (a *AnalyticsAPIService) GetHostsExecute(r ApiGetHostsRequest) (*HostsRespo
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -304,18 +346,21 @@ func (a *AnalyticsAPIService) PipsExecute(r ApiPipsRequest) (*Pips200Response, *
 		parameterAddToHeaderOrQuery(localVarQueryParams, "labelColour", r.labelColour, "form", "")
 	} else {
 		var defaultValue string = "#555"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "labelColour", defaultValue, "form", "")
 		r.labelColour = &defaultValue
 	}
 	if r.valueColour != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "valueColour", r.valueColour, "form", "")
 	} else {
 		var defaultValue string = "#007ec6"
+		parameterAddToHeaderOrQuery(localVarQueryParams, "valueColour", defaultValue, "form", "")
 		r.valueColour = &defaultValue
 	}
 	if r.hours != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "hours", r.hours, "form", "")
 	} else {
 		var defaultValue float64 = 1
+		parameterAddToHeaderOrQuery(localVarQueryParams, "hours", defaultValue, "form", "")
 		r.hours = &defaultValue
 	}
 	if r.client != nil {
@@ -325,6 +370,7 @@ func (a *AnalyticsAPIService) PipsExecute(r ApiPipsRequest) (*Pips200Response, *
 		parameterAddToHeaderOrQuery(localVarQueryParams, "json", r.json, "form", "")
 	} else {
 		var defaultValue bool = false
+		parameterAddToHeaderOrQuery(localVarQueryParams, "json", defaultValue, "form", "")
 		r.json = &defaultValue
 	}
 	// to determine the Content-Type header
@@ -365,6 +411,27 @@ func (a *AnalyticsAPIService) PipsExecute(r ApiPipsRequest) (*Pips200Response, *
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

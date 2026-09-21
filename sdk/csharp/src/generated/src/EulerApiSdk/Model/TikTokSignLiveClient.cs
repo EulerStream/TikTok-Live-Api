@@ -26,8 +26,9 @@ using EulerApiSdk.Client;
 namespace EulerApiSdk.Model
 {
     /// <summary>
-    /// Defines TikTokSignLiveClient
+    /// Logical \&quot;client name\&quot; recorded against each request — supplied by the caller via the &#x60;metadata.client_name&#x60; RPC field. Free-form on the wire, but conventionally one of the values below.
     /// </summary>
+    /// <value>Logical \&quot;client name\&quot; recorded against each request — supplied by the caller via the &#x60;metadata.client_name&#x60; RPC field. Free-form on the wire, but conventionally one of the values below.</value>
     public enum TikTokSignLiveClient {
         /// <summary>
         /// Enum TtliveJava for value: ttlive-java
@@ -228,7 +229,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TikTokSignLiveClient tikTokSignLiveClient, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(tikTokSignLiveClient.ToString());
+            writer.WriteStringValue(TikTokSignLiveClientValueConverter.ToJsonValue(tikTokSignLiveClient).ToString());
         }
     }
 
@@ -246,6 +247,9 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override TikTokSignLiveClient? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             TikTokSignLiveClient? result = rawValue == null
@@ -259,14 +263,17 @@ namespace EulerApiSdk.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the TikTokSignLiveClient to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="tikTokSignLiveClient"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, TikTokSignLiveClient? tikTokSignLiveClient, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(tikTokSignLiveClient?.ToString() ?? "null");
+            if (tikTokSignLiveClient.HasValue)
+                writer.WriteStringValue(TikTokSignLiveClientValueConverter.ToJsonValue(tikTokSignLiveClient.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

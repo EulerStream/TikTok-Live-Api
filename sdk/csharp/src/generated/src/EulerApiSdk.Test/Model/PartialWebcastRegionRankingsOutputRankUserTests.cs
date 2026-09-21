@@ -54,6 +54,24 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'FollowingCount'
+        /// </summary>
+        [Fact]
+        public void FollowingCountTest()
+        {
+            // TODO unit test for the property 'FollowingCount'
+        }
+
+        /// <summary>
+        /// Test the property 'FollowerCount'
+        /// </summary>
+        [Fact]
+        public void FollowerCountTest()
+        {
+            // TODO unit test for the property 'FollowerCount'
+        }
+
+        /// <summary>
         /// Test the property 'Nickname'
         /// </summary>
         [Fact]

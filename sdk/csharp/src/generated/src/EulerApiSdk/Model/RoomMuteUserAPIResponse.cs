@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public WebcastRoomMuteUserRouteOutput? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public WebcastRoomMuteUserRouteOutput? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RoomMuteUserAPIResponse" />
     /// </summary>
-    public class RoomMuteUserAPIResponseJsonConverter : JsonConverter<RoomMuteUserAPIResponse>
+    public partial class RoomMuteUserAPIResponseJsonConverter : JsonConverter<RoomMuteUserAPIResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoomMuteUserAPIResponseJsonConverter" /> class.
+        /// </summary>
+        public RoomMuteUserAPIResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RoomMuteUserAPIResponse" />
         /// </summary>

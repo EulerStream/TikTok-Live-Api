@@ -57,8 +57,8 @@ namespace EulerApiSdk.Test.Api
         public async Task CreateJWTAsyncTest()
         {
             double accountId = default!;
-            JWTCreateConfig jWTCreateConfig = default!;
-            var response = await _instance.CreateJWTAsync(accountId, jWTCreateConfig);
+            CreateJWTRequest createJWTRequest = default!;
+            var response = await _instance.CreateJWTAsync(accountId, createJWTRequest);
             var model = response.Ok();
             Assert.IsType<CreateJWTResponse>(model);
         }

@@ -52,8 +52,13 @@ import com.eulerstream.JSON;
 /**
  * WebcastRegionRankingsOutput
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastRegionRankingsOutput {
+  public static final String SERIALIZED_NAME_ATTEMPTS = "attempts";
+  @SerializedName(SERIALIZED_NAME_ATTEMPTS)
+  @javax.annotation.Nonnull
+  private Double attempts;
+
   public static final String SERIALIZED_NAME_RANKS = "ranks";
   @SerializedName(SERIALIZED_NAME_RANKS)
   @javax.annotation.Nonnull
@@ -81,6 +86,25 @@ public class WebcastRegionRankingsOutput {
 
   public WebcastRegionRankingsOutput() {
   }
+
+  public WebcastRegionRankingsOutput attempts(@javax.annotation.Nonnull Double attempts) {
+    this.attempts = attempts;
+    return this;
+  }
+
+  /**
+   * Get attempts
+   * @return attempts
+   */
+  @javax.annotation.Nonnull
+  public Double getAttempts() {
+    return attempts;
+  }
+
+  public void setAttempts(@javax.annotation.Nonnull Double attempts) {
+    this.attempts = attempts;
+  }
+
 
   public WebcastRegionRankingsOutput ranks(@javax.annotation.Nonnull List<PartialWebcastRegionRankingsOutputRank> ranks) {
     this.ranks = ranks;
@@ -195,7 +219,8 @@ public class WebcastRegionRankingsOutput {
       return false;
     }
     WebcastRegionRankingsOutput webcastRegionRankingsOutput = (WebcastRegionRankingsOutput) o;
-    return Objects.equals(this.ranks, webcastRegionRankingsOutput.ranks) &&
+    return Objects.equals(this.attempts, webcastRegionRankingsOutput.attempts) &&
+        Objects.equals(this.ranks, webcastRegionRankingsOutput.ranks) &&
         Objects.equals(this.rankTitle, webcastRegionRankingsOutput.rankTitle) &&
         Objects.equals(this.rankType, webcastRegionRankingsOutput.rankType) &&
         Objects.equals(this.resetsAt, webcastRegionRankingsOutput.resetsAt) &&
@@ -204,13 +229,14 @@ public class WebcastRegionRankingsOutput {
 
   @Override
   public int hashCode() {
-    return Objects.hash(ranks, rankTitle, rankType, resetsAt, resetsIn);
+    return Objects.hash(attempts, ranks, rankTitle, rankType, resetsAt, resetsIn);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class WebcastRegionRankingsOutput {\n");
+    sb.append("    attempts: ").append(toIndentedString(attempts)).append("\n");
     sb.append("    ranks: ").append(toIndentedString(ranks)).append("\n");
     sb.append("    rankTitle: ").append(toIndentedString(rankTitle)).append("\n");
     sb.append("    rankType: ").append(toIndentedString(rankType)).append("\n");
@@ -234,10 +260,10 @@ public class WebcastRegionRankingsOutput {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("ranks", "rank_title", "rank_type", "resets_at", "resets_in"));
+    openapiFields = new HashSet<String>(Arrays.asList("attempts", "ranks", "rank_title", "rank_type", "resets_at", "resets_in"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("ranks", "rank_title", "rank_type", "resets_at", "resets_in"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("attempts", "ranks", "rank_title", "rank_type", "resets_at", "resets_in"));
   }
 
   /**

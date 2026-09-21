@@ -87,6 +87,14 @@ public class AlertResponseShapeTest {
     }
 
     /**
+     * Test the property 'alertCreatorUserId'
+     */
+    @Test
+    public void alertCreatorUserIdTest() {
+        // TODO: test alertCreatorUserId
+    }
+
+    /**
      * Test the property 'createdAt'
      */
     @Test

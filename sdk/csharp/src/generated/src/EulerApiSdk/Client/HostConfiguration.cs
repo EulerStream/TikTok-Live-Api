@@ -24,7 +24,7 @@ namespace EulerApiSdk.Client
     /// <summary>
     /// Provides hosting configuration for EulerApiSdk
     /// </summary>
-    public class HostConfiguration
+    public partial class HostConfiguration
     {
         private readonly IServiceCollection _services;
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions();
@@ -43,63 +43,89 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
             _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
-            _jsonOptions.Converters.Add(new AccountJsonConverter());
-            _jsonOptions.Converters.Add(new AccountConfigJsonConverter());
             _jsonOptions.Converters.Add(new AccountScopesJsonConverter());
             _jsonOptions.Converters.Add(new AccountScopesNullableJsonConverter());
             _jsonOptions.Converters.Add(new AccountWithPermissionsSafeJsonConverter());
             _jsonOptions.Converters.Add(new AccountsTableRequestLimitsJsonConverter());
-            _jsonOptions.Converters.Add(new AlertJsonConverter());
-            _jsonOptions.Converters.Add(new AlertConfigJsonConverter());
-            _jsonOptions.Converters.Add(new AlertTargetJsonConverter());
-            _jsonOptions.Converters.Add(new AlertTargetConfigJsonConverter());
-            _jsonOptions.Converters.Add(new AlertTargetFormatJsonConverter());
-            _jsonOptions.Converters.Add(new AlertTargetFormatNullableJsonConverter());
-            _jsonOptions.Converters.Add(new AlertTargetStatusJsonConverter());
-            _jsonOptions.Converters.Add(new AlertTargetStatusNullableJsonConverter());
+            _jsonOptions.Converters.Add(new AgencyApplyUrlResponseJsonConverter());
+            _jsonOptions.Converters.Add(new AgencyCatalogEntryJsonConverter());
+            _jsonOptions.Converters.Add(new AgencyCatalogEntryResponseJsonConverter());
+            _jsonOptions.Converters.Add(new AgencyCatalogSearchResponseJsonConverter());
+            _jsonOptions.Converters.Add(new AlertResponseShapeJsonConverter());
+            _jsonOptions.Converters.Add(new AlertTargetResponseShapeJsonConverter());
             _jsonOptions.Converters.Add(new ApiKeyJsonConverter());
-            _jsonOptions.Converters.Add(new ApiKeyConfigJsonConverter());
+            _jsonOptions.Converters.Add(new AvailableDatesResponseJsonConverter());
+            _jsonOptions.Converters.Add(new AvailableRankingsResponseJsonConverter());
+            _jsonOptions.Converters.Add(new AvailableWebcastRankNameJsonConverter());
+            _jsonOptions.Converters.Add(new AvailableWebcastRankNameNullableJsonConverter());
             _jsonOptions.Converters.Add(new CaptchaCreditsResponseJsonConverter());
             _jsonOptions.Converters.Add(new CreateAlertRequestJsonConverter());
             _jsonOptions.Converters.Add(new CreateAlertResponseJsonConverter());
             _jsonOptions.Converters.Add(new CreateAlertTargetPayloadJsonConverter());
             _jsonOptions.Converters.Add(new CreateAlertTargetResponseJsonConverter());
+            _jsonOptions.Converters.Add(new CreateJWTRequestJsonConverter());
             _jsonOptions.Converters.Add(new CreateJWTResponseJsonConverter());
             _jsonOptions.Converters.Add(new CreateKeyPayloadJsonConverter());
             _jsonOptions.Converters.Add(new CreateKeyResponseJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptEcDataBodyJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptEcDataResponseJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptStrDataBodyJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptStrDataResponseJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptXDynosaurBodyJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptXDynosaurResponseJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptXGnarlyBodyJsonConverter());
+            _jsonOptions.Converters.Add(new DecryptXGnarlyResponseJsonConverter());
             _jsonOptions.Converters.Add(new DeleteAlertResponseJsonConverter());
             _jsonOptions.Converters.Add(new DeleteAlertTargetResponseJsonConverter());
             _jsonOptions.Converters.Add(new DeleteKeyResponseJsonConverter());
             _jsonOptions.Converters.Add(new ExchangeTokenRequestJsonConverter());
+            _jsonOptions.Converters.Add(new GetAvailableDates503ResponseJsonConverter());
+            _jsonOptions.Converters.Add(new GetPublicClientResponseJsonConverter());
             _jsonOptions.Converters.Add(new GetRateLimitsJsonConverter());
-            _jsonOptions.Converters.Add(new GetSignWebcastUrlResponseJsonConverter());
+            _jsonOptions.Converters.Add(new GiftCatalogOrderByJsonConverter());
+            _jsonOptions.Converters.Add(new GiftCatalogOrderByNullableJsonConverter());
+            _jsonOptions.Converters.Add(new GiftGalleryProgressItemJsonConverter());
+            _jsonOptions.Converters.Add(new GiftGallerySponsorInfoJsonConverter());
+            _jsonOptions.Converters.Add(new GiftOverrideJsonConverter());
+            _jsonOptions.Converters.Add(new GiftOverrideGiftSponsorInfoJsonConverter());
             _jsonOptions.Converters.Add(new HashtagListAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new HostsResponseJsonConverter());
             _jsonOptions.Converters.Add(new IconCaptchaResponseJsonConverter());
             _jsonOptions.Converters.Add(new IconsResultJsonConverter());
-            _jsonOptions.Converters.Add(new JSONResponseJsonConverter());
-            _jsonOptions.Converters.Add(new JWTConfigJsonConverter());
-            _jsonOptions.Converters.Add(new JWTConfigWebSocketDataJsonConverter());
-            _jsonOptions.Converters.Add(new JWTCreateConfigJsonConverter());
-            _jsonOptions.Converters.Add(new JWTCreateConfigWebSocketDataJsonConverter());
+            _jsonOptions.Converters.Add(new IntrospectRequestBodyJsonConverter());
+            _jsonOptions.Converters.Add(new IntrospectionResponseJsonConverter());
+            _jsonOptions.Converters.Add(new JWTConfigurationJsonConverter());
+            _jsonOptions.Converters.Add(new JWTConfigurationMetadataJsonConverter());
+            _jsonOptions.Converters.Add(new JWTConfigurationMetadataExtraValueJsonConverter());
+            _jsonOptions.Converters.Add(new JWTConfigurationWebSocketDataJsonConverter());
+            _jsonOptions.Converters.Add(new LeaderboardResponseJsonConverter());
+            _jsonOptions.Converters.Add(new LeaderboardRowJsonConverter());
+            _jsonOptions.Converters.Add(new LeaderboardRowUserJsonConverter());
+            _jsonOptions.Converters.Add(new LegacyJWTConfigurationJsonConverter());
             _jsonOptions.Converters.Add(new ListAlertTargetsResponseJsonConverter());
             _jsonOptions.Converters.Add(new ListAlertsResponseJsonConverter());
             _jsonOptions.Converters.Add(new ListKeysResponseJsonConverter());
             _jsonOptions.Converters.Add(new LiveAnalyticsUserInteractionsAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new LiveAnalyticsVideoDetailAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new LiveAnalyticsVideoListAPIResponseJsonConverter());
-            _jsonOptions.Converters.Add(new LoadShedInfoJsonConverter());
+            _jsonOptions.Converters.Add(new LivePushAlertTargetFormatJsonConverter());
+            _jsonOptions.Converters.Add(new LivePushAlertTargetFormatNullableJsonConverter());
+            _jsonOptions.Converters.Add(new LivePushAlertTargetStatusJsonConverter());
+            _jsonOptions.Converters.Add(new LivePushAlertTargetStatusNullableJsonConverter());
             _jsonOptions.Converters.Add(new MuteDurationJsonConverter());
             _jsonOptions.Converters.Add(new MuteDurationNullableJsonConverter());
+            _jsonOptions.Converters.Add(new NormalGiftItemJsonConverter());
+            _jsonOptions.Converters.Add(new OAuthClientModeJsonConverter());
+            _jsonOptions.Converters.Add(new OAuthClientModeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OAuthIntrospectResponseJsonConverter());
             _jsonOptions.Converters.Add(new OAuthRevokeResponseJsonConverter());
             _jsonOptions.Converters.Add(new OAuthScopeJsonConverter());
             _jsonOptions.Converters.Add(new OAuthScopeNullableJsonConverter());
             _jsonOptions.Converters.Add(new OAuthTokenResponseJsonConverter());
-            _jsonOptions.Converters.Add(new OxyLabsProxyRegionJsonConverter());
-            _jsonOptions.Converters.Add(new OxyLabsProxyRegionNullableJsonConverter());
-            _jsonOptions.Converters.Add(new PartialAvatarUrlStringNicknameStringSecUidStringNumericUidStringSignatureStringIsVerifiedBooleanFollowingNumberFollowersNumberJsonConverter());
-            _jsonOptions.Converters.Add(new PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArrayJsonConverter());
-            _jsonOptions.Converters.Add(new PartialStatusNumberIsLiveBooleanIdStringCoverUrlStringTitleStringStartTimeNumberCurrentViewersNumberTotalViewersNumberHlsPullUrlStringFlvPullUrlStringHlsPullUrlLdStringFlvPullUrlLdStringJsonConverter());
+            _jsonOptions.Converters.Add(new OAuthUserInfoResponseJsonConverter());
+            _jsonOptions.Converters.Add(new PartialEnabledBooleanConfigJWTConfigurationWebSocketDataJsonConverter());
+            _jsonOptions.Converters.Add(new PartialEnabledBooleanLimitsAccountsTableRequestLimitsOrNullJsonConverter());
+            _jsonOptions.Converters.Add(new PartialEnabledBooleanMatchesStringArrayAccessPermittedBooleanUploadPermittedBooleanJsonConverter());
             _jsonOptions.Converters.Add(new PartialWebcastRegionRankingsOutputRankJsonConverter());
             _jsonOptions.Converters.Add(new PartialWebcastRegionRankingsOutputRankUserJsonConverter());
             _jsonOptions.Converters.Add(new PeerPresenceJsonConverter());
@@ -108,12 +134,23 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new PipResponseJsonConverter());
             _jsonOptions.Converters.Add(new Pips200ResponseJsonConverter());
             _jsonOptions.Converters.Add(new PointJsonConverter());
+            _jsonOptions.Converters.Add(new PooledProxyRegionJsonConverter());
+            _jsonOptions.Converters.Add(new PooledProxyRegionNullableJsonConverter());
+            _jsonOptions.Converters.Add(new ProxySignResultJsonConverter());
+            _jsonOptions.Converters.Add(new PublicOAuthClientInfoJsonConverter());
             _jsonOptions.Converters.Add(new PuzzleCaptchaResponseJsonConverter());
             _jsonOptions.Converters.Add(new PuzzleResultJsonConverter());
+            _jsonOptions.Converters.Add(new RankingLeagueLevelJsonConverter());
+            _jsonOptions.Converters.Add(new RankingLeagueLevelNullableJsonConverter());
+            _jsonOptions.Converters.Add(new RankingLeagueNameJsonConverter());
+            _jsonOptions.Converters.Add(new RankingLeagueNameNullableJsonConverter());
             _jsonOptions.Converters.Add(new RateLimitInfoJsonConverter());
-            _jsonOptions.Converters.Add(new RecordStringBooleanOrNumberValueJsonConverter());
-            _jsonOptions.Converters.Add(new RecordStringIsLiveBooleanRoomIdStringOrNullValueJsonConverter());
+            _jsonOptions.Converters.Add(new RateLimitTypeJsonConverter());
+            _jsonOptions.Converters.Add(new RateLimitTypeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new RegionOverviewJsonConverter());
             _jsonOptions.Converters.Add(new RetrieveAccountResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveAccountSelf429ResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveAccountSelf500ResponseJsonConverter());
             _jsonOptions.Converters.Add(new RetrieveAgentHostsResponseJsonConverter());
             _jsonOptions.Converters.Add(new RetrieveAlertResponseJsonConverter());
             _jsonOptions.Converters.Add(new RetrieveAlertResponseCreatorJsonConverter());
@@ -122,9 +159,25 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new RetrieveBulkLiveCheckRequestJsonConverter());
             _jsonOptions.Converters.Add(new RetrieveBulkLiveCheckResponseJsonConverter());
             _jsonOptions.Converters.Add(new RetrieveKeyResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveRoomCoverResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveTikTokUserBasicResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveTikTokUserDetailedResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveTikTokUserInfoResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveTikTokVideoBasicResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveWebSocketRouteResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveWebSocketsRouteResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveWebcastAnchorEventsResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RetrieveWebcastEventResponseJsonConverter());
             _jsonOptions.Converters.Add(new RevokeRequestBodyJsonConverter());
+            _jsonOptions.Converters.Add(new RoomAddSensitiveWordAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new RoomAdminUpdateAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new RoomCommentsToggleAPIResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RoomDelSensitiveWordAPIResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RoomGetSensitiveWordsAPIResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RoomGiftsResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RoomGiftsResultJsonConverter());
+            _jsonOptions.Converters.Add(new RoomInfoFetchApiRouteJsonConverter());
+            _jsonOptions.Converters.Add(new RoomInfoFetchApiRouteNullableJsonConverter());
             _jsonOptions.Converters.Add(new RoomKickUserAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new RoomKickedUsersAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new RoomModeratorsAPIResponseJsonConverter());
@@ -132,30 +185,56 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new RoomMutedUsersAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new RoomUnkickUserAPIResponseJsonConverter());
             _jsonOptions.Converters.Add(new RoomUnmuteUserAPIResponseJsonConverter());
+            _jsonOptions.Converters.Add(new RouteImageSourceJsonConverter());
+            _jsonOptions.Converters.Add(new RouteImageSourceNullableJsonConverter());
+            _jsonOptions.Converters.Add(new SearchUserResponseJsonConverter());
+            _jsonOptions.Converters.Add(new SearchUserResultJsonConverter());
             _jsonOptions.Converters.Add(new SendRoomChatRequestJsonConverter());
             _jsonOptions.Converters.Add(new ShapesCaptchaResponseJsonConverter());
             _jsonOptions.Converters.Add(new ShapesResultJsonConverter());
             _jsonOptions.Converters.Add(new SignTikTokUrlBodyJsonConverter());
             _jsonOptions.Converters.Add(new SignTikTokUrlResponseJsonConverter());
-            _jsonOptions.Converters.Add(new SignWebcastUrl200ResponseJsonConverter());
-            _jsonOptions.Converters.Add(new SoaxProxyRegionJsonConverter());
-            _jsonOptions.Converters.Add(new SoaxProxyRegionNullableJsonConverter());
-            _jsonOptions.Converters.Add(new SolveResponseIconsResultJsonConverter());
-            _jsonOptions.Converters.Add(new SolveResponsePuzzleResultJsonConverter());
-            _jsonOptions.Converters.Add(new SolveResponseShapesResultJsonConverter());
-            _jsonOptions.Converters.Add(new SolveResponseWhirlResultJsonConverter());
-            _jsonOptions.Converters.Add(new StreamTypeJsonConverter());
-            _jsonOptions.Converters.Add(new StreamTypeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new SignedJWTConfigurationJsonConverter());
+            _jsonOptions.Converters.Add(new SignedJWTConfigurationWebSocketDataJsonConverter());
+            _jsonOptions.Converters.Add(new StableStreamQualityJsonConverter());
+            _jsonOptions.Converters.Add(new StableStreamQualityNullableJsonConverter());
+            _jsonOptions.Converters.Add(new StableStreamTypeJsonConverter());
+            _jsonOptions.Converters.Add(new StableStreamTypeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new StableStreamUrlJsonConverter());
+            _jsonOptions.Converters.Add(new StableTikTokLiveUserJsonConverter());
+            _jsonOptions.Converters.Add(new StableTikTokLiveUserRawJsonConverter());
+            _jsonOptions.Converters.Add(new StableTikTokRoomJsonConverter());
+            _jsonOptions.Converters.Add(new StableTikTokRoomUserJsonConverter());
+            _jsonOptions.Converters.Add(new StableWebcastUserEarningsOutputJsonConverter());
             _jsonOptions.Converters.Add(new TestAlertTargetResponseJsonConverter());
-            _jsonOptions.Converters.Add(new TikTokLiveUserJsonConverter());
-            _jsonOptions.Converters.Add(new TikTokLiveUserRawJsonConverter());
-            _jsonOptions.Converters.Add(new TikTokLiveUserUserJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokGiftsServerGiftJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokOAuthUserInfoJsonConverter());
             _jsonOptions.Converters.Add(new TikTokSignLiveClientJsonConverter());
             _jsonOptions.Converters.Add(new TikTokSignLiveClientNullableJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokUserBasicUserJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokUserDetailedUserJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokUserDetailedVideoJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokUserInfoByIdJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokUserInfoByIdFollowInfoJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokUserInfoByIdImageJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokVideoBasicAuthorJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokVideoBasicMusicJsonConverter());
+            _jsonOptions.Converters.Add(new TikTokVideoBasicVideoJsonConverter());
             _jsonOptions.Converters.Add(new TokenErrorResponseJsonConverter());
             _jsonOptions.Converters.Add(new TokenResponseJsonConverter());
             _jsonOptions.Converters.Add(new UpdateKeyPayloadJsonConverter());
             _jsonOptions.Converters.Add(new UpdateKeyResponseJsonConverter());
+            _jsonOptions.Converters.Add(new UserHistoryPointJsonConverter());
+            _jsonOptions.Converters.Add(new UserHistoryResponseJsonConverter());
+            _jsonOptions.Converters.Add(new UserHistoryResponseUserJsonConverter());
+            _jsonOptions.Converters.Add(new UserLeaderboardsResponseJsonConverter());
+            _jsonOptions.Converters.Add(new ValidateRefreshRequestJsonConverter());
+            _jsonOptions.Converters.Add(new ValidateRefreshResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebSocketStateJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastEventJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastEventHostJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastEventImageJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastEventListItemJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseExtraJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseExtraLogPbJsonConverter());
@@ -165,6 +244,7 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataFeedRoomLabelJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataGameTagDetailJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataRoomAuthValueJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataSquareCoverImgJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataStatsJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFeedResponseRoomDataTaxonomyTagInfoJsonConverter());
@@ -181,8 +261,12 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new WebcastFeedRouteResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFetchPlatformJsonConverter());
             _jsonOptions.Converters.Add(new WebcastFetchPlatformNullableJsonConverter());
-            _jsonOptions.Converters.Add(new WebcastGiftInfoOutputJsonConverter());
-            _jsonOptions.Converters.Add(new WebcastGiftInfoRouteResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastGiftGalleryDataJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastGiftGalleryResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastGiftResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastGiftSearchResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastGiftcatalogResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastGiftsResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastHashtagListResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastHashtagListResponseDataJsonConverter());
             _jsonOptions.Converters.Add(new WebcastHashtagListResponseExtraJsonConverter());
@@ -193,6 +277,9 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new WebcastHashtagListResponseImageJsonConverter());
             _jsonOptions.Converters.Add(new WebcastHashtagListRouteOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastIsLiveOutputJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastIsLiveOutputDataValueJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastLanguageJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastLanguageNullableJsonConverter());
             _jsonOptions.Converters.Add(new WebcastLiveAnalyticsUserInteractionsResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastLiveAnalyticsUserInteractionsResponseCommentJsonConverter());
             _jsonOptions.Converters.Add(new WebcastLiveAnalyticsUserInteractionsResponseDataJsonConverter());
@@ -242,6 +329,8 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new WebcastLiveAnalyticsVideoListRouteOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRegionRankingsOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRegionRankingsResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomAddSensitiveWordResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomAddSensitiveWordRouteOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomAdminListResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomAdminListResponseAdminJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomAdminListResponseExtraJsonConverter());
@@ -256,7 +345,14 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new WebcastRoomCommentsToggleResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomCommentsToggleResponseExtraJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomCommentsToggleRouteOutputJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomDelSensitiveWordResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomDelSensitiveWordRouteOutputJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomGetSensitiveWordResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomGetSensitiveWordResponseDataJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomGetSensitiveWordResponseExtraJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomGetSensitiveWordRouteOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomIdRouteResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomInfoByRoomIdRouteResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomInfoRouteResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomKickUserResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomKickUserResponseExtraJsonConverter());
@@ -282,18 +378,25 @@ namespace EulerApiSdk.Client
             _jsonOptions.Converters.Add(new WebcastRoomMutedUsersResponseUserJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomMutedUsersResponseUserAttrJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomMutedUsersRouteOutputJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomSendChatResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastRoomSendChatResponseExtraJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomUnkickUserResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomUnkickUserResponseExtraJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomUnkickUserRouteOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomUnmuteUserResponseJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomUnmuteUserResponseExtraJsonConverter());
             _jsonOptions.Converters.Add(new WebcastRoomUnmuteUserRouteOutputJsonConverter());
-            _jsonOptions.Converters.Add(new WebcastUserEarningsOutputJsonConverter());
             _jsonOptions.Converters.Add(new WebcastUserEarningsOutputPeriodJsonConverter());
             _jsonOptions.Converters.Add(new WebcastUserEarningsOutputPeriodNullableJsonConverter());
             _jsonOptions.Converters.Add(new WebcastUserEarningsResponseJsonConverter());
+            _jsonOptions.Converters.Add(new WebcastUserIdResponseJsonConverter());
             _jsonOptions.Converters.Add(new WhirlCaptchaResponseJsonConverter());
             _jsonOptions.Converters.Add(new WhirlResultJsonConverter());
+            _jsonOptions.Converters.Add(new XDynosaurHeaderJsonConverter());
+            _jsonOptions.Converters.Add(new XDynosaurScriptVersionJsonConverter());
+            _jsonOptions.Converters.Add(new XDynosaurScriptVersionNullableJsonConverter());
+            _jsonOptions.Converters.Add(new XGnarlyScriptVersionJsonConverter());
+            _jsonOptions.Converters.Add(new XGnarlyScriptVersionNullableJsonConverter());
             JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
             _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
@@ -303,10 +406,30 @@ namespace EulerApiSdk.Client
             _services.AddSingleton<TikTokCaptchasApiEvents>();
             _services.AddSingleton<TikTokGeneralApiEvents>();
             _services.AddSingleton<TikTokLIVEApiEvents>();
+            _services.AddSingleton<TikTokLIVEAgenciesApiEvents>();
             _services.AddSingleton<TikTokLIVEAlertTargetsApiEvents>();
             _services.AddSingleton<TikTokLIVEAlertsApiEvents>();
+            _services.AddSingleton<TikTokLIVEAnchorsApiEvents>();
+            _services.AddSingleton<TikTokLIVEEventsApiEvents>();
+            _services.AddSingleton<TikTokLIVEGiftsApiEvents>();
             _services.AddSingleton<TikTokLIVEModerationApiEvents>();
-            _services.AddSingleton<TikTokLIVEPremiumApiEvents>();
+            _services.AddSingleton<TikTokLIVERankingsApiEvents>();
+            _services.AddSingleton<TikTokLIVERoomsApiEvents>();
+            _services.AddSingleton<TikTokSigningApiEvents>();
+            _services.AddSingleton<TikTokUsersApiEvents>();
+            _services.AddSingleton<TikTokVideosApiEvents>();
+            _services.AddSingleton<TikTokWebSocketAPIApiEvents>();
+            OnHostConfigurationCreated();
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration AddApiHttpClients(Action<IHttpClientBuilder>? builder = null)
+        {
+            return AddApiHttpClients((Action<IServiceProvider, HttpClient>?)null, builder);
         }
 
         /// <summary>
@@ -315,34 +438,85 @@ namespace EulerApiSdk.Client
         /// <param name="client"></param>
         /// <param name="builder"></param>
         /// <returns></returns>
-        public HostConfiguration AddApiHttpClients
-        (
-            Action<HttpClient>? client = null, Action<IHttpClientBuilder>? builder = null)
+        public HostConfiguration AddApiHttpClients(
+            Action<HttpClient>? client,
+            Action<IHttpClientBuilder>? builder = null)
+        {
+            var wrapped = client != null ? new Action<IServiceProvider, HttpClient>((_, httpClient) =>
+            {
+                client(httpClient);
+            }) : null;
+            return AddApiHttpClients(wrapped, builder);
+        }
+
+        /// <summary>
+        /// Configures the HttpClients.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="builder"></param>
+        /// <returns></returns>
+        public HostConfiguration AddApiHttpClients(
+            Action<IServiceProvider, HttpClient>? client,
+            Action<IHttpClientBuilder>? builder = null)
         {
             if (client == null)
-                client = c => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
+                client = (_, c) => c.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS);
 
             List<IHttpClientBuilder> builders = new List<IHttpClientBuilder>();
 
-            builders.Add(_services.AddHttpClient<IAccountsApi, AccountsApi>(client));
-            builders.Add(_services.AddHttpClient<IAnalyticsApi, AnalyticsApi>(client));
-            builders.Add(_services.AddHttpClient<IAuthenticationApi, AuthenticationApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokCaptchasApi, TikTokCaptchasApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokGeneralApi, TikTokGeneralApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokLIVEApi, TikTokLIVEApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokLIVEAlertTargetsApi, TikTokLIVEAlertTargetsApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokLIVEAlertsApi, TikTokLIVEAlertsApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokLIVEModerationApi, TikTokLIVEModerationApi>(client));
-            builders.Add(_services.AddHttpClient<ITikTokLIVEPremiumApi, TikTokLIVEPremiumApi>(client));
-            
-            if (builder != null)
-                foreach (IHttpClientBuilder instance in builders)
-                    builder(instance);
+            builders.Add(_services.AddHttpClient<IAccountsApi, AccountsApi>("EulerApiSdk.Api.IAccountsApi", client));
+            builders.Add(_services.AddHttpClient<IAnalyticsApi, AnalyticsApi>("EulerApiSdk.Api.IAnalyticsApi", client));
+            builders.Add(_services.AddHttpClient<IAuthenticationApi, AuthenticationApi>("EulerApiSdk.Api.IAuthenticationApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokCaptchasApi, TikTokCaptchasApi>("EulerApiSdk.Api.ITikTokCaptchasApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokGeneralApi, TikTokGeneralApi>("EulerApiSdk.Api.ITikTokGeneralApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEApi, TikTokLIVEApi>("EulerApiSdk.Api.ITikTokLIVEApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEAgenciesApi, TikTokLIVEAgenciesApi>("EulerApiSdk.Api.ITikTokLIVEAgenciesApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEAlertTargetsApi, TikTokLIVEAlertTargetsApi>("EulerApiSdk.Api.ITikTokLIVEAlertTargetsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEAlertsApi, TikTokLIVEAlertsApi>("EulerApiSdk.Api.ITikTokLIVEAlertsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEAnchorsApi, TikTokLIVEAnchorsApi>("EulerApiSdk.Api.ITikTokLIVEAnchorsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEEventsApi, TikTokLIVEEventsApi>("EulerApiSdk.Api.ITikTokLIVEEventsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEGiftsApi, TikTokLIVEGiftsApi>("EulerApiSdk.Api.ITikTokLIVEGiftsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVEModerationApi, TikTokLIVEModerationApi>("EulerApiSdk.Api.ITikTokLIVEModerationApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVERankingsApi, TikTokLIVERankingsApi>("EulerApiSdk.Api.ITikTokLIVERankingsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokLIVERoomsApi, TikTokLIVERoomsApi>("EulerApiSdk.Api.ITikTokLIVERoomsApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokSigningApi, TikTokSigningApi>("EulerApiSdk.Api.ITikTokSigningApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokUsersApi, TikTokUsersApi>("EulerApiSdk.Api.ITikTokUsersApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokVideosApi, TikTokVideosApi>("EulerApiSdk.Api.ITikTokVideosApi", client));
+            builders.Add(_services.AddHttpClient<ITikTokWebSocketAPIApi, TikTokWebSocketAPIApi>("EulerApiSdk.Api.ITikTokWebSocketAPIApi", client));
+
+            foreach (IHttpClientBuilder instance in builders)
+            {
+                OnAddApiHttpClientBuilder(instance);
+                builder?.Invoke(instance);
+            }
 
             HttpClientsAdded = true;
 
             return this;
         }
+
+        /// <summary>
+        /// Applies configuration to each HttpClient after registration.
+        /// Implement this partial method in a separate file to provide custom defaults;
+        /// the caller's <c>builder</c> action runs after.
+        /// </summary>
+        /// <param name="builder"></param>
+        partial void OnAddApiHttpClientBuilder(IHttpClientBuilder builder);
+
+        /// <summary>
+        /// Called at the end of the constructor after all JSON converters and services are registered.
+        /// Implement this partial method to further configure <c>_jsonOptions</c> or register additional singletons via <c>_services</c>.
+        /// </summary>
+        partial void OnHostConfigurationCreated();
+
+        /// <summary>
+        /// Called after all services have been registered.
+        /// Implement this partial method to register additional services.
+        /// </summary>
+        /// <param name="services"></param>
+        partial void OnServicesAdded(IServiceCollection services);
+
+        internal void NotifyServicesAdded(IServiceCollection services) => OnServicesAdded(services);
 
         /// <summary>
         /// Configures the JsonSerializerSettings

@@ -174,8 +174,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="TokenResponse" />
     /// </summary>
-    public class TokenResponseJsonConverter : JsonConverter<TokenResponse>
+    public partial class TokenResponseJsonConverter : JsonConverter<TokenResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TokenResponseJsonConverter" /> class.
+        /// </summary>
+        public TokenResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TokenResponse" />
         /// </summary>

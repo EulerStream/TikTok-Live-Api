@@ -15,10 +15,19 @@ type EulerStreamClient struct {
 	Captchas *eulerapi.TikTokCaptchasAPIService
 	General *eulerapi.TikTokGeneralAPIService
 	Webcast *eulerapi.TikTokLIVEAPIService
+	TikTokLiveAgencies *eulerapi.TikTokLIVEAgenciesAPIService
 	AlertTargets *eulerapi.TikTokLIVEAlertTargetsAPIService
 	Alerts *eulerapi.TikTokLIVEAlertsAPIService
+	TikTokLiveAnchors *eulerapi.TikTokLIVEAnchorsAPIService
+	TikTokLiveEvents *eulerapi.TikTokLIVEEventsAPIService
+	TikTokLiveGifts *eulerapi.TikTokLIVEGiftsAPIService
 	Moderation *eulerapi.TikTokLIVEModerationAPIService
-	Premium *eulerapi.TikTokLIVEPremiumAPIService
+	TikTokLiveRankings *eulerapi.TikTokLIVERankingsAPIService
+	TikTokLiveRooms *eulerapi.TikTokLIVERoomsAPIService
+	TikTokSigning *eulerapi.TikTokSigningAPIService
+	TikTokUsers *eulerapi.TikTokUsersAPIService
+	TikTokVideos *eulerapi.TikTokVideosAPIService
+	TikTokWebSocketAPI *eulerapi.TikTokWebSocketAPIAPIService
 
 	// Raw gives direct access to the underlying generated APIClient.
 	Raw *eulerapi.APIClient
@@ -72,10 +81,19 @@ func NewEulerStreamClient(opts ...ClientOption) *EulerStreamClient {
 		Captchas: raw.TikTokCaptchasAPI,
 		General: raw.TikTokGeneralAPI,
 		Webcast: raw.TikTokLIVEAPI,
+		TikTokLiveAgencies: raw.TikTokLIVEAgenciesAPI,
 		AlertTargets: raw.TikTokLIVEAlertTargetsAPI,
 		Alerts: raw.TikTokLIVEAlertsAPI,
+		TikTokLiveAnchors: raw.TikTokLIVEAnchorsAPI,
+		TikTokLiveEvents: raw.TikTokLIVEEventsAPI,
+		TikTokLiveGifts: raw.TikTokLIVEGiftsAPI,
 		Moderation: raw.TikTokLIVEModerationAPI,
-		Premium: raw.TikTokLIVEPremiumAPI,
+		TikTokLiveRankings: raw.TikTokLIVERankingsAPI,
+		TikTokLiveRooms: raw.TikTokLIVERoomsAPI,
+		TikTokSigning: raw.TikTokSigningAPI,
+		TikTokUsers: raw.TikTokUsersAPI,
+		TikTokVideos: raw.TikTokVideosAPI,
+		TikTokWebSocketAPI: raw.TikTokWebSocketAPIAPI,
 		Raw: raw,
 	}
 }

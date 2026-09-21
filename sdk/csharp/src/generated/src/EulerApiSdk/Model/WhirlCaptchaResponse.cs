@@ -33,27 +33,21 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WhirlCaptchaResponse" /> class.
         /// </summary>
-        /// <param name="cached">cached</param>
         /// <param name="code">code</param>
-        /// <param name="response">response</param>
+        /// <param name="cached">cached</param>
         /// <param name="message">message</param>
+        /// <param name="response">response</param>
         [JsonConstructor]
-        public WhirlCaptchaResponse(bool cached, double code, WhirlResult? response = default, Option<string?> message = default)
+        public WhirlCaptchaResponse(double code, bool cached, Option<string?> message = default, WhirlResult? response = default)
         {
-            Cached = cached;
             Code = code;
-            Response = response;
+            Cached = cached;
             MessageOption = message;
+            Response = response;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets Cached
-        /// </summary>
-        [JsonPropertyName("cached")]
-        public bool Cached { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
@@ -62,10 +56,10 @@ namespace EulerApiSdk.Model
         public double Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Response
+        /// Gets or Sets Cached
         /// </summary>
-        [JsonPropertyName("response")]
-        public WhirlResult? Response { get; set; }
+        [JsonPropertyName("cached")]
+        public bool Cached { get; set; }
 
         /// <summary>
         /// Used to track the state of Message
@@ -78,7 +72,13 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
+
+        /// <summary>
+        /// Gets or Sets Response
+        /// </summary>
+        [JsonPropertyName("response")]
+        public WhirlResult? Response { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,10 +88,10 @@ namespace EulerApiSdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class WhirlCaptchaResponse {\n");
-            sb.Append("  Cached: ").Append(Cached).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Response: ").Append(Response).Append("\n");
+            sb.Append("  Cached: ").Append(Cached).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Response: ").Append(Response).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -110,8 +110,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WhirlCaptchaResponse" />
     /// </summary>
-    public class WhirlCaptchaResponseJsonConverter : JsonConverter<WhirlCaptchaResponse>
+    public partial class WhirlCaptchaResponseJsonConverter : JsonConverter<WhirlCaptchaResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WhirlCaptchaResponseJsonConverter" /> class.
+        /// </summary>
+        public WhirlCaptchaResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WhirlCaptchaResponse" />
         /// </summary>
@@ -129,10 +139,10 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<bool?> cached = default;
             Option<double?> code = default;
-            Option<WhirlResult?> response = default;
+            Option<bool?> cached = default;
             Option<string?> message = default;
+            Option<WhirlResult?> response = default;
 
             while (utf8JsonReader.Read())
             {
@@ -149,17 +159,17 @@ namespace EulerApiSdk.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "cached":
-                            cached = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
-                            break;
                         case "code":
                             code = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
-                        case "response":
-                            response = new Option<WhirlResult?>(JsonSerializer.Deserialize<WhirlResult>(ref utf8JsonReader, jsonSerializerOptions));
+                        case "cached":
+                            cached = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "response":
+                            response = new Option<WhirlResult?>(JsonSerializer.Deserialize<WhirlResult>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -167,25 +177,25 @@ namespace EulerApiSdk.Model
                 }
             }
 
-            if (!cached.IsSet)
-                throw new ArgumentException("Property is required for class WhirlCaptchaResponse.", nameof(cached));
-
             if (!code.IsSet)
                 throw new ArgumentException("Property is required for class WhirlCaptchaResponse.", nameof(code));
+
+            if (!cached.IsSet)
+                throw new ArgumentException("Property is required for class WhirlCaptchaResponse.", nameof(cached));
 
             if (!response.IsSet)
                 throw new ArgumentException("Property is required for class WhirlCaptchaResponse.", nameof(response));
 
-            if (cached.IsSet && cached.Value == null)
-                throw new ArgumentNullException(nameof(cached), "Property is not nullable for class WhirlCaptchaResponse.");
-
             if (code.IsSet && code.Value == null)
                 throw new ArgumentNullException(nameof(code), "Property is not nullable for class WhirlCaptchaResponse.");
+
+            if (cached.IsSet && cached.Value == null)
+                throw new ArgumentNullException(nameof(cached), "Property is not nullable for class WhirlCaptchaResponse.");
 
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class WhirlCaptchaResponse.");
 
-            return new WhirlCaptchaResponse(cached.Value!.Value!, code.Value!.Value!, response.Value!, message);
+            return new WhirlCaptchaResponse(code.Value!.Value!, cached.Value!.Value!, message, response.Value!);
         }
 
         /// <summary>
@@ -215,9 +225,12 @@ namespace EulerApiSdk.Model
             if (whirlCaptchaResponse.MessageOption.IsSet && whirlCaptchaResponse.Message == null)
                 throw new ArgumentNullException(nameof(whirlCaptchaResponse.Message), "Property is required for class WhirlCaptchaResponse.");
 
+            writer.WriteNumber("code", whirlCaptchaResponse.Code);
+
             writer.WriteBoolean("cached", whirlCaptchaResponse.Cached);
 
-            writer.WriteNumber("code", whirlCaptchaResponse.Code);
+            if (whirlCaptchaResponse.MessageOption.IsSet)
+                writer.WriteString("message", whirlCaptchaResponse.Message);
 
             if (whirlCaptchaResponse.Response != null)
             {
@@ -226,8 +239,6 @@ namespace EulerApiSdk.Model
             }
             else
                 writer.WriteNull("response");
-            if (whirlCaptchaResponse.MessageOption.IsSet)
-                writer.WriteString("message", whirlCaptchaResponse.Message);
         }
     }
 }

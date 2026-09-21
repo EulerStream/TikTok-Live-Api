@@ -13,8 +13,8 @@
 
 package com.eulerstream.model;
 
-import com.eulerstream.model.WebcastRoomAddSensitiveWordResponseData;
-import com.eulerstream.model.WebcastRoomAddSensitiveWordResponseExtra;
+import com.eulerstream.model.WebcastRoomGetSensitiveWordResponseData;
+import com.eulerstream.model.WebcastRoomGetSensitiveWordResponseExtra;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;

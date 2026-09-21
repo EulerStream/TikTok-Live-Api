@@ -42,6 +42,14 @@ public class WebcastRegionRankingsOutputTest {
     }
 
     /**
+     * Test the property 'attempts'
+     */
+    @Test
+    public void attemptsTest() {
+        // TODO: test attempts
+    }
+
+    /**
      * Test the property 'ranks'
      */
     @Test

@@ -26,7 +26,7 @@ using EulerApiSdk.Client;
 namespace EulerApiSdk.Model
 {
     /// <summary>
-    /// The body of the request containing user numeric IDs (e.g. 7602356191083907865).
+    /// RetrieveBulkLiveCheckRequest
     /// </summary>
     public partial class RetrieveBulkLiveCheckRequest : IValidatableObject
     {
@@ -54,7 +54,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Gets or Sets RetrieveBulkLiveCheckPayloadV1
         /// </summary>
-        public RetrieveBulkLiveCheckPayloadV1? RetrieveBulkLiveCheckPayloadV1 { get { return this.RetrieveBulkLiveCheckPayloadV1Option; } set { this.RetrieveBulkLiveCheckPayloadV1Option = new(value); } }
+        public RetrieveBulkLiveCheckPayloadV1? RetrieveBulkLiveCheckPayloadV1 { get { return this.RetrieveBulkLiveCheckPayloadV1Option.Value; } set { this.RetrieveBulkLiveCheckPayloadV1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of RetrieveBulkLiveCheckPayload
@@ -66,7 +66,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Gets or Sets RetrieveBulkLiveCheckPayload
         /// </summary>
-        public RetrieveBulkLiveCheckPayload? RetrieveBulkLiveCheckPayload { get { return this.RetrieveBulkLiveCheckPayloadOption; } set { this.RetrieveBulkLiveCheckPayloadOption = new(value); } }
+        public RetrieveBulkLiveCheckPayload? RetrieveBulkLiveCheckPayload { get { return this.RetrieveBulkLiveCheckPayloadOption.Value; } set { this.RetrieveBulkLiveCheckPayloadOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -94,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RetrieveBulkLiveCheckRequest" />
     /// </summary>
-    public class RetrieveBulkLiveCheckRequestJsonConverter : JsonConverter<RetrieveBulkLiveCheckRequest>
+    public partial class RetrieveBulkLiveCheckRequestJsonConverter : JsonConverter<RetrieveBulkLiveCheckRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetrieveBulkLiveCheckRequestJsonConverter" /> class.
+        /// </summary>
+        public RetrieveBulkLiveCheckRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RetrieveBulkLiveCheckRequest" />
         /// </summary>
@@ -179,14 +189,14 @@ namespace EulerApiSdk.Model
 
             if (retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadV1Option.IsSet && retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadV1Option.Value != null)
             {
-                RetrieveBulkLiveCheckPayloadV1JsonConverter RetrieveBulkLiveCheckPayloadV1JsonConverter = (RetrieveBulkLiveCheckPayloadV1JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadV1Option.Value.GetType()));
-                RetrieveBulkLiveCheckPayloadV1JsonConverter.WriteProperties(writer, retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadV1Option.Value, jsonSerializerOptions);
+                RetrieveBulkLiveCheckPayloadV1JsonConverter retrieveBulkLiveCheckPayloadV1JsonConverter = (RetrieveBulkLiveCheckPayloadV1JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadV1Option.Value.GetType()));
+                retrieveBulkLiveCheckPayloadV1JsonConverter.WriteProperties(writer, retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadV1Option.Value, jsonSerializerOptions);
             }
 
             if (retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadOption.IsSet && retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadOption.Value != null)
             {
-                RetrieveBulkLiveCheckPayloadJsonConverter RetrieveBulkLiveCheckPayloadJsonConverter = (RetrieveBulkLiveCheckPayloadJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadOption.Value.GetType()));
-                RetrieveBulkLiveCheckPayloadJsonConverter.WriteProperties(writer, retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadOption.Value, jsonSerializerOptions);
+                RetrieveBulkLiveCheckPayloadJsonConverter retrieveBulkLiveCheckPayloadJsonConverter = (RetrieveBulkLiveCheckPayloadJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadOption.Value.GetType()));
+                retrieveBulkLiveCheckPayloadJsonConverter.WriteProperties(writer, retrieveBulkLiveCheckRequest.RetrieveBulkLiveCheckPayloadOption.Value, jsonSerializerOptions);
             }
 
             WriteProperties(writer, retrieveBulkLiveCheckRequest, jsonSerializerOptions);

@@ -14,8 +14,10 @@
 package com.eulerstream.api;
 
 import com.eulerstream.ApiException;
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.MuteDuration;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RoomAddSensitiveWordAPIResponse;
 import com.eulerstream.model.RoomCommentsToggleAPIResponse;
 import com.eulerstream.model.RoomDelSensitiveWordAPIResponse;
@@ -26,6 +28,7 @@ import com.eulerstream.model.RoomMuteUserAPIResponse;
 import com.eulerstream.model.RoomMutedUsersAPIResponse;
 import com.eulerstream.model.RoomUnkickUserAPIResponse;
 import com.eulerstream.model.RoomUnmuteUserAPIResponse;
+import com.eulerstream.model.RouteImageSource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -148,7 +151,8 @@ public class TikTokLiveModerationApiTest {
         Double page = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        RoomMutedUsersAPIResponse response = api.retrieveRoomMutedUsers(roomId, page, xOauthToken, xCookieHeader);
+        RouteImageSource xImageSource = null;
+        RoomMutedUsersAPIResponse response = api.retrieveRoomMutedUsers(roomId, page, xOauthToken, xCookieHeader, xImageSource);
         // TODO: test validations
     }
 

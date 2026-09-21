@@ -7,7 +7,7 @@ from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 if TYPE_CHECKING:
-    from ..models.record_string_unknown import RecordStringUnknown
+    from ..models.webcast_feed_response_extra_banner import WebcastFeedResponseExtraBanner
     from ..models.webcast_feed_response_extra_log_pb import WebcastFeedResponseExtraLogPb
 
 
@@ -20,7 +20,7 @@ class WebcastFeedResponseExtra:
     Attributes:
         now (float):
         unread_extra (str):
-        banner (RecordStringUnknown): Construct a type with a set of properties K of type T
+        banner (WebcastFeedResponseExtraBanner):
         total (float):
         max_time (float):
         cost (float):
@@ -31,7 +31,7 @@ class WebcastFeedResponseExtra:
 
     now: float
     unread_extra: str
-    banner: RecordStringUnknown
+    banner: WebcastFeedResponseExtraBanner
     total: float
     max_time: float
     cost: float
@@ -79,7 +79,7 @@ class WebcastFeedResponseExtra:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.record_string_unknown import RecordStringUnknown
+        from ..models.webcast_feed_response_extra_banner import WebcastFeedResponseExtraBanner
         from ..models.webcast_feed_response_extra_log_pb import WebcastFeedResponseExtraLogPb
 
         d = dict(src_dict)
@@ -87,7 +87,7 @@ class WebcastFeedResponseExtra:
 
         unread_extra = d.pop("unread_extra")
 
-        banner = RecordStringUnknown.from_dict(d.pop("banner"))
+        banner = WebcastFeedResponseExtraBanner.from_dict(d.pop("banner"))
 
         total = d.pop("total")
 

@@ -65,7 +65,7 @@ namespace EulerApiSdk.Model
         /// </summary>
         [JsonPropertyName("session_id")]
         [Obsolete]
-        public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new(value); } }
+        public string? SessionId { get { return this.SessionIdOption.Value; } set { this.SessionIdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of TtTargetIdc
@@ -79,7 +79,7 @@ namespace EulerApiSdk.Model
         /// </summary>
         [JsonPropertyName("tt_target_idc")]
         [Obsolete]
-        public string? TtTargetIdc { get { return this.TtTargetIdcOption; } set { this.TtTargetIdcOption = new(value); } }
+        public string? TtTargetIdc { get { return this.TtTargetIdcOption.Value; } set { this.TtTargetIdcOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -110,8 +110,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RetrieveBulkLiveCheckPayloadV1" />
     /// </summary>
-    public class RetrieveBulkLiveCheckPayloadV1JsonConverter : JsonConverter<RetrieveBulkLiveCheckPayloadV1>
+    public partial class RetrieveBulkLiveCheckPayloadV1JsonConverter : JsonConverter<RetrieveBulkLiveCheckPayloadV1>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetrieveBulkLiveCheckPayloadV1JsonConverter" /> class.
+        /// </summary>
+        public RetrieveBulkLiveCheckPayloadV1JsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RetrieveBulkLiveCheckPayloadV1" />
         /// </summary>

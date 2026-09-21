@@ -54,15 +54,6 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Cached'
-        /// </summary>
-        [Fact]
-        public void CachedTest()
-        {
-            // TODO unit test for the property 'Cached'
-        }
-
-        /// <summary>
         /// Test the property 'Code'
         /// </summary>
         [Fact]
@@ -72,12 +63,12 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Response'
+        /// Test the property 'Cached'
         /// </summary>
         [Fact]
-        public void ResponseTest()
+        public void CachedTest()
         {
-            // TODO unit test for the property 'Response'
+            // TODO unit test for the property 'Cached'
         }
 
         /// <summary>
@@ -87,6 +78,15 @@ namespace EulerApiSdk.Test.Model
         public void MessageTest()
         {
             // TODO unit test for the property 'Message'
+        }
+
+        /// <summary>
+        /// Test the property 'Response'
+        /// </summary>
+        [Fact]
+        public void ResponseTest()
+        {
+            // TODO unit test for the property 'Response'
         }
     }
 }

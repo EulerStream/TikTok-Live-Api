@@ -6,6 +6,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.complete_puzzle_captcha_body import CompletePuzzleCaptchaBody
+from ...models.complete_puzzle_captcha_response_429 import CompletePuzzleCaptchaResponse429
+from ...models.complete_puzzle_captcha_response_500 import CompletePuzzleCaptchaResponse500
 from ...models.puzzle_captcha_response import PuzzleCaptchaResponse
 from ...types import Response
 
@@ -27,11 +29,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> PuzzleCaptchaResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse | None:
     if response.status_code == 200:
         response_200 = PuzzleCaptchaResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CompletePuzzleCaptchaResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CompletePuzzleCaptchaResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -41,7 +55,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[PuzzleCaptchaResponse]:
+) -> Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +68,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
-) -> Response[PuzzleCaptchaResponse]:
+) -> Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]:
     r"""The puzzle captcha requires two images
 
     ## Example Image
@@ -84,7 +98,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[PuzzleCaptchaResponse]
+        Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]
     """
 
     kwargs = _get_kwargs(
@@ -102,7 +116,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
-) -> PuzzleCaptchaResponse | None:
+) -> CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse | None:
     r"""The puzzle captcha requires two images
 
     ## Example Image
@@ -132,7 +146,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        PuzzleCaptchaResponse
+        CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse
     """
 
     return sync_detailed(
@@ -145,7 +159,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
-) -> Response[PuzzleCaptchaResponse]:
+) -> Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]:
     r"""The puzzle captcha requires two images
 
     ## Example Image
@@ -175,7 +189,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[PuzzleCaptchaResponse]
+        Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]
     """
 
     kwargs = _get_kwargs(
@@ -191,7 +205,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
-) -> PuzzleCaptchaResponse | None:
+) -> CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse | None:
     r"""The puzzle captcha requires two images
 
     ## Example Image
@@ -221,7 +235,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        PuzzleCaptchaResponse
+        CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse
     """
 
     return (

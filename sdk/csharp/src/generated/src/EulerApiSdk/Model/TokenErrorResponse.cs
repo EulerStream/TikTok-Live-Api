@@ -62,7 +62,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets ErrorDescription
         /// </summary>
         [JsonPropertyName("error_description")]
-        public string? ErrorDescription { get { return this.ErrorDescriptionOption; } set { this.ErrorDescriptionOption = new(value); } }
+        public string? ErrorDescription { get { return this.ErrorDescriptionOption.Value; } set { this.ErrorDescriptionOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -92,8 +92,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="TokenErrorResponse" />
     /// </summary>
-    public class TokenErrorResponseJsonConverter : JsonConverter<TokenErrorResponse>
+    public partial class TokenErrorResponseJsonConverter : JsonConverter<TokenErrorResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TokenErrorResponseJsonConverter" /> class.
+        /// </summary>
+        public TokenErrorResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TokenErrorResponse" />
         /// </summary>

@@ -23,7 +23,7 @@ var _ MappedNullable = &TestAlertTargetResponse{}
 type TestAlertTargetResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	Status *AlertTargetStatus `json:"status,omitempty"`
+	Status *LivePushAlertTargetStatus `json:"status,omitempty"`
 	StatusLabel *string `json:"statusLabel,omitempty"`
 }
 
@@ -104,9 +104,9 @@ func (o *TestAlertTargetResponse) SetMessage(v string) {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *TestAlertTargetResponse) GetStatus() AlertTargetStatus {
+func (o *TestAlertTargetResponse) GetStatus() LivePushAlertTargetStatus {
 	if o == nil || IsNil(o.Status) {
-		var ret AlertTargetStatus
+		var ret LivePushAlertTargetStatus
 		return ret
 	}
 	return *o.Status
@@ -114,7 +114,7 @@ func (o *TestAlertTargetResponse) GetStatus() AlertTargetStatus {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TestAlertTargetResponse) GetStatusOk() (*AlertTargetStatus, bool) {
+func (o *TestAlertTargetResponse) GetStatusOk() (*LivePushAlertTargetStatus, bool) {
 	if o == nil || IsNil(o.Status) {
 		return nil, false
 	}
@@ -130,8 +130,8 @@ func (o *TestAlertTargetResponse) HasStatus() bool {
 	return false
 }
 
-// SetStatus gets a reference to the given AlertTargetStatus and assigns it to the Status field.
-func (o *TestAlertTargetResponse) SetStatus(v AlertTargetStatus) {
+// SetStatus gets a reference to the given LivePushAlertTargetStatus and assigns it to the Status field.
+func (o *TestAlertTargetResponse) SetStatus(v LivePushAlertTargetStatus) {
 	o.Status = &v
 }
 

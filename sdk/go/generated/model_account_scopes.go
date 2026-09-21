@@ -32,6 +32,10 @@ const (
 	ACCOUNT_SCOPES_13 AccountScopes = 13
 	ACCOUNT_SCOPES_14 AccountScopes = 14
 	ACCOUNT_SCOPES_15 AccountScopes = 15
+	ACCOUNT_SCOPES_16 AccountScopes = 16
+	ACCOUNT_SCOPES_17 AccountScopes = 17
+	ACCOUNT_SCOPES_18 AccountScopes = 18
+	ACCOUNT_SCOPES_19 AccountScopes = 19
 )
 
 // All allowed values of AccountScopes enum
@@ -48,6 +52,10 @@ var AllowedAccountScopesEnumValues = []AccountScopes{
 	13,
 	14,
 	15,
+	16,
+	17,
+	18,
+	19,
 }
 
 func (v *AccountScopes) UnmarshalJSON(src []byte) error {

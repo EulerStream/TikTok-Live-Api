@@ -35,25 +35,24 @@ namespace EulerApiSdk.Model
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="nickname">nickname</param>
-        /// <param name="bioDescription">bioDescription</param>
         /// <param name="avatarThumb">avatarThumb</param>
         /// <param name="avatarMedium">avatarMedium</param>
         /// <param name="avatarLarge">avatarLarge</param>
         /// <param name="status">status</param>
         /// <param name="modifyTime">modifyTime</param>
         /// <param name="followInfo">followInfo</param>
-        /// <param name="payGrade">Construct a type with a set of properties K of type T</param>
-        /// <param name="userAttr">Construct a type with a set of properties K of type T</param>
-        /// <param name="ownRoom">ownRoom</param>
+        /// <param name="payGrade">payGrade</param>
+        /// <param name="userAttr">userAttr</param>
         /// <param name="displayId">displayId</param>
         /// <param name="secUid">secUid</param>
         /// <param name="idStr">idStr</param>
+        /// <param name="bioDescription">bioDescription</param>
+        /// <param name="ownRoom">ownRoom</param>
         [JsonConstructor]
-        public WebcastFeedResponseUser(double id, string nickname, string bioDescription, WebcastFeedResponseImage avatarThumb, WebcastFeedResponseImage avatarMedium, WebcastFeedResponseImage avatarLarge, double status, double modifyTime, WebcastFeedResponseUserFollowInfo followInfo, Dictionary<string, Object> payGrade, Dictionary<string, Object> userAttr, WebcastFeedResponseUserOwnRoom ownRoom, string displayId, string secUid, string idStr)
+        public WebcastFeedResponseUser(double id, string nickname, WebcastFeedResponseImage avatarThumb, WebcastFeedResponseImage avatarMedium, WebcastFeedResponseImage avatarLarge, double status, double modifyTime, WebcastFeedResponseUserFollowInfo followInfo, Dictionary<string, Object> payGrade, Dictionary<string, Object> userAttr, string displayId, string secUid, string idStr, Option<string?> bioDescription = default, Option<WebcastFeedResponseUserOwnRoom?> ownRoom = default)
         {
             Id = id;
             Nickname = nickname;
-            BioDescription = bioDescription;
             AvatarThumb = avatarThumb;
             AvatarMedium = avatarMedium;
             AvatarLarge = avatarLarge;
@@ -62,10 +61,11 @@ namespace EulerApiSdk.Model
             FollowInfo = followInfo;
             PayGrade = payGrade;
             UserAttr = userAttr;
-            OwnRoom = ownRoom;
             DisplayId = displayId;
             SecUid = secUid;
             IdStr = idStr;
+            BioDescriptionOption = bioDescription;
+            OwnRoomOption = ownRoom;
             OnCreated();
         }
 
@@ -82,12 +82,6 @@ namespace EulerApiSdk.Model
         /// </summary>
         [JsonPropertyName("nickname")]
         public string Nickname { get; set; }
-
-        /// <summary>
-        /// Gets or Sets BioDescription
-        /// </summary>
-        [JsonPropertyName("bio_description")]
-        public string BioDescription { get; set; }
 
         /// <summary>
         /// Gets or Sets AvatarThumb
@@ -126,24 +120,16 @@ namespace EulerApiSdk.Model
         public WebcastFeedResponseUserFollowInfo FollowInfo { get; set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets PayGrade
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("pay_grade")]
         public Dictionary<string, Object> PayGrade { get; set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets UserAttr
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("user_attr")]
         public Dictionary<string, Object> UserAttr { get; set; }
-
-        /// <summary>
-        /// Gets or Sets OwnRoom
-        /// </summary>
-        [JsonPropertyName("own_room")]
-        public WebcastFeedResponseUserOwnRoom OwnRoom { get; set; }
 
         /// <summary>
         /// Gets or Sets DisplayId
@@ -164,6 +150,32 @@ namespace EulerApiSdk.Model
         public string IdStr { get; set; }
 
         /// <summary>
+        /// Used to track the state of BioDescription
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> BioDescriptionOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets BioDescription
+        /// </summary>
+        [JsonPropertyName("bio_description")]
+        public string? BioDescription { get { return this.BioDescriptionOption.Value; } set { this.BioDescriptionOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of OwnRoom
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<WebcastFeedResponseUserOwnRoom?> OwnRoomOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets OwnRoom
+        /// </summary>
+        [JsonPropertyName("own_room")]
+        public WebcastFeedResponseUserOwnRoom? OwnRoom { get { return this.OwnRoomOption.Value; } set { this.OwnRoomOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -173,7 +185,6 @@ namespace EulerApiSdk.Model
             sb.Append("class WebcastFeedResponseUser {\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Nickname: ").Append(Nickname).Append("\n");
-            sb.Append("  BioDescription: ").Append(BioDescription).Append("\n");
             sb.Append("  AvatarThumb: ").Append(AvatarThumb).Append("\n");
             sb.Append("  AvatarMedium: ").Append(AvatarMedium).Append("\n");
             sb.Append("  AvatarLarge: ").Append(AvatarLarge).Append("\n");
@@ -182,10 +193,11 @@ namespace EulerApiSdk.Model
             sb.Append("  FollowInfo: ").Append(FollowInfo).Append("\n");
             sb.Append("  PayGrade: ").Append(PayGrade).Append("\n");
             sb.Append("  UserAttr: ").Append(UserAttr).Append("\n");
-            sb.Append("  OwnRoom: ").Append(OwnRoom).Append("\n");
             sb.Append("  DisplayId: ").Append(DisplayId).Append("\n");
             sb.Append("  SecUid: ").Append(SecUid).Append("\n");
             sb.Append("  IdStr: ").Append(IdStr).Append("\n");
+            sb.Append("  BioDescription: ").Append(BioDescription).Append("\n");
+            sb.Append("  OwnRoom: ").Append(OwnRoom).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -204,8 +216,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseUser" />
     /// </summary>
-    public class WebcastFeedResponseUserJsonConverter : JsonConverter<WebcastFeedResponseUser>
+    public partial class WebcastFeedResponseUserJsonConverter : JsonConverter<WebcastFeedResponseUser>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseUserJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseUserJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseUser" />
         /// </summary>
@@ -225,7 +247,6 @@ namespace EulerApiSdk.Model
 
             Option<double?> id = default;
             Option<string?> nickname = default;
-            Option<string?> bioDescription = default;
             Option<WebcastFeedResponseImage?> avatarThumb = default;
             Option<WebcastFeedResponseImage?> avatarMedium = default;
             Option<WebcastFeedResponseImage?> avatarLarge = default;
@@ -234,10 +255,11 @@ namespace EulerApiSdk.Model
             Option<WebcastFeedResponseUserFollowInfo?> followInfo = default;
             Option<Dictionary<string, Object>?> payGrade = default;
             Option<Dictionary<string, Object>?> userAttr = default;
-            Option<WebcastFeedResponseUserOwnRoom?> ownRoom = default;
             Option<string?> displayId = default;
             Option<string?> secUid = default;
             Option<string?> idStr = default;
+            Option<string?> bioDescription = default;
+            Option<WebcastFeedResponseUserOwnRoom?> ownRoom = default;
 
             while (utf8JsonReader.Read())
             {
@@ -259,9 +281,6 @@ namespace EulerApiSdk.Model
                             break;
                         case "nickname":
                             nickname = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
-                        case "bio_description":
-                            bioDescription = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "avatar_thumb":
                             avatarThumb = new Option<WebcastFeedResponseImage?>(JsonSerializer.Deserialize<WebcastFeedResponseImage>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -287,9 +306,6 @@ namespace EulerApiSdk.Model
                         case "user_attr":
                             userAttr = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
-                        case "own_room":
-                            ownRoom = new Option<WebcastFeedResponseUserOwnRoom?>(JsonSerializer.Deserialize<WebcastFeedResponseUserOwnRoom>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
                         case "display_id":
                             displayId = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -298,6 +314,12 @@ namespace EulerApiSdk.Model
                             break;
                         case "id_str":
                             idStr = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "bio_description":
+                            bioDescription = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "own_room":
+                            ownRoom = new Option<WebcastFeedResponseUserOwnRoom?>(JsonSerializer.Deserialize<WebcastFeedResponseUserOwnRoom>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -310,9 +332,6 @@ namespace EulerApiSdk.Model
 
             if (!nickname.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseUser.", nameof(nickname));
-
-            if (!bioDescription.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseUser.", nameof(bioDescription));
 
             if (!avatarThumb.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseUser.", nameof(avatarThumb));
@@ -338,9 +357,6 @@ namespace EulerApiSdk.Model
             if (!userAttr.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseUser.", nameof(userAttr));
 
-            if (!ownRoom.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseUser.", nameof(ownRoom));
-
             if (!displayId.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseUser.", nameof(displayId));
 
@@ -355,9 +371,6 @@ namespace EulerApiSdk.Model
 
             if (nickname.IsSet && nickname.Value == null)
                 throw new ArgumentNullException(nameof(nickname), "Property is not nullable for class WebcastFeedResponseUser.");
-
-            if (bioDescription.IsSet && bioDescription.Value == null)
-                throw new ArgumentNullException(nameof(bioDescription), "Property is not nullable for class WebcastFeedResponseUser.");
 
             if (avatarThumb.IsSet && avatarThumb.Value == null)
                 throw new ArgumentNullException(nameof(avatarThumb), "Property is not nullable for class WebcastFeedResponseUser.");
@@ -383,9 +396,6 @@ namespace EulerApiSdk.Model
             if (userAttr.IsSet && userAttr.Value == null)
                 throw new ArgumentNullException(nameof(userAttr), "Property is not nullable for class WebcastFeedResponseUser.");
 
-            if (ownRoom.IsSet && ownRoom.Value == null)
-                throw new ArgumentNullException(nameof(ownRoom), "Property is not nullable for class WebcastFeedResponseUser.");
-
             if (displayId.IsSet && displayId.Value == null)
                 throw new ArgumentNullException(nameof(displayId), "Property is not nullable for class WebcastFeedResponseUser.");
 
@@ -395,7 +405,13 @@ namespace EulerApiSdk.Model
             if (idStr.IsSet && idStr.Value == null)
                 throw new ArgumentNullException(nameof(idStr), "Property is not nullable for class WebcastFeedResponseUser.");
 
-            return new WebcastFeedResponseUser(id.Value!.Value!, nickname.Value!, bioDescription.Value!, avatarThumb.Value!, avatarMedium.Value!, avatarLarge.Value!, status.Value!.Value!, modifyTime.Value!.Value!, followInfo.Value!, payGrade.Value!, userAttr.Value!, ownRoom.Value!, displayId.Value!, secUid.Value!, idStr.Value!);
+            if (bioDescription.IsSet && bioDescription.Value == null)
+                throw new ArgumentNullException(nameof(bioDescription), "Property is not nullable for class WebcastFeedResponseUser.");
+
+            if (ownRoom.IsSet && ownRoom.Value == null)
+                throw new ArgumentNullException(nameof(ownRoom), "Property is not nullable for class WebcastFeedResponseUser.");
+
+            return new WebcastFeedResponseUser(id.Value!.Value!, nickname.Value!, avatarThumb.Value!, avatarMedium.Value!, avatarLarge.Value!, status.Value!.Value!, modifyTime.Value!.Value!, followInfo.Value!, payGrade.Value!, userAttr.Value!, displayId.Value!, secUid.Value!, idStr.Value!, bioDescription, ownRoom);
         }
 
         /// <summary>
@@ -425,9 +441,6 @@ namespace EulerApiSdk.Model
             if (webcastFeedResponseUser.Nickname == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseUser.Nickname), "Property is required for class WebcastFeedResponseUser.");
 
-            if (webcastFeedResponseUser.BioDescription == null)
-                throw new ArgumentNullException(nameof(webcastFeedResponseUser.BioDescription), "Property is required for class WebcastFeedResponseUser.");
-
             if (webcastFeedResponseUser.AvatarThumb == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseUser.AvatarThumb), "Property is required for class WebcastFeedResponseUser.");
 
@@ -446,9 +459,6 @@ namespace EulerApiSdk.Model
             if (webcastFeedResponseUser.UserAttr == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseUser.UserAttr), "Property is required for class WebcastFeedResponseUser.");
 
-            if (webcastFeedResponseUser.OwnRoom == null)
-                throw new ArgumentNullException(nameof(webcastFeedResponseUser.OwnRoom), "Property is required for class WebcastFeedResponseUser.");
-
             if (webcastFeedResponseUser.DisplayId == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseUser.DisplayId), "Property is required for class WebcastFeedResponseUser.");
 
@@ -458,11 +468,15 @@ namespace EulerApiSdk.Model
             if (webcastFeedResponseUser.IdStr == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseUser.IdStr), "Property is required for class WebcastFeedResponseUser.");
 
+            if (webcastFeedResponseUser.BioDescriptionOption.IsSet && webcastFeedResponseUser.BioDescription == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseUser.BioDescription), "Property is required for class WebcastFeedResponseUser.");
+
+            if (webcastFeedResponseUser.OwnRoomOption.IsSet && webcastFeedResponseUser.OwnRoom == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseUser.OwnRoom), "Property is required for class WebcastFeedResponseUser.");
+
             writer.WriteNumber("id", webcastFeedResponseUser.Id);
 
             writer.WriteString("nickname", webcastFeedResponseUser.Nickname);
-
-            writer.WriteString("bio_description", webcastFeedResponseUser.BioDescription);
 
             writer.WritePropertyName("avatar_thumb");
             JsonSerializer.Serialize(writer, webcastFeedResponseUser.AvatarThumb, jsonSerializerOptions);
@@ -480,13 +494,20 @@ namespace EulerApiSdk.Model
             JsonSerializer.Serialize(writer, webcastFeedResponseUser.PayGrade, jsonSerializerOptions);
             writer.WritePropertyName("user_attr");
             JsonSerializer.Serialize(writer, webcastFeedResponseUser.UserAttr, jsonSerializerOptions);
-            writer.WritePropertyName("own_room");
-            JsonSerializer.Serialize(writer, webcastFeedResponseUser.OwnRoom, jsonSerializerOptions);
             writer.WriteString("display_id", webcastFeedResponseUser.DisplayId);
 
             writer.WriteString("sec_uid", webcastFeedResponseUser.SecUid);
 
             writer.WriteString("id_str", webcastFeedResponseUser.IdStr);
+
+            if (webcastFeedResponseUser.BioDescriptionOption.IsSet)
+                writer.WriteString("bio_description", webcastFeedResponseUser.BioDescription);
+
+            if (webcastFeedResponseUser.OwnRoomOption.IsSet)
+            {
+                writer.WritePropertyName("own_room");
+                JsonSerializer.Serialize(writer, webcastFeedResponseUser.OwnRoom, jsonSerializerOptions);
+            }
         }
     }
 }

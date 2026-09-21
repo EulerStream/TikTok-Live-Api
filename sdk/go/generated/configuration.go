@@ -101,7 +101,7 @@ func NewConfiguration() *Configuration {
 				Description: "Enterprise Server (Enterprise)",
 			},
 			{
-				URL: "https://tiktok.staging.eulerstream.com",
+				URL: "https://api.staging.eulerstream.com",
 				Description: "Staging Server (Private Use)",
 			},
 		},

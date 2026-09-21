@@ -24,7 +24,7 @@ type WebcastRegionRankingsResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
 	Response *WebcastRegionRankingsOutput `json:"response,omitempty"`
-	Region OxyLabsProxyRegion `json:"region"`
+	Region PooledProxyRegion `json:"region"`
 }
 
 type _WebcastRegionRankingsResponse WebcastRegionRankingsResponse
@@ -33,7 +33,7 @@ type _WebcastRegionRankingsResponse WebcastRegionRankingsResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastRegionRankingsResponse(code float64, region OxyLabsProxyRegion) *WebcastRegionRankingsResponse {
+func NewWebcastRegionRankingsResponse(code float64, region PooledProxyRegion) *WebcastRegionRankingsResponse {
 	this := WebcastRegionRankingsResponse{}
 	this.Code = code
 	this.Region = region
@@ -137,9 +137,9 @@ func (o *WebcastRegionRankingsResponse) SetResponse(v WebcastRegionRankingsOutpu
 }
 
 // GetRegion returns the Region field value
-func (o *WebcastRegionRankingsResponse) GetRegion() OxyLabsProxyRegion {
+func (o *WebcastRegionRankingsResponse) GetRegion() PooledProxyRegion {
 	if o == nil {
-		var ret OxyLabsProxyRegion
+		var ret PooledProxyRegion
 		return ret
 	}
 
@@ -148,7 +148,7 @@ func (o *WebcastRegionRankingsResponse) GetRegion() OxyLabsProxyRegion {
 
 // GetRegionOk returns a tuple with the Region field value
 // and a boolean to check if the value has been set.
-func (o *WebcastRegionRankingsResponse) GetRegionOk() (*OxyLabsProxyRegion, bool) {
+func (o *WebcastRegionRankingsResponse) GetRegionOk() (*PooledProxyRegion, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -156,7 +156,7 @@ func (o *WebcastRegionRankingsResponse) GetRegionOk() (*OxyLabsProxyRegion, bool
 }
 
 // SetRegion sets field value
-func (o *WebcastRegionRankingsResponse) SetRegion(v OxyLabsProxyRegion) {
+func (o *WebcastRegionRankingsResponse) SetRegion(v PooledProxyRegion) {
 	o.Region = v
 }
 

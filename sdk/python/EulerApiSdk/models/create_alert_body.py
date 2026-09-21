@@ -11,8 +11,7 @@ T = TypeVar("T", bound="CreateAlertBody")
 
 @_attrs_define
 class CreateAlertBody:
-    """Configuration for the alert
-
+    """
     Attributes:
         unique_id (str):
     """

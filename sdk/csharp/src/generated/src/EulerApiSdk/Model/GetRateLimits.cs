@@ -34,16 +34,14 @@ namespace EulerApiSdk.Model
         /// Initializes a new instance of the <see cref="GetRateLimits" /> class.
         /// </summary>
         /// <param name="code">code</param>
-        /// <param name="loadShedding">loadShedding</param>
         /// <param name="message">message</param>
         /// <param name="day">day</param>
         /// <param name="hour">hour</param>
         /// <param name="minute">minute</param>
         [JsonConstructor]
-        public GetRateLimits(double code, LoadShedInfo loadShedding, Option<string?> message = default, Option<RateLimitInfo?> day = default, Option<RateLimitInfo?> hour = default, Option<RateLimitInfo?> minute = default)
+        public GetRateLimits(double code, Option<string?> message = default, Option<RateLimitInfo?> day = default, Option<RateLimitInfo?> hour = default, Option<RateLimitInfo?> minute = default)
         {
             Code = code;
-            LoadShedding = loadShedding;
             MessageOption = message;
             DayOption = day;
             HourOption = hour;
@@ -60,12 +58,6 @@ namespace EulerApiSdk.Model
         public double Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets LoadShedding
-        /// </summary>
-        [JsonPropertyName("load_shedding")]
-        public LoadShedInfo LoadShedding { get; set; }
-
-        /// <summary>
         /// Used to track the state of Message
         /// </summary>
         [JsonIgnore]
@@ -76,7 +68,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Day
@@ -89,7 +81,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Day
         /// </summary>
         [JsonPropertyName("day")]
-        public RateLimitInfo? Day { get { return this.DayOption; } set { this.DayOption = new(value); } }
+        public RateLimitInfo? Day { get { return this.DayOption.Value; } set { this.DayOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Hour
@@ -102,7 +94,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Hour
         /// </summary>
         [JsonPropertyName("hour")]
-        public RateLimitInfo? Hour { get { return this.HourOption; } set { this.HourOption = new(value); } }
+        public RateLimitInfo? Hour { get { return this.HourOption.Value; } set { this.HourOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Minute
@@ -115,7 +107,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Minute
         /// </summary>
         [JsonPropertyName("minute")]
-        public RateLimitInfo? Minute { get { return this.MinuteOption; } set { this.MinuteOption = new(value); } }
+        public RateLimitInfo? Minute { get { return this.MinuteOption.Value; } set { this.MinuteOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -126,7 +118,6 @@ namespace EulerApiSdk.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class GetRateLimits {\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  LoadShedding: ").Append(LoadShedding).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("  Day: ").Append(Day).Append("\n");
             sb.Append("  Hour: ").Append(Hour).Append("\n");
@@ -149,8 +140,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="GetRateLimits" />
     /// </summary>
-    public class GetRateLimitsJsonConverter : JsonConverter<GetRateLimits>
+    public partial class GetRateLimitsJsonConverter : JsonConverter<GetRateLimits>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetRateLimitsJsonConverter" /> class.
+        /// </summary>
+        public GetRateLimitsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="GetRateLimits" />
         /// </summary>
@@ -169,7 +170,6 @@ namespace EulerApiSdk.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<double?> code = default;
-            Option<LoadShedInfo?> loadShedding = default;
             Option<string?> message = default;
             Option<RateLimitInfo?> day = default;
             Option<RateLimitInfo?> hour = default;
@@ -193,9 +193,6 @@ namespace EulerApiSdk.Model
                         case "code":
                             code = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
-                        case "load_shedding":
-                            loadShedding = new Option<LoadShedInfo?>(JsonSerializer.Deserialize<LoadShedInfo>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -217,14 +214,8 @@ namespace EulerApiSdk.Model
             if (!code.IsSet)
                 throw new ArgumentException("Property is required for class GetRateLimits.", nameof(code));
 
-            if (!loadShedding.IsSet)
-                throw new ArgumentException("Property is required for class GetRateLimits.", nameof(loadShedding));
-
             if (code.IsSet && code.Value == null)
                 throw new ArgumentNullException(nameof(code), "Property is not nullable for class GetRateLimits.");
-
-            if (loadShedding.IsSet && loadShedding.Value == null)
-                throw new ArgumentNullException(nameof(loadShedding), "Property is not nullable for class GetRateLimits.");
 
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class GetRateLimits.");
@@ -238,7 +229,7 @@ namespace EulerApiSdk.Model
             if (minute.IsSet && minute.Value == null)
                 throw new ArgumentNullException(nameof(minute), "Property is not nullable for class GetRateLimits.");
 
-            return new GetRateLimits(code.Value!.Value!, loadShedding.Value!, message, day, hour, minute);
+            return new GetRateLimits(code.Value!.Value!, message, day, hour, minute);
         }
 
         /// <summary>
@@ -265,9 +256,6 @@ namespace EulerApiSdk.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, GetRateLimits getRateLimits, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (getRateLimits.LoadShedding == null)
-                throw new ArgumentNullException(nameof(getRateLimits.LoadShedding), "Property is required for class GetRateLimits.");
-
             if (getRateLimits.MessageOption.IsSet && getRateLimits.Message == null)
                 throw new ArgumentNullException(nameof(getRateLimits.Message), "Property is required for class GetRateLimits.");
 
@@ -282,8 +270,6 @@ namespace EulerApiSdk.Model
 
             writer.WriteNumber("code", getRateLimits.Code);
 
-            writer.WritePropertyName("load_shedding");
-            JsonSerializer.Serialize(writer, getRateLimits.LoadShedding, jsonSerializerOptions);
             if (getRateLimits.MessageOption.IsSet)
                 writer.WriteString("message", getRateLimits.Message);
 

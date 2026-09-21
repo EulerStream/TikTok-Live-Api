@@ -26,7 +26,7 @@ using EulerApiSdk.Client;
 namespace EulerApiSdk.Model
 {
     /// <summary>
-    /// The payload configuration for sending a chat
+    /// SendRoomChatRequest
     /// </summary>
     public partial class SendRoomChatRequest : IValidatableObject
     {
@@ -54,7 +54,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Gets or Sets WebcastRoomChatPayloadV1
         /// </summary>
-        public WebcastRoomChatPayloadV1? WebcastRoomChatPayloadV1 { get { return this.WebcastRoomChatPayloadV1Option; } set { this.WebcastRoomChatPayloadV1Option = new(value); } }
+        public WebcastRoomChatPayloadV1? WebcastRoomChatPayloadV1 { get { return this.WebcastRoomChatPayloadV1Option.Value; } set { this.WebcastRoomChatPayloadV1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of WebcastRoomChatPayload
@@ -66,7 +66,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Gets or Sets WebcastRoomChatPayload
         /// </summary>
-        public WebcastRoomChatPayload? WebcastRoomChatPayload { get { return this.WebcastRoomChatPayloadOption; } set { this.WebcastRoomChatPayloadOption = new(value); } }
+        public WebcastRoomChatPayload? WebcastRoomChatPayload { get { return this.WebcastRoomChatPayloadOption.Value; } set { this.WebcastRoomChatPayloadOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -94,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="SendRoomChatRequest" />
     /// </summary>
-    public class SendRoomChatRequestJsonConverter : JsonConverter<SendRoomChatRequest>
+    public partial class SendRoomChatRequestJsonConverter : JsonConverter<SendRoomChatRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SendRoomChatRequestJsonConverter" /> class.
+        /// </summary>
+        public SendRoomChatRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="SendRoomChatRequest" />
         /// </summary>
@@ -179,14 +189,14 @@ namespace EulerApiSdk.Model
 
             if (sendRoomChatRequest.WebcastRoomChatPayloadV1Option.IsSet && sendRoomChatRequest.WebcastRoomChatPayloadV1Option.Value != null)
             {
-                WebcastRoomChatPayloadV1JsonConverter WebcastRoomChatPayloadV1JsonConverter = (WebcastRoomChatPayloadV1JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(sendRoomChatRequest.WebcastRoomChatPayloadV1Option.Value.GetType()));
-                WebcastRoomChatPayloadV1JsonConverter.WriteProperties(writer, sendRoomChatRequest.WebcastRoomChatPayloadV1Option.Value, jsonSerializerOptions);
+                WebcastRoomChatPayloadV1JsonConverter webcastRoomChatPayloadV1JsonConverter = (WebcastRoomChatPayloadV1JsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(sendRoomChatRequest.WebcastRoomChatPayloadV1Option.Value.GetType()));
+                webcastRoomChatPayloadV1JsonConverter.WriteProperties(writer, sendRoomChatRequest.WebcastRoomChatPayloadV1Option.Value, jsonSerializerOptions);
             }
 
             if (sendRoomChatRequest.WebcastRoomChatPayloadOption.IsSet && sendRoomChatRequest.WebcastRoomChatPayloadOption.Value != null)
             {
-                WebcastRoomChatPayloadJsonConverter WebcastRoomChatPayloadJsonConverter = (WebcastRoomChatPayloadJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(sendRoomChatRequest.WebcastRoomChatPayloadOption.Value.GetType()));
-                WebcastRoomChatPayloadJsonConverter.WriteProperties(writer, sendRoomChatRequest.WebcastRoomChatPayloadOption.Value, jsonSerializerOptions);
+                WebcastRoomChatPayloadJsonConverter webcastRoomChatPayloadJsonConverter = (WebcastRoomChatPayloadJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(sendRoomChatRequest.WebcastRoomChatPayloadOption.Value.GetType()));
+                webcastRoomChatPayloadJsonConverter.WriteProperties(writer, sendRoomChatRequest.WebcastRoomChatPayloadOption.Value, jsonSerializerOptions);
             }
 
             WriteProperties(writer, sendRoomChatRequest, jsonSerializerOptions);

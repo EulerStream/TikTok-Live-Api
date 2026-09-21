@@ -78,7 +78,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets DisplayType
         /// </summary>
         [JsonPropertyName("display_type")]
-        public double? DisplayType { get { return this.DisplayTypeOption; } set { this.DisplayTypeOption = new(value); } }
+        public double? DisplayType { get { return this.DisplayTypeOption.Value; } set { this.DisplayTypeOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -110,8 +110,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomMutedUsersResponseBadgeText" />
     /// </summary>
-    public class WebcastRoomMutedUsersResponseBadgeTextJsonConverter : JsonConverter<WebcastRoomMutedUsersResponseBadgeText>
+    public partial class WebcastRoomMutedUsersResponseBadgeTextJsonConverter : JsonConverter<WebcastRoomMutedUsersResponseBadgeText>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomMutedUsersResponseBadgeTextJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomMutedUsersResponseBadgeTextJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomMutedUsersResponseBadgeText" />
         /// </summary>

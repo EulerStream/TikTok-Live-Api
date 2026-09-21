@@ -34,8 +34,8 @@ namespace EulerApiSdk.Model
         /// Initializes a new instance of the <see cref="WebcastRoomChatPayload" /> class.
         /// </summary>
         /// <param name="content">The chat message content to send</param>
-        /// <param name="targetRoomId">The room ID to send the chat to (either this or targetUniqueId is required)</param>
-        /// <param name="targetUniqueId">The username of the room to send the chat to (either this or targetRoomId is required)</param>
+        /// <param name="targetRoomId">targetRoomId</param>
+        /// <param name="targetUniqueId">The username of the room to send the chat to (either this or targetRoomId is required). Pass room_id &#x3D; 0 to parameter for this to work.</param>
         [JsonConstructor]
         public WebcastRoomChatPayload(string content, Option<string?> targetRoomId = default, Option<string?> targetUniqueId = default)
         {
@@ -62,11 +62,11 @@ namespace EulerApiSdk.Model
         public Option<string?> TargetRoomIdOption { get; private set; }
 
         /// <summary>
-        /// The room ID to send the chat to (either this or targetUniqueId is required)
+        /// Gets or Sets TargetRoomId
         /// </summary>
-        /// <value>The room ID to send the chat to (either this or targetUniqueId is required)</value>
         [JsonPropertyName("targetRoomId")]
-        public string? TargetRoomId { get { return this.TargetRoomIdOption; } set { this.TargetRoomIdOption = new(value); } }
+        [Obsolete]
+        public string? TargetRoomId { get { return this.TargetRoomIdOption.Value; } set { this.TargetRoomIdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of TargetUniqueId
@@ -76,11 +76,11 @@ namespace EulerApiSdk.Model
         public Option<string?> TargetUniqueIdOption { get; private set; }
 
         /// <summary>
-        /// The username of the room to send the chat to (either this or targetRoomId is required)
+        /// The username of the room to send the chat to (either this or targetRoomId is required). Pass room_id &#x3D; 0 to parameter for this to work.
         /// </summary>
-        /// <value>The username of the room to send the chat to (either this or targetRoomId is required)</value>
+        /// <value>The username of the room to send the chat to (either this or targetRoomId is required). Pass room_id &#x3D; 0 to parameter for this to work.</value>
         [JsonPropertyName("targetUniqueId")]
-        public string? TargetUniqueId { get { return this.TargetUniqueIdOption; } set { this.TargetUniqueIdOption = new(value); } }
+        public string? TargetUniqueId { get { return this.TargetUniqueIdOption.Value; } set { this.TargetUniqueIdOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -111,8 +111,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomChatPayload" />
     /// </summary>
-    public class WebcastRoomChatPayloadJsonConverter : JsonConverter<WebcastRoomChatPayload>
+    public partial class WebcastRoomChatPayloadJsonConverter : JsonConverter<WebcastRoomChatPayload>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomChatPayloadJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomChatPayloadJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomChatPayload" />
         /// </summary>

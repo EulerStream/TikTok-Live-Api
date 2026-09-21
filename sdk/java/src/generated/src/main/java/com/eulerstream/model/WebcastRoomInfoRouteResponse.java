@@ -14,7 +14,8 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.TikTokLiveUser;
+import com.eulerstream.model.RoomInfoFetchApiRoute;
+import com.eulerstream.model.StableTikTokLiveUser;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -51,7 +52,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastRoomInfoRouteResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastRoomInfoRouteResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -73,10 +74,15 @@ public class WebcastRoomInfoRouteResponse {
   @javax.annotation.Nonnull
   private List<String> routesAttempted = new ArrayList<>();
 
+  public static final String SERIALIZED_NAME_SOURCE = "source";
+  @SerializedName(SERIALIZED_NAME_SOURCE)
+  @javax.annotation.Nullable
+  private RoomInfoFetchApiRoute source;
+
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nullable
-  private TikTokLiveUser data;
+  private StableTikTokLiveUser data;
 
   public WebcastRoomInfoRouteResponse() {
   }
@@ -165,7 +171,26 @@ public class WebcastRoomInfoRouteResponse {
   }
 
 
-  public WebcastRoomInfoRouteResponse data(@javax.annotation.Nullable TikTokLiveUser data) {
+  public WebcastRoomInfoRouteResponse source(@javax.annotation.Nullable RoomInfoFetchApiRoute source) {
+    this.source = source;
+    return this;
+  }
+
+  /**
+   * Which source produced &#x60;data&#x60;. &#x60;CACHE&#x60; / &#x60;CACHE_UNVERIFIED&#x60; indicate the room info came out of Euler&#39;s cache — &#x60;CACHE&#x60; means its live state was revalidated, &#x60;CACHE_UNVERIFIED&#x60; means it could not be. Without this, &#x60;X-Cache-Hit&#x60; is a bare boolean and those two are indistinguishable.
+   * @return source
+   */
+  @javax.annotation.Nullable
+  public RoomInfoFetchApiRoute getSource() {
+    return source;
+  }
+
+  public void setSource(@javax.annotation.Nullable RoomInfoFetchApiRoute source) {
+    this.source = source;
+  }
+
+
+  public WebcastRoomInfoRouteResponse data(@javax.annotation.Nullable StableTikTokLiveUser data) {
     this.data = data;
     return this;
   }
@@ -175,11 +200,11 @@ public class WebcastRoomInfoRouteResponse {
    * @return data
    */
   @javax.annotation.Nullable
-  public TikTokLiveUser getData() {
+  public StableTikTokLiveUser getData() {
     return data;
   }
 
-  public void setData(@javax.annotation.Nullable TikTokLiveUser data) {
+  public void setData(@javax.annotation.Nullable StableTikTokLiveUser data) {
     this.data = data;
   }
 
@@ -198,12 +223,13 @@ public class WebcastRoomInfoRouteResponse {
         Objects.equals(this.message, webcastRoomInfoRouteResponse.message) &&
         Objects.equals(this.ok, webcastRoomInfoRouteResponse.ok) &&
         Objects.equals(this.routesAttempted, webcastRoomInfoRouteResponse.routesAttempted) &&
+        Objects.equals(this.source, webcastRoomInfoRouteResponse.source) &&
         Objects.equals(this.data, webcastRoomInfoRouteResponse.data);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(code, message, ok, routesAttempted, data);
+    return Objects.hash(code, message, ok, routesAttempted, source, data);
   }
 
   @Override
@@ -214,6 +240,7 @@ public class WebcastRoomInfoRouteResponse {
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("    ok: ").append(toIndentedString(ok)).append("\n");
     sb.append("    routesAttempted: ").append(toIndentedString(routesAttempted)).append("\n");
+    sb.append("    source: ").append(toIndentedString(source)).append("\n");
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -233,10 +260,10 @@ public class WebcastRoomInfoRouteResponse {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "ok", "routes_attempted", "data"));
+    openapiFields = new HashSet<String>(Arrays.asList("code", "message", "ok", "routes_attempted", "source", "data"));
 
     // a set of required properties/fields (JSON key names)
-    openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "ok", "routes_attempted", "data"));
+    openapiRequiredFields = new HashSet<String>(Arrays.asList("code", "ok", "routes_attempted", "source", "data"));
   }
 
   /**
@@ -276,9 +303,13 @@ public class WebcastRoomInfoRouteResponse {
       } else if (!jsonObj.get("routes_attempted").isJsonArray()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `routes_attempted` to be an array in the JSON string but got `%s`", jsonObj.get("routes_attempted").toString()));
       }
+      if (jsonObj.get("source") != null && !jsonObj.get("source").isJsonNull()) {
+      // validate the required field `source`
+      RoomInfoFetchApiRoute.validateJsonElement(jsonObj.get("source"));
+      }
       if (jsonObj.get("data") != null && !jsonObj.get("data").isJsonNull()) {
       // validate the required field `data`
-      TikTokLiveUser.validateJsonElement(jsonObj.get("data"));
+      StableTikTokLiveUser.validateJsonElement(jsonObj.get("data"));
       }
   }
 

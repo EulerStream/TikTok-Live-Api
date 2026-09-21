@@ -9,7 +9,9 @@ from attrs import field as _attrs_field
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.record_string_string import RecordStringString
+    from ..models.proxy_sign_result_cookies_item import ProxySignResultCookiesItem
+    from ..models.proxy_sign_result_request_headers import ProxySignResultRequestHeaders
+    from ..models.proxy_sign_result_tokens import ProxySignResultTokens
 
 
 T = TypeVar("T", bound="ProxySignResult")
@@ -17,25 +19,24 @@ T = TypeVar("T", bound="ProxySignResult")
 
 @_attrs_define
 class ProxySignResult:
-    """Make all properties in T optional
-
+    """
     Attributes:
         signed_url (str | Unset):
         user_agent (str | Unset):
         browser_name (str | Unset):
         browser_version (str | Unset):
-        tokens (RecordStringString | Unset): Construct a type with a set of properties K of type T
-        request_headers (RecordStringString | Unset): Construct a type with a set of properties K of type T
-        cookies (list[RecordStringString] | Unset):
+        tokens (ProxySignResultTokens | Unset):
+        request_headers (ProxySignResultRequestHeaders | Unset):
+        cookies (list[ProxySignResultCookiesItem] | Unset):
     """
 
     signed_url: str | Unset = UNSET
     user_agent: str | Unset = UNSET
     browser_name: str | Unset = UNSET
     browser_version: str | Unset = UNSET
-    tokens: RecordStringString | Unset = UNSET
-    request_headers: RecordStringString | Unset = UNSET
-    cookies: list[RecordStringString] | Unset = UNSET
+    tokens: ProxySignResultTokens | Unset = UNSET
+    request_headers: ProxySignResultRequestHeaders | Unset = UNSET
+    cookies: list[ProxySignResultCookiesItem] | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -84,7 +85,9 @@ class ProxySignResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.record_string_string import RecordStringString
+        from ..models.proxy_sign_result_cookies_item import ProxySignResultCookiesItem
+        from ..models.proxy_sign_result_request_headers import ProxySignResultRequestHeaders
+        from ..models.proxy_sign_result_tokens import ProxySignResultTokens
 
         d = dict(src_dict)
         signed_url = d.pop("signedUrl", UNSET)
@@ -96,25 +99,25 @@ class ProxySignResult:
         browser_version = d.pop("browserVersion", UNSET)
 
         _tokens = d.pop("tokens", UNSET)
-        tokens: RecordStringString | Unset
+        tokens: ProxySignResultTokens | Unset
         if isinstance(_tokens, Unset):
             tokens = UNSET
         else:
-            tokens = RecordStringString.from_dict(_tokens)
+            tokens = ProxySignResultTokens.from_dict(_tokens)
 
         _request_headers = d.pop("requestHeaders", UNSET)
-        request_headers: RecordStringString | Unset
+        request_headers: ProxySignResultRequestHeaders | Unset
         if isinstance(_request_headers, Unset):
             request_headers = UNSET
         else:
-            request_headers = RecordStringString.from_dict(_request_headers)
+            request_headers = ProxySignResultRequestHeaders.from_dict(_request_headers)
 
         _cookies = d.pop("cookies", UNSET)
-        cookies: list[RecordStringString] | Unset = UNSET
+        cookies: list[ProxySignResultCookiesItem] | Unset = UNSET
         if _cookies is not UNSET:
             cookies = []
             for cookies_item_data in _cookies:
-                cookies_item = RecordStringString.from_dict(cookies_item_data)
+                cookies_item = ProxySignResultCookiesItem.from_dict(cookies_item_data)
 
                 cookies.append(cookies_item)
 

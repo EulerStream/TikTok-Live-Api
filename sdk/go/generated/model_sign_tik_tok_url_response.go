@@ -23,7 +23,7 @@ var _ MappedNullable = &SignTikTokUrlResponse{}
 type SignTikTokUrlResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	Response *PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray `json:"response,omitempty"`
+	Response *ProxySignResult `json:"response,omitempty"`
 }
 
 type _SignTikTokUrlResponse SignTikTokUrlResponse
@@ -103,9 +103,9 @@ func (o *SignTikTokUrlResponse) SetMessage(v string) {
 }
 
 // GetResponse returns the Response field value if set, zero value otherwise.
-func (o *SignTikTokUrlResponse) GetResponse() PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray {
+func (o *SignTikTokUrlResponse) GetResponse() ProxySignResult {
 	if o == nil || IsNil(o.Response) {
-		var ret PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray
+		var ret ProxySignResult
 		return ret
 	}
 	return *o.Response
@@ -113,7 +113,7 @@ func (o *SignTikTokUrlResponse) GetResponse() PartialSignedUrlStringUserAgentStr
 
 // GetResponseOk returns a tuple with the Response field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SignTikTokUrlResponse) GetResponseOk() (*PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray, bool) {
+func (o *SignTikTokUrlResponse) GetResponseOk() (*ProxySignResult, bool) {
 	if o == nil || IsNil(o.Response) {
 		return nil, false
 	}
@@ -129,8 +129,8 @@ func (o *SignTikTokUrlResponse) HasResponse() bool {
 	return false
 }
 
-// SetResponse gets a reference to the given PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray and assigns it to the Response field.
-func (o *SignTikTokUrlResponse) SetResponse(v PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray) {
+// SetResponse gets a reference to the given ProxySignResult and assigns it to the Response field.
+func (o *SignTikTokUrlResponse) SetResponse(v ProxySignResult) {
 	o.Response = &v
 }
 

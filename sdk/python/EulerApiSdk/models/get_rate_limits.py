@@ -4,11 +4,11 @@ from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.load_shed_info import LoadShedInfo
     from ..models.rate_limit_info import RateLimitInfo
 
 
@@ -20,7 +20,6 @@ class GetRateLimits:
     """
     Attributes:
         code (float):
-        load_shedding (LoadShedInfo):
         message (str | Unset):
         day (RateLimitInfo | Unset):
         hour (RateLimitInfo | Unset):
@@ -28,16 +27,14 @@ class GetRateLimits:
     """
 
     code: float
-    load_shedding: LoadShedInfo
     message: str | Unset = UNSET
     day: RateLimitInfo | Unset = UNSET
     hour: RateLimitInfo | Unset = UNSET
     minute: RateLimitInfo | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         code = self.code
-
-        load_shedding = self.load_shedding.to_dict()
 
         message = self.message
 
@@ -54,11 +51,10 @@ class GetRateLimits:
             minute = self.minute.to_dict()
 
         field_dict: dict[str, Any] = {}
-
+        field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "code": code,
-                "load_shedding": load_shedding,
             }
         )
         if message is not UNSET:
@@ -74,13 +70,10 @@ class GetRateLimits:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.load_shed_info import LoadShedInfo
         from ..models.rate_limit_info import RateLimitInfo
 
         d = dict(src_dict)
         code = d.pop("code")
-
-        load_shedding = LoadShedInfo.from_dict(d.pop("load_shedding"))
 
         message = d.pop("message", UNSET)
 
@@ -107,11 +100,27 @@ class GetRateLimits:
 
         get_rate_limits = cls(
             code=code,
-            load_shedding=load_shedding,
             message=message,
             day=day,
             hour=hour,
             minute=minute,
         )
 
+        get_rate_limits.additional_properties = d
         return get_rate_limits
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

@@ -14,7 +14,7 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.WebcastRoomAddSensitiveWordResponseExtra;
+import com.eulerstream.model.WebcastRoomGetSensitiveWordResponseExtra;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -51,7 +51,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastRoomDelSensitiveWordResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastRoomDelSensitiveWordResponse {
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
@@ -61,7 +61,7 @@ public class WebcastRoomDelSensitiveWordResponse {
   public static final String SERIALIZED_NAME_EXTRA = "extra";
   @SerializedName(SERIALIZED_NAME_EXTRA)
   @javax.annotation.Nonnull
-  private WebcastRoomAddSensitiveWordResponseExtra extra;
+  private WebcastRoomGetSensitiveWordResponseExtra extra;
 
   public static final String SERIALIZED_NAME_STATUS_CODE = "status_code";
   @SerializedName(SERIALIZED_NAME_STATUS_CODE)
@@ -85,7 +85,7 @@ public class WebcastRoomDelSensitiveWordResponse {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get data
    * @return data
    */
   @javax.annotation.Nonnull
@@ -98,7 +98,7 @@ public class WebcastRoomDelSensitiveWordResponse {
   }
 
 
-  public WebcastRoomDelSensitiveWordResponse extra(@javax.annotation.Nonnull WebcastRoomAddSensitiveWordResponseExtra extra) {
+  public WebcastRoomDelSensitiveWordResponse extra(@javax.annotation.Nonnull WebcastRoomGetSensitiveWordResponseExtra extra) {
     this.extra = extra;
     return this;
   }
@@ -108,11 +108,11 @@ public class WebcastRoomDelSensitiveWordResponse {
    * @return extra
    */
   @javax.annotation.Nonnull
-  public WebcastRoomAddSensitiveWordResponseExtra getExtra() {
+  public WebcastRoomGetSensitiveWordResponseExtra getExtra() {
     return extra;
   }
 
-  public void setExtra(@javax.annotation.Nonnull WebcastRoomAddSensitiveWordResponseExtra extra) {
+  public void setExtra(@javax.annotation.Nonnull WebcastRoomGetSensitiveWordResponseExtra extra) {
     this.extra = extra;
   }
 
@@ -216,7 +216,7 @@ public class WebcastRoomDelSensitiveWordResponse {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the required field `extra`
-      WebcastRoomAddSensitiveWordResponseExtra.validateJsonElement(jsonObj.get("extra"));
+      WebcastRoomGetSensitiveWordResponseExtra.validateJsonElement(jsonObj.get("extra"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

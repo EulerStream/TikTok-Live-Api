@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Hosts
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Hosts
         /// </summary>
         [JsonPropertyName("hosts")]
-        public List<PeerPresence>? Hosts { get { return this.HostsOption; } set { this.HostsOption = new(value); } }
+        public List<PeerPresence>? Hosts { get { return this.HostsOption.Value; } set { this.HostsOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="HostsResponse" />
     /// </summary>
-    public class HostsResponseJsonConverter : JsonConverter<HostsResponse>
+    public partial class HostsResponseJsonConverter : JsonConverter<HostsResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HostsResponseJsonConverter" /> class.
+        /// </summary>
+        public HostsResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="HostsResponse" />
         /// </summary>

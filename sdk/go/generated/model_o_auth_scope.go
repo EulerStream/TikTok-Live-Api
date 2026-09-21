@@ -32,6 +32,8 @@ const (
 	O_AUTH_SCOPE_WEBCAST_MODERATORS OAuthScope = "webcast:moderators"
 	O_AUTH_SCOPE_WEBCAST_LIVE_ANALYTICS OAuthScope = "webcast:live_analytics"
 	O_AUTH_SCOPE_USER_CONSENTS OAuthScope = "user:consents"
+	O_AUTH_SCOPE_USER_INFO OAuthScope = "user:info"
+	O_AUTH_SCOPE_WEBCAST_SENSITIVE_WORDS OAuthScope = "webcast:sensitive_words"
 )
 
 // All allowed values of OAuthScope enum
@@ -48,6 +50,8 @@ var AllowedOAuthScopeEnumValues = []OAuthScope{
 	"webcast:moderators",
 	"webcast:live_analytics",
 	"user:consents",
+	"user:info",
+	"webcast:sensitive_words",
 }
 
 func (v *OAuthScope) UnmarshalJSON(src []byte) error {

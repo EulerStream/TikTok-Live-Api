@@ -21,10 +21,9 @@ import com.eulerstream.model.OAuthIntrospectResponse;
 import com.eulerstream.model.OAuthRevokeResponse;
 import com.eulerstream.model.OAuthTokenResponse;
 import com.eulerstream.model.OAuthUserInfoResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RevokeRequestBody;
-import com.eulerstream.model.SignTikTokUrlBody;
-import com.eulerstream.model.SignTikTokUrlResponse;
 import com.eulerstream.model.ValidateRefreshRequest;
 import com.eulerstream.model.ValidateRefreshResponse;
 import org.junit.jupiter.api.Disabled;
@@ -100,19 +99,6 @@ public class TikTokGeneralApiTest {
     public void revokeTokenTest() throws ApiException {
         RevokeRequestBody revokeRequestBody = null;
         OAuthRevokeResponse response = api.revokeToken(revokeRequestBody);
-        // TODO: test validations
-    }
-
-    /**
-     * Sign a non-LIVE TikTok URL. This is NOT available to customers in any public package, and access is approved on a case-by-case basis.
-     *
-     * @throws ApiException if the Api call fails
-     */
-    @Test
-    public void signTikTokUrlTest() throws ApiException {
-        SignTikTokUrlBody signTikTokUrlBody = null;
-        String client = null;
-        SignTikTokUrlResponse response = api.signTikTokUrl(signTikTokUrlBody, client);
         // TODO: test validations
     }
 

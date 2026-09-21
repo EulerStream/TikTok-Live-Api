@@ -68,19 +68,19 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public static MuteDuration FromString(string value)
         {
-            if (value.Equals("-1"))
+            if (value.Equals((-1m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._1;
 
-            if (value.Equals("5"))
+            if (value.Equals((5m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._5;
 
-            if (value.Equals("30"))
+            if (value.Equals((30m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._30;
 
-            if (value.Equals("60"))
+            if (value.Equals((60m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._60;
 
-            if (value.Equals("300"))
+            if (value.Equals((300m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._300;
 
             throw new NotImplementedException($"Could not convert value to type MuteDuration: '{value}'");
@@ -93,19 +93,19 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public static MuteDuration? FromStringOrDefault(string value)
         {
-            if (value.Equals("-1"))
+            if (value.Equals((-1m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._1;
 
-            if (value.Equals("5"))
+            if (value.Equals((5m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._5;
 
-            if (value.Equals("30"))
+            if (value.Equals((30m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._30;
 
-            if (value.Equals("60"))
+            if (value.Equals((60m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._60;
 
-            if (value.Equals("300"))
+            if (value.Equals((300m).ToString(System.Globalization.CultureInfo.InvariantCulture)))
                 return MuteDuration._300;
 
             return null;
@@ -117,9 +117,24 @@ namespace EulerApiSdk.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static int ToJsonValue(MuteDuration value)
+        public static decimal ToJsonValue(MuteDuration value)
         {
-            return (int) value;
+            if (value == MuteDuration._1)
+                return -1m;
+
+            if (value == MuteDuration._5)
+                return 5m;
+
+            if (value == MuteDuration._30)
+                return 30m;
+
+            if (value == MuteDuration._60)
+                return 60m;
+
+            if (value == MuteDuration._300)
+                return 300m;
+
+            throw new NotImplementedException($"Value could not be handled: '{value}'");
         }
     }
 
@@ -138,15 +153,10 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override MuteDuration Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
-
-            MuteDuration? result = rawValue == null
-                ? null
-                : MuteDurationValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            MuteDuration? result = MuteDurationValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
@@ -158,7 +168,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MuteDuration muteDuration, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(muteDuration.ToString());
+            writer.WriteNumberValue(MuteDurationValueConverter.ToJsonValue(muteDuration));
         }
     }
 
@@ -176,27 +186,28 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override MuteDuration? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string? rawValue = reader.GetString();
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
 
-            MuteDuration? result = rawValue == null
-                ? null
-                : MuteDurationValueConverter.FromStringOrDefault(rawValue);
-
+            string rawValue = reader.GetDecimal().ToString(System.Globalization.CultureInfo.InvariantCulture);
+            MuteDuration? result = MuteDurationValueConverter.FromStringOrDefault(rawValue);
             if (result != null)
                 return result.Value;
-
             throw new JsonException();
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the MuteDuration to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="muteDuration"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, MuteDuration? muteDuration, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(muteDuration?.ToString() ?? "null");
+            if (muteDuration.HasValue)
+                writer.WriteNumberValue(MuteDurationValueConverter.ToJsonValue(muteDuration.Value));
+            else
+                writer.WriteNullValue();
         }
     }
 }

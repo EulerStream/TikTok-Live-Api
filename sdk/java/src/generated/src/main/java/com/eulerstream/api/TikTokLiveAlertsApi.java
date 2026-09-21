@@ -31,8 +31,9 @@ import com.eulerstream.model.CreateAlertRequest;
 import com.eulerstream.model.CreateAlertResponse;
 import com.eulerstream.model.DeleteAlertResponse;
 import com.eulerstream.model.ListAlertsResponse;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveAlertResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

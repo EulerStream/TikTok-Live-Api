@@ -6,6 +6,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.complete_shapes_captcha_body import CompleteShapesCaptchaBody
+from ...models.complete_shapes_captcha_response_429 import CompleteShapesCaptchaResponse429
+from ...models.complete_shapes_captcha_response_500 import CompleteShapesCaptchaResponse500
 from ...models.shapes_captcha_response import ShapesCaptchaResponse
 from ...types import Response
 
@@ -27,11 +29,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ShapesCaptchaResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse | None:
     if response.status_code == 200:
         response_200 = ShapesCaptchaResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CompleteShapesCaptchaResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CompleteShapesCaptchaResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -41,7 +55,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ShapesCaptchaResponse]:
+) -> Response[CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +68,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CompleteShapesCaptchaBody,
-) -> Response[ShapesCaptchaResponse]:
+) -> Response[CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse]:
     r"""The shapes captcha requires just one image.
 
     ## Example Image
@@ -78,7 +92,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ShapesCaptchaResponse]
+        Response[CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse]
     """
 
     kwargs = _get_kwargs(
@@ -96,7 +110,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CompleteShapesCaptchaBody,
-) -> ShapesCaptchaResponse | None:
+) -> CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse | None:
     r"""The shapes captcha requires just one image.
 
     ## Example Image
@@ -120,7 +134,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ShapesCaptchaResponse
+        CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse
     """
 
     return sync_detailed(
@@ -133,7 +147,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CompleteShapesCaptchaBody,
-) -> Response[ShapesCaptchaResponse]:
+) -> Response[CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse]:
     r"""The shapes captcha requires just one image.
 
     ## Example Image
@@ -157,7 +171,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ShapesCaptchaResponse]
+        Response[CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse]
     """
 
     kwargs = _get_kwargs(
@@ -173,7 +187,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CompleteShapesCaptchaBody,
-) -> ShapesCaptchaResponse | None:
+) -> CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse | None:
     r"""The shapes captcha requires just one image.
 
     ## Example Image
@@ -197,7 +211,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ShapesCaptchaResponse
+        CompleteShapesCaptchaResponse429 | CompleteShapesCaptchaResponse500 | ShapesCaptchaResponse
     """
 
     return (

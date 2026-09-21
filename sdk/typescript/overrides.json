@@ -9,5 +9,7 @@
   "TikTokLIVEGiftsApi": "gifts",
   "TikTokLIVERankingsApi": "rankings",
   "TikTokCaptchasApi": "captchas",
-  "TikTokGeneralApi": "general"
+  "TikTokGeneralApi": "general",
+  "TikTokSigningApi": "signing",
+  "TikTokLIVEAgenciesApi": "agencies"
 }

@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomUnkickUserRouteOutput" />
     /// </summary>
-    public class WebcastRoomUnkickUserRouteOutputJsonConverter : JsonConverter<WebcastRoomUnkickUserRouteOutput>
+    public partial class WebcastRoomUnkickUserRouteOutputJsonConverter : JsonConverter<WebcastRoomUnkickUserRouteOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomUnkickUserRouteOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomUnkickUserRouteOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomUnkickUserRouteOutput" />
         /// </summary>

@@ -21,7 +21,6 @@ var _ MappedNullable = &WebcastLiveAnalyticsUserInteractionsResponseUserAttr{}
 
 // WebcastLiveAnalyticsUserInteractionsResponseUserAttr struct for WebcastLiveAnalyticsUserInteractionsResponseUserAttr
 type WebcastLiveAnalyticsUserInteractionsResponseUserAttr struct {
-	// Construct a type with a set of properties K of type T
 	AdminPermissions map[string]interface{} `json:"admin_permissions"`
 	HasVotingFunction bool `json:"has_voting_function"`
 	IsAdmin bool `json:"is_admin"`

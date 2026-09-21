@@ -26,7 +26,7 @@ using EulerApiSdk.Client;
 namespace EulerApiSdk.Model
 {
     /// <summary>
-    /// Make all properties in T optional
+    /// PartialWebcastRegionRankingsOutputRank
     /// </summary>
     public partial class PartialWebcastRegionRankingsOutputRank : IValidatableObject
     {
@@ -36,13 +36,15 @@ namespace EulerApiSdk.Model
         /// <param name="rank">rank</param>
         /// <param name="diamonds">diamonds</param>
         /// <param name="diamondsDescription">diamondsDescription</param>
+        /// <param name="roomId">roomId</param>
         /// <param name="user">user</param>
         [JsonConstructor]
-        public PartialWebcastRegionRankingsOutputRank(Option<double?> rank = default, Option<double?> diamonds = default, Option<string?> diamondsDescription = default, Option<PartialWebcastRegionRankingsOutputRankUser?> user = default)
+        public PartialWebcastRegionRankingsOutputRank(Option<double?> rank = default, Option<double?> diamonds = default, Option<string?> diamondsDescription = default, Option<string?> roomId = default, Option<PartialWebcastRegionRankingsOutputRankUser?> user = default)
         {
             RankOption = rank;
             DiamondsOption = diamonds;
             DiamondsDescriptionOption = diamondsDescription;
+            RoomIdOption = roomId;
             UserOption = user;
             OnCreated();
         }
@@ -60,7 +62,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Rank
         /// </summary>
         [JsonPropertyName("rank")]
-        public double? Rank { get { return this.RankOption; } set { this.RankOption = new(value); } }
+        public double? Rank { get { return this.RankOption.Value; } set { this.RankOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Diamonds
@@ -73,7 +75,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Diamonds
         /// </summary>
         [JsonPropertyName("diamonds")]
-        public double? Diamonds { get { return this.DiamondsOption; } set { this.DiamondsOption = new(value); } }
+        public double? Diamonds { get { return this.DiamondsOption.Value; } set { this.DiamondsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DiamondsDescription
@@ -86,7 +88,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets DiamondsDescription
         /// </summary>
         [JsonPropertyName("diamonds_description")]
-        public string? DiamondsDescription { get { return this.DiamondsDescriptionOption; } set { this.DiamondsDescriptionOption = new(value); } }
+        public string? DiamondsDescription { get { return this.DiamondsDescriptionOption.Value; } set { this.DiamondsDescriptionOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of RoomId
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> RoomIdOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets RoomId
+        /// </summary>
+        [JsonPropertyName("room_id")]
+        public string? RoomId { get { return this.RoomIdOption.Value; } set { this.RoomIdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of User
@@ -99,7 +114,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets User
         /// </summary>
         [JsonPropertyName("user")]
-        public PartialWebcastRegionRankingsOutputRankUser? User { get { return this.UserOption; } set { this.UserOption = new(value); } }
+        public PartialWebcastRegionRankingsOutputRankUser? User { get { return this.UserOption.Value; } set { this.UserOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -112,6 +127,7 @@ namespace EulerApiSdk.Model
             sb.Append("  Rank: ").Append(Rank).Append("\n");
             sb.Append("  Diamonds: ").Append(Diamonds).Append("\n");
             sb.Append("  DiamondsDescription: ").Append(DiamondsDescription).Append("\n");
+            sb.Append("  RoomId: ").Append(RoomId).Append("\n");
             sb.Append("  User: ").Append(User).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -131,8 +147,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="PartialWebcastRegionRankingsOutputRank" />
     /// </summary>
-    public class PartialWebcastRegionRankingsOutputRankJsonConverter : JsonConverter<PartialWebcastRegionRankingsOutputRank>
+    public partial class PartialWebcastRegionRankingsOutputRankJsonConverter : JsonConverter<PartialWebcastRegionRankingsOutputRank>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PartialWebcastRegionRankingsOutputRankJsonConverter" /> class.
+        /// </summary>
+        public PartialWebcastRegionRankingsOutputRankJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PartialWebcastRegionRankingsOutputRank" />
         /// </summary>
@@ -153,6 +179,7 @@ namespace EulerApiSdk.Model
             Option<double?> rank = default;
             Option<double?> diamonds = default;
             Option<string?> diamondsDescription = default;
+            Option<string?> roomId = default;
             Option<PartialWebcastRegionRankingsOutputRankUser?> user = default;
 
             while (utf8JsonReader.Read())
@@ -179,6 +206,9 @@ namespace EulerApiSdk.Model
                         case "diamonds_description":
                             diamondsDescription = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "room_id":
+                            roomId = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         case "user":
                             user = new Option<PartialWebcastRegionRankingsOutputRankUser?>(JsonSerializer.Deserialize<PartialWebcastRegionRankingsOutputRankUser>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
@@ -197,10 +227,13 @@ namespace EulerApiSdk.Model
             if (diamondsDescription.IsSet && diamondsDescription.Value == null)
                 throw new ArgumentNullException(nameof(diamondsDescription), "Property is not nullable for class PartialWebcastRegionRankingsOutputRank.");
 
+            if (roomId.IsSet && roomId.Value == null)
+                throw new ArgumentNullException(nameof(roomId), "Property is not nullable for class PartialWebcastRegionRankingsOutputRank.");
+
             if (user.IsSet && user.Value == null)
                 throw new ArgumentNullException(nameof(user), "Property is not nullable for class PartialWebcastRegionRankingsOutputRank.");
 
-            return new PartialWebcastRegionRankingsOutputRank(rank, diamonds, diamondsDescription, user);
+            return new PartialWebcastRegionRankingsOutputRank(rank, diamonds, diamondsDescription, roomId, user);
         }
 
         /// <summary>
@@ -230,6 +263,9 @@ namespace EulerApiSdk.Model
             if (partialWebcastRegionRankingsOutputRank.DiamondsDescriptionOption.IsSet && partialWebcastRegionRankingsOutputRank.DiamondsDescription == null)
                 throw new ArgumentNullException(nameof(partialWebcastRegionRankingsOutputRank.DiamondsDescription), "Property is required for class PartialWebcastRegionRankingsOutputRank.");
 
+            if (partialWebcastRegionRankingsOutputRank.RoomIdOption.IsSet && partialWebcastRegionRankingsOutputRank.RoomId == null)
+                throw new ArgumentNullException(nameof(partialWebcastRegionRankingsOutputRank.RoomId), "Property is required for class PartialWebcastRegionRankingsOutputRank.");
+
             if (partialWebcastRegionRankingsOutputRank.UserOption.IsSet && partialWebcastRegionRankingsOutputRank.User == null)
                 throw new ArgumentNullException(nameof(partialWebcastRegionRankingsOutputRank.User), "Property is required for class PartialWebcastRegionRankingsOutputRank.");
 
@@ -241,6 +277,9 @@ namespace EulerApiSdk.Model
 
             if (partialWebcastRegionRankingsOutputRank.DiamondsDescriptionOption.IsSet)
                 writer.WriteString("diamonds_description", partialWebcastRegionRankingsOutputRank.DiamondsDescription);
+
+            if (partialWebcastRegionRankingsOutputRank.RoomIdOption.IsSet)
+                writer.WriteString("room_id", partialWebcastRegionRankingsOutputRank.RoomId);
 
             if (partialWebcastRegionRankingsOutputRank.UserOption.IsSet)
             {

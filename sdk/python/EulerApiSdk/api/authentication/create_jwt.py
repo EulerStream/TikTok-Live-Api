@@ -7,14 +7,17 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_jwt_response import CreateJWTResponse
-from ...models.jwt_create_config import JWTCreateConfig
+from ...models.create_jwt_response_429 import CreateJWTResponse429
+from ...models.create_jwt_response_500 import CreateJWTResponse500
+from ...models.jwt_configuration import JWTConfiguration
+from ...models.legacy_jwt_configuration import LegacyJWTConfiguration
 from ...types import Response
 
 
 def _get_kwargs(
     account_id: float,
     *,
-    body: JWTCreateConfig,
+    body: JWTConfiguration | LegacyJWTConfiguration,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
 
@@ -25,7 +28,10 @@ def _get_kwargs(
         ),
     }
 
-    _kwargs["json"] = body.to_dict()
+    if isinstance(body, LegacyJWTConfiguration):
+        _kwargs["json"] = body.to_dict()
+    else:
+        _kwargs["json"] = body.to_dict()
 
     headers["Content-Type"] = "application/json"
 
@@ -33,11 +39,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CreateJWTResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500 | None:
     if response.status_code == 200:
         response_200 = CreateJWTResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CreateJWTResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CreateJWTResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +63,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CreateJWTResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,22 +78,22 @@ def sync_detailed(
     account_id: float,
     *,
     client: AuthenticatedClient,
-    body: JWTCreateConfig,
-) -> Response[CreateJWTResponse]:
+    body: JWTConfiguration | LegacyJWTConfiguration,
+) -> Response[CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500]:
     """Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated
-    Webcast endpoints.
-    They function to attach the rate limits of the API key to the request for client-sided applications.
+    Webcast endpoints. They function to attach the rate limits of the API key to the request for client-
+    sided applications.
 
     Args:
         account_id (float):
-        body (JWTCreateConfig):
+        body (JWTConfiguration | LegacyJWTConfiguration):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateJWTResponse]
+        Response[CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -92,22 +112,22 @@ def sync(
     account_id: float,
     *,
     client: AuthenticatedClient,
-    body: JWTCreateConfig,
-) -> CreateJWTResponse | None:
+    body: JWTConfiguration | LegacyJWTConfiguration,
+) -> CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500 | None:
     """Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated
-    Webcast endpoints.
-    They function to attach the rate limits of the API key to the request for client-sided applications.
+    Webcast endpoints. They function to attach the rate limits of the API key to the request for client-
+    sided applications.
 
     Args:
         account_id (float):
-        body (JWTCreateConfig):
+        body (JWTConfiguration | LegacyJWTConfiguration):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateJWTResponse
+        CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500
     """
 
     return sync_detailed(
@@ -121,22 +141,22 @@ async def asyncio_detailed(
     account_id: float,
     *,
     client: AuthenticatedClient,
-    body: JWTCreateConfig,
-) -> Response[CreateJWTResponse]:
+    body: JWTConfiguration | LegacyJWTConfiguration,
+) -> Response[CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500]:
     """Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated
-    Webcast endpoints.
-    They function to attach the rate limits of the API key to the request for client-sided applications.
+    Webcast endpoints. They function to attach the rate limits of the API key to the request for client-
+    sided applications.
 
     Args:
         account_id (float):
-        body (JWTCreateConfig):
+        body (JWTConfiguration | LegacyJWTConfiguration):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateJWTResponse]
+        Response[CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -153,22 +173,22 @@ async def asyncio(
     account_id: float,
     *,
     client: AuthenticatedClient,
-    body: JWTCreateConfig,
-) -> CreateJWTResponse | None:
+    body: JWTConfiguration | LegacyJWTConfiguration,
+) -> CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500 | None:
     """Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated
-    Webcast endpoints.
-    They function to attach the rate limits of the API key to the request for client-sided applications.
+    Webcast endpoints. They function to attach the rate limits of the API key to the request for client-
+    sided applications.
 
     Args:
         account_id (float):
-        body (JWTCreateConfig):
+        body (JWTConfiguration | LegacyJWTConfiguration):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateJWTResponse
+        CreateJWTResponse | CreateJWTResponse429 | CreateJWTResponse500
     """
 
     return (

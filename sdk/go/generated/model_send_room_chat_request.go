@@ -16,7 +16,7 @@ import (
 )
 
 
-// SendRoomChatRequest The payload configuration for sending a chat
+// SendRoomChatRequest struct for SendRoomChatRequest
 type SendRoomChatRequest struct {
 	WebcastRoomChatPayload *WebcastRoomChatPayload
 	WebcastRoomChatPayloadV1 *WebcastRoomChatPayloadV1

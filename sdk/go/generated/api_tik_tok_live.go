@@ -22,179 +22,82 @@ import (
 // TikTokLIVEAPIService TikTokLIVEAPI service
 type TikTokLIVEAPIService service
 
-type ApiFetchWebcastURLRequest struct {
+type ApiRetrieveBulkLiveCheckRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAPIService
-	client *string
-	roomId *string
-	uniqueId *string
-	cursor *string
-	userAgent *string
-	clientEnter *bool
-	country *SoaxProxyRegion
-	platform *WebcastFetchPlatform
+	retrieveBulkLiveCheckRequest *RetrieveBulkLiveCheckRequest
 	xOauthToken *string
 	xCookieHeader *string
-	sessionId *string
-	ttTargetIdc *string
 }
 
-// The client library identifier. Used for metrics.
-func (r ApiFetchWebcastURLRequest) Client(client string) ApiFetchWebcastURLRequest {
-	r.client = &client
-	return r
-}
-
-// The room ID to fetch the Webcast URL for.
-func (r ApiFetchWebcastURLRequest) RoomId(roomId string) ApiFetchWebcastURLRequest {
-	r.roomId = &roomId
-	return r
-}
-
-// The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user.
-func (r ApiFetchWebcastURLRequest) UniqueId(uniqueId string) ApiFetchWebcastURLRequest {
-	r.uniqueId = &uniqueId
-	return r
-}
-
-// Starting cursor for the webcast connection, if any
-func (r ApiFetchWebcastURLRequest) Cursor(cursor string) ApiFetchWebcastURLRequest {
-	r.cursor = &cursor
-	return r
-}
-
-// Override the user agent used for signing and fetching
-func (r ApiFetchWebcastURLRequest) UserAgent(userAgent string) ApiFetchWebcastURLRequest {
-	r.userAgent = &userAgent
-	return r
-}
-
-// Whether the client enters a room after connecting, or if it&#39;s done by query parameters
-func (r ApiFetchWebcastURLRequest) ClientEnter(clientEnter bool) ApiFetchWebcastURLRequest {
-	r.clientEnter = &clientEnter
-	return r
-}
-
-// Country code to make the request from.
-func (r ApiFetchWebcastURLRequest) Country(country SoaxProxyRegion) ApiFetchWebcastURLRequest {
-	r.country = &country
-	return r
-}
-
-// Platform to connect with
-func (r ApiFetchWebcastURLRequest) Platform(platform WebcastFetchPlatform) ApiFetchWebcastURLRequest {
-	r.platform = &platform
+// The body of the request containing user numeric IDs (e.g. 7602356191083907865).
+func (r ApiRetrieveBulkLiveCheckRequest) RetrieveBulkLiveCheckRequest(retrieveBulkLiveCheckRequest RetrieveBulkLiveCheckRequest) ApiRetrieveBulkLiveCheckRequest {
+	r.retrieveBulkLiveCheckRequest = &retrieveBulkLiveCheckRequest
 	return r
 }
 
 // OAuth access token for session resolution
-func (r ApiFetchWebcastURLRequest) XOauthToken(xOauthToken string) ApiFetchWebcastURLRequest {
+func (r ApiRetrieveBulkLiveCheckRequest) XOauthToken(xOauthToken string) ApiRetrieveBulkLiveCheckRequest {
 	r.xOauthToken = &xOauthToken
 	return r
 }
 
 // Cookie header containing sessionid and tt-target-idc
-func (r ApiFetchWebcastURLRequest) XCookieHeader(xCookieHeader string) ApiFetchWebcastURLRequest {
+func (r ApiRetrieveBulkLiveCheckRequest) XCookieHeader(xCookieHeader string) ApiRetrieveBulkLiveCheckRequest {
 	r.xCookieHeader = &xCookieHeader
 	return r
 }
 
-// Use x-oauth-token or x-cookie-header instead
-// Deprecated
-func (r ApiFetchWebcastURLRequest) SessionId(sessionId string) ApiFetchWebcastURLRequest {
-	r.sessionId = &sessionId
-	return r
-}
-
-// Use x-oauth-token or x-cookie-header instead
-// Deprecated
-func (r ApiFetchWebcastURLRequest) TtTargetIdc(ttTargetIdc string) ApiFetchWebcastURLRequest {
-	r.ttTargetIdc = &ttTargetIdc
-	return r
-}
-
-func (r ApiFetchWebcastURLRequest) Execute() (map[string]interface{}, *http.Response, error) {
-	return r.ApiService.FetchWebcastURLExecute(r)
+func (r ApiRetrieveBulkLiveCheckRequest) Execute() (*RetrieveBulkLiveCheckResponse, *http.Response, error) {
+	return r.ApiService.RetrieveBulkLiveCheckExecute(r)
 }
 
 /*
-FetchWebcastURL Method for FetchWebcastURL
+RetrieveBulkLiveCheck Method for RetrieveBulkLiveCheck
 
-Fetch the WebSocket URL & first payload for a TikTok LIVE Room given a Room ID.
+A bulk-check endpoint to determine if a group of TikTok users (up to 50 at once) are live.
+It uses a highly optimized job-based system for checking large numbers of users quickly.
 
-**Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers:
+**Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiFetchWebcastURLRequest
+ @return ApiRetrieveBulkLiveCheckRequest
 */
-func (a *TikTokLIVEAPIService) FetchWebcastURL(ctx context.Context) ApiFetchWebcastURLRequest {
-	return ApiFetchWebcastURLRequest{
+func (a *TikTokLIVEAPIService) RetrieveBulkLiveCheck(ctx context.Context) ApiRetrieveBulkLiveCheckRequest {
+	return ApiRetrieveBulkLiveCheckRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
-func (a *TikTokLIVEAPIService) FetchWebcastURLExecute(r ApiFetchWebcastURLRequest) (map[string]interface{}, *http.Response, error) {
+//  @return RetrieveBulkLiveCheckResponse
+func (a *TikTokLIVEAPIService) RetrieveBulkLiveCheckExecute(r ApiRetrieveBulkLiveCheckRequest) (*RetrieveBulkLiveCheckResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  map[string]interface{}
+		localVarReturnValue  *RetrieveBulkLiveCheckResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.FetchWebcastURL")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.RetrieveBulkLiveCheck")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/fetch"
+	localVarPath := localBasePath + "/webcast/bulk_live_check"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.retrieveBulkLiveCheckRequest == nil {
+		return localVarReturnValue, nil, reportError("retrieveBulkLiveCheckRequest is required and must be specified")
+	}
 
-	if r.client != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client", r.client, "form", "")
-	} else {
-		var defaultValue string = "ttlive-other"
-		r.client = &defaultValue
-	}
-	if r.roomId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
-	}
-	if r.uniqueId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "unique_id", r.uniqueId, "form", "")
-	}
-	if r.cursor != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
-	}
-	if r.userAgent != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "user_agent", r.userAgent, "form", "")
-	}
-	if r.clientEnter != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client_enter", r.clientEnter, "form", "")
-	} else {
-		var defaultValue bool = true
-		r.clientEnter = &defaultValue
-	}
-	if r.country != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "country", r.country, "form", "")
-	}
-	if r.platform != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "platform", r.platform, "form", "")
-	}
-	if r.sessionId != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "session_id", r.sessionId, "form", "")
-	}
-	if r.ttTargetIdc != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "tt_target_idc", r.ttTargetIdc, "form", "")
-	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -216,147 +119,8 @@ func (a *TikTokLIVEAPIService) FetchWebcastURLExecute(r ApiFetchWebcastURLReques
 	if r.xCookieHeader != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
 	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_query"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarQueryParams.Add("apiKey", key)
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["jwt_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-jwt-key"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetRateLimitsRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEAPIService
-}
-
-func (r ApiGetRateLimitsRequest) Execute() (*GetRateLimits, *http.Response, error) {
-	return r.ApiService.GetRateLimitsExecute(r)
-}
-
-/*
-GetRateLimits Method for GetRateLimits
-
-Retrieve the rate limits for the provided API key (or the unauthenticated limits if no key is provided)
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRateLimitsRequest
-*/
-func (a *TikTokLIVEAPIService) GetRateLimits(ctx context.Context) ApiGetRateLimitsRequest {
-	return ApiGetRateLimitsRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return GetRateLimits
-func (a *TikTokLIVEAPIService) GetRateLimitsExecute(r ApiGetRateLimitsRequest) (*GetRateLimits, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GetRateLimits
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.GetRateLimits")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/rate_limits"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
+	// body params
+	localVarPostBody = r.retrieveBulkLiveCheckRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -407,156 +171,37 @@ func (a *TikTokLIVEAPIService) GetRateLimitsExecute(r ApiGetRateLimitsRequest) (
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRetrieveGiftInfoRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEAPIService
-	roomId *string
-	webcastLanguage *string
-}
-
-// The room ID of the TikTok LIVE session
-func (r ApiRetrieveGiftInfoRequest) RoomId(roomId string) ApiRetrieveGiftInfoRequest {
-	r.roomId = &roomId
-	return r
-}
-
-// Webcast language for locale-based fields
-func (r ApiRetrieveGiftInfoRequest) WebcastLanguage(webcastLanguage string) ApiRetrieveGiftInfoRequest {
-	r.webcastLanguage = &webcastLanguage
-	return r
-}
-
-func (r ApiRetrieveGiftInfoRequest) Execute() (*WebcastGiftInfoRouteResponse, *http.Response, error) {
-	return r.ApiService.RetrieveGiftInfoExecute(r)
-}
-
-/*
-RetrieveGiftInfo Method for RetrieveGiftInfo
-
-Retrieve TikTok Live Room Gift List
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRetrieveGiftInfoRequest
-*/
-func (a *TikTokLIVEAPIService) RetrieveGiftInfo(ctx context.Context) ApiRetrieveGiftInfoRequest {
-	return ApiRetrieveGiftInfoRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return WebcastGiftInfoRouteResponse
-func (a *TikTokLIVEAPIService) RetrieveGiftInfoExecute(r ApiRetrieveGiftInfoRequest) (*WebcastGiftInfoRouteResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *WebcastGiftInfoRouteResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.RetrieveGiftInfo")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/gift_info"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
-
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
-	if r.webcastLanguage != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "webcast_language", r.webcastLanguage, "form", "")
-	} else {
-		var defaultValue string = "en"
-		r.webcastLanguage = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_query"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarQueryParams.Add("apiKey", key)
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -576,6 +221,13 @@ func (a *TikTokLIVEAPIService) RetrieveGiftInfoExecute(r ApiRetrieveGiftInfoRequ
 type ApiRetrieveHashtagListRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAPIService
+	xImageSource *RouteImageSource
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveHashtagListRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveHashtagListRequest {
+	r.xImageSource = &xImageSource
+	return r
 }
 
 func (r ApiRetrieveHashtagListRequest) Execute() (*HashtagListAPIResponse, *http.Response, error) {
@@ -585,7 +237,7 @@ func (r ApiRetrieveHashtagListRequest) Execute() (*HashtagListAPIResponse, *http
 /*
 RetrieveHashtagList Method for RetrieveHashtagList
 
-Requires Premium Routes Addon - Retrieve the list of available hashtags for TikTok LIVE streams.
+Retrieve the list of available hashtags for TikTok LIVE streams.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiRetrieveHashtagListRequest
@@ -612,7 +264,7 @@ func (a *TikTokLIVEAPIService) RetrieveHashtagListExecute(r ApiRetrieveHashtagLi
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/hashtag_list"
+	localVarPath := localBasePath + "/webcast/hashtags"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -635,115 +287,8 @@ func (a *TikTokLIVEAPIService) RetrieveHashtagListExecute(r ApiRetrieveHashtagLi
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRetrieveRoomCoverRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEAPIService
-	uniqueId *string
-}
-
-// The unique ID of the TikTok to fetch the cover for.
-func (r ApiRetrieveRoomCoverRequest) UniqueId(uniqueId string) ApiRetrieveRoomCoverRequest {
-	r.uniqueId = &uniqueId
-	return r
-}
-
-func (r ApiRetrieveRoomCoverRequest) Execute() (*JSONResponse, *http.Response, error) {
-	return r.ApiService.RetrieveRoomCoverExecute(r)
-}
-
-/*
-RetrieveRoomCover Method for RetrieveRoomCover
-
-Requires Business Plan - Fetch TikTok LIVE Stream Cover URL given a uniqueId.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRetrieveRoomCoverRequest
-*/
-func (a *TikTokLIVEAPIService) RetrieveRoomCover(ctx context.Context) ApiRetrieveRoomCoverRequest {
-	return ApiRetrieveRoomCoverRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return JSONResponse
-func (a *TikTokLIVEAPIService) RetrieveRoomCoverExecute(r ApiRetrieveRoomCoverRequest) (*JSONResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *JSONResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.RetrieveRoomCover")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/room_cover"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.uniqueId == nil {
-		return localVarReturnValue, nil, reportError("uniqueId is required and must be specified")
-	}
-
-	parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueId", r.uniqueId, "form", "")
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -809,6 +354,38 @@ func (a *TikTokLIVEAPIService) RetrieveRoomCoverExecute(r ApiRetrieveRoomCoverRe
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -824,62 +401,69 @@ func (a *TikTokLIVEAPIService) RetrieveRoomCoverExecute(r ApiRetrieveRoomCoverRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRetrieveRoomIdRequest struct {
+type ApiRetrieveWebcastFeedRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAPIService
-	uniqueId *string
+	region *PooledProxyRegion
+	xImageSource *RouteImageSource
 }
 
-// The unique ID of the TikTok user to fetch the data for.
-func (r ApiRetrieveRoomIdRequest) UniqueId(uniqueId string) ApiRetrieveRoomIdRequest {
-	r.uniqueId = &uniqueId
+// The region (country) with which to fetch a feed from.
+func (r ApiRetrieveWebcastFeedRequest) Region(region PooledProxyRegion) ApiRetrieveWebcastFeedRequest {
+	r.region = &region
 	return r
 }
 
-func (r ApiRetrieveRoomIdRequest) Execute() (*WebcastRoomIdRouteResponse, *http.Response, error) {
-	return r.ApiService.RetrieveRoomIdExecute(r)
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveWebcastFeedRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveWebcastFeedRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+func (r ApiRetrieveWebcastFeedRequest) Execute() (*WebcastFeedRouteResponse, *http.Response, error) {
+	return r.ApiService.RetrieveWebcastFeedExecute(r)
 }
 
 /*
-RetrieveRoomId Method for RetrieveRoomId
+RetrieveWebcastFeed Method for RetrieveWebcastFeed
 
-Requires Business Plan - Fetch Room ID for a given uniqueId & whether that user is live.
+Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRetrieveRoomIdRequest
+ @return ApiRetrieveWebcastFeedRequest
 */
-func (a *TikTokLIVEAPIService) RetrieveRoomId(ctx context.Context) ApiRetrieveRoomIdRequest {
-	return ApiRetrieveRoomIdRequest{
+func (a *TikTokLIVEAPIService) RetrieveWebcastFeed(ctx context.Context) ApiRetrieveWebcastFeedRequest {
+	return ApiRetrieveWebcastFeedRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return WebcastRoomIdRouteResponse
-func (a *TikTokLIVEAPIService) RetrieveRoomIdExecute(r ApiRetrieveRoomIdRequest) (*WebcastRoomIdRouteResponse, *http.Response, error) {
+//  @return WebcastFeedRouteResponse
+func (a *TikTokLIVEAPIService) RetrieveWebcastFeedExecute(r ApiRetrieveWebcastFeedRequest) (*WebcastFeedRouteResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *WebcastRoomIdRouteResponse
+		localVarReturnValue  *WebcastFeedRouteResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.RetrieveRoomId")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.RetrieveWebcastFeed")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/room_id"
+	localVarPath := localBasePath + "/webcast/feed"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.uniqueId == nil {
-		return localVarReturnValue, nil, reportError("uniqueId is required and must be specified")
+	if r.region == nil {
+		return localVarReturnValue, nil, reportError("region is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueId", r.uniqueId, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "region", r.region, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -896,6 +480,9 @@ func (a *TikTokLIVEAPIService) RetrieveRoomIdExecute(r ApiRetrieveRoomIdRequest)
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -961,167 +548,37 @@ func (a *TikTokLIVEAPIService) RetrieveRoomIdExecute(r ApiRetrieveRoomIdRequest)
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRetrieveRoomVideoRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEAPIService
-	uniqueId *string
-	streamType *StreamType
-}
-
-// The unique ID of the TikTok to fetch the data for.
-func (r ApiRetrieveRoomVideoRequest) UniqueId(uniqueId string) ApiRetrieveRoomVideoRequest {
-	r.uniqueId = &uniqueId
-	return r
-}
-
-// The type of video stream to fetch. Default is HLS_SD.
-func (r ApiRetrieveRoomVideoRequest) StreamType(streamType StreamType) ApiRetrieveRoomVideoRequest {
-	r.streamType = &streamType
-	return r
-}
-
-func (r ApiRetrieveRoomVideoRequest) Execute() (*JSONResponse, *http.Response, error) {
-	return r.ApiService.RetrieveRoomVideoExecute(r)
-}
-
-/*
-RetrieveRoomVideo Method for RetrieveRoomVideo
-
-Requires Business Plan - Fetch TikTok LIVE Stream video given a uniqueId.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRetrieveRoomVideoRequest
-*/
-func (a *TikTokLIVEAPIService) RetrieveRoomVideo(ctx context.Context) ApiRetrieveRoomVideoRequest {
-	return ApiRetrieveRoomVideoRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return JSONResponse
-func (a *TikTokLIVEAPIService) RetrieveRoomVideoExecute(r ApiRetrieveRoomVideoRequest) (*JSONResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *JSONResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.RetrieveRoomVideo")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/room_video"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.uniqueId == nil {
-		return localVarReturnValue, nil, reportError("uniqueId is required and must be specified")
-	}
-
-	parameterAddToHeaderOrQuery(localVarQueryParams, "uniqueId", r.uniqueId, "form", "")
-	if r.streamType != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "streamType", r.streamType, "form", "")
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_query"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarQueryParams.Add("apiKey", key)
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["jwt_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-jwt-key"] = key
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1141,16 +598,17 @@ func (a *TikTokLIVEAPIService) RetrieveRoomVideoExecute(r ApiRetrieveRoomVideoRe
 type ApiRetrieveWebcastRankingsRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAPIService
-	region *OxyLabsProxyRegion
+	region *PooledProxyRegion
 	rankType *string
 	xOauthToken *string
 	xCookieHeader *string
 	sessionId *string
 	ttTargetIdc *string
+	xImageSource *RouteImageSource
 }
 
 // The region (country) with which to fetch a feed from.
-func (r ApiRetrieveWebcastRankingsRequest) Region(region OxyLabsProxyRegion) ApiRetrieveWebcastRankingsRequest {
+func (r ApiRetrieveWebcastRankingsRequest) Region(region PooledProxyRegion) ApiRetrieveWebcastRankingsRequest {
 	r.region = &region
 	return r
 }
@@ -1187,6 +645,12 @@ func (r ApiRetrieveWebcastRankingsRequest) TtTargetIdc(ttTargetIdc string) ApiRe
 	return r
 }
 
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveWebcastRankingsRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveWebcastRankingsRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
 func (r ApiRetrieveWebcastRankingsRequest) Execute() (*WebcastRegionRankingsResponse, *http.Response, error) {
 	return r.ApiService.RetrieveWebcastRankingsExecute(r)
 }
@@ -1194,7 +658,7 @@ func (r ApiRetrieveWebcastRankingsRequest) Execute() (*WebcastRegionRankingsResp
 /*
 RetrieveWebcastRankings Method for RetrieveWebcastRankings
 
-Requires Premium Routes Addon - Retrieve TikTok LIVE rankings for a specific region.
+Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
@@ -1268,6 +732,9 @@ func (a *TikTokLIVEAPIService) RetrieveWebcastRankingsExecute(r ApiRetrieveWebca
 	if r.xCookieHeader != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
 	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1318,153 +785,37 @@ func (a *TikTokLIVEAPIService) RetrieveWebcastRankingsExecute(r ApiRetrieveWebca
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiSignWebcastUrlRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEAPIService
-	signTikTokUrlBody *SignTikTokUrlBody
-	client *string
-}
-
-func (r ApiSignWebcastUrlRequest) SignTikTokUrlBody(signTikTokUrlBody SignTikTokUrlBody) ApiSignWebcastUrlRequest {
-	r.signTikTokUrlBody = &signTikTokUrlBody
-	return r
-}
-
-func (r ApiSignWebcastUrlRequest) Client(client string) ApiSignWebcastUrlRequest {
-	r.client = &client
-	return r
-}
-
-func (r ApiSignWebcastUrlRequest) Execute() (*SignWebcastUrl200Response, *http.Response, error) {
-	return r.ApiService.SignWebcastUrlExecute(r)
-}
-
-/*
-SignWebcastUrl Method for SignWebcastUrl
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSignWebcastUrlRequest
-*/
-func (a *TikTokLIVEAPIService) SignWebcastUrl(ctx context.Context) ApiSignWebcastUrlRequest {
-	return ApiSignWebcastUrlRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return SignWebcastUrl200Response
-func (a *TikTokLIVEAPIService) SignWebcastUrlExecute(r ApiSignWebcastUrlRequest) (*SignWebcastUrl200Response, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SignWebcastUrl200Response
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAPIService.SignWebcastUrl")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/sign_url"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.signTikTokUrlBody == nil {
-		return localVarReturnValue, nil, reportError("signTikTokUrlBody is required and must be specified")
-	}
-
-	if r.client != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "client", r.client, "form", "")
-	} else {
-		var defaultValue string = "ttlive-other"
-		r.client = &defaultValue
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.signTikTokUrlBody
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_query"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarQueryParams.Add("apiKey", key)
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

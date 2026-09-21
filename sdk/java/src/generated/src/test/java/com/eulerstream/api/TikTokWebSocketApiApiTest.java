@@ -14,8 +14,10 @@
 package com.eulerstream.api;
 
 import com.eulerstream.ApiException;
+import com.eulerstream.model.GetAvailableDates503Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveWebSocketRouteResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.RetrieveWebSocketsRouteResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

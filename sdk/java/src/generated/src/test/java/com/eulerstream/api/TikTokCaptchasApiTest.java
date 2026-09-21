@@ -18,7 +18,8 @@ import com.eulerstream.model.CaptchaCreditsResponse;
 import java.io.File;
 import com.eulerstream.model.IconCaptchaResponse;
 import com.eulerstream.model.PuzzleCaptchaResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.ShapesCaptchaResponse;
 import com.eulerstream.model.WhirlCaptchaResponse;
 import org.junit.jupiter.api.Disabled;
@@ -38,7 +39,7 @@ public class TikTokCaptchasApiTest {
     private final TikTokCaptchasApi api = new TikTokCaptchasApi();
 
     /**
-     *  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+     * The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
      *
      * @throws ApiException if the Api call fails
      */
@@ -89,7 +90,7 @@ public class TikTokCaptchasApiTest {
     }
 
     /**
-     * Retrieve the rate limits for the provided API key
+     * Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
      *
      * @throws ApiException if the Api call fails
      */

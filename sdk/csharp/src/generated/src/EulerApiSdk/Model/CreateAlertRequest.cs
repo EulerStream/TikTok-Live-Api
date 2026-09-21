@@ -26,7 +26,7 @@ using EulerApiSdk.Client;
 namespace EulerApiSdk.Model
 {
     /// <summary>
-    /// Configuration for the alert
+    /// CreateAlertRequest
     /// </summary>
     public partial class CreateAlertRequest : IValidatableObject
     {
@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="CreateAlertRequest" />
     /// </summary>
-    public class CreateAlertRequestJsonConverter : JsonConverter<CreateAlertRequest>
+    public partial class CreateAlertRequestJsonConverter : JsonConverter<CreateAlertRequest>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateAlertRequestJsonConverter" /> class.
+        /// </summary>
+        public CreateAlertRequestJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CreateAlertRequest" />
         /// </summary>

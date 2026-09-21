@@ -19,7 +19,7 @@ import (
 // checks if the CreateAlertRequest type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &CreateAlertRequest{}
 
-// CreateAlertRequest Configuration for the alert
+// CreateAlertRequest struct for CreateAlertRequest
 type CreateAlertRequest struct {
 	UniqueId string `json:"unique_id"`
 }

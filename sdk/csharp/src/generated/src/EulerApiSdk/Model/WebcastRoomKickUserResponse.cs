@@ -33,7 +33,7 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WebcastRoomKickUserResponse" /> class.
         /// </summary>
-        /// <param name="data">Construct a type with a set of properties K of type T</param>
+        /// <param name="data">data</param>
         /// <param name="extra">extra</param>
         /// <param name="statusCode">statusCode</param>
         [JsonConstructor]
@@ -48,9 +48,8 @@ namespace EulerApiSdk.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets Data
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("data")]
         public Dictionary<string, Object> Data { get; set; }
 
@@ -95,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomKickUserResponse" />
     /// </summary>
-    public class WebcastRoomKickUserResponseJsonConverter : JsonConverter<WebcastRoomKickUserResponse>
+    public partial class WebcastRoomKickUserResponseJsonConverter : JsonConverter<WebcastRoomKickUserResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomKickUserResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomKickUserResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomKickUserResponse" />
         /// </summary>

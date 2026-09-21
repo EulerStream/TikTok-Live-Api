@@ -4,22 +4,27 @@ from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.record_string_boolean_or_number import RecordStringBooleanOrNumber
-    from ..models.record_string_unknown import RecordStringUnknown
     from ..models.webcast_feed_response_hashtag import WebcastFeedResponseHashtag
     from ..models.webcast_feed_response_image import WebcastFeedResponseImage
     from ..models.webcast_feed_response_room_data_blurred_cover import WebcastFeedResponseRoomDataBlurredCover
+    from ..models.webcast_feed_response_room_data_commerce_info import WebcastFeedResponseRoomDataCommerceInfo
     from ..models.webcast_feed_response_room_data_feed_room_label import WebcastFeedResponseRoomDataFeedRoomLabel
     from ..models.webcast_feed_response_room_data_game_tag_detail import WebcastFeedResponseRoomDataGameTagDetail
+    from ..models.webcast_feed_response_room_data_multi_stream_url import WebcastFeedResponseRoomDataMultiStreamUrl
     from ..models.webcast_feed_response_room_data_rectangle_cover_img import (
         WebcastFeedResponseRoomDataRectangleCoverImg,
     )
+    from ..models.webcast_feed_response_room_data_room_auth import WebcastFeedResponseRoomDataRoomAuth
     from ..models.webcast_feed_response_room_data_square_cover_img import WebcastFeedResponseRoomDataSquareCoverImg
     from ..models.webcast_feed_response_room_data_stats import WebcastFeedResponseRoomDataStats
+    from ..models.webcast_feed_response_room_data_stream_url_filtered_info import (
+        WebcastFeedResponseRoomDataStreamUrlFilteredInfo,
+    )
     from ..models.webcast_feed_response_room_data_taxonomy_tag_info import WebcastFeedResponseRoomDataTaxonomyTagInfo
     from ..models.webcast_feed_response_stream_url import WebcastFeedResponseStreamUrl
     from ..models.webcast_feed_response_user import WebcastFeedResponseUser
@@ -44,20 +49,20 @@ class WebcastFeedResponseRoomData:
         stats (WebcastFeedResponseRoomDataStats):
         feed_room_label (WebcastFeedResponseRoomDataFeedRoomLabel):
         owner (WebcastFeedResponseUser):
-        live_type_third_party (bool):
-        room_auth (RecordStringBooleanOrNumber): Construct a type with a set of properties K of type T
-        like_count (float):
+        room_auth (WebcastFeedResponseRoomDataRoomAuth):
         anchor_tab_type (float):
-        commerce_info (RecordStringUnknown): Construct a type with a set of properties K of type T
-        live_room_mode (float):
-        stream_url_filtered_info (RecordStringUnknown): Construct a type with a set of properties K of type T
-        square_cover_img (WebcastFeedResponseRoomDataSquareCoverImg):
-        rectangle_cover_img (WebcastFeedResponseRoomDataRectangleCoverImg):
+        commerce_info (WebcastFeedResponseRoomDataCommerceInfo):
+        stream_url_filtered_info (WebcastFeedResponseRoomDataStreamUrlFilteredInfo):
         blurred_cover (WebcastFeedResponseRoomDataBlurredCover):
-        multi_stream_url (RecordStringUnknown): Construct a type with a set of properties K of type T
-        game_tag_detail (WebcastFeedResponseRoomDataGameTagDetail):
-        taxonomy_tag_info (WebcastFeedResponseRoomDataTaxonomyTagInfo):
+        multi_stream_url (WebcastFeedResponseRoomDataMultiStreamUrl):
+        live_type_third_party (bool | Unset):
+        like_count (float | Unset):
         hashtag (WebcastFeedResponseHashtag | Unset):
+        live_room_mode (float | Unset):
+        square_cover_img (WebcastFeedResponseRoomDataSquareCoverImg | Unset):
+        rectangle_cover_img (WebcastFeedResponseRoomDataRectangleCoverImg | Unset):
+        game_tag_detail (WebcastFeedResponseRoomDataGameTagDetail | Unset):
+        taxonomy_tag_info (WebcastFeedResponseRoomDataTaxonomyTagInfo | Unset):
     """
 
     id: float
@@ -72,20 +77,21 @@ class WebcastFeedResponseRoomData:
     stats: WebcastFeedResponseRoomDataStats
     feed_room_label: WebcastFeedResponseRoomDataFeedRoomLabel
     owner: WebcastFeedResponseUser
-    live_type_third_party: bool
-    room_auth: RecordStringBooleanOrNumber
-    like_count: float
+    room_auth: WebcastFeedResponseRoomDataRoomAuth
     anchor_tab_type: float
-    commerce_info: RecordStringUnknown
-    live_room_mode: float
-    stream_url_filtered_info: RecordStringUnknown
-    square_cover_img: WebcastFeedResponseRoomDataSquareCoverImg
-    rectangle_cover_img: WebcastFeedResponseRoomDataRectangleCoverImg
+    commerce_info: WebcastFeedResponseRoomDataCommerceInfo
+    stream_url_filtered_info: WebcastFeedResponseRoomDataStreamUrlFilteredInfo
     blurred_cover: WebcastFeedResponseRoomDataBlurredCover
-    multi_stream_url: RecordStringUnknown
-    game_tag_detail: WebcastFeedResponseRoomDataGameTagDetail
-    taxonomy_tag_info: WebcastFeedResponseRoomDataTaxonomyTagInfo
+    multi_stream_url: WebcastFeedResponseRoomDataMultiStreamUrl
+    live_type_third_party: bool | Unset = UNSET
+    like_count: float | Unset = UNSET
     hashtag: WebcastFeedResponseHashtag | Unset = UNSET
+    live_room_mode: float | Unset = UNSET
+    square_cover_img: WebcastFeedResponseRoomDataSquareCoverImg | Unset = UNSET
+    rectangle_cover_img: WebcastFeedResponseRoomDataRectangleCoverImg | Unset = UNSET
+    game_tag_detail: WebcastFeedResponseRoomDataGameTagDetail | Unset = UNSET
+    taxonomy_tag_info: WebcastFeedResponseRoomDataTaxonomyTagInfo | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         id = self.id
@@ -112,38 +118,46 @@ class WebcastFeedResponseRoomData:
 
         owner = self.owner.to_dict()
 
-        live_type_third_party = self.live_type_third_party
-
         room_auth = self.room_auth.to_dict()
-
-        like_count = self.like_count
 
         anchor_tab_type = self.anchor_tab_type
 
         commerce_info = self.commerce_info.to_dict()
 
-        live_room_mode = self.live_room_mode
-
         stream_url_filtered_info = self.stream_url_filtered_info.to_dict()
-
-        square_cover_img = self.square_cover_img.to_dict()
-
-        rectangle_cover_img = self.rectangle_cover_img.to_dict()
 
         blurred_cover = self.blurred_cover.to_dict()
 
         multi_stream_url = self.multi_stream_url.to_dict()
 
-        game_tag_detail = self.game_tag_detail.to_dict()
+        live_type_third_party = self.live_type_third_party
 
-        taxonomy_tag_info = self.taxonomy_tag_info.to_dict()
+        like_count = self.like_count
 
         hashtag: dict[str, Any] | Unset = UNSET
         if not isinstance(self.hashtag, Unset):
             hashtag = self.hashtag.to_dict()
 
-        field_dict: dict[str, Any] = {}
+        live_room_mode = self.live_room_mode
 
+        square_cover_img: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.square_cover_img, Unset):
+            square_cover_img = self.square_cover_img.to_dict()
+
+        rectangle_cover_img: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.rectangle_cover_img, Unset):
+            rectangle_cover_img = self.rectangle_cover_img.to_dict()
+
+        game_tag_detail: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.game_tag_detail, Unset):
+            game_tag_detail = self.game_tag_detail.to_dict()
+
+        taxonomy_tag_info: dict[str, Any] | Unset = UNSET
+        if not isinstance(self.taxonomy_tag_info, Unset):
+            taxonomy_tag_info = self.taxonomy_tag_info.to_dict()
+
+        field_dict: dict[str, Any] = {}
+        field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "id": id,
@@ -158,40 +172,51 @@ class WebcastFeedResponseRoomData:
                 "stats": stats,
                 "feed_room_label": feed_room_label,
                 "owner": owner,
-                "live_type_third_party": live_type_third_party,
                 "room_auth": room_auth,
-                "like_count": like_count,
                 "anchor_tab_type": anchor_tab_type,
                 "commerce_info": commerce_info,
-                "live_room_mode": live_room_mode,
                 "stream_url_filtered_info": stream_url_filtered_info,
-                "square_cover_img": square_cover_img,
-                "rectangle_cover_img": rectangle_cover_img,
                 "blurred_cover": blurred_cover,
                 "multi_stream_url": multi_stream_url,
-                "game_tag_detail": game_tag_detail,
-                "taxonomy_tag_info": taxonomy_tag_info,
             }
         )
+        if live_type_third_party is not UNSET:
+            field_dict["live_type_third_party"] = live_type_third_party
+        if like_count is not UNSET:
+            field_dict["like_count"] = like_count
         if hashtag is not UNSET:
             field_dict["hashtag"] = hashtag
+        if live_room_mode is not UNSET:
+            field_dict["live_room_mode"] = live_room_mode
+        if square_cover_img is not UNSET:
+            field_dict["square_cover_img"] = square_cover_img
+        if rectangle_cover_img is not UNSET:
+            field_dict["rectangle_cover_img"] = rectangle_cover_img
+        if game_tag_detail is not UNSET:
+            field_dict["game_tag_detail"] = game_tag_detail
+        if taxonomy_tag_info is not UNSET:
+            field_dict["taxonomy_tag_info"] = taxonomy_tag_info
 
         return field_dict
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.record_string_boolean_or_number import RecordStringBooleanOrNumber
-        from ..models.record_string_unknown import RecordStringUnknown
         from ..models.webcast_feed_response_hashtag import WebcastFeedResponseHashtag
         from ..models.webcast_feed_response_image import WebcastFeedResponseImage
         from ..models.webcast_feed_response_room_data_blurred_cover import WebcastFeedResponseRoomDataBlurredCover
+        from ..models.webcast_feed_response_room_data_commerce_info import WebcastFeedResponseRoomDataCommerceInfo
         from ..models.webcast_feed_response_room_data_feed_room_label import WebcastFeedResponseRoomDataFeedRoomLabel
         from ..models.webcast_feed_response_room_data_game_tag_detail import WebcastFeedResponseRoomDataGameTagDetail
+        from ..models.webcast_feed_response_room_data_multi_stream_url import WebcastFeedResponseRoomDataMultiStreamUrl
         from ..models.webcast_feed_response_room_data_rectangle_cover_img import (
             WebcastFeedResponseRoomDataRectangleCoverImg,
         )
+        from ..models.webcast_feed_response_room_data_room_auth import WebcastFeedResponseRoomDataRoomAuth
         from ..models.webcast_feed_response_room_data_square_cover_img import WebcastFeedResponseRoomDataSquareCoverImg
         from ..models.webcast_feed_response_room_data_stats import WebcastFeedResponseRoomDataStats
+        from ..models.webcast_feed_response_room_data_stream_url_filtered_info import (
+            WebcastFeedResponseRoomDataStreamUrlFilteredInfo,
+        )
         from ..models.webcast_feed_response_room_data_taxonomy_tag_info import (
             WebcastFeedResponseRoomDataTaxonomyTagInfo,
         )
@@ -223,31 +248,23 @@ class WebcastFeedResponseRoomData:
 
         owner = WebcastFeedResponseUser.from_dict(d.pop("owner"))
 
-        live_type_third_party = d.pop("live_type_third_party")
-
-        room_auth = RecordStringBooleanOrNumber.from_dict(d.pop("room_auth"))
-
-        like_count = d.pop("like_count")
+        room_auth = WebcastFeedResponseRoomDataRoomAuth.from_dict(d.pop("room_auth"))
 
         anchor_tab_type = d.pop("anchor_tab_type")
 
-        commerce_info = RecordStringUnknown.from_dict(d.pop("commerce_info"))
+        commerce_info = WebcastFeedResponseRoomDataCommerceInfo.from_dict(d.pop("commerce_info"))
 
-        live_room_mode = d.pop("live_room_mode")
-
-        stream_url_filtered_info = RecordStringUnknown.from_dict(d.pop("stream_url_filtered_info"))
-
-        square_cover_img = WebcastFeedResponseRoomDataSquareCoverImg.from_dict(d.pop("square_cover_img"))
-
-        rectangle_cover_img = WebcastFeedResponseRoomDataRectangleCoverImg.from_dict(d.pop("rectangle_cover_img"))
+        stream_url_filtered_info = WebcastFeedResponseRoomDataStreamUrlFilteredInfo.from_dict(
+            d.pop("stream_url_filtered_info")
+        )
 
         blurred_cover = WebcastFeedResponseRoomDataBlurredCover.from_dict(d.pop("blurred_cover"))
 
-        multi_stream_url = RecordStringUnknown.from_dict(d.pop("multi_stream_url"))
+        multi_stream_url = WebcastFeedResponseRoomDataMultiStreamUrl.from_dict(d.pop("multi_stream_url"))
 
-        game_tag_detail = WebcastFeedResponseRoomDataGameTagDetail.from_dict(d.pop("game_tag_detail"))
+        live_type_third_party = d.pop("live_type_third_party", UNSET)
 
-        taxonomy_tag_info = WebcastFeedResponseRoomDataTaxonomyTagInfo.from_dict(d.pop("taxonomy_tag_info"))
+        like_count = d.pop("like_count", UNSET)
 
         _hashtag = d.pop("hashtag", UNSET)
         hashtag: WebcastFeedResponseHashtag | Unset
@@ -255,6 +272,36 @@ class WebcastFeedResponseRoomData:
             hashtag = UNSET
         else:
             hashtag = WebcastFeedResponseHashtag.from_dict(_hashtag)
+
+        live_room_mode = d.pop("live_room_mode", UNSET)
+
+        _square_cover_img = d.pop("square_cover_img", UNSET)
+        square_cover_img: WebcastFeedResponseRoomDataSquareCoverImg | Unset
+        if isinstance(_square_cover_img, Unset):
+            square_cover_img = UNSET
+        else:
+            square_cover_img = WebcastFeedResponseRoomDataSquareCoverImg.from_dict(_square_cover_img)
+
+        _rectangle_cover_img = d.pop("rectangle_cover_img", UNSET)
+        rectangle_cover_img: WebcastFeedResponseRoomDataRectangleCoverImg | Unset
+        if isinstance(_rectangle_cover_img, Unset):
+            rectangle_cover_img = UNSET
+        else:
+            rectangle_cover_img = WebcastFeedResponseRoomDataRectangleCoverImg.from_dict(_rectangle_cover_img)
+
+        _game_tag_detail = d.pop("game_tag_detail", UNSET)
+        game_tag_detail: WebcastFeedResponseRoomDataGameTagDetail | Unset
+        if isinstance(_game_tag_detail, Unset):
+            game_tag_detail = UNSET
+        else:
+            game_tag_detail = WebcastFeedResponseRoomDataGameTagDetail.from_dict(_game_tag_detail)
+
+        _taxonomy_tag_info = d.pop("taxonomy_tag_info", UNSET)
+        taxonomy_tag_info: WebcastFeedResponseRoomDataTaxonomyTagInfo | Unset
+        if isinstance(_taxonomy_tag_info, Unset):
+            taxonomy_tag_info = UNSET
+        else:
+            taxonomy_tag_info = WebcastFeedResponseRoomDataTaxonomyTagInfo.from_dict(_taxonomy_tag_info)
 
         webcast_feed_response_room_data = cls(
             id=id,
@@ -269,20 +316,37 @@ class WebcastFeedResponseRoomData:
             stats=stats,
             feed_room_label=feed_room_label,
             owner=owner,
-            live_type_third_party=live_type_third_party,
             room_auth=room_auth,
-            like_count=like_count,
             anchor_tab_type=anchor_tab_type,
             commerce_info=commerce_info,
-            live_room_mode=live_room_mode,
             stream_url_filtered_info=stream_url_filtered_info,
-            square_cover_img=square_cover_img,
-            rectangle_cover_img=rectangle_cover_img,
             blurred_cover=blurred_cover,
             multi_stream_url=multi_stream_url,
+            live_type_third_party=live_type_third_party,
+            like_count=like_count,
+            hashtag=hashtag,
+            live_room_mode=live_room_mode,
+            square_cover_img=square_cover_img,
+            rectangle_cover_img=rectangle_cover_img,
             game_tag_detail=game_tag_detail,
             taxonomy_tag_info=taxonomy_tag_info,
-            hashtag=hashtag,
         )
 
+        webcast_feed_response_room_data.additional_properties = d
         return webcast_feed_response_room_data
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

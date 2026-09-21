@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Config
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Config
         /// </summary>
         [JsonPropertyName("config")]
-        public ApiKey? Config { get { return this.ConfigOption; } set { this.ConfigOption = new(value); } }
+        public ApiKey? Config { get { return this.ConfigOption.Value; } set { this.ConfigOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="UpdateKeyResponse" />
     /// </summary>
-    public class UpdateKeyResponseJsonConverter : JsonConverter<UpdateKeyResponse>
+    public partial class UpdateKeyResponseJsonConverter : JsonConverter<UpdateKeyResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UpdateKeyResponseJsonConverter" /> class.
+        /// </summary>
+        public UpdateKeyResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="UpdateKeyResponse" />
         /// </summary>

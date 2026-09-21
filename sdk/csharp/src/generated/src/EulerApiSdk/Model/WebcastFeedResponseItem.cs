@@ -36,7 +36,7 @@ namespace EulerApiSdk.Model
         /// <param name="type">type</param>
         /// <param name="rid">rid</param>
         /// <param name="data">data</param>
-        /// <param name="flareInfo">Construct a type with a set of properties K of type T</param>
+        /// <param name="flareInfo">flareInfo</param>
         /// <param name="roomEventTracking">roomEventTracking</param>
         [JsonConstructor]
         public WebcastFeedResponseItem(double type, string rid, WebcastFeedResponseRoomData data, Dictionary<string, Object> flareInfo, string roomEventTracking)
@@ -70,9 +70,8 @@ namespace EulerApiSdk.Model
         public WebcastFeedResponseRoomData Data { get; set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets FlareInfo
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("flare_info")]
         public Dictionary<string, Object> FlareInfo { get; set; }
 
@@ -113,8 +112,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseItem" />
     /// </summary>
-    public class WebcastFeedResponseItemJsonConverter : JsonConverter<WebcastFeedResponseItem>
+    public partial class WebcastFeedResponseItemJsonConverter : JsonConverter<WebcastFeedResponseItem>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseItemJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseItemJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseItem" />
         /// </summary>

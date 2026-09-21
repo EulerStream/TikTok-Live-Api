@@ -37,7 +37,7 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="response">response</param>
         [JsonConstructor]
-        public WebcastUserEarningsResponse(double code, Option<string?> message = default, Option<WebcastUserEarningsOutput?> response = default)
+        public WebcastUserEarningsResponse(double code, Option<string?> message = default, Option<StableWebcastUserEarningsOutput?> response = default)
         {
             Code = code;
             MessageOption = message;
@@ -64,20 +64,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<WebcastUserEarningsOutput?> ResponseOption { get; private set; }
+        public Option<StableWebcastUserEarningsOutput?> ResponseOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public WebcastUserEarningsOutput? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public StableWebcastUserEarningsOutput? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastUserEarningsResponse" />
     /// </summary>
-    public class WebcastUserEarningsResponseJsonConverter : JsonConverter<WebcastUserEarningsResponse>
+    public partial class WebcastUserEarningsResponseJsonConverter : JsonConverter<WebcastUserEarningsResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastUserEarningsResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastUserEarningsResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastUserEarningsResponse" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace EulerApiSdk.Model
 
             Option<double?> code = default;
             Option<string?> message = default;
-            Option<WebcastUserEarningsOutput?> response = default;
+            Option<StableWebcastUserEarningsOutput?> response = default;
 
             while (utf8JsonReader.Read())
             {
@@ -153,7 +163,7 @@ namespace EulerApiSdk.Model
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "response":
-                            response = new Option<WebcastUserEarningsOutput?>(JsonSerializer.Deserialize<WebcastUserEarningsOutput>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            response = new Option<StableWebcastUserEarningsOutput?>(JsonSerializer.Deserialize<StableWebcastUserEarningsOutput>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;

@@ -13,7 +13,8 @@
 
 package com.eulerstream.model;
 
-import com.eulerstream.model.TikTokLiveUser;
+import com.eulerstream.model.RoomInfoFetchApiRoute;
+import com.eulerstream.model.StableTikTokLiveUser;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -70,6 +71,14 @@ public class WebcastRoomInfoRouteResponseTest {
     @Test
     public void routesAttemptedTest() {
         // TODO: test routesAttempted
+    }
+
+    /**
+     * Test the property 'source'
+     */
+    @Test
+    public void sourceTest() {
+        // TODO: test source
     }
 
     /**

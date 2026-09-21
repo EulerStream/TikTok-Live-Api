@@ -13,7 +13,7 @@
 
 package com.eulerstream.model;
 
-import com.eulerstream.model.JWTConfig;
+import com.eulerstream.model.SignedJWTConfiguration;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;

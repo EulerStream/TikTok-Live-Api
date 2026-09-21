@@ -121,17 +121,27 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="ApiKey" />
     /// </summary>
-    public class ApiKeyJsonConverter : JsonConverter<ApiKey>
+    public partial class ApiKeyJsonConverter : JsonConverter<ApiKey>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiKeyJsonConverter" /> class.
+        /// </summary>
+        public ApiKeyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize UpdatedAt
         /// </summary>
-        public static string UpdatedAtFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string UpdatedAtFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize CreatedAt
         /// </summary>
-        public static string CreatedAtFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string CreatedAtFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="ApiKey" />

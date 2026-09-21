@@ -16,97 +16,102 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 
 // TikTokLIVEModerationAPIService TikTokLIVEModerationAPI service
 type TikTokLIVEModerationAPIService service
 
-type ApiAddRoomModeratorRequest struct {
+type ApiAddSensitiveWordRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	toUserId *string
-	anchorId *string
+	word *string
+	secAnchorId *string
+	roomId string
 	xOauthToken *string
 	xCookieHeader *string
 }
 
-// The user ID to add as moderator
-func (r ApiAddRoomModeratorRequest) ToUserId(toUserId string) ApiAddRoomModeratorRequest {
-	r.toUserId = &toUserId
+// The sensitive word to add
+func (r ApiAddSensitiveWordRequest) Word(word string) ApiAddSensitiveWordRequest {
+	r.word = &word
 	return r
 }
 
-// The streamer&#39;s user ID
-func (r ApiAddRoomModeratorRequest) AnchorId(anchorId string) ApiAddRoomModeratorRequest {
-	r.anchorId = &anchorId
+// The sec_anchor_id of the room owner
+func (r ApiAddSensitiveWordRequest) SecAnchorId(secAnchorId string) ApiAddSensitiveWordRequest {
+	r.secAnchorId = &secAnchorId
 	return r
 }
 
 // OAuth access token for session resolution
-func (r ApiAddRoomModeratorRequest) XOauthToken(xOauthToken string) ApiAddRoomModeratorRequest {
+func (r ApiAddSensitiveWordRequest) XOauthToken(xOauthToken string) ApiAddSensitiveWordRequest {
 	r.xOauthToken = &xOauthToken
 	return r
 }
 
 // Cookie header containing sessionid and tt-target-idc
-func (r ApiAddRoomModeratorRequest) XCookieHeader(xCookieHeader string) ApiAddRoomModeratorRequest {
+func (r ApiAddSensitiveWordRequest) XCookieHeader(xCookieHeader string) ApiAddSensitiveWordRequest {
 	r.xCookieHeader = &xCookieHeader
 	return r
 }
 
-func (r ApiAddRoomModeratorRequest) Execute() (*RoomAdminUpdateAPIResponse, *http.Response, error) {
-	return r.ApiService.AddRoomModeratorExecute(r)
+func (r ApiAddSensitiveWordRequest) Execute() (*RoomAddSensitiveWordAPIResponse, *http.Response, error) {
+	return r.ApiService.AddSensitiveWordExecute(r)
 }
 
 /*
-AddRoomModerator Method for AddRoomModerator
+AddSensitiveWord Method for AddSensitiveWord
 
-Requires Premium Routes Addon - Add a moderator in a livestream room.
+Add a sensitive word to a TikTok LIVE room's filter list.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAddRoomModeratorRequest
+ @param roomId The room ID of the livestream
+ @return ApiAddSensitiveWordRequest
 */
-func (a *TikTokLIVEModerationAPIService) AddRoomModerator(ctx context.Context) ApiAddRoomModeratorRequest {
-	return ApiAddRoomModeratorRequest{
+func (a *TikTokLIVEModerationAPIService) AddSensitiveWord(ctx context.Context, roomId string) ApiAddSensitiveWordRequest {
+	return ApiAddSensitiveWordRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
 // Execute executes the request
-//  @return RoomAdminUpdateAPIResponse
-func (a *TikTokLIVEModerationAPIService) AddRoomModeratorExecute(r ApiAddRoomModeratorRequest) (*RoomAdminUpdateAPIResponse, *http.Response, error) {
+//  @return RoomAddSensitiveWordAPIResponse
+func (a *TikTokLIVEModerationAPIService) AddSensitiveWordExecute(r ApiAddSensitiveWordRequest) (*RoomAddSensitiveWordAPIResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *RoomAdminUpdateAPIResponse
+		localVarReturnValue  *RoomAddSensitiveWordAPIResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEModerationAPIService.AddRoomModerator")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEModerationAPIService.AddSensitiveWord")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/moderators"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/sensitive-words"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.toUserId == nil {
-		return localVarReturnValue, nil, reportError("toUserId is required and must be specified")
+	if r.word == nil {
+		return localVarReturnValue, nil, reportError("word is required and must be specified")
 	}
-	if r.anchorId == nil {
-		return localVarReturnValue, nil, reportError("anchorId is required and must be specified")
+	if r.secAnchorId == nil {
+		return localVarReturnValue, nil, reportError("secAnchorId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "to_user_id", r.toUserId, "form", "")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "anchor_id", r.anchorId, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "word", r.word, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "sec_anchor_id", r.secAnchorId, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -180,6 +185,445 @@ func (a *TikTokLIVEModerationAPIService) AddRoomModeratorExecute(r ApiAddRoomMod
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDeleteSensitiveWordRequest struct {
+	ctx context.Context
+	ApiService *TikTokLIVEModerationAPIService
+	wordId *string
+	secAnchorId *string
+	roomId string
+	xOauthToken *string
+	xCookieHeader *string
+}
+
+// The ID of the sensitive word to delete
+func (r ApiDeleteSensitiveWordRequest) WordId(wordId string) ApiDeleteSensitiveWordRequest {
+	r.wordId = &wordId
+	return r
+}
+
+// The sec_anchor_id of the room owner
+func (r ApiDeleteSensitiveWordRequest) SecAnchorId(secAnchorId string) ApiDeleteSensitiveWordRequest {
+	r.secAnchorId = &secAnchorId
+	return r
+}
+
+// OAuth access token for session resolution
+func (r ApiDeleteSensitiveWordRequest) XOauthToken(xOauthToken string) ApiDeleteSensitiveWordRequest {
+	r.xOauthToken = &xOauthToken
+	return r
+}
+
+// Cookie header containing sessionid and tt-target-idc
+func (r ApiDeleteSensitiveWordRequest) XCookieHeader(xCookieHeader string) ApiDeleteSensitiveWordRequest {
+	r.xCookieHeader = &xCookieHeader
+	return r
+}
+
+func (r ApiDeleteSensitiveWordRequest) Execute() (*RoomDelSensitiveWordAPIResponse, *http.Response, error) {
+	return r.ApiService.DeleteSensitiveWordExecute(r)
+}
+
+/*
+DeleteSensitiveWord Method for DeleteSensitiveWord
+
+Delete a sensitive word from a TikTok LIVE room's filter list.
+
+**Authentication:** Provide exactly one of the following headers:
+- `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
+- `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
+ @return ApiDeleteSensitiveWordRequest
+*/
+func (a *TikTokLIVEModerationAPIService) DeleteSensitiveWord(ctx context.Context, roomId string) ApiDeleteSensitiveWordRequest {
+	return ApiDeleteSensitiveWordRequest{
+		ApiService: a,
+		ctx: ctx,
+		roomId: roomId,
+	}
+}
+
+// Execute executes the request
+//  @return RoomDelSensitiveWordAPIResponse
+func (a *TikTokLIVEModerationAPIService) DeleteSensitiveWordExecute(r ApiDeleteSensitiveWordRequest) (*RoomDelSensitiveWordAPIResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RoomDelSensitiveWordAPIResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEModerationAPIService.DeleteSensitiveWord")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/sensitive-words"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.wordId == nil {
+		return localVarReturnValue, nil, reportError("wordId is required and must be specified")
+	}
+	if r.secAnchorId == nil {
+		return localVarReturnValue, nil, reportError("secAnchorId is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "word_id", r.wordId, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "sec_anchor_id", r.secAnchorId, "form", "")
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xOauthToken != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-oauth-token", r.xOauthToken, "simple", "")
+	}
+	if r.xCookieHeader != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetSensitiveWordsRequest struct {
+	ctx context.Context
+	ApiService *TikTokLIVEModerationAPIService
+	secAnchorId *string
+	roomId string
+	xOauthToken *string
+	xCookieHeader *string
+}
+
+// The sec_anchor_id of the room owner
+func (r ApiGetSensitiveWordsRequest) SecAnchorId(secAnchorId string) ApiGetSensitiveWordsRequest {
+	r.secAnchorId = &secAnchorId
+	return r
+}
+
+// OAuth access token for session resolution
+func (r ApiGetSensitiveWordsRequest) XOauthToken(xOauthToken string) ApiGetSensitiveWordsRequest {
+	r.xOauthToken = &xOauthToken
+	return r
+}
+
+// Cookie header containing sessionid and tt-target-idc
+func (r ApiGetSensitiveWordsRequest) XCookieHeader(xCookieHeader string) ApiGetSensitiveWordsRequest {
+	r.xCookieHeader = &xCookieHeader
+	return r
+}
+
+func (r ApiGetSensitiveWordsRequest) Execute() (*RoomGetSensitiveWordsAPIResponse, *http.Response, error) {
+	return r.ApiService.GetSensitiveWordsExecute(r)
+}
+
+/*
+GetSensitiveWords Method for GetSensitiveWords
+
+Retrieve the list of sensitive words for a TikTok LIVE room.
+
+**Authentication:** Provide exactly one of the following headers:
+- `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
+- `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
+ @return ApiGetSensitiveWordsRequest
+*/
+func (a *TikTokLIVEModerationAPIService) GetSensitiveWords(ctx context.Context, roomId string) ApiGetSensitiveWordsRequest {
+	return ApiGetSensitiveWordsRequest{
+		ApiService: a,
+		ctx: ctx,
+		roomId: roomId,
+	}
+}
+
+// Execute executes the request
+//  @return RoomGetSensitiveWordsAPIResponse
+func (a *TikTokLIVEModerationAPIService) GetSensitiveWordsExecute(r ApiGetSensitiveWordsRequest) (*RoomGetSensitiveWordsAPIResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RoomGetSensitiveWordsAPIResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEModerationAPIService.GetSensitiveWords")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/sensitive-words"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.secAnchorId == nil {
+		return localVarReturnValue, nil, reportError("secAnchorId is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "sec_anchor_id", r.secAnchorId, "form", "")
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xOauthToken != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-oauth-token", r.xOauthToken, "simple", "")
+	}
+	if r.xCookieHeader != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -198,17 +642,11 @@ func (a *TikTokLIVEModerationAPIService) AddRoomModeratorExecute(r ApiAddRoomMod
 type ApiKickRoomUserRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	tiktokUserId *string
 	commentMsgId *string
 	xOauthToken *string
 	xCookieHeader *string
-}
-
-// The room ID of the livestream
-func (r ApiKickRoomUserRequest) RoomId(roomId string) ApiKickRoomUserRequest {
-	r.roomId = &roomId
-	return r
 }
 
 // The numeric user ID for the individual to kick
@@ -242,19 +680,21 @@ func (r ApiKickRoomUserRequest) Execute() (*RoomKickUserAPIResponse, *http.Respo
 /*
 KickRoomUser Method for KickRoomUser
 
-Requires Premium Routes Addon - Kick a user from a livestream room.
+Kick a user from a livestream room.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiKickRoomUserRequest
 */
-func (a *TikTokLIVEModerationAPIService) KickRoomUser(ctx context.Context) ApiKickRoomUserRequest {
+func (a *TikTokLIVEModerationAPIService) KickRoomUser(ctx context.Context, roomId string) ApiKickRoomUserRequest {
 	return ApiKickRoomUserRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -273,19 +713,16 @@ func (a *TikTokLIVEModerationAPIService) KickRoomUserExecute(r ApiKickRoomUserRe
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/bans"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/bans"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 	if r.tiktokUserId == nil {
 		return localVarReturnValue, nil, reportError("tiktokUserId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "tiktok_user_id", r.tiktokUserId, "form", "")
 	if r.commentMsgId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "comment_msg_id", r.commentMsgId, "form", "")
@@ -363,6 +800,38 @@ func (a *TikTokLIVEModerationAPIService) KickRoomUserExecute(r ApiKickRoomUserRe
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -381,18 +850,12 @@ func (a *TikTokLIVEModerationAPIService) KickRoomUserExecute(r ApiKickRoomUserRe
 type ApiMuteRoomUserRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	userId *string
 	duration *MuteDuration
 	commentMsgId *float64
 	xOauthToken *string
 	xCookieHeader *string
-}
-
-// The room ID of the livestream
-func (r ApiMuteRoomUserRequest) RoomId(roomId string) ApiMuteRoomUserRequest {
-	r.roomId = &roomId
-	return r
 }
 
 // The user ID to mute
@@ -432,19 +895,21 @@ func (r ApiMuteRoomUserRequest) Execute() (*RoomMuteUserAPIResponse, *http.Respo
 /*
 MuteRoomUser Method for MuteRoomUser
 
-Requires Premium Routes Addon - Mute a user in a livestream room.
+Mute a user in a livestream room.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiMuteRoomUserRequest
 */
-func (a *TikTokLIVEModerationAPIService) MuteRoomUser(ctx context.Context) ApiMuteRoomUserRequest {
+func (a *TikTokLIVEModerationAPIService) MuteRoomUser(ctx context.Context, roomId string) ApiMuteRoomUserRequest {
 	return ApiMuteRoomUserRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -463,19 +928,16 @@ func (a *TikTokLIVEModerationAPIService) MuteRoomUserExecute(r ApiMuteRoomUserRe
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/mutes"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/mutes"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 	if r.userId == nil {
 		return localVarReturnValue, nil, reportError("userId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
 	if r.duration != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "duration", r.duration, "form", "")
@@ -556,178 +1018,37 @@ func (a *TikTokLIVEModerationAPIService) MuteRoomUserExecute(r ApiMuteRoomUserRe
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRemoveRoomModeratorRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEModerationAPIService
-	toUserId *string
-	anchorId *string
-	xOauthToken *string
-	xCookieHeader *string
-}
-
-// The user ID to remove as moderator
-func (r ApiRemoveRoomModeratorRequest) ToUserId(toUserId string) ApiRemoveRoomModeratorRequest {
-	r.toUserId = &toUserId
-	return r
-}
-
-// The streamer&#39;s user ID
-func (r ApiRemoveRoomModeratorRequest) AnchorId(anchorId string) ApiRemoveRoomModeratorRequest {
-	r.anchorId = &anchorId
-	return r
-}
-
-// OAuth access token for session resolution
-func (r ApiRemoveRoomModeratorRequest) XOauthToken(xOauthToken string) ApiRemoveRoomModeratorRequest {
-	r.xOauthToken = &xOauthToken
-	return r
-}
-
-// Cookie header containing sessionid and tt-target-idc
-func (r ApiRemoveRoomModeratorRequest) XCookieHeader(xCookieHeader string) ApiRemoveRoomModeratorRequest {
-	r.xCookieHeader = &xCookieHeader
-	return r
-}
-
-func (r ApiRemoveRoomModeratorRequest) Execute() (*RoomAdminUpdateAPIResponse, *http.Response, error) {
-	return r.ApiService.RemoveRoomModeratorExecute(r)
-}
-
-/*
-RemoveRoomModerator Method for RemoveRoomModerator
-
-Requires Premium Routes Addon - Remove a moderator from a livestream room.
-
-**Authentication:** Provide exactly one of the following headers:
-- `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
-- `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRemoveRoomModeratorRequest
-*/
-func (a *TikTokLIVEModerationAPIService) RemoveRoomModerator(ctx context.Context) ApiRemoveRoomModeratorRequest {
-	return ApiRemoveRoomModeratorRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return RoomAdminUpdateAPIResponse
-func (a *TikTokLIVEModerationAPIService) RemoveRoomModeratorExecute(r ApiRemoveRoomModeratorRequest) (*RoomAdminUpdateAPIResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *RoomAdminUpdateAPIResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEModerationAPIService.RemoveRoomModerator")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/moderation/moderators"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.toUserId == nil {
-		return localVarReturnValue, nil, reportError("toUserId is required and must be specified")
-	}
-	if r.anchorId == nil {
-		return localVarReturnValue, nil, reportError("anchorId is required and must be specified")
-	}
-
-	parameterAddToHeaderOrQuery(localVarQueryParams, "to_user_id", r.toUserId, "form", "")
-	parameterAddToHeaderOrQuery(localVarQueryParams, "anchor_id", r.anchorId, "form", "")
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.xOauthToken != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-oauth-token", r.xOauthToken, "simple", "")
-	}
-	if r.xCookieHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_query"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarQueryParams.Add("apiKey", key)
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -747,19 +1068,13 @@ func (a *TikTokLIVEModerationAPIService) RemoveRoomModeratorExecute(r ApiRemoveR
 type ApiRetrieveRoomBannedUsersRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	page *float64
 	xOauthToken *string
 	xCookieHeader *string
 }
 
-// The room ID of the livestream
-func (r ApiRetrieveRoomBannedUsersRequest) RoomId(roomId string) ApiRetrieveRoomBannedUsersRequest {
-	r.roomId = &roomId
-	return r
-}
-
-// Page number for pagination (default: 0)
+// Page number for pagination
 func (r ApiRetrieveRoomBannedUsersRequest) Page(page float64) ApiRetrieveRoomBannedUsersRequest {
 	r.page = &page
 	return r
@@ -784,19 +1099,21 @@ func (r ApiRetrieveRoomBannedUsersRequest) Execute() (*RoomKickedUsersAPIRespons
 /*
 RetrieveRoomBannedUsers Method for RetrieveRoomBannedUsers
 
-Requires Premium Routes Addon - Retrieve the list of banned users in a livestream room.
+Retrieve the list of banned users in a livestream room.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiRetrieveRoomBannedUsersRequest
 */
-func (a *TikTokLIVEModerationAPIService) RetrieveRoomBannedUsers(ctx context.Context) ApiRetrieveRoomBannedUsersRequest {
+func (a *TikTokLIVEModerationAPIService) RetrieveRoomBannedUsers(ctx context.Context, roomId string) ApiRetrieveRoomBannedUsersRequest {
 	return ApiRetrieveRoomBannedUsersRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -815,20 +1132,18 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomBannedUsersExecute(r ApiRet
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/bans"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/bans"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	if r.page != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
 	} else {
 		var defaultValue float64 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
 		r.page = &defaultValue
 	}
 	// to determine the Content-Type header
@@ -904,167 +1219,37 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomBannedUsersExecute(r ApiRet
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiRetrieveRoomModeratorsRequest struct {
-	ctx context.Context
-	ApiService *TikTokLIVEModerationAPIService
-	anchorId *string
-	xOauthToken *string
-	xCookieHeader *string
-}
-
-// The streamer&#39;s numeric user ID
-func (r ApiRetrieveRoomModeratorsRequest) AnchorId(anchorId string) ApiRetrieveRoomModeratorsRequest {
-	r.anchorId = &anchorId
-	return r
-}
-
-// OAuth access token for session resolution
-func (r ApiRetrieveRoomModeratorsRequest) XOauthToken(xOauthToken string) ApiRetrieveRoomModeratorsRequest {
-	r.xOauthToken = &xOauthToken
-	return r
-}
-
-// Cookie header containing sessionid and tt-target-idc
-func (r ApiRetrieveRoomModeratorsRequest) XCookieHeader(xCookieHeader string) ApiRetrieveRoomModeratorsRequest {
-	r.xCookieHeader = &xCookieHeader
-	return r
-}
-
-func (r ApiRetrieveRoomModeratorsRequest) Execute() (*RoomModeratorsAPIResponse, *http.Response, error) {
-	return r.ApiService.RetrieveRoomModeratorsExecute(r)
-}
-
-/*
-RetrieveRoomModerators Method for RetrieveRoomModerators
-
-Requires Premium Routes Addon - Retrieve the list of moderators in a livestream room.
-
-**Authentication:** Provide exactly one of the following headers:
-- `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
-- `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRetrieveRoomModeratorsRequest
-*/
-func (a *TikTokLIVEModerationAPIService) RetrieveRoomModerators(ctx context.Context) ApiRetrieveRoomModeratorsRequest {
-	return ApiRetrieveRoomModeratorsRequest{
-		ApiService: a,
-		ctx: ctx,
-	}
-}
-
-// Execute executes the request
-//  @return RoomModeratorsAPIResponse
-func (a *TikTokLIVEModerationAPIService) RetrieveRoomModeratorsExecute(r ApiRetrieveRoomModeratorsRequest) (*RoomModeratorsAPIResponse, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *RoomModeratorsAPIResponse
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEModerationAPIService.RetrieveRoomModerators")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/webcast/moderation/moderators"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.anchorId == nil {
-		return localVarReturnValue, nil, reportError("anchorId is required and must be specified")
-	}
-
-	parameterAddToHeaderOrQuery(localVarQueryParams, "anchor_id", r.anchorId, "form", "")
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.xOauthToken != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-oauth-token", r.xOauthToken, "simple", "")
-	}
-	if r.xCookieHeader != nil {
-		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_query"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarQueryParams.Add("apiKey", key)
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["api_key_header"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["x-api-key"] = key
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -1084,19 +1269,14 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomModeratorsExecute(r ApiRetr
 type ApiRetrieveRoomMutedUsersRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	page *float64
 	xOauthToken *string
 	xCookieHeader *string
+	xImageSource *RouteImageSource
 }
 
-// The room ID of the livestream
-func (r ApiRetrieveRoomMutedUsersRequest) RoomId(roomId string) ApiRetrieveRoomMutedUsersRequest {
-	r.roomId = &roomId
-	return r
-}
-
-// Page number for pagination (default: 0)
+// Page number for pagination
 func (r ApiRetrieveRoomMutedUsersRequest) Page(page float64) ApiRetrieveRoomMutedUsersRequest {
 	r.page = &page
 	return r
@@ -1114,6 +1294,12 @@ func (r ApiRetrieveRoomMutedUsersRequest) XCookieHeader(xCookieHeader string) Ap
 	return r
 }
 
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveRoomMutedUsersRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveRoomMutedUsersRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
 func (r ApiRetrieveRoomMutedUsersRequest) Execute() (*RoomMutedUsersAPIResponse, *http.Response, error) {
 	return r.ApiService.RetrieveRoomMutedUsersExecute(r)
 }
@@ -1121,19 +1307,21 @@ func (r ApiRetrieveRoomMutedUsersRequest) Execute() (*RoomMutedUsersAPIResponse,
 /*
 RetrieveRoomMutedUsers Method for RetrieveRoomMutedUsers
 
-Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.
+Retrieve the list of muted users in a livestream room.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiRetrieveRoomMutedUsersRequest
 */
-func (a *TikTokLIVEModerationAPIService) RetrieveRoomMutedUsers(ctx context.Context) ApiRetrieveRoomMutedUsersRequest {
+func (a *TikTokLIVEModerationAPIService) RetrieveRoomMutedUsers(ctx context.Context, roomId string) ApiRetrieveRoomMutedUsersRequest {
 	return ApiRetrieveRoomMutedUsersRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -1152,20 +1340,18 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomMutedUsersExecute(r ApiRetr
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/mutes"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/mutes"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	if r.page != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
 	} else {
 		var defaultValue float64 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
 		r.page = &defaultValue
 	}
 	// to determine the Content-Type header
@@ -1190,6 +1376,9 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomMutedUsersExecute(r ApiRetr
 	}
 	if r.xCookieHeader != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-cookie-header", r.xCookieHeader, "simple", "")
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -1241,6 +1430,38 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomMutedUsersExecute(r ApiRetr
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -1259,16 +1480,10 @@ func (a *TikTokLIVEModerationAPIService) RetrieveRoomMutedUsersExecute(r ApiRetr
 type ApiToggleRoomCommentsRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	enabled *bool
 	xOauthToken *string
 	xCookieHeader *string
-}
-
-// The room ID of the livestream
-func (r ApiToggleRoomCommentsRequest) RoomId(roomId string) ApiToggleRoomCommentsRequest {
-	r.roomId = &roomId
-	return r
 }
 
 // Whether comments should be enabled (true) or disabled (false)
@@ -1296,19 +1511,21 @@ func (r ApiToggleRoomCommentsRequest) Execute() (*RoomCommentsToggleAPIResponse,
 /*
 ToggleRoomComments Method for ToggleRoomComments
 
-Requires Premium Routes Addon - Toggle comments on/off in a livestream room.
+Toggle comments on/off in a livestream room.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiToggleRoomCommentsRequest
 */
-func (a *TikTokLIVEModerationAPIService) ToggleRoomComments(ctx context.Context) ApiToggleRoomCommentsRequest {
+func (a *TikTokLIVEModerationAPIService) ToggleRoomComments(ctx context.Context, roomId string) ApiToggleRoomCommentsRequest {
 	return ApiToggleRoomCommentsRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -1327,19 +1544,16 @@ func (a *TikTokLIVEModerationAPIService) ToggleRoomCommentsExecute(r ApiToggleRo
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/toggle_comments"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/toggle_comments"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 	if r.enabled == nil {
 		return localVarReturnValue, nil, reportError("enabled is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "enabled", r.enabled, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1414,6 +1628,38 @@ func (a *TikTokLIVEModerationAPIService) ToggleRoomCommentsExecute(r ApiToggleRo
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -1432,16 +1678,10 @@ func (a *TikTokLIVEModerationAPIService) ToggleRoomCommentsExecute(r ApiToggleRo
 type ApiUnbanRoomUserRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	tiktokUserId *string
 	xOauthToken *string
 	xCookieHeader *string
-}
-
-// The room ID of the livestream
-func (r ApiUnbanRoomUserRequest) RoomId(roomId string) ApiUnbanRoomUserRequest {
-	r.roomId = &roomId
-	return r
 }
 
 // The numeric user ID of the person to unkick
@@ -1469,19 +1709,21 @@ func (r ApiUnbanRoomUserRequest) Execute() (*RoomUnkickUserAPIResponse, *http.Re
 /*
 UnbanRoomUser Method for UnbanRoomUser
 
-Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).
+Unkick a user from a livestream room (allow them back).
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiUnbanRoomUserRequest
 */
-func (a *TikTokLIVEModerationAPIService) UnbanRoomUser(ctx context.Context) ApiUnbanRoomUserRequest {
+func (a *TikTokLIVEModerationAPIService) UnbanRoomUser(ctx context.Context, roomId string) ApiUnbanRoomUserRequest {
 	return ApiUnbanRoomUserRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -1500,19 +1742,16 @@ func (a *TikTokLIVEModerationAPIService) UnbanRoomUserExecute(r ApiUnbanRoomUser
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/bans"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/bans"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 	if r.tiktokUserId == nil {
 		return localVarReturnValue, nil, reportError("tiktokUserId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "tiktok_user_id", r.tiktokUserId, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1587,6 +1826,38 @@ func (a *TikTokLIVEModerationAPIService) UnbanRoomUserExecute(r ApiUnbanRoomUser
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -1605,16 +1876,10 @@ func (a *TikTokLIVEModerationAPIService) UnbanRoomUserExecute(r ApiUnbanRoomUser
 type ApiUnmuteRoomUserRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEModerationAPIService
-	roomId *string
+	roomId string
 	userId *string
 	xOauthToken *string
 	xCookieHeader *string
-}
-
-// The room ID of the livestream
-func (r ApiUnmuteRoomUserRequest) RoomId(roomId string) ApiUnmuteRoomUserRequest {
-	r.roomId = &roomId
-	return r
 }
 
 // The user ID to unmute
@@ -1642,19 +1907,21 @@ func (r ApiUnmuteRoomUserRequest) Execute() (*RoomUnmuteUserAPIResponse, *http.R
 /*
 UnmuteRoomUser Method for UnmuteRoomUser
 
-Requires Premium Routes Addon - Unmute a user in a livestream room.
+Unmute a user in a livestream room.
 
 **Authentication:** Provide exactly one of the following headers:
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param roomId The room ID of the livestream
  @return ApiUnmuteRoomUserRequest
 */
-func (a *TikTokLIVEModerationAPIService) UnmuteRoomUser(ctx context.Context) ApiUnmuteRoomUserRequest {
+func (a *TikTokLIVEModerationAPIService) UnmuteRoomUser(ctx context.Context, roomId string) ApiUnmuteRoomUserRequest {
 	return ApiUnmuteRoomUserRequest{
 		ApiService: a,
 		ctx: ctx,
+		roomId: roomId,
 	}
 }
 
@@ -1673,19 +1940,16 @@ func (a *TikTokLIVEModerationAPIService) UnmuteRoomUserExecute(r ApiUnmuteRoomUs
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/moderation/mutes"
+	localVarPath := localBasePath + "/webcast/rooms/{room_id}/moderation/mutes"
+	localVarPath = strings.Replace(localVarPath, "{"+"room_id"+"}", url.PathEscape(parameterValueToString(r.roomId, "roomId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.roomId == nil {
-		return localVarReturnValue, nil, reportError("roomId is required and must be specified")
-	}
 	if r.userId == nil {
 		return localVarReturnValue, nil, reportError("userId is required and must be specified")
 	}
 
-	parameterAddToHeaderOrQuery(localVarQueryParams, "room_id", r.roomId, "form", "")
 	parameterAddToHeaderOrQuery(localVarQueryParams, "user_id", r.userId, "form", "")
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1759,6 +2023,38 @@ func (a *TikTokLIVEModerationAPIService) UnmuteRoomUserExecute(r ApiUnmuteRoomUs
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

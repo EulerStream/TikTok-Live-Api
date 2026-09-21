@@ -21,6 +21,8 @@ var _ MappedNullable = &PartialWebcastRegionRankingsOutputRankUser{}
 
 // PartialWebcastRegionRankingsOutputRankUser struct for PartialWebcastRegionRankingsOutputRankUser
 type PartialWebcastRegionRankingsOutputRankUser struct {
+	FollowingCount float64 `json:"following_count"`
+	FollowerCount float64 `json:"follower_count"`
 	Nickname string `json:"nickname"`
 	NumericId string `json:"numeric_id"`
 	UniqueId string `json:"unique_id"`
@@ -33,8 +35,10 @@ type _PartialWebcastRegionRankingsOutputRankUser PartialWebcastRegionRankingsOut
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPartialWebcastRegionRankingsOutputRankUser(nickname string, numericId string, uniqueId string, avatarThumb []string) *PartialWebcastRegionRankingsOutputRankUser {
+func NewPartialWebcastRegionRankingsOutputRankUser(followingCount float64, followerCount float64, nickname string, numericId string, uniqueId string, avatarThumb []string) *PartialWebcastRegionRankingsOutputRankUser {
 	this := PartialWebcastRegionRankingsOutputRankUser{}
+	this.FollowingCount = followingCount
+	this.FollowerCount = followerCount
 	this.Nickname = nickname
 	this.NumericId = numericId
 	this.UniqueId = uniqueId
@@ -48,6 +52,54 @@ func NewPartialWebcastRegionRankingsOutputRankUser(nickname string, numericId st
 func NewPartialWebcastRegionRankingsOutputRankUserWithDefaults() *PartialWebcastRegionRankingsOutputRankUser {
 	this := PartialWebcastRegionRankingsOutputRankUser{}
 	return &this
+}
+
+// GetFollowingCount returns the FollowingCount field value
+func (o *PartialWebcastRegionRankingsOutputRankUser) GetFollowingCount() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.FollowingCount
+}
+
+// GetFollowingCountOk returns a tuple with the FollowingCount field value
+// and a boolean to check if the value has been set.
+func (o *PartialWebcastRegionRankingsOutputRankUser) GetFollowingCountOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.FollowingCount, true
+}
+
+// SetFollowingCount sets field value
+func (o *PartialWebcastRegionRankingsOutputRankUser) SetFollowingCount(v float64) {
+	o.FollowingCount = v
+}
+
+// GetFollowerCount returns the FollowerCount field value
+func (o *PartialWebcastRegionRankingsOutputRankUser) GetFollowerCount() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.FollowerCount
+}
+
+// GetFollowerCountOk returns a tuple with the FollowerCount field value
+// and a boolean to check if the value has been set.
+func (o *PartialWebcastRegionRankingsOutputRankUser) GetFollowerCountOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.FollowerCount, true
+}
+
+// SetFollowerCount sets field value
+func (o *PartialWebcastRegionRankingsOutputRankUser) SetFollowerCount(v float64) {
+	o.FollowerCount = v
 }
 
 // GetNickname returns the Nickname field value
@@ -156,6 +208,8 @@ func (o PartialWebcastRegionRankingsOutputRankUser) MarshalJSON() ([]byte, error
 
 func (o PartialWebcastRegionRankingsOutputRankUser) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["following_count"] = o.FollowingCount
+	toSerialize["follower_count"] = o.FollowerCount
 	toSerialize["nickname"] = o.Nickname
 	toSerialize["numeric_id"] = o.NumericId
 	toSerialize["unique_id"] = o.UniqueId
@@ -168,6 +222,8 @@ func (o *PartialWebcastRegionRankingsOutputRankUser) UnmarshalJSON(data []byte) 
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"following_count",
+		"follower_count",
 		"nickname",
 		"numeric_id",
 		"unique_id",

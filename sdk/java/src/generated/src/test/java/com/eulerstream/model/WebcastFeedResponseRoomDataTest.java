@@ -13,11 +13,11 @@
 
 package com.eulerstream.model;
 
-import com.eulerstream.model.RecordStringBooleanOrNumberValue;
 import com.eulerstream.model.WebcastFeedResponseHashtag;
 import com.eulerstream.model.WebcastFeedResponseImage;
 import com.eulerstream.model.WebcastFeedResponseRoomDataFeedRoomLabel;
 import com.eulerstream.model.WebcastFeedResponseRoomDataGameTagDetail;
+import com.eulerstream.model.WebcastFeedResponseRoomDataRoomAuthValue;
 import com.eulerstream.model.WebcastFeedResponseRoomDataSquareCoverImg;
 import com.eulerstream.model.WebcastFeedResponseRoomDataStats;
 import com.eulerstream.model.WebcastFeedResponseRoomDataTaxonomyTagInfo;

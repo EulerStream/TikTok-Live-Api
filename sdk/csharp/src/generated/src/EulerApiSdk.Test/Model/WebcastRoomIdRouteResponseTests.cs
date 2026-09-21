@@ -106,5 +106,23 @@ namespace EulerApiSdk.Test.Model
         {
             // TODO unit test for the property 'RoomId'
         }
+
+        /// <summary>
+        /// Test the property 'RoomStatus'
+        /// </summary>
+        [Fact]
+        public void RoomStatusTest()
+        {
+            // TODO unit test for the property 'RoomStatus'
+        }
+
+        /// <summary>
+        /// Test the property 'Source'
+        /// </summary>
+        [Fact]
+        public void SourceTest()
+        {
+            // TODO unit test for the property 'Source'
+        }
     }
 }

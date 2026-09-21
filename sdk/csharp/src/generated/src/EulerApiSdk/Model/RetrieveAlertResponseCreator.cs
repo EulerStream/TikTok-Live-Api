@@ -33,37 +33,25 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="RetrieveAlertResponseCreator" /> class.
         /// </summary>
-        /// <param name="stateLabel">stateLabel</param>
-        /// <param name="state">state</param>
         /// <param name="uniqueId">uniqueId</param>
-        /// <param name="lastNickname">lastNickname</param>
-        /// <param name="lastAvatarUrl">lastAvatarUrl</param>
+        /// <param name="state">state</param>
+        /// <param name="stateLabel">stateLabel</param>
         /// <param name="roomId">roomId</param>
+        /// <param name="lastAvatarUrl">lastAvatarUrl</param>
+        /// <param name="lastNickname">lastNickname</param>
         [JsonConstructor]
-        public RetrieveAlertResponseCreator(string stateLabel, double state, string uniqueId, string? lastNickname = default, string? lastAvatarUrl = default, string? roomId = default)
+        public RetrieveAlertResponseCreator(string uniqueId, double state, string stateLabel, string? roomId = default, string? lastAvatarUrl = default, string? lastNickname = default)
         {
-            StateLabel = stateLabel;
-            State = state;
             UniqueId = uniqueId;
-            LastNickname = lastNickname;
-            LastAvatarUrl = lastAvatarUrl;
+            State = state;
+            StateLabel = stateLabel;
             RoomId = roomId;
+            LastAvatarUrl = lastAvatarUrl;
+            LastNickname = lastNickname;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets StateLabel
-        /// </summary>
-        [JsonPropertyName("state_label")]
-        public string StateLabel { get; set; }
-
-        /// <summary>
-        /// Gets or Sets State
-        /// </summary>
-        [JsonPropertyName("state")]
-        public double State { get; set; }
 
         /// <summary>
         /// Gets or Sets UniqueId
@@ -72,10 +60,22 @@ namespace EulerApiSdk.Model
         public string UniqueId { get; set; }
 
         /// <summary>
-        /// Gets or Sets LastNickname
+        /// Gets or Sets State
         /// </summary>
-        [JsonPropertyName("last_nickname")]
-        public string? LastNickname { get; set; }
+        [JsonPropertyName("state")]
+        public double State { get; set; }
+
+        /// <summary>
+        /// Gets or Sets StateLabel
+        /// </summary>
+        [JsonPropertyName("state_label")]
+        public string StateLabel { get; set; }
+
+        /// <summary>
+        /// Gets or Sets RoomId
+        /// </summary>
+        [JsonPropertyName("room_id")]
+        public string? RoomId { get; set; }
 
         /// <summary>
         /// Gets or Sets LastAvatarUrl
@@ -84,10 +84,10 @@ namespace EulerApiSdk.Model
         public string? LastAvatarUrl { get; set; }
 
         /// <summary>
-        /// Gets or Sets RoomId
+        /// Gets or Sets LastNickname
         /// </summary>
-        [JsonPropertyName("room_id")]
-        public string? RoomId { get; set; }
+        [JsonPropertyName("last_nickname")]
+        public string? LastNickname { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -97,12 +97,12 @@ namespace EulerApiSdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class RetrieveAlertResponseCreator {\n");
-            sb.Append("  StateLabel: ").Append(StateLabel).Append("\n");
-            sb.Append("  State: ").Append(State).Append("\n");
             sb.Append("  UniqueId: ").Append(UniqueId).Append("\n");
-            sb.Append("  LastNickname: ").Append(LastNickname).Append("\n");
-            sb.Append("  LastAvatarUrl: ").Append(LastAvatarUrl).Append("\n");
+            sb.Append("  State: ").Append(State).Append("\n");
+            sb.Append("  StateLabel: ").Append(StateLabel).Append("\n");
             sb.Append("  RoomId: ").Append(RoomId).Append("\n");
+            sb.Append("  LastAvatarUrl: ").Append(LastAvatarUrl).Append("\n");
+            sb.Append("  LastNickname: ").Append(LastNickname).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -121,8 +121,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RetrieveAlertResponseCreator" />
     /// </summary>
-    public class RetrieveAlertResponseCreatorJsonConverter : JsonConverter<RetrieveAlertResponseCreator>
+    public partial class RetrieveAlertResponseCreatorJsonConverter : JsonConverter<RetrieveAlertResponseCreator>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetrieveAlertResponseCreatorJsonConverter" /> class.
+        /// </summary>
+        public RetrieveAlertResponseCreatorJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RetrieveAlertResponseCreator" />
         /// </summary>
@@ -140,12 +150,12 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> stateLabel = default;
-            Option<double?> state = default;
             Option<string?> uniqueId = default;
-            Option<string?> lastNickname = default;
-            Option<string?> lastAvatarUrl = default;
+            Option<double?> state = default;
+            Option<string?> stateLabel = default;
             Option<string?> roomId = default;
+            Option<string?> lastAvatarUrl = default;
+            Option<string?> lastNickname = default;
 
             while (utf8JsonReader.Read())
             {
@@ -162,23 +172,23 @@ namespace EulerApiSdk.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "state_label":
-                            stateLabel = new Option<string?>(utf8JsonReader.GetString()!);
+                        case "unique_id":
+                            uniqueId = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "state":
                             state = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
-                        case "unique_id":
-                            uniqueId = new Option<string?>(utf8JsonReader.GetString()!);
+                        case "state_label":
+                            stateLabel = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
-                        case "last_nickname":
-                            lastNickname = new Option<string?>(utf8JsonReader.GetString());
+                        case "room_id":
+                            roomId = new Option<string?>(utf8JsonReader.GetString());
                             break;
                         case "last_avatar_url":
                             lastAvatarUrl = new Option<string?>(utf8JsonReader.GetString());
                             break;
-                        case "room_id":
-                            roomId = new Option<string?>(utf8JsonReader.GetString());
+                        case "last_nickname":
+                            lastNickname = new Option<string?>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -186,34 +196,34 @@ namespace EulerApiSdk.Model
                 }
             }
 
-            if (!stateLabel.IsSet)
-                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(stateLabel));
+            if (!uniqueId.IsSet)
+                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(uniqueId));
 
             if (!state.IsSet)
                 throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(state));
 
-            if (!uniqueId.IsSet)
-                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(uniqueId));
-
-            if (!lastNickname.IsSet)
-                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(lastNickname));
-
-            if (!lastAvatarUrl.IsSet)
-                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(lastAvatarUrl));
+            if (!stateLabel.IsSet)
+                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(stateLabel));
 
             if (!roomId.IsSet)
                 throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(roomId));
 
-            if (stateLabel.IsSet && stateLabel.Value == null)
-                throw new ArgumentNullException(nameof(stateLabel), "Property is not nullable for class RetrieveAlertResponseCreator.");
+            if (!lastAvatarUrl.IsSet)
+                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(lastAvatarUrl));
 
-            if (state.IsSet && state.Value == null)
-                throw new ArgumentNullException(nameof(state), "Property is not nullable for class RetrieveAlertResponseCreator.");
+            if (!lastNickname.IsSet)
+                throw new ArgumentException("Property is required for class RetrieveAlertResponseCreator.", nameof(lastNickname));
 
             if (uniqueId.IsSet && uniqueId.Value == null)
                 throw new ArgumentNullException(nameof(uniqueId), "Property is not nullable for class RetrieveAlertResponseCreator.");
 
-            return new RetrieveAlertResponseCreator(stateLabel.Value!, state.Value!.Value!, uniqueId.Value!, lastNickname.Value!, lastAvatarUrl.Value!, roomId.Value!);
+            if (state.IsSet && state.Value == null)
+                throw new ArgumentNullException(nameof(state), "Property is not nullable for class RetrieveAlertResponseCreator.");
+
+            if (stateLabel.IsSet && stateLabel.Value == null)
+                throw new ArgumentNullException(nameof(stateLabel), "Property is not nullable for class RetrieveAlertResponseCreator.");
+
+            return new RetrieveAlertResponseCreator(uniqueId.Value!, state.Value!.Value!, stateLabel.Value!, roomId.Value!, lastAvatarUrl.Value!, lastNickname.Value!);
         }
 
         /// <summary>
@@ -240,32 +250,32 @@ namespace EulerApiSdk.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, RetrieveAlertResponseCreator retrieveAlertResponseCreator, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (retrieveAlertResponseCreator.StateLabel == null)
-                throw new ArgumentNullException(nameof(retrieveAlertResponseCreator.StateLabel), "Property is required for class RetrieveAlertResponseCreator.");
-
             if (retrieveAlertResponseCreator.UniqueId == null)
                 throw new ArgumentNullException(nameof(retrieveAlertResponseCreator.UniqueId), "Property is required for class RetrieveAlertResponseCreator.");
 
-            writer.WriteString("state_label", retrieveAlertResponseCreator.StateLabel);
-
-            writer.WriteNumber("state", retrieveAlertResponseCreator.State);
+            if (retrieveAlertResponseCreator.StateLabel == null)
+                throw new ArgumentNullException(nameof(retrieveAlertResponseCreator.StateLabel), "Property is required for class RetrieveAlertResponseCreator.");
 
             writer.WriteString("unique_id", retrieveAlertResponseCreator.UniqueId);
 
-            if (retrieveAlertResponseCreator.LastNickname != null)
-                writer.WriteString("last_nickname", retrieveAlertResponseCreator.LastNickname);
+            writer.WriteNumber("state", retrieveAlertResponseCreator.State);
+
+            writer.WriteString("state_label", retrieveAlertResponseCreator.StateLabel);
+
+            if (retrieveAlertResponseCreator.RoomId != null)
+                writer.WriteString("room_id", retrieveAlertResponseCreator.RoomId);
             else
-                writer.WriteNull("last_nickname");
+                writer.WriteNull("room_id");
 
             if (retrieveAlertResponseCreator.LastAvatarUrl != null)
                 writer.WriteString("last_avatar_url", retrieveAlertResponseCreator.LastAvatarUrl);
             else
                 writer.WriteNull("last_avatar_url");
 
-            if (retrieveAlertResponseCreator.RoomId != null)
-                writer.WriteString("room_id", retrieveAlertResponseCreator.RoomId);
+            if (retrieveAlertResponseCreator.LastNickname != null)
+                writer.WriteString("last_nickname", retrieveAlertResponseCreator.LastNickname);
             else
-                writer.WriteNull("room_id");
+                writer.WriteNull("last_nickname");
         }
     }
 }

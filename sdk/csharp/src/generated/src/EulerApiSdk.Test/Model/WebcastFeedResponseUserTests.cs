@@ -72,15 +72,6 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'BioDescription'
-        /// </summary>
-        [Fact]
-        public void BioDescriptionTest()
-        {
-            // TODO unit test for the property 'BioDescription'
-        }
-
-        /// <summary>
         /// Test the property 'AvatarThumb'
         /// </summary>
         [Fact]
@@ -153,15 +144,6 @@ namespace EulerApiSdk.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'OwnRoom'
-        /// </summary>
-        [Fact]
-        public void OwnRoomTest()
-        {
-            // TODO unit test for the property 'OwnRoom'
-        }
-
-        /// <summary>
         /// Test the property 'DisplayId'
         /// </summary>
         [Fact]
@@ -186,6 +168,24 @@ namespace EulerApiSdk.Test.Model
         public void IdStrTest()
         {
             // TODO unit test for the property 'IdStr'
+        }
+
+        /// <summary>
+        /// Test the property 'BioDescription'
+        /// </summary>
+        [Fact]
+        public void BioDescriptionTest()
+        {
+            // TODO unit test for the property 'BioDescription'
+        }
+
+        /// <summary>
+        /// Test the property 'OwnRoom'
+        /// </summary>
+        [Fact]
+        public void OwnRoomTest()
+        {
+            // TODO unit test for the property 'OwnRoom'
         }
     }
 }

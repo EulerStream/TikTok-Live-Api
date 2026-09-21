@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "EulerApiSdk"
-version = "0.1.0"
+version = "0.3.2"
 description = "A client library for accessing Euler Stream Sign API"
 authors = []
 readme = "README.md"

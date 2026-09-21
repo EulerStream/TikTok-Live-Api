@@ -54,7 +54,7 @@ Full API documentation and the interactive OpenAPI spec live at [eulerstream.com
 | TypeScript / Node.js | [`@eulerstream/euler-api-sdk`](https://www.npmjs.com/package/@eulerstream/euler-api-sdk) | `npm i @eulerstream/euler-api-sdk` |
 | Python | [`EulerApiSdk`](https://pypi.org/project/EulerApiSdk/) | `pip install EulerApiSdk` |
 | C# / .NET | [`EulerApiSdk`](https://www.nuget.org/packages/EulerApiSdk) | `dotnet add package EulerApiSdk` |
-| Java | [`io.github.isaackogan:euler-api-sdk`](https://central.sonatype.com/artifact/io.github.isaackogan/euler-api-sdk) | Maven / Gradle |
+| Java | [`com.eulerstream:euler-api-sdk`](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) | Maven / Gradle |
 | Go | [`github.com/EulerStream/TikTok-Live-Api/sdk/go`](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go) | `go get github.com/EulerStream/TikTok-Live-Api/sdk/go` |
 
 Everything else can use the language-agnostic WebSocket directly. A [payload decoder tool](https://www.eulerstream.com/docs/api/client-sdks/websocket-sdk/decoder) is available for debugging.
@@ -157,7 +157,7 @@ Add-ons such as premium webcast routes, priority API requests, signature routes,
 
 ## CI / Release Pipeline
 
-SDKs are auto-generated from the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi) via GitHub Actions.
+SDKs are generated via GitHub Actions from the OpenAPI document committed at [`spec/openapi.json`](./spec/openapi.json). It is the public document the API server emits from its own source (`openapi:emit -- --public` in the `euler-api-server` app), so a release is generated from a reviewed, versioned spec rather than from whatever a running server happens to serve. Refresh it with `scripts/refresh-spec.sh <path-to-euler-api-server-app>`, which also refreshes the private SDK's full document, then commit the result.
 
 | Workflow | Purpose |
 |----------|---------|

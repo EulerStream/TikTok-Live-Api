@@ -33,24 +33,20 @@ type WebcastFeedResponseRoomData struct {
 	Stats WebcastFeedResponseRoomDataStats `json:"stats"`
 	FeedRoomLabel WebcastFeedResponseRoomDataFeedRoomLabel `json:"feed_room_label"`
 	Owner WebcastFeedResponseUser `json:"owner"`
-	LiveTypeThirdParty bool `json:"live_type_third_party"`
-	// Construct a type with a set of properties K of type T
-	RoomAuth map[string]RecordStringBooleanOrNumberValue `json:"room_auth"`
-	LikeCount float64 `json:"like_count"`
+	LiveTypeThirdParty *bool `json:"live_type_third_party,omitempty"`
+	RoomAuth map[string]WebcastFeedResponseRoomDataRoomAuthValue `json:"room_auth"`
+	LikeCount *float64 `json:"like_count,omitempty"`
 	AnchorTabType float64 `json:"anchor_tab_type"`
-	// Construct a type with a set of properties K of type T
 	CommerceInfo map[string]interface{} `json:"commerce_info"`
 	Hashtag *WebcastFeedResponseHashtag `json:"hashtag,omitempty"`
-	LiveRoomMode float64 `json:"live_room_mode"`
-	// Construct a type with a set of properties K of type T
+	LiveRoomMode *float64 `json:"live_room_mode,omitempty"`
 	StreamUrlFilteredInfo map[string]interface{} `json:"stream_url_filtered_info"`
-	SquareCoverImg WebcastFeedResponseRoomDataSquareCoverImg `json:"square_cover_img"`
-	RectangleCoverImg WebcastFeedResponseRoomDataFeedRoomLabel `json:"rectangle_cover_img"`
+	SquareCoverImg *WebcastFeedResponseRoomDataSquareCoverImg `json:"square_cover_img,omitempty"`
+	RectangleCoverImg *WebcastFeedResponseRoomDataFeedRoomLabel `json:"rectangle_cover_img,omitempty"`
 	BlurredCover WebcastFeedResponseRoomDataSquareCoverImg `json:"blurred_cover"`
-	// Construct a type with a set of properties K of type T
 	MultiStreamUrl map[string]interface{} `json:"multi_stream_url"`
-	GameTagDetail WebcastFeedResponseRoomDataGameTagDetail `json:"game_tag_detail"`
-	TaxonomyTagInfo WebcastFeedResponseRoomDataTaxonomyTagInfo `json:"taxonomy_tag_info"`
+	GameTagDetail *WebcastFeedResponseRoomDataGameTagDetail `json:"game_tag_detail,omitempty"`
+	TaxonomyTagInfo *WebcastFeedResponseRoomDataTaxonomyTagInfo `json:"taxonomy_tag_info,omitempty"`
 }
 
 type _WebcastFeedResponseRoomData WebcastFeedResponseRoomData
@@ -59,7 +55,7 @@ type _WebcastFeedResponseRoomData WebcastFeedResponseRoomData
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastFeedResponseRoomData(id float64, idStr string, status float64, ownerUserId float64, title string, userCount float64, clientVersion float64, cover WebcastFeedResponseImage, streamUrl WebcastFeedResponseStreamUrl, stats WebcastFeedResponseRoomDataStats, feedRoomLabel WebcastFeedResponseRoomDataFeedRoomLabel, owner WebcastFeedResponseUser, liveTypeThirdParty bool, roomAuth map[string]RecordStringBooleanOrNumberValue, likeCount float64, anchorTabType float64, commerceInfo map[string]interface{}, liveRoomMode float64, streamUrlFilteredInfo map[string]interface{}, squareCoverImg WebcastFeedResponseRoomDataSquareCoverImg, rectangleCoverImg WebcastFeedResponseRoomDataFeedRoomLabel, blurredCover WebcastFeedResponseRoomDataSquareCoverImg, multiStreamUrl map[string]interface{}, gameTagDetail WebcastFeedResponseRoomDataGameTagDetail, taxonomyTagInfo WebcastFeedResponseRoomDataTaxonomyTagInfo) *WebcastFeedResponseRoomData {
+func NewWebcastFeedResponseRoomData(id float64, idStr string, status float64, ownerUserId float64, title string, userCount float64, clientVersion float64, cover WebcastFeedResponseImage, streamUrl WebcastFeedResponseStreamUrl, stats WebcastFeedResponseRoomDataStats, feedRoomLabel WebcastFeedResponseRoomDataFeedRoomLabel, owner WebcastFeedResponseUser, roomAuth map[string]WebcastFeedResponseRoomDataRoomAuthValue, anchorTabType float64, commerceInfo map[string]interface{}, streamUrlFilteredInfo map[string]interface{}, blurredCover WebcastFeedResponseRoomDataSquareCoverImg, multiStreamUrl map[string]interface{}) *WebcastFeedResponseRoomData {
 	this := WebcastFeedResponseRoomData{}
 	this.Id = id
 	this.IdStr = idStr
@@ -73,19 +69,12 @@ func NewWebcastFeedResponseRoomData(id float64, idStr string, status float64, ow
 	this.Stats = stats
 	this.FeedRoomLabel = feedRoomLabel
 	this.Owner = owner
-	this.LiveTypeThirdParty = liveTypeThirdParty
 	this.RoomAuth = roomAuth
-	this.LikeCount = likeCount
 	this.AnchorTabType = anchorTabType
 	this.CommerceInfo = commerceInfo
-	this.LiveRoomMode = liveRoomMode
 	this.StreamUrlFilteredInfo = streamUrlFilteredInfo
-	this.SquareCoverImg = squareCoverImg
-	this.RectangleCoverImg = rectangleCoverImg
 	this.BlurredCover = blurredCover
 	this.MultiStreamUrl = multiStreamUrl
-	this.GameTagDetail = gameTagDetail
-	this.TaxonomyTagInfo = taxonomyTagInfo
 	return &this
 }
 
@@ -385,34 +374,42 @@ func (o *WebcastFeedResponseRoomData) SetOwner(v WebcastFeedResponseUser) {
 	o.Owner = v
 }
 
-// GetLiveTypeThirdParty returns the LiveTypeThirdParty field value
+// GetLiveTypeThirdParty returns the LiveTypeThirdParty field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetLiveTypeThirdParty() bool {
-	if o == nil {
+	if o == nil || IsNil(o.LiveTypeThirdParty) {
 		var ret bool
 		return ret
 	}
-
-	return o.LiveTypeThirdParty
+	return *o.LiveTypeThirdParty
 }
 
-// GetLiveTypeThirdPartyOk returns a tuple with the LiveTypeThirdParty field value
+// GetLiveTypeThirdPartyOk returns a tuple with the LiveTypeThirdParty field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetLiveTypeThirdPartyOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.LiveTypeThirdParty) {
 		return nil, false
 	}
-	return &o.LiveTypeThirdParty, true
+	return o.LiveTypeThirdParty, true
 }
 
-// SetLiveTypeThirdParty sets field value
+// HasLiveTypeThirdParty returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasLiveTypeThirdParty() bool {
+	if o != nil && !IsNil(o.LiveTypeThirdParty) {
+		return true
+	}
+
+	return false
+}
+
+// SetLiveTypeThirdParty gets a reference to the given bool and assigns it to the LiveTypeThirdParty field.
 func (o *WebcastFeedResponseRoomData) SetLiveTypeThirdParty(v bool) {
-	o.LiveTypeThirdParty = v
+	o.LiveTypeThirdParty = &v
 }
 
 // GetRoomAuth returns the RoomAuth field value
-func (o *WebcastFeedResponseRoomData) GetRoomAuth() map[string]RecordStringBooleanOrNumberValue {
+func (o *WebcastFeedResponseRoomData) GetRoomAuth() map[string]WebcastFeedResponseRoomDataRoomAuthValue {
 	if o == nil {
-		var ret map[string]RecordStringBooleanOrNumberValue
+		var ret map[string]WebcastFeedResponseRoomDataRoomAuthValue
 		return ret
 	}
 
@@ -421,40 +418,48 @@ func (o *WebcastFeedResponseRoomData) GetRoomAuth() map[string]RecordStringBoole
 
 // GetRoomAuthOk returns a tuple with the RoomAuth field value
 // and a boolean to check if the value has been set.
-func (o *WebcastFeedResponseRoomData) GetRoomAuthOk() (map[string]RecordStringBooleanOrNumberValue, bool) {
+func (o *WebcastFeedResponseRoomData) GetRoomAuthOk() (map[string]WebcastFeedResponseRoomDataRoomAuthValue, bool) {
 	if o == nil {
-		return map[string]RecordStringBooleanOrNumberValue{}, false
+		return map[string]WebcastFeedResponseRoomDataRoomAuthValue{}, false
 	}
 	return o.RoomAuth, true
 }
 
 // SetRoomAuth sets field value
-func (o *WebcastFeedResponseRoomData) SetRoomAuth(v map[string]RecordStringBooleanOrNumberValue) {
+func (o *WebcastFeedResponseRoomData) SetRoomAuth(v map[string]WebcastFeedResponseRoomDataRoomAuthValue) {
 	o.RoomAuth = v
 }
 
-// GetLikeCount returns the LikeCount field value
+// GetLikeCount returns the LikeCount field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetLikeCount() float64 {
-	if o == nil {
+	if o == nil || IsNil(o.LikeCount) {
 		var ret float64
 		return ret
 	}
-
-	return o.LikeCount
+	return *o.LikeCount
 }
 
-// GetLikeCountOk returns a tuple with the LikeCount field value
+// GetLikeCountOk returns a tuple with the LikeCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetLikeCountOk() (*float64, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.LikeCount) {
 		return nil, false
 	}
-	return &o.LikeCount, true
+	return o.LikeCount, true
 }
 
-// SetLikeCount sets field value
+// HasLikeCount returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasLikeCount() bool {
+	if o != nil && !IsNil(o.LikeCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetLikeCount gets a reference to the given float64 and assigns it to the LikeCount field.
 func (o *WebcastFeedResponseRoomData) SetLikeCount(v float64) {
-	o.LikeCount = v
+	o.LikeCount = &v
 }
 
 // GetAnchorTabType returns the AnchorTabType field value
@@ -537,28 +542,36 @@ func (o *WebcastFeedResponseRoomData) SetHashtag(v WebcastFeedResponseHashtag) {
 	o.Hashtag = &v
 }
 
-// GetLiveRoomMode returns the LiveRoomMode field value
+// GetLiveRoomMode returns the LiveRoomMode field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetLiveRoomMode() float64 {
-	if o == nil {
+	if o == nil || IsNil(o.LiveRoomMode) {
 		var ret float64
 		return ret
 	}
-
-	return o.LiveRoomMode
+	return *o.LiveRoomMode
 }
 
-// GetLiveRoomModeOk returns a tuple with the LiveRoomMode field value
+// GetLiveRoomModeOk returns a tuple with the LiveRoomMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetLiveRoomModeOk() (*float64, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.LiveRoomMode) {
 		return nil, false
 	}
-	return &o.LiveRoomMode, true
+	return o.LiveRoomMode, true
 }
 
-// SetLiveRoomMode sets field value
+// HasLiveRoomMode returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasLiveRoomMode() bool {
+	if o != nil && !IsNil(o.LiveRoomMode) {
+		return true
+	}
+
+	return false
+}
+
+// SetLiveRoomMode gets a reference to the given float64 and assigns it to the LiveRoomMode field.
 func (o *WebcastFeedResponseRoomData) SetLiveRoomMode(v float64) {
-	o.LiveRoomMode = v
+	o.LiveRoomMode = &v
 }
 
 // GetStreamUrlFilteredInfo returns the StreamUrlFilteredInfo field value
@@ -585,52 +598,68 @@ func (o *WebcastFeedResponseRoomData) SetStreamUrlFilteredInfo(v map[string]inte
 	o.StreamUrlFilteredInfo = v
 }
 
-// GetSquareCoverImg returns the SquareCoverImg field value
+// GetSquareCoverImg returns the SquareCoverImg field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetSquareCoverImg() WebcastFeedResponseRoomDataSquareCoverImg {
-	if o == nil {
+	if o == nil || IsNil(o.SquareCoverImg) {
 		var ret WebcastFeedResponseRoomDataSquareCoverImg
 		return ret
 	}
-
-	return o.SquareCoverImg
+	return *o.SquareCoverImg
 }
 
-// GetSquareCoverImgOk returns a tuple with the SquareCoverImg field value
+// GetSquareCoverImgOk returns a tuple with the SquareCoverImg field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetSquareCoverImgOk() (*WebcastFeedResponseRoomDataSquareCoverImg, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.SquareCoverImg) {
 		return nil, false
 	}
-	return &o.SquareCoverImg, true
+	return o.SquareCoverImg, true
 }
 
-// SetSquareCoverImg sets field value
+// HasSquareCoverImg returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasSquareCoverImg() bool {
+	if o != nil && !IsNil(o.SquareCoverImg) {
+		return true
+	}
+
+	return false
+}
+
+// SetSquareCoverImg gets a reference to the given WebcastFeedResponseRoomDataSquareCoverImg and assigns it to the SquareCoverImg field.
 func (o *WebcastFeedResponseRoomData) SetSquareCoverImg(v WebcastFeedResponseRoomDataSquareCoverImg) {
-	o.SquareCoverImg = v
+	o.SquareCoverImg = &v
 }
 
-// GetRectangleCoverImg returns the RectangleCoverImg field value
+// GetRectangleCoverImg returns the RectangleCoverImg field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetRectangleCoverImg() WebcastFeedResponseRoomDataFeedRoomLabel {
-	if o == nil {
+	if o == nil || IsNil(o.RectangleCoverImg) {
 		var ret WebcastFeedResponseRoomDataFeedRoomLabel
 		return ret
 	}
-
-	return o.RectangleCoverImg
+	return *o.RectangleCoverImg
 }
 
-// GetRectangleCoverImgOk returns a tuple with the RectangleCoverImg field value
+// GetRectangleCoverImgOk returns a tuple with the RectangleCoverImg field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetRectangleCoverImgOk() (*WebcastFeedResponseRoomDataFeedRoomLabel, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.RectangleCoverImg) {
 		return nil, false
 	}
-	return &o.RectangleCoverImg, true
+	return o.RectangleCoverImg, true
 }
 
-// SetRectangleCoverImg sets field value
+// HasRectangleCoverImg returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasRectangleCoverImg() bool {
+	if o != nil && !IsNil(o.RectangleCoverImg) {
+		return true
+	}
+
+	return false
+}
+
+// SetRectangleCoverImg gets a reference to the given WebcastFeedResponseRoomDataFeedRoomLabel and assigns it to the RectangleCoverImg field.
 func (o *WebcastFeedResponseRoomData) SetRectangleCoverImg(v WebcastFeedResponseRoomDataFeedRoomLabel) {
-	o.RectangleCoverImg = v
+	o.RectangleCoverImg = &v
 }
 
 // GetBlurredCover returns the BlurredCover field value
@@ -681,52 +710,68 @@ func (o *WebcastFeedResponseRoomData) SetMultiStreamUrl(v map[string]interface{}
 	o.MultiStreamUrl = v
 }
 
-// GetGameTagDetail returns the GameTagDetail field value
+// GetGameTagDetail returns the GameTagDetail field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetGameTagDetail() WebcastFeedResponseRoomDataGameTagDetail {
-	if o == nil {
+	if o == nil || IsNil(o.GameTagDetail) {
 		var ret WebcastFeedResponseRoomDataGameTagDetail
 		return ret
 	}
-
-	return o.GameTagDetail
+	return *o.GameTagDetail
 }
 
-// GetGameTagDetailOk returns a tuple with the GameTagDetail field value
+// GetGameTagDetailOk returns a tuple with the GameTagDetail field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetGameTagDetailOk() (*WebcastFeedResponseRoomDataGameTagDetail, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.GameTagDetail) {
 		return nil, false
 	}
-	return &o.GameTagDetail, true
+	return o.GameTagDetail, true
 }
 
-// SetGameTagDetail sets field value
+// HasGameTagDetail returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasGameTagDetail() bool {
+	if o != nil && !IsNil(o.GameTagDetail) {
+		return true
+	}
+
+	return false
+}
+
+// SetGameTagDetail gets a reference to the given WebcastFeedResponseRoomDataGameTagDetail and assigns it to the GameTagDetail field.
 func (o *WebcastFeedResponseRoomData) SetGameTagDetail(v WebcastFeedResponseRoomDataGameTagDetail) {
-	o.GameTagDetail = v
+	o.GameTagDetail = &v
 }
 
-// GetTaxonomyTagInfo returns the TaxonomyTagInfo field value
+// GetTaxonomyTagInfo returns the TaxonomyTagInfo field value if set, zero value otherwise.
 func (o *WebcastFeedResponseRoomData) GetTaxonomyTagInfo() WebcastFeedResponseRoomDataTaxonomyTagInfo {
-	if o == nil {
+	if o == nil || IsNil(o.TaxonomyTagInfo) {
 		var ret WebcastFeedResponseRoomDataTaxonomyTagInfo
 		return ret
 	}
-
-	return o.TaxonomyTagInfo
+	return *o.TaxonomyTagInfo
 }
 
-// GetTaxonomyTagInfoOk returns a tuple with the TaxonomyTagInfo field value
+// GetTaxonomyTagInfoOk returns a tuple with the TaxonomyTagInfo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *WebcastFeedResponseRoomData) GetTaxonomyTagInfoOk() (*WebcastFeedResponseRoomDataTaxonomyTagInfo, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.TaxonomyTagInfo) {
 		return nil, false
 	}
-	return &o.TaxonomyTagInfo, true
+	return o.TaxonomyTagInfo, true
 }
 
-// SetTaxonomyTagInfo sets field value
+// HasTaxonomyTagInfo returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomData) HasTaxonomyTagInfo() bool {
+	if o != nil && !IsNil(o.TaxonomyTagInfo) {
+		return true
+	}
+
+	return false
+}
+
+// SetTaxonomyTagInfo gets a reference to the given WebcastFeedResponseRoomDataTaxonomyTagInfo and assigns it to the TaxonomyTagInfo field.
 func (o *WebcastFeedResponseRoomData) SetTaxonomyTagInfo(v WebcastFeedResponseRoomDataTaxonomyTagInfo) {
-	o.TaxonomyTagInfo = v
+	o.TaxonomyTagInfo = &v
 }
 
 func (o WebcastFeedResponseRoomData) MarshalJSON() ([]byte, error) {
@@ -751,22 +796,36 @@ func (o WebcastFeedResponseRoomData) ToMap() (map[string]interface{}, error) {
 	toSerialize["stats"] = o.Stats
 	toSerialize["feed_room_label"] = o.FeedRoomLabel
 	toSerialize["owner"] = o.Owner
-	toSerialize["live_type_third_party"] = o.LiveTypeThirdParty
+	if !IsNil(o.LiveTypeThirdParty) {
+		toSerialize["live_type_third_party"] = o.LiveTypeThirdParty
+	}
 	toSerialize["room_auth"] = o.RoomAuth
-	toSerialize["like_count"] = o.LikeCount
+	if !IsNil(o.LikeCount) {
+		toSerialize["like_count"] = o.LikeCount
+	}
 	toSerialize["anchor_tab_type"] = o.AnchorTabType
 	toSerialize["commerce_info"] = o.CommerceInfo
 	if !IsNil(o.Hashtag) {
 		toSerialize["hashtag"] = o.Hashtag
 	}
-	toSerialize["live_room_mode"] = o.LiveRoomMode
+	if !IsNil(o.LiveRoomMode) {
+		toSerialize["live_room_mode"] = o.LiveRoomMode
+	}
 	toSerialize["stream_url_filtered_info"] = o.StreamUrlFilteredInfo
-	toSerialize["square_cover_img"] = o.SquareCoverImg
-	toSerialize["rectangle_cover_img"] = o.RectangleCoverImg
+	if !IsNil(o.SquareCoverImg) {
+		toSerialize["square_cover_img"] = o.SquareCoverImg
+	}
+	if !IsNil(o.RectangleCoverImg) {
+		toSerialize["rectangle_cover_img"] = o.RectangleCoverImg
+	}
 	toSerialize["blurred_cover"] = o.BlurredCover
 	toSerialize["multi_stream_url"] = o.MultiStreamUrl
-	toSerialize["game_tag_detail"] = o.GameTagDetail
-	toSerialize["taxonomy_tag_info"] = o.TaxonomyTagInfo
+	if !IsNil(o.GameTagDetail) {
+		toSerialize["game_tag_detail"] = o.GameTagDetail
+	}
+	if !IsNil(o.TaxonomyTagInfo) {
+		toSerialize["taxonomy_tag_info"] = o.TaxonomyTagInfo
+	}
 	return toSerialize, nil
 }
 
@@ -787,19 +846,12 @@ func (o *WebcastFeedResponseRoomData) UnmarshalJSON(data []byte) (err error) {
 		"stats",
 		"feed_room_label",
 		"owner",
-		"live_type_third_party",
 		"room_auth",
-		"like_count",
 		"anchor_tab_type",
 		"commerce_info",
-		"live_room_mode",
 		"stream_url_filtered_info",
-		"square_cover_img",
-		"rectangle_cover_img",
 		"blurred_cover",
 		"multi_stream_url",
-		"game_tag_detail",
-		"taxonomy_tag_info",
 	}
 
 	allProperties := make(map[string]interface{})

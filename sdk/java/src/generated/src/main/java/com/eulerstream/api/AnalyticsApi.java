@@ -29,8 +29,9 @@ import java.io.IOException;
 
 import com.eulerstream.model.HostsResponse;
 import com.eulerstream.model.Pips200Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveAgentHostsResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.TikTokSignLiveClient;
 
 import java.lang.reflect.Type;

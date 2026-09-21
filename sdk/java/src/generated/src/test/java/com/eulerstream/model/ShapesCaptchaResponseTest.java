@@ -39,22 +39,6 @@ public class ShapesCaptchaResponseTest {
     }
 
     /**
-     * Test the property 'response'
-     */
-    @Test
-    public void responseTest() {
-        // TODO: test response
-    }
-
-    /**
-     * Test the property 'cached'
-     */
-    @Test
-    public void cachedTest() {
-        // TODO: test cached
-    }
-
-    /**
      * Test the property 'code'
      */
     @Test
@@ -68,6 +52,22 @@ public class ShapesCaptchaResponseTest {
     @Test
     public void messageTest() {
         // TODO: test message
+    }
+
+    /**
+     * Test the property 'response'
+     */
+    @Test
+    public void responseTest() {
+        // TODO: test response
+    }
+
+    /**
+     * Test the property 'cached'
+     */
+    @Test
+    public void cachedTest() {
+        // TODO: test cached
     }
 
 }

@@ -207,7 +207,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Method
         /// </summary>
         [JsonPropertyName("method")]
-        public MethodEnum? Method { get { return this.MethodOption; } set { this.MethodOption = new(value); } }
+        public MethodEnum? Method { get { return this.MethodOption.Value; } set { this.MethodOption = new(value); } }
 
         /// <summary>
         /// Defines Type
@@ -285,7 +285,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
+        public TypeEnum? Type { get { return this.TypeOption.Value; } set { this.TypeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Url
@@ -304,7 +304,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets UserAgent
         /// </summary>
         [JsonPropertyName("userAgent")]
-        public string? UserAgent { get { return this.UserAgentOption; } set { this.UserAgentOption = new(value); } }
+        public string? UserAgent { get { return this.UserAgentOption.Value; } set { this.UserAgentOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SessionId
@@ -317,7 +317,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets SessionId
         /// </summary>
         [JsonPropertyName("sessionId")]
-        public string? SessionId { get { return this.SessionIdOption; } set { this.SessionIdOption = new(value); } }
+        public string? SessionId { get { return this.SessionIdOption.Value; } set { this.SessionIdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of TtTargetIdc
@@ -330,7 +330,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets TtTargetIdc
         /// </summary>
         [JsonPropertyName("ttTargetIdc")]
-        public string? TtTargetIdc { get { return this.TtTargetIdcOption; } set { this.TtTargetIdcOption = new(value); } }
+        public string? TtTargetIdc { get { return this.TtTargetIdcOption.Value; } set { this.TtTargetIdcOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Ttwid
@@ -343,7 +343,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Ttwid
         /// </summary>
         [JsonPropertyName("ttwid")]
-        public string? Ttwid { get { return this.TtwidOption; } set { this.TtwidOption = new(value); } }
+        public string? Ttwid { get { return this.TtwidOption.Value; } set { this.TtwidOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Payload
@@ -356,7 +356,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Payload
         /// </summary>
         [JsonPropertyName("payload")]
-        public string? Payload { get { return this.PayloadOption; } set { this.PayloadOption = new(value); } }
+        public string? Payload { get { return this.PayloadOption.Value; } set { this.PayloadOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IncludeBrowserParams
@@ -369,7 +369,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets IncludeBrowserParams
         /// </summary>
         [JsonPropertyName("includeBrowserParams")]
-        public bool? IncludeBrowserParams { get { return this.IncludeBrowserParamsOption; } set { this.IncludeBrowserParamsOption = new(value); } }
+        public bool? IncludeBrowserParams { get { return this.IncludeBrowserParamsOption.Value; } set { this.IncludeBrowserParamsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IncludeVerifyFp
@@ -382,7 +382,8 @@ namespace EulerApiSdk.Model
         /// Gets or Sets IncludeVerifyFp
         /// </summary>
         [JsonPropertyName("includeVerifyFp")]
-        public bool? IncludeVerifyFp { get { return this.IncludeVerifyFpOption; } set { this.IncludeVerifyFpOption = new(value); } }
+        [Obsolete]
+        public bool? IncludeVerifyFp { get { return this.IncludeVerifyFpOption.Value; } set { this.IncludeVerifyFpOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -420,8 +421,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="SignTikTokUrlBody" />
     /// </summary>
-    public class SignTikTokUrlBodyJsonConverter : JsonConverter<SignTikTokUrlBody>
+    public partial class SignTikTokUrlBodyJsonConverter : JsonConverter<SignTikTokUrlBody>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SignTikTokUrlBodyJsonConverter" /> class.
+        /// </summary>
+        public SignTikTokUrlBodyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="SignTikTokUrlBody" />
         /// </summary>

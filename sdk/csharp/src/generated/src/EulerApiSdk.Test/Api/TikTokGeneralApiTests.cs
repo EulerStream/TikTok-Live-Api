@@ -63,6 +63,42 @@ namespace EulerApiSdk.Test.Api
         }
 
         /// <summary>
+        /// Test GetPublicClient
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetPublicClientAsyncTest()
+        {
+            string clientId = default!;
+            var response = await _instance.GetPublicClientAsync(clientId);
+            var model = response.Ok();
+            Assert.IsType<GetPublicClientResponse>(model);
+        }
+
+        /// <summary>
+        /// Test GetUserInfo
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetUserInfoAsyncTest()
+        {
+            Client.Option<string> xOauthToken = default!;
+            var response = await _instance.GetUserInfoAsync(xOauthToken);
+            var model = response.Ok();
+            Assert.IsType<OAuthUserInfoResponse>(model);
+        }
+
+        /// <summary>
+        /// Test IntrospectToken
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task IntrospectTokenAsyncTest()
+        {
+            IntrospectRequestBody introspectRequestBody = default!;
+            var response = await _instance.IntrospectTokenAsync(introspectRequestBody);
+            var model = response.Ok();
+            Assert.IsType<OAuthIntrospectResponse>(model);
+        }
+
+        /// <summary>
         /// Test RevokeToken
         /// </summary>
         [Fact (Skip = "not implemented")]
@@ -72,6 +108,18 @@ namespace EulerApiSdk.Test.Api
             var response = await _instance.RevokeTokenAsync(revokeRequestBody);
             var model = response.Ok();
             Assert.IsType<OAuthRevokeResponse>(model);
+        }
+
+        /// <summary>
+        /// Test ValidateRefreshToken
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task ValidateRefreshTokenAsyncTest()
+        {
+            ValidateRefreshRequest validateRefreshRequest = default!;
+            var response = await _instance.ValidateRefreshTokenAsync(validateRefreshRequest);
+            var model = response.Ok();
+            Assert.IsType<ValidateRefreshResponse>(model);
         }
     }
 }

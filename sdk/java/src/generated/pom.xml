@@ -5,7 +5,7 @@
     <artifactId>euler-api-sdk</artifactId>
     <packaging>jar</packaging>
     <name>euler-api-sdk</name>
-    <version>0.1.0</version>
+    <version>0.3.2</version>
     <url>https://github.com/EulerStream/EulerApiSdk</url>
     <description>Official EulerStream API SDK for Java — TikTok LIVE signing and API client.</description>
     <scm>
@@ -232,7 +232,7 @@
                     <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.7.0</version>
+                <version>0.11.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>

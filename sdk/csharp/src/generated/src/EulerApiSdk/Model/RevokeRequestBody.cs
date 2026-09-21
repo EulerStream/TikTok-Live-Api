@@ -125,7 +125,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets TokenTypeHint
         /// </summary>
         [JsonPropertyName("token_type_hint")]
-        public TokenTypeHintEnum? TokenTypeHint { get { return this.TokenTypeHintOption; } set { this.TokenTypeHintOption = new(value); } }
+        public TokenTypeHintEnum? TokenTypeHint { get { return this.TokenTypeHintOption.Value; } set { this.TokenTypeHintOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Token
@@ -175,8 +175,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RevokeRequestBody" />
     /// </summary>
-    public class RevokeRequestBodyJsonConverter : JsonConverter<RevokeRequestBody>
+    public partial class RevokeRequestBodyJsonConverter : JsonConverter<RevokeRequestBody>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RevokeRequestBodyJsonConverter" /> class.
+        /// </summary>
+        public RevokeRequestBodyJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RevokeRequestBody" />
         /// </summary>

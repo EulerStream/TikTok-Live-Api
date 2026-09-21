@@ -37,7 +37,7 @@ namespace EulerApiSdk.Model
         /// <param name="flvPullUrl">flvPullUrl</param>
         /// <param name="streamSizeWidth">streamSizeWidth</param>
         /// <param name="streamSizeHeight">streamSizeHeight</param>
-        /// <param name="flvPullUrlParams">Construct a type with a set of properties K of type T</param>
+        /// <param name="flvPullUrlParams">flvPullUrlParams</param>
         /// <param name="liveCoreSdkData">liveCoreSdkData</param>
         [JsonConstructor]
         public WebcastFeedResponseStreamUrl(string rtmpPullUrl, WebcastFeedResponseStreamUrlFlvPullUrl flvPullUrl, double streamSizeWidth, double streamSizeHeight, Option<Dictionary<string, string>?> flvPullUrlParams = default, Option<WebcastFeedResponseStreamUrlLiveCoreSdkData?> liveCoreSdkData = default)
@@ -85,11 +85,10 @@ namespace EulerApiSdk.Model
         public Option<Dictionary<string, string>?> FlvPullUrlParamsOption { get; private set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets FlvPullUrlParams
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("flv_pull_url_params")]
-        public Dictionary<string, string>? FlvPullUrlParams { get { return this.FlvPullUrlParamsOption; } set { this.FlvPullUrlParamsOption = new(value); } }
+        public Dictionary<string, string>? FlvPullUrlParams { get { return this.FlvPullUrlParamsOption.Value; } set { this.FlvPullUrlParamsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of LiveCoreSdkData
@@ -102,7 +101,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets LiveCoreSdkData
         /// </summary>
         [JsonPropertyName("live_core_sdk_data")]
-        public WebcastFeedResponseStreamUrlLiveCoreSdkData? LiveCoreSdkData { get { return this.LiveCoreSdkDataOption; } set { this.LiveCoreSdkDataOption = new(value); } }
+        public WebcastFeedResponseStreamUrlLiveCoreSdkData? LiveCoreSdkData { get { return this.LiveCoreSdkDataOption.Value; } set { this.LiveCoreSdkDataOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -136,8 +135,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseStreamUrl" />
     /// </summary>
-    public class WebcastFeedResponseStreamUrlJsonConverter : JsonConverter<WebcastFeedResponseStreamUrl>
+    public partial class WebcastFeedResponseStreamUrlJsonConverter : JsonConverter<WebcastFeedResponseStreamUrl>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseStreamUrlJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseStreamUrlJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseStreamUrl" />
         /// </summary>

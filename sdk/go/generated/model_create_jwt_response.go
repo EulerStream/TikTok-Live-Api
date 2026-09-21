@@ -24,7 +24,7 @@ type CreateJWTResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
 	Token *string `json:"token,omitempty"`
-	Config *JWTConfig `json:"config,omitempty"`
+	Config *SignedJWTConfiguration `json:"config,omitempty"`
 }
 
 type _CreateJWTResponse CreateJWTResponse
@@ -136,9 +136,9 @@ func (o *CreateJWTResponse) SetToken(v string) {
 }
 
 // GetConfig returns the Config field value if set, zero value otherwise.
-func (o *CreateJWTResponse) GetConfig() JWTConfig {
+func (o *CreateJWTResponse) GetConfig() SignedJWTConfiguration {
 	if o == nil || IsNil(o.Config) {
-		var ret JWTConfig
+		var ret SignedJWTConfiguration
 		return ret
 	}
 	return *o.Config
@@ -146,7 +146,7 @@ func (o *CreateJWTResponse) GetConfig() JWTConfig {
 
 // GetConfigOk returns a tuple with the Config field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *CreateJWTResponse) GetConfigOk() (*JWTConfig, bool) {
+func (o *CreateJWTResponse) GetConfigOk() (*SignedJWTConfiguration, bool) {
 	if o == nil || IsNil(o.Config) {
 		return nil, false
 	}
@@ -162,8 +162,8 @@ func (o *CreateJWTResponse) HasConfig() bool {
 	return false
 }
 
-// SetConfig gets a reference to the given JWTConfig and assigns it to the Config field.
-func (o *CreateJWTResponse) SetConfig(v JWTConfig) {
+// SetConfig gets a reference to the given SignedJWTConfiguration and assigns it to the Config field.
+func (o *CreateJWTResponse) SetConfig(v SignedJWTConfiguration) {
 	o.Config = &v
 }
 

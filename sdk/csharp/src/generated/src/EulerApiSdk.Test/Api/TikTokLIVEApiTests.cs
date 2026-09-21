@@ -51,50 +51,17 @@ namespace EulerApiSdk.Test.Api
         }
 
         /// <summary>
-        /// Test FetchWebcastURL
+        /// Test RetrieveBulkLiveCheck
         /// </summary>
         [Fact (Skip = "not implemented")]
-        public async Task FetchWebcastURLAsyncTest()
+        public async Task RetrieveBulkLiveCheckAsyncTest()
         {
-            Client.Option<string> varClient = default!;
-            Client.Option<string> roomId = default!;
-            Client.Option<string> uniqueId = default!;
-            Client.Option<string> cursor = default!;
-            Client.Option<string> userAgent = default!;
-            Client.Option<bool> clientEnter = default!;
-            Client.Option<SoaxProxyRegion> country = default!;
-            Client.Option<WebcastFetchPlatform> platform = default!;
+            RetrieveBulkLiveCheckRequest retrieveBulkLiveCheckRequest = default!;
             Client.Option<string> xOauthToken = default!;
             Client.Option<string> xCookieHeader = default!;
-            Client.Option<string> sessionId = default!;
-            Client.Option<string> ttTargetIdc = default!;
-            var response = await _instance.FetchWebcastURLAsync(varClient, roomId, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+            var response = await _instance.RetrieveBulkLiveCheckAsync(retrieveBulkLiveCheckRequest, xOauthToken, xCookieHeader);
             var model = response.Ok();
-            Assert.IsType<Object>(model);
-        }
-
-        /// <summary>
-        /// Test GetRateLimits
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task GetRateLimitsAsyncTest()
-        {
-            var response = await _instance.GetRateLimitsAsync();
-            var model = response.Ok();
-            Assert.IsType<GetRateLimits>(model);
-        }
-
-        /// <summary>
-        /// Test RetrieveGiftInfo
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task RetrieveGiftInfoAsyncTest()
-        {
-            string roomId = default!;
-            Client.Option<string> webcastLanguage = default!;
-            var response = await _instance.RetrieveGiftInfoAsync(roomId, webcastLanguage);
-            var model = response.Ok();
-            Assert.IsType<WebcastGiftInfoRouteResponse>(model);
+            Assert.IsType<RetrieveBulkLiveCheckResponse>(model);
         }
 
         /// <summary>
@@ -103,46 +70,23 @@ namespace EulerApiSdk.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task RetrieveHashtagListAsyncTest()
         {
-            var response = await _instance.RetrieveHashtagListAsync();
+            Client.Option<RouteImageSource> xImageSource = default!;
+            var response = await _instance.RetrieveHashtagListAsync(xImageSource);
             var model = response.Ok();
             Assert.IsType<HashtagListAPIResponse>(model);
         }
 
         /// <summary>
-        /// Test RetrieveRoomCover
+        /// Test RetrieveWebcastFeed
         /// </summary>
         [Fact (Skip = "not implemented")]
-        public async Task RetrieveRoomCoverAsyncTest()
+        public async Task RetrieveWebcastFeedAsyncTest()
         {
-            string uniqueId = default!;
-            var response = await _instance.RetrieveRoomCoverAsync(uniqueId);
+            PooledProxyRegion region = default!;
+            Client.Option<RouteImageSource> xImageSource = default!;
+            var response = await _instance.RetrieveWebcastFeedAsync(region, xImageSource);
             var model = response.Ok();
-            Assert.IsType<JSONResponse>(model);
-        }
-
-        /// <summary>
-        /// Test RetrieveRoomId
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task RetrieveRoomIdAsyncTest()
-        {
-            string uniqueId = default!;
-            var response = await _instance.RetrieveRoomIdAsync(uniqueId);
-            var model = response.Ok();
-            Assert.IsType<WebcastRoomIdRouteResponse>(model);
-        }
-
-        /// <summary>
-        /// Test RetrieveRoomVideo
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task RetrieveRoomVideoAsyncTest()
-        {
-            string uniqueId = default!;
-            Client.Option<StreamType> streamType = default!;
-            var response = await _instance.RetrieveRoomVideoAsync(uniqueId, streamType);
-            var model = response.Ok();
-            Assert.IsType<JSONResponse>(model);
+            Assert.IsType<WebcastFeedRouteResponse>(model);
         }
 
         /// <summary>
@@ -151,28 +95,16 @@ namespace EulerApiSdk.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task RetrieveWebcastRankingsAsyncTest()
         {
-            OxyLabsProxyRegion region = default!;
+            PooledProxyRegion region = default!;
             string rankType = default!;
             Client.Option<string> xOauthToken = default!;
             Client.Option<string> xCookieHeader = default!;
             Client.Option<string> sessionId = default!;
             Client.Option<string> ttTargetIdc = default!;
-            var response = await _instance.RetrieveWebcastRankingsAsync(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+            Client.Option<RouteImageSource> xImageSource = default!;
+            var response = await _instance.RetrieveWebcastRankingsAsync(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
             var model = response.Ok();
             Assert.IsType<WebcastRegionRankingsResponse>(model);
-        }
-
-        /// <summary>
-        /// Test SignWebcastUrl
-        /// </summary>
-        [Fact (Skip = "not implemented")]
-        public async Task SignWebcastUrlAsyncTest()
-        {
-            SignTikTokUrlBody signTikTokUrlBody = default!;
-            Client.Option<string> varClient = default!;
-            var response = await _instance.SignWebcastUrlAsync(signTikTokUrlBody, varClient);
-            var model = response.Ok();
-            Assert.IsType<SignWebcastUrl200Response>(model);
         }
     }
 }

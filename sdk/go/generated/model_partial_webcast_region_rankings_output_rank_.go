@@ -17,11 +17,12 @@ import (
 // checks if the PartialWebcastRegionRankingsOutputRank type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &PartialWebcastRegionRankingsOutputRank{}
 
-// PartialWebcastRegionRankingsOutputRank Make all properties in T optional
+// PartialWebcastRegionRankingsOutputRank struct for PartialWebcastRegionRankingsOutputRank
 type PartialWebcastRegionRankingsOutputRank struct {
 	Rank *float64 `json:"rank,omitempty"`
 	Diamonds *float64 `json:"diamonds,omitempty"`
 	DiamondsDescription *string `json:"diamonds_description,omitempty"`
+	RoomId *string `json:"room_id,omitempty"`
 	User *PartialWebcastRegionRankingsOutputRankUser `json:"user,omitempty"`
 }
 
@@ -138,6 +139,38 @@ func (o *PartialWebcastRegionRankingsOutputRank) SetDiamondsDescription(v string
 	o.DiamondsDescription = &v
 }
 
+// GetRoomId returns the RoomId field value if set, zero value otherwise.
+func (o *PartialWebcastRegionRankingsOutputRank) GetRoomId() string {
+	if o == nil || IsNil(o.RoomId) {
+		var ret string
+		return ret
+	}
+	return *o.RoomId
+}
+
+// GetRoomIdOk returns a tuple with the RoomId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PartialWebcastRegionRankingsOutputRank) GetRoomIdOk() (*string, bool) {
+	if o == nil || IsNil(o.RoomId) {
+		return nil, false
+	}
+	return o.RoomId, true
+}
+
+// HasRoomId returns a boolean if a field has been set.
+func (o *PartialWebcastRegionRankingsOutputRank) HasRoomId() bool {
+	if o != nil && !IsNil(o.RoomId) {
+		return true
+	}
+
+	return false
+}
+
+// SetRoomId gets a reference to the given string and assigns it to the RoomId field.
+func (o *PartialWebcastRegionRankingsOutputRank) SetRoomId(v string) {
+	o.RoomId = &v
+}
+
 // GetUser returns the User field value if set, zero value otherwise.
 func (o *PartialWebcastRegionRankingsOutputRank) GetUser() PartialWebcastRegionRankingsOutputRankUser {
 	if o == nil || IsNil(o.User) {
@@ -188,6 +221,9 @@ func (o PartialWebcastRegionRankingsOutputRank) ToMap() (map[string]interface{},
 	}
 	if !IsNil(o.DiamondsDescription) {
 		toSerialize["diamonds_description"] = o.DiamondsDescription
+	}
+	if !IsNil(o.RoomId) {
+		toSerialize["room_id"] = o.RoomId
 	}
 	if !IsNil(o.User) {
 		toSerialize["user"] = o.User

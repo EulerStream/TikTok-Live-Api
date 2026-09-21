@@ -23,7 +23,7 @@ var _ MappedNullable = &WebcastRoomChatRouteResponse{}
 type WebcastRoomChatRouteResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	Data interface{} `json:"data,omitempty"`
+	Data *WebcastRoomSendChatResponse `json:"data,omitempty"`
 }
 
 type _WebcastRoomChatRouteResponse WebcastRoomChatRouteResponse
@@ -102,23 +102,22 @@ func (o *WebcastRoomChatRouteResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
-// GetData returns the Data field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *WebcastRoomChatRouteResponse) GetData() interface{} {
-	if o == nil {
-		var ret interface{}
+// GetData returns the Data field value if set, zero value otherwise.
+func (o *WebcastRoomChatRouteResponse) GetData() WebcastRoomSendChatResponse {
+	if o == nil || IsNil(o.Data) {
+		var ret WebcastRoomSendChatResponse
 		return ret
 	}
-	return o.Data
+	return *o.Data
 }
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WebcastRoomChatRouteResponse) GetDataOk() (*interface{}, bool) {
+func (o *WebcastRoomChatRouteResponse) GetDataOk() (*WebcastRoomSendChatResponse, bool) {
 	if o == nil || IsNil(o.Data) {
 		return nil, false
 	}
-	return &o.Data, true
+	return o.Data, true
 }
 
 // HasData returns a boolean if a field has been set.
@@ -130,9 +129,9 @@ func (o *WebcastRoomChatRouteResponse) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given interface{} and assigns it to the Data field.
-func (o *WebcastRoomChatRouteResponse) SetData(v interface{}) {
-	o.Data = v
+// SetData gets a reference to the given WebcastRoomSendChatResponse and assigns it to the Data field.
+func (o *WebcastRoomChatRouteResponse) SetData(v WebcastRoomSendChatResponse) {
+	o.Data = &v
 }
 
 func (o WebcastRoomChatRouteResponse) MarshalJSON() ([]byte, error) {
@@ -149,7 +148,7 @@ func (o WebcastRoomChatRouteResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Message) {
 		toSerialize["message"] = o.Message
 	}
-	if o.Data != nil {
+	if !IsNil(o.Data) {
 		toSerialize["data"] = o.Data
 	}
 	return toSerialize, nil

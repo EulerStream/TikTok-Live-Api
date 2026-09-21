@@ -61,13 +61,31 @@ type APIClient struct {
 
 	TikTokLIVEAPI *TikTokLIVEAPIService
 
+	TikTokLIVEAgenciesAPI *TikTokLIVEAgenciesAPIService
+
 	TikTokLIVEAlertTargetsAPI *TikTokLIVEAlertTargetsAPIService
 
 	TikTokLIVEAlertsAPI *TikTokLIVEAlertsAPIService
 
+	TikTokLIVEAnchorsAPI *TikTokLIVEAnchorsAPIService
+
+	TikTokLIVEEventsAPI *TikTokLIVEEventsAPIService
+
+	TikTokLIVEGiftsAPI *TikTokLIVEGiftsAPIService
+
 	TikTokLIVEModerationAPI *TikTokLIVEModerationAPIService
 
-	TikTokLIVEPremiumAPI *TikTokLIVEPremiumAPIService
+	TikTokLIVERankingsAPI *TikTokLIVERankingsAPIService
+
+	TikTokLIVERoomsAPI *TikTokLIVERoomsAPIService
+
+	TikTokSigningAPI *TikTokSigningAPIService
+
+	TikTokUsersAPI *TikTokUsersAPIService
+
+	TikTokVideosAPI *TikTokVideosAPIService
+
+	TikTokWebSocketAPIAPI *TikTokWebSocketAPIAPIService
 }
 
 type service struct {
@@ -92,10 +110,19 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.TikTokCaptchasAPI = (*TikTokCaptchasAPIService)(&c.common)
 	c.TikTokGeneralAPI = (*TikTokGeneralAPIService)(&c.common)
 	c.TikTokLIVEAPI = (*TikTokLIVEAPIService)(&c.common)
+	c.TikTokLIVEAgenciesAPI = (*TikTokLIVEAgenciesAPIService)(&c.common)
 	c.TikTokLIVEAlertTargetsAPI = (*TikTokLIVEAlertTargetsAPIService)(&c.common)
 	c.TikTokLIVEAlertsAPI = (*TikTokLIVEAlertsAPIService)(&c.common)
+	c.TikTokLIVEAnchorsAPI = (*TikTokLIVEAnchorsAPIService)(&c.common)
+	c.TikTokLIVEEventsAPI = (*TikTokLIVEEventsAPIService)(&c.common)
+	c.TikTokLIVEGiftsAPI = (*TikTokLIVEGiftsAPIService)(&c.common)
 	c.TikTokLIVEModerationAPI = (*TikTokLIVEModerationAPIService)(&c.common)
-	c.TikTokLIVEPremiumAPI = (*TikTokLIVEPremiumAPIService)(&c.common)
+	c.TikTokLIVERankingsAPI = (*TikTokLIVERankingsAPIService)(&c.common)
+	c.TikTokLIVERoomsAPI = (*TikTokLIVERoomsAPIService)(&c.common)
+	c.TikTokSigningAPI = (*TikTokSigningAPIService)(&c.common)
+	c.TikTokUsersAPI = (*TikTokUsersAPIService)(&c.common)
+	c.TikTokVideosAPI = (*TikTokVideosAPIService)(&c.common)
+	c.TikTokWebSocketAPIAPI = (*TikTokWebSocketAPIAPIService)(&c.common)
 
 	return c
 }
@@ -461,6 +488,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		*s = string(b)
 		return nil
 	}
+	if r, ok := v.(*io.Reader); ok {
+		*r = bytes.NewReader(b)
+		return nil
+	}
+	// Must stay before the JSON branch: json.Unmarshal would base64-decode into *[]byte.
+	if p, ok := v.(*[]byte); ok {
+		*p = b
+		return nil
+	}
 	if f, ok := v.(*os.File); ok {
 		f, err = os.CreateTemp("", "HttpClientFile")
 		if err != nil {
@@ -514,10 +550,7 @@ func addFile(w *multipart.Writer, fieldName, path string) error {
 	if err != nil {
 		return err
 	}
-	err = file.Close()
-	if err != nil {
-		return err
-	}
+	defer file.Close()
 
 	part, err := w.CreateFormFile(fieldName, filepath.Base(path))
 	if err != nil {

@@ -8,6 +8,8 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_alert_target_payload import CreateAlertTargetPayload
 from ...models.create_alert_target_response import CreateAlertTargetResponse
+from ...models.create_alert_target_response_429 import CreateAlertTargetResponse429
+from ...models.create_alert_target_response_500 import CreateAlertTargetResponse500
 from ...types import Response
 
 
@@ -37,11 +39,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> CreateAlertTargetResponse | None:
+) -> CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500 | None:
     if response.status_code == 200:
         response_200 = CreateAlertTargetResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CreateAlertTargetResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CreateAlertTargetResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -51,7 +63,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[CreateAlertTargetResponse]:
+) -> Response[CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -66,7 +78,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateAlertTargetPayload,
-) -> Response[CreateAlertTargetResponse]:
+) -> Response[CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500]:
     """Create a target for an alert. This is the HTTP endpoint that will be called when an alert is
     triggered.
 
@@ -80,7 +92,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateAlertTargetResponse]
+        Response[CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -102,7 +114,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CreateAlertTargetPayload,
-) -> CreateAlertTargetResponse | None:
+) -> CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500 | None:
     """Create a target for an alert. This is the HTTP endpoint that will be called when an alert is
     triggered.
 
@@ -116,7 +128,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateAlertTargetResponse
+        CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500
     """
 
     return sync_detailed(
@@ -133,7 +145,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateAlertTargetPayload,
-) -> Response[CreateAlertTargetResponse]:
+) -> Response[CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500]:
     """Create a target for an alert. This is the HTTP endpoint that will be called when an alert is
     triggered.
 
@@ -147,7 +159,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateAlertTargetResponse]
+        Response[CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -167,7 +179,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CreateAlertTargetPayload,
-) -> CreateAlertTargetResponse | None:
+) -> CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500 | None:
     """Create a target for an alert. This is the HTTP endpoint that will be called when an alert is
     triggered.
 
@@ -181,7 +193,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateAlertTargetResponse
+        CreateAlertTargetResponse | CreateAlertTargetResponse429 | CreateAlertTargetResponse500
     """
 
     return (

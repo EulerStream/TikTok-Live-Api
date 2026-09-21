@@ -70,7 +70,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -101,8 +101,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="CaptchaCreditsResponse" />
     /// </summary>
-    public class CaptchaCreditsResponseJsonConverter : JsonConverter<CaptchaCreditsResponse>
+    public partial class CaptchaCreditsResponseJsonConverter : JsonConverter<CaptchaCreditsResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CaptchaCreditsResponseJsonConverter" /> class.
+        /// </summary>
+        public CaptchaCreditsResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CaptchaCreditsResponse" />
         /// </summary>

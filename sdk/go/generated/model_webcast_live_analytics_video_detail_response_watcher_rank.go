@@ -21,7 +21,6 @@ var _ MappedNullable = &WebcastLiveAnalyticsVideoDetailResponseWatcherRank{}
 
 // WebcastLiveAnalyticsVideoDetailResponseWatcherRank struct for WebcastLiveAnalyticsVideoDetailResponseWatcherRank
 type WebcastLiveAnalyticsVideoDetailResponseWatcherRank struct {
-	// Construct a type with a set of properties K of type T
 	User map[string]interface{} `json:"user"`
 	Value float64 `json:"value"`
 }

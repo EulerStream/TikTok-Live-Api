@@ -79,5 +79,23 @@ namespace EulerApiSdk.Test.Model
         {
             // TODO unit test for the property 'TotalUser'
         }
+
+        /// <summary>
+        /// Test the property 'ShareCount'
+        /// </summary>
+        [Fact]
+        public void ShareCountTest()
+        {
+            // TODO unit test for the property 'ShareCount'
+        }
+
+        /// <summary>
+        /// Test the property 'UserCountComposition'
+        /// </summary>
+        [Fact]
+        public void UserCountCompositionTest()
+        {
+            // TODO unit test for the property 'UserCountComposition'
+        }
     }
 }

@@ -33,14 +33,16 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="WebcastRegionRankingsOutput" /> class.
         /// </summary>
+        /// <param name="attempts">attempts</param>
         /// <param name="ranks">ranks</param>
         /// <param name="rankTitle">rankTitle</param>
         /// <param name="rankType">rankType</param>
         /// <param name="resetsAt">resetsAt</param>
         /// <param name="resetsIn">resetsIn</param>
         [JsonConstructor]
-        public WebcastRegionRankingsOutput(List<PartialWebcastRegionRankingsOutputRank> ranks, string? rankTitle = default, string? rankType = default, DateTime? resetsAt = default, double? resetsIn = default)
+        public WebcastRegionRankingsOutput(double attempts, List<PartialWebcastRegionRankingsOutputRank> ranks, string? rankTitle = default, string? rankType = default, DateTime? resetsAt = default, double? resetsIn = default)
         {
+            Attempts = attempts;
             Ranks = ranks;
             RankTitle = rankTitle;
             RankType = rankType;
@@ -50,6 +52,12 @@ namespace EulerApiSdk.Model
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Gets or Sets Attempts
+        /// </summary>
+        [JsonPropertyName("attempts")]
+        public double Attempts { get; set; }
 
         /// <summary>
         /// Gets or Sets Ranks
@@ -89,6 +97,7 @@ namespace EulerApiSdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class WebcastRegionRankingsOutput {\n");
+            sb.Append("  Attempts: ").Append(Attempts).Append("\n");
             sb.Append("  Ranks: ").Append(Ranks).Append("\n");
             sb.Append("  RankTitle: ").Append(RankTitle).Append("\n");
             sb.Append("  RankType: ").Append(RankType).Append("\n");
@@ -112,12 +121,22 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRegionRankingsOutput" />
     /// </summary>
-    public class WebcastRegionRankingsOutputJsonConverter : JsonConverter<WebcastRegionRankingsOutput>
+    public partial class WebcastRegionRankingsOutputJsonConverter : JsonConverter<WebcastRegionRankingsOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRegionRankingsOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastRegionRankingsOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize ResetsAt
         /// </summary>
-        public static string ResetsAtFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string ResetsAtFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="WebcastRegionRankingsOutput" />
@@ -136,6 +155,7 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            Option<double?> attempts = default;
             Option<List<PartialWebcastRegionRankingsOutputRank>?> ranks = default;
             Option<string?> rankTitle = default;
             Option<string?> rankType = default;
@@ -157,6 +177,9 @@ namespace EulerApiSdk.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "attempts":
+                            attempts = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
                         case "ranks":
                             ranks = new Option<List<PartialWebcastRegionRankingsOutputRank>?>(JsonSerializer.Deserialize<List<PartialWebcastRegionRankingsOutputRank>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
@@ -178,6 +201,9 @@ namespace EulerApiSdk.Model
                 }
             }
 
+            if (!attempts.IsSet)
+                throw new ArgumentException("Property is required for class WebcastRegionRankingsOutput.", nameof(attempts));
+
             if (!ranks.IsSet)
                 throw new ArgumentException("Property is required for class WebcastRegionRankingsOutput.", nameof(ranks));
 
@@ -193,10 +219,13 @@ namespace EulerApiSdk.Model
             if (!resetsIn.IsSet)
                 throw new ArgumentException("Property is required for class WebcastRegionRankingsOutput.", nameof(resetsIn));
 
+            if (attempts.IsSet && attempts.Value == null)
+                throw new ArgumentNullException(nameof(attempts), "Property is not nullable for class WebcastRegionRankingsOutput.");
+
             if (ranks.IsSet && ranks.Value == null)
                 throw new ArgumentNullException(nameof(ranks), "Property is not nullable for class WebcastRegionRankingsOutput.");
 
-            return new WebcastRegionRankingsOutput(ranks.Value!, rankTitle.Value!, rankType.Value!, resetsAt.Value!, resetsIn.Value!);
+            return new WebcastRegionRankingsOutput(attempts.Value!.Value!, ranks.Value!, rankTitle.Value!, rankType.Value!, resetsAt.Value!, resetsIn.Value!);
         }
 
         /// <summary>
@@ -225,6 +254,8 @@ namespace EulerApiSdk.Model
         {
             if (webcastRegionRankingsOutput.Ranks == null)
                 throw new ArgumentNullException(nameof(webcastRegionRankingsOutput.Ranks), "Property is required for class WebcastRegionRankingsOutput.");
+
+            writer.WriteNumber("attempts", webcastRegionRankingsOutput.Attempts);
 
             writer.WritePropertyName("ranks");
             JsonSerializer.Serialize(writer, webcastRegionRankingsOutput.Ranks, jsonSerializerOptions);

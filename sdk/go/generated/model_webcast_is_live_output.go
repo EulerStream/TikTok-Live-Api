@@ -19,8 +19,7 @@ var _ MappedNullable = &WebcastIsLiveOutput{}
 
 // WebcastIsLiveOutput struct for WebcastIsLiveOutput
 type WebcastIsLiveOutput struct {
-	// Construct a type with a set of properties K of type T
-	Data *map[string]RecordStringIsLiveBooleanRoomIdStringOrNullValue `json:"data,omitempty"`
+	Data *map[string]WebcastIsLiveOutputDataValue `json:"data,omitempty"`
 }
 
 // NewWebcastIsLiveOutput instantiates a new WebcastIsLiveOutput object
@@ -41,9 +40,9 @@ func NewWebcastIsLiveOutputWithDefaults() *WebcastIsLiveOutput {
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *WebcastIsLiveOutput) GetData() map[string]RecordStringIsLiveBooleanRoomIdStringOrNullValue {
+func (o *WebcastIsLiveOutput) GetData() map[string]WebcastIsLiveOutputDataValue {
 	if o == nil || IsNil(o.Data) {
-		var ret map[string]RecordStringIsLiveBooleanRoomIdStringOrNullValue
+		var ret map[string]WebcastIsLiveOutputDataValue
 		return ret
 	}
 	return *o.Data
@@ -51,7 +50,7 @@ func (o *WebcastIsLiveOutput) GetData() map[string]RecordStringIsLiveBooleanRoom
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WebcastIsLiveOutput) GetDataOk() (*map[string]RecordStringIsLiveBooleanRoomIdStringOrNullValue, bool) {
+func (o *WebcastIsLiveOutput) GetDataOk() (*map[string]WebcastIsLiveOutputDataValue, bool) {
 	if o == nil || IsNil(o.Data) {
 		return nil, false
 	}
@@ -67,8 +66,8 @@ func (o *WebcastIsLiveOutput) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given map[string]RecordStringIsLiveBooleanRoomIdStringOrNullValue and assigns it to the Data field.
-func (o *WebcastIsLiveOutput) SetData(v map[string]RecordStringIsLiveBooleanRoomIdStringOrNullValue) {
+// SetData gets a reference to the given map[string]WebcastIsLiveOutputDataValue and assigns it to the Data field.
+func (o *WebcastIsLiveOutput) SetData(v map[string]WebcastIsLiveOutputDataValue) {
 	o.Data = &v
 }
 

@@ -13,48 +13,48 @@ T = TypeVar("T", bound="RetrieveAlertResponseCreator")
 class RetrieveAlertResponseCreator:
     """
     Attributes:
-        last_nickname (None | str):
-        last_avatar_url (None | str):
-        room_id (None | str):
-        state_label (str):
-        state (float):
         unique_id (str):
+        state (float):
+        state_label (str):
+        room_id (None | str):
+        last_avatar_url (None | str):
+        last_nickname (None | str):
     """
 
-    last_nickname: None | str
-    last_avatar_url: None | str
-    room_id: None | str
-    state_label: str
-    state: float
     unique_id: str
+    state: float
+    state_label: str
+    room_id: None | str
+    last_avatar_url: None | str
+    last_nickname: None | str
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        last_nickname: None | str
-        last_nickname = self.last_nickname
+        unique_id = self.unique_id
 
-        last_avatar_url: None | str
-        last_avatar_url = self.last_avatar_url
+        state = self.state
+
+        state_label = self.state_label
 
         room_id: None | str
         room_id = self.room_id
 
-        state_label = self.state_label
+        last_avatar_url: None | str
+        last_avatar_url = self.last_avatar_url
 
-        state = self.state
-
-        unique_id = self.unique_id
+        last_nickname: None | str
+        last_nickname = self.last_nickname
 
         field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "last_nickname": last_nickname,
-                "last_avatar_url": last_avatar_url,
-                "room_id": room_id,
-                "state_label": state_label,
-                "state": state,
                 "unique_id": unique_id,
+                "state": state,
+                "state_label": state_label,
+                "room_id": room_id,
+                "last_avatar_url": last_avatar_url,
+                "last_nickname": last_nickname,
             }
         )
 
@@ -63,20 +63,11 @@ class RetrieveAlertResponseCreator:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         d = dict(src_dict)
+        unique_id = d.pop("unique_id")
 
-        def _parse_last_nickname(data: object) -> None | str:
-            if data is None:
-                return data
-            return cast(None | str, data)
+        state = d.pop("state")
 
-        last_nickname = _parse_last_nickname(d.pop("last_nickname"))
-
-        def _parse_last_avatar_url(data: object) -> None | str:
-            if data is None:
-                return data
-            return cast(None | str, data)
-
-        last_avatar_url = _parse_last_avatar_url(d.pop("last_avatar_url"))
+        state_label = d.pop("state_label")
 
         def _parse_room_id(data: object) -> None | str:
             if data is None:
@@ -85,19 +76,27 @@ class RetrieveAlertResponseCreator:
 
         room_id = _parse_room_id(d.pop("room_id"))
 
-        state_label = d.pop("state_label")
+        def _parse_last_avatar_url(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
 
-        state = d.pop("state")
+        last_avatar_url = _parse_last_avatar_url(d.pop("last_avatar_url"))
 
-        unique_id = d.pop("unique_id")
+        def _parse_last_nickname(data: object) -> None | str:
+            if data is None:
+                return data
+            return cast(None | str, data)
+
+        last_nickname = _parse_last_nickname(d.pop("last_nickname"))
 
         retrieve_alert_response_creator = cls(
-            last_nickname=last_nickname,
-            last_avatar_url=last_avatar_url,
-            room_id=room_id,
-            state_label=state_label,
-            state=state,
             unique_id=unique_id,
+            state=state,
+            state_label=state_label,
+            room_id=room_id,
+            last_avatar_url=last_avatar_url,
+            last_nickname=last_nickname,
         )
 
         retrieve_alert_response_creator.additional_properties = d

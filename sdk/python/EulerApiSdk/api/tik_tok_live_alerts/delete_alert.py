@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.delete_alert_response import DeleteAlertResponse
+from ...models.delete_alert_response_429 import DeleteAlertResponse429
+from ...models.delete_alert_response_500 import DeleteAlertResponse500
 from ...types import Response
 
 
@@ -25,11 +27,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> DeleteAlertResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500 | None:
     if response.status_code == 200:
         response_200 = DeleteAlertResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = DeleteAlertResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = DeleteAlertResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -37,7 +51,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[DeleteAlertResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -51,7 +67,7 @@ def sync_detailed(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[DeleteAlertResponse]:
+) -> Response[DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500]:
     """Delete an alert from the Sign API
 
     Args:
@@ -63,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[DeleteAlertResponse]
+        Response[DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -83,7 +99,7 @@ def sync(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> DeleteAlertResponse | None:
+) -> DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500 | None:
     """Delete an alert from the Sign API
 
     Args:
@@ -95,7 +111,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        DeleteAlertResponse
+        DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500
     """
 
     return sync_detailed(
@@ -110,7 +126,7 @@ async def asyncio_detailed(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[DeleteAlertResponse]:
+) -> Response[DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500]:
     """Delete an alert from the Sign API
 
     Args:
@@ -122,7 +138,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[DeleteAlertResponse]
+        Response[DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -140,7 +156,7 @@ async def asyncio(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> DeleteAlertResponse | None:
+) -> DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500 | None:
     """Delete an alert from the Sign API
 
     Args:
@@ -152,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        DeleteAlertResponse
+        DeleteAlertResponse | DeleteAlertResponse429 | DeleteAlertResponse500
     """
 
     return (

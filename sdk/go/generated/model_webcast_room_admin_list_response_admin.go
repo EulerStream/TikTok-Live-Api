@@ -21,7 +21,6 @@ var _ MappedNullable = &WebcastRoomAdminListResponseAdmin{}
 
 // WebcastRoomAdminListResponseAdmin struct for WebcastRoomAdminListResponseAdmin
 type WebcastRoomAdminListResponseAdmin struct {
-	// Construct a type with a set of properties K of type T
 	AdminPermissions map[string]float64 `json:"admin_permissions"`
 	AvatarLarge WebcastRoomAdminListResponseImage `json:"avatar_large"`
 	AvatarThumb WebcastRoomAdminListResponseImage `json:"avatar_thumb"`

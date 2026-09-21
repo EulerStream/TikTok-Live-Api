@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedRouteOutput" />
     /// </summary>
-    public class WebcastFeedRouteOutputJsonConverter : JsonConverter<WebcastFeedRouteOutput>
+    public partial class WebcastFeedRouteOutputJsonConverter : JsonConverter<WebcastFeedRouteOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedRouteOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedRouteOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedRouteOutput" />
         /// </summary>

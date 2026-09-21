@@ -38,7 +38,7 @@ namespace EulerApiSdk.Model
         /// <param name="alert">alert</param>
         /// <param name="creator">creator</param>
         [JsonConstructor]
-        public RetrieveAlertResponse(double code, Option<string?> message = default, Option<Alert?> alert = default, Option<RetrieveAlertResponseCreator?> creator = default)
+        public RetrieveAlertResponse(double code, Option<string?> message = default, Option<AlertResponseShape?> alert = default, Option<RetrieveAlertResponseCreator?> creator = default)
         {
             Code = code;
             MessageOption = message;
@@ -66,20 +66,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Alert
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Alert?> AlertOption { get; private set; }
+        public Option<AlertResponseShape?> AlertOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Alert
         /// </summary>
         [JsonPropertyName("alert")]
-        public Alert? Alert { get { return this.AlertOption; } set { this.AlertOption = new(value); } }
+        public AlertResponseShape? Alert { get { return this.AlertOption.Value; } set { this.AlertOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Creator
@@ -92,7 +92,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Creator
         /// </summary>
         [JsonPropertyName("creator")]
-        public RetrieveAlertResponseCreator? Creator { get { return this.CreatorOption; } set { this.CreatorOption = new(value); } }
+        public RetrieveAlertResponseCreator? Creator { get { return this.CreatorOption.Value; } set { this.CreatorOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -124,8 +124,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RetrieveAlertResponse" />
     /// </summary>
-    public class RetrieveAlertResponseJsonConverter : JsonConverter<RetrieveAlertResponse>
+    public partial class RetrieveAlertResponseJsonConverter : JsonConverter<RetrieveAlertResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetrieveAlertResponseJsonConverter" /> class.
+        /// </summary>
+        public RetrieveAlertResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RetrieveAlertResponse" />
         /// </summary>
@@ -145,7 +155,7 @@ namespace EulerApiSdk.Model
 
             Option<double?> code = default;
             Option<string?> message = default;
-            Option<Alert?> alert = default;
+            Option<AlertResponseShape?> alert = default;
             Option<RetrieveAlertResponseCreator?> creator = default;
 
             while (utf8JsonReader.Read())
@@ -170,7 +180,7 @@ namespace EulerApiSdk.Model
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "alert":
-                            alert = new Option<Alert?>(JsonSerializer.Deserialize<Alert>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            alert = new Option<AlertResponseShape?>(JsonSerializer.Deserialize<AlertResponseShape>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "creator":
                             creator = new Option<RetrieveAlertResponseCreator?>(JsonSerializer.Deserialize<RetrieveAlertResponseCreator>(ref utf8JsonReader, jsonSerializerOptions)!);

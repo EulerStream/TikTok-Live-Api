@@ -35,6 +35,8 @@ public enum RateLimitType {
   
   RATE_LIMITS("RATE_LIMITS"),
   
+  CATALOG("CATALOG"),
+  
   RANKINGS("RANKINGS");
 
   private String value;

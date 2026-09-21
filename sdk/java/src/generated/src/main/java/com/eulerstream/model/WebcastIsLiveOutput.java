@@ -14,7 +14,7 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.RecordStringIsLiveBooleanRoomIdStringOrNullValue;
+import com.eulerstream.model.WebcastIsLiveOutputDataValue;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -51,22 +51,22 @@ import com.eulerstream.JSON;
 /**
  * WebcastIsLiveOutput
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastIsLiveOutput {
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nullable
-  private Map<String, RecordStringIsLiveBooleanRoomIdStringOrNullValue> data = new HashMap<>();
+  private Map<String, WebcastIsLiveOutputDataValue> data = new HashMap<>();
 
   public WebcastIsLiveOutput() {
   }
 
-  public WebcastIsLiveOutput data(@javax.annotation.Nullable Map<String, RecordStringIsLiveBooleanRoomIdStringOrNullValue> data) {
+  public WebcastIsLiveOutput data(@javax.annotation.Nullable Map<String, WebcastIsLiveOutputDataValue> data) {
     this.data = data;
     return this;
   }
 
-  public WebcastIsLiveOutput putDataItem(String key, RecordStringIsLiveBooleanRoomIdStringOrNullValue dataItem) {
+  public WebcastIsLiveOutput putDataItem(String key, WebcastIsLiveOutputDataValue dataItem) {
     if (this.data == null) {
       this.data = new HashMap<>();
     }
@@ -75,15 +75,15 @@ public class WebcastIsLiveOutput {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get data
    * @return data
    */
   @javax.annotation.Nullable
-  public Map<String, RecordStringIsLiveBooleanRoomIdStringOrNullValue> getData() {
+  public Map<String, WebcastIsLiveOutputDataValue> getData() {
     return data;
   }
 
-  public void setData(@javax.annotation.Nullable Map<String, RecordStringIsLiveBooleanRoomIdStringOrNullValue> data) {
+  public void setData(@javax.annotation.Nullable Map<String, WebcastIsLiveOutputDataValue> data) {
     this.data = data;
   }
 

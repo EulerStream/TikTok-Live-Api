@@ -21,10 +21,10 @@ var _ MappedNullable = &IconCaptchaResponse{}
 
 // IconCaptchaResponse struct for IconCaptchaResponse
 type IconCaptchaResponse struct {
-	Response NullableIconsResult `json:"response"`
-	Cached bool `json:"cached"`
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
+	Cached bool `json:"cached"`
+	Response NullableIconsResult `json:"response"`
 }
 
 type _IconCaptchaResponse IconCaptchaResponse
@@ -33,11 +33,11 @@ type _IconCaptchaResponse IconCaptchaResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewIconCaptchaResponse(response NullableIconsResult, cached bool, code float64) *IconCaptchaResponse {
+func NewIconCaptchaResponse(code float64, cached bool, response NullableIconsResult) *IconCaptchaResponse {
 	this := IconCaptchaResponse{}
-	this.Response = response
-	this.Cached = cached
 	this.Code = code
+	this.Cached = cached
+	this.Response = response
 	return &this
 }
 
@@ -47,56 +47,6 @@ func NewIconCaptchaResponse(response NullableIconsResult, cached bool, code floa
 func NewIconCaptchaResponseWithDefaults() *IconCaptchaResponse {
 	this := IconCaptchaResponse{}
 	return &this
-}
-
-// GetResponse returns the Response field value
-// If the value is explicit nil, the zero value for IconsResult will be returned
-func (o *IconCaptchaResponse) GetResponse() IconsResult {
-	if o == nil || o.Response.Get() == nil {
-		var ret IconsResult
-		return ret
-	}
-
-	return *o.Response.Get()
-}
-
-// GetResponseOk returns a tuple with the Response field value
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *IconCaptchaResponse) GetResponseOk() (*IconsResult, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Response.Get(), o.Response.IsSet()
-}
-
-// SetResponse sets field value
-func (o *IconCaptchaResponse) SetResponse(v IconsResult) {
-	o.Response.Set(&v)
-}
-
-// GetCached returns the Cached field value
-func (o *IconCaptchaResponse) GetCached() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.Cached
-}
-
-// GetCachedOk returns a tuple with the Cached field value
-// and a boolean to check if the value has been set.
-func (o *IconCaptchaResponse) GetCachedOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Cached, true
-}
-
-// SetCached sets field value
-func (o *IconCaptchaResponse) SetCached(v bool) {
-	o.Cached = v
 }
 
 // GetCode returns the Code field value
@@ -155,6 +105,56 @@ func (o *IconCaptchaResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
+// GetCached returns the Cached field value
+func (o *IconCaptchaResponse) GetCached() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.Cached
+}
+
+// GetCachedOk returns a tuple with the Cached field value
+// and a boolean to check if the value has been set.
+func (o *IconCaptchaResponse) GetCachedOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Cached, true
+}
+
+// SetCached sets field value
+func (o *IconCaptchaResponse) SetCached(v bool) {
+	o.Cached = v
+}
+
+// GetResponse returns the Response field value
+// If the value is explicit nil, the zero value for IconsResult will be returned
+func (o *IconCaptchaResponse) GetResponse() IconsResult {
+	if o == nil || o.Response.Get() == nil {
+		var ret IconsResult
+		return ret
+	}
+
+	return *o.Response.Get()
+}
+
+// GetResponseOk returns a tuple with the Response field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *IconCaptchaResponse) GetResponseOk() (*IconsResult, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Response.Get(), o.Response.IsSet()
+}
+
+// SetResponse sets field value
+func (o *IconCaptchaResponse) SetResponse(v IconsResult) {
+	o.Response.Set(&v)
+}
+
 func (o IconCaptchaResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -165,12 +165,12 @@ func (o IconCaptchaResponse) MarshalJSON() ([]byte, error) {
 
 func (o IconCaptchaResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["response"] = o.Response.Get()
-	toSerialize["cached"] = o.Cached
 	toSerialize["code"] = o.Code
 	if !IsNil(o.Message) {
 		toSerialize["message"] = o.Message
 	}
+	toSerialize["cached"] = o.Cached
+	toSerialize["response"] = o.Response.Get()
 	return toSerialize, nil
 }
 
@@ -179,9 +179,9 @@ func (o *IconCaptchaResponse) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"response",
-		"cached",
 		"code",
+		"cached",
+		"response",
 	}
 
 	allProperties := make(map[string]interface{})

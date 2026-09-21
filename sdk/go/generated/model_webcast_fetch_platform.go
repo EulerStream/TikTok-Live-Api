@@ -15,7 +15,7 @@ import (
 	"fmt"
 )
 
-// WebcastFetchPlatform the model 'WebcastFetchPlatform'
+// WebcastFetchPlatform Transport for a webcast fetch, and this API's own query contract. The scrape server's `webcastFetch` route is web-only and carries no platform, so mobile is served by the mobile signing API (see `fetchWebcastMobileUrl`) instead.
 type WebcastFetchPlatform string
 
 // List of WebcastFetchPlatform

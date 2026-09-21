@@ -6,6 +6,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.complete_icon_captcha_body import CompleteIconCaptchaBody
+from ...models.complete_icon_captcha_response_429 import CompleteIconCaptchaResponse429
+from ...models.complete_icon_captcha_response_500 import CompleteIconCaptchaResponse500
 from ...models.icon_captcha_response import IconCaptchaResponse
 from ...types import UNSET, Response
 
@@ -35,11 +37,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> IconCaptchaResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse | None:
     if response.status_code == 200:
         response_200 = IconCaptchaResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CompleteIconCaptchaResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CompleteIconCaptchaResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -47,7 +61,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[IconCaptchaResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,9 +77,8 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CompleteIconCaptchaBody,
     prompt: str,
-) -> Response[IconCaptchaResponse]:
-    r"""
-    The icons captcha requires just one image & a prompt string.
+) -> Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]:
+    r"""The icons captcha requires just one image & a prompt string.
 
     ## Example Image
     <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
@@ -88,7 +103,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[IconCaptchaResponse]
+        Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]
     """
 
     kwargs = _get_kwargs(
@@ -108,9 +123,8 @@ def sync(
     client: AuthenticatedClient,
     body: CompleteIconCaptchaBody,
     prompt: str,
-) -> IconCaptchaResponse | None:
-    r"""
-    The icons captcha requires just one image & a prompt string.
+) -> CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse | None:
+    r"""The icons captcha requires just one image & a prompt string.
 
     ## Example Image
     <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
@@ -135,7 +149,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        IconCaptchaResponse
+        CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse
     """
 
     return sync_detailed(
@@ -150,9 +164,8 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CompleteIconCaptchaBody,
     prompt: str,
-) -> Response[IconCaptchaResponse]:
-    r"""
-    The icons captcha requires just one image & a prompt string.
+) -> Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]:
+    r"""The icons captcha requires just one image & a prompt string.
 
     ## Example Image
     <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
@@ -177,7 +190,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[IconCaptchaResponse]
+        Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]
     """
 
     kwargs = _get_kwargs(
@@ -195,9 +208,8 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CompleteIconCaptchaBody,
     prompt: str,
-) -> IconCaptchaResponse | None:
-    r"""
-    The icons captcha requires just one image & a prompt string.
+) -> CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse | None:
+    r"""The icons captcha requires just one image & a prompt string.
 
     ## Example Image
     <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
@@ -222,7 +234,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        IconCaptchaResponse
+        CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse
     """
 
     return (

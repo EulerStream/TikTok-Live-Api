@@ -27,14 +27,15 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.eulerstream.model.CreateJWTRequest;
 import com.eulerstream.model.CreateJWTResponse;
 import com.eulerstream.model.CreateKeyPayload;
 import com.eulerstream.model.CreateKeyResponse;
 import com.eulerstream.model.DeleteKeyResponse;
-import com.eulerstream.model.JWTCreateConfig;
 import com.eulerstream.model.ListKeysResponse;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveKeyResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.UpdateKeyPayload;
 import com.eulerstream.model.UpdateKeyResponse;
 
@@ -84,7 +85,7 @@ public class AuthenticationApi {
     /**
      * Build call for createJWT
      * @param accountId The ID of the account to create the JWT for (required)
-     * @param jwTCreateConfig The configuration for the JWT (required)
+     * @param createJWTRequest The configuration for the JWT (required)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -97,7 +98,7 @@ public class AuthenticationApi {
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createJWTCall(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull JWTCreateConfig jwTCreateConfig, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call createJWTCall(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull CreateJWTRequest createJWTRequest, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -111,7 +112,7 @@ public class AuthenticationApi {
             basePath = null;
         }
 
-        Object localVarPostBody = jwTCreateConfig;
+        Object localVarPostBody = createJWTRequest;
 
         // create path and map variables
         String localVarPath = "/accounts/{account_id}/jwt/create"
@@ -144,18 +145,18 @@ public class AuthenticationApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call createJWTValidateBeforeCall(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull JWTCreateConfig jwTCreateConfig, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call createJWTValidateBeforeCall(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull CreateJWTRequest createJWTRequest, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'accountId' is set
         if (accountId == null) {
             throw new ApiException("Missing the required parameter 'accountId' when calling createJWT(Async)");
         }
 
-        // verify the required parameter 'jwTCreateConfig' is set
-        if (jwTCreateConfig == null) {
-            throw new ApiException("Missing the required parameter 'jwTCreateConfig' when calling createJWT(Async)");
+        // verify the required parameter 'createJWTRequest' is set
+        if (createJWTRequest == null) {
+            throw new ApiException("Missing the required parameter 'createJWTRequest' when calling createJWT(Async)");
         }
 
-        return createJWTCall(accountId, jwTCreateConfig, _callback);
+        return createJWTCall(accountId, createJWTRequest, _callback);
 
     }
 
@@ -163,7 +164,7 @@ public class AuthenticationApi {
      * 
      * Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated Webcast endpoints. They function to attach the rate limits of the API key to the request for client-sided applications.
      * @param accountId The ID of the account to create the JWT for (required)
-     * @param jwTCreateConfig The configuration for the JWT (required)
+     * @param createJWTRequest The configuration for the JWT (required)
      * @return CreateJWTResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -175,8 +176,8 @@ public class AuthenticationApi {
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
      */
-    public CreateJWTResponse createJWT(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull JWTCreateConfig jwTCreateConfig) throws ApiException {
-        ApiResponse<CreateJWTResponse> localVarResp = createJWTWithHttpInfo(accountId, jwTCreateConfig);
+    public CreateJWTResponse createJWT(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull CreateJWTRequest createJWTRequest) throws ApiException {
+        ApiResponse<CreateJWTResponse> localVarResp = createJWTWithHttpInfo(accountId, createJWTRequest);
         return localVarResp.getData();
     }
 
@@ -184,7 +185,7 @@ public class AuthenticationApi {
      * 
      * Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated Webcast endpoints. They function to attach the rate limits of the API key to the request for client-sided applications.
      * @param accountId The ID of the account to create the JWT for (required)
-     * @param jwTCreateConfig The configuration for the JWT (required)
+     * @param createJWTRequest The configuration for the JWT (required)
      * @return ApiResponse&lt;CreateJWTResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -196,8 +197,8 @@ public class AuthenticationApi {
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<CreateJWTResponse> createJWTWithHttpInfo(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull JWTCreateConfig jwTCreateConfig) throws ApiException {
-        okhttp3.Call localVarCall = createJWTValidateBeforeCall(accountId, jwTCreateConfig, null);
+    public ApiResponse<CreateJWTResponse> createJWTWithHttpInfo(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull CreateJWTRequest createJWTRequest) throws ApiException {
+        okhttp3.Call localVarCall = createJWTValidateBeforeCall(accountId, createJWTRequest, null);
         Type localVarReturnType = new TypeToken<CreateJWTResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -206,7 +207,7 @@ public class AuthenticationApi {
      *  (asynchronously)
      * Create a JWT for a given API key. Note that these JWT keys are only valid for the non-authenticated Webcast endpoints. They function to attach the rate limits of the API key to the request for client-sided applications.
      * @param accountId The ID of the account to create the JWT for (required)
-     * @param jwTCreateConfig The configuration for the JWT (required)
+     * @param createJWTRequest The configuration for the JWT (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -219,9 +220,9 @@ public class AuthenticationApi {
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call createJWTAsync(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull JWTCreateConfig jwTCreateConfig, final ApiCallback<CreateJWTResponse> _callback) throws ApiException {
+    public okhttp3.Call createJWTAsync(@javax.annotation.Nonnull Double accountId, @javax.annotation.Nonnull CreateJWTRequest createJWTRequest, final ApiCallback<CreateJWTResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = createJWTValidateBeforeCall(accountId, jwTCreateConfig, _callback);
+        okhttp3.Call localVarCall = createJWTValidateBeforeCall(accountId, createJWTRequest, _callback);
         Type localVarReturnType = new TypeToken<CreateJWTResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

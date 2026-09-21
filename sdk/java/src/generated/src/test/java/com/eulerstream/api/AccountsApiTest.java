@@ -17,7 +17,8 @@ import com.eulerstream.ApiException;
 import com.eulerstream.model.GetRateLimits;
 import com.eulerstream.model.RateLimitType;
 import com.eulerstream.model.RetrieveAccountResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

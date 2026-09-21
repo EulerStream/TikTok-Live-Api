@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Keys
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Keys
         /// </summary>
         [JsonPropertyName("keys")]
-        public List<ApiKey>? Keys { get { return this.KeysOption; } set { this.KeysOption = new(value); } }
+        public List<ApiKey>? Keys { get { return this.KeysOption.Value; } set { this.KeysOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="ListKeysResponse" />
     /// </summary>
-    public class ListKeysResponseJsonConverter : JsonConverter<ListKeysResponse>
+    public partial class ListKeysResponseJsonConverter : JsonConverter<ListKeysResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListKeysResponseJsonConverter" /> class.
+        /// </summary>
+        public ListKeysResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="ListKeysResponse" />
         /// </summary>

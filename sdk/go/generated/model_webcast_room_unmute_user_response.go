@@ -21,7 +21,6 @@ var _ MappedNullable = &WebcastRoomUnmuteUserResponse{}
 
 // WebcastRoomUnmuteUserResponse struct for WebcastRoomUnmuteUserResponse
 type WebcastRoomUnmuteUserResponse struct {
-	// Construct a type with a set of properties K of type T
 	Data map[string]interface{} `json:"data"`
 	Extra WebcastRoomUnmuteUserResponseExtra `json:"extra"`
 	StatusCode float64 `json:"status_code"`

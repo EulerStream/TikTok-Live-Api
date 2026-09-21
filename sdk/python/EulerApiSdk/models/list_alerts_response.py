@@ -4,11 +4,12 @@ from collections.abc import Mapping
 from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
+from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
 if TYPE_CHECKING:
-    from ..models.alert import Alert
+    from ..models.alert_response_shape import AlertResponseShape
 
 
 T = TypeVar("T", bound="ListAlertsResponse")
@@ -21,13 +22,14 @@ class ListAlertsResponse:
         code (float):
         has_more (bool):
         message (str | Unset):
-        alerts (list[Alert] | Unset):
+        alerts (list[AlertResponseShape] | Unset):
     """
 
     code: float
     has_more: bool
     message: str | Unset = UNSET
-    alerts: list[Alert] | Unset = UNSET
+    alerts: list[AlertResponseShape] | Unset = UNSET
+    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         code = self.code
@@ -44,7 +46,7 @@ class ListAlertsResponse:
                 alerts.append(alerts_item)
 
         field_dict: dict[str, Any] = {}
-
+        field_dict.update(self.additional_properties)
         field_dict.update(
             {
                 "code": code,
@@ -60,7 +62,7 @@ class ListAlertsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.alert import Alert
+        from ..models.alert_response_shape import AlertResponseShape
 
         d = dict(src_dict)
         code = d.pop("code")
@@ -70,11 +72,11 @@ class ListAlertsResponse:
         message = d.pop("message", UNSET)
 
         _alerts = d.pop("alerts", UNSET)
-        alerts: list[Alert] | Unset = UNSET
+        alerts: list[AlertResponseShape] | Unset = UNSET
         if _alerts is not UNSET:
             alerts = []
             for alerts_item_data in _alerts:
-                alerts_item = Alert.from_dict(alerts_item_data)
+                alerts_item = AlertResponseShape.from_dict(alerts_item_data)
 
                 alerts.append(alerts_item)
 
@@ -85,4 +87,21 @@ class ListAlertsResponse:
             alerts=alerts,
         )
 
+        list_alerts_response.additional_properties = d
         return list_alerts_response
+
+    @property
+    def additional_keys(self) -> list[str]:
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> Any:
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: Any) -> None:
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        return key in self.additional_properties

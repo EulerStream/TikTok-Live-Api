@@ -23,7 +23,6 @@ var _ MappedNullable = &WebcastFeedResponseStreamUrl{}
 type WebcastFeedResponseStreamUrl struct {
 	RtmpPullUrl string `json:"rtmp_pull_url"`
 	FlvPullUrl WebcastFeedResponseStreamUrlFlvPullUrl `json:"flv_pull_url"`
-	// Construct a type with a set of properties K of type T
 	FlvPullUrlParams *map[string]string `json:"flv_pull_url_params,omitempty"`
 	LiveCoreSdkData *WebcastFeedResponseStreamUrlLiveCoreSdkData `json:"live_core_sdk_data,omitempty"`
 	StreamSizeWidth float64 `json:"stream_size_width"`

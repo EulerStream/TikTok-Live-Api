@@ -74,7 +74,7 @@ public class ApiClient {
       new HashMap<String, ServerVariable>()
     ),
     new ServerConfiguration(
-      "https://tiktok.staging.eulerstream.com",
+      "https://api.staging.eulerstream.com",
       "Staging Server (Private Use)",
       new HashMap<String, ServerVariable>()
     )

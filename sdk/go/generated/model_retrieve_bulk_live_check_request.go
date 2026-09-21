@@ -16,7 +16,7 @@ import (
 )
 
 
-// RetrieveBulkLiveCheckRequest The body of the request containing user numeric IDs (e.g. 7602356191083907865).
+// RetrieveBulkLiveCheckRequest struct for RetrieveBulkLiveCheckRequest
 type RetrieveBulkLiveCheckRequest struct {
 	RetrieveBulkLiveCheckPayload *RetrieveBulkLiveCheckPayload
 	RetrieveBulkLiveCheckPayloadV1 *RetrieveBulkLiveCheckPayloadV1

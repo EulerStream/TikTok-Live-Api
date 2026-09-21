@@ -24,7 +24,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Gets or Sets WebcastFetchPlatform
+ * Transport for a webcast fetch, and this API&#39;s own query contract. The scrape server&#39;s &#x60;webcastFetch&#x60; route is web-only and carries no platform, so mobile is served by the mobile signing API (see &#x60;fetchWebcastMobileUrl&#x60;) instead.
  */
 @JsonAdapter(WebcastFetchPlatform.Adapter.class)
 public enum WebcastFetchPlatform {

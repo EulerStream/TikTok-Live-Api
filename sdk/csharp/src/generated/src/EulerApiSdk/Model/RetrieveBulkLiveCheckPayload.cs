@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RetrieveBulkLiveCheckPayload" />
     /// </summary>
-    public class RetrieveBulkLiveCheckPayloadJsonConverter : JsonConverter<RetrieveBulkLiveCheckPayload>
+    public partial class RetrieveBulkLiveCheckPayloadJsonConverter : JsonConverter<RetrieveBulkLiveCheckPayload>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetrieveBulkLiveCheckPayloadJsonConverter" /> class.
+        /// </summary>
+        public RetrieveBulkLiveCheckPayloadJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RetrieveBulkLiveCheckPayload" />
         /// </summary>

@@ -38,7 +38,7 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="response">response</param>
         [JsonConstructor]
-        public WebcastRegionRankingsResponse(double code, OxyLabsProxyRegion region, Option<string?> message = default, Option<WebcastRegionRankingsOutput?> response = default)
+        public WebcastRegionRankingsResponse(double code, PooledProxyRegion region, Option<string?> message = default, Option<WebcastRegionRankingsOutput?> response = default)
         {
             Code = code;
             Region = region;
@@ -53,7 +53,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Region
         /// </summary>
         [JsonPropertyName("region")]
-        public OxyLabsProxyRegion Region { get; set; }
+        public PooledProxyRegion Region { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
@@ -72,7 +72,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
@@ -85,7 +85,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public WebcastRegionRankingsOutput? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public WebcastRegionRankingsOutput? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -117,8 +117,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRegionRankingsResponse" />
     /// </summary>
-    public class WebcastRegionRankingsResponseJsonConverter : JsonConverter<WebcastRegionRankingsResponse>
+    public partial class WebcastRegionRankingsResponseJsonConverter : JsonConverter<WebcastRegionRankingsResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRegionRankingsResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastRegionRankingsResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRegionRankingsResponse" />
         /// </summary>
@@ -137,7 +147,7 @@ namespace EulerApiSdk.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<double?> code = default;
-            Option<OxyLabsProxyRegion?> region = default;
+            Option<PooledProxyRegion?> region = default;
             Option<string?> message = default;
             Option<WebcastRegionRankingsOutput?> response = default;
 
@@ -160,9 +170,7 @@ namespace EulerApiSdk.Model
                             code = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
                         case "region":
-                            string? regionRawValue = utf8JsonReader.GetString();
-                            if (regionRawValue != null)
-                                region = new Option<OxyLabsProxyRegion?>(OxyLabsProxyRegionValueConverter.FromStringOrDefault(regionRawValue));
+                            region = new Option<PooledProxyRegion?>(JsonSerializer.Deserialize<PooledProxyRegion?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
@@ -229,7 +237,7 @@ namespace EulerApiSdk.Model
 
             writer.WriteNumber("code", webcastRegionRankingsResponse.Code);
 
-            var regionRawValue = OxyLabsProxyRegionValueConverter.ToJsonValue(webcastRegionRankingsResponse.Region);
+            var regionRawValue = PooledProxyRegionValueConverter.ToJsonValue(webcastRegionRankingsResponse.Region);
             writer.WriteString("region", regionRawValue);
 
             if (webcastRegionRankingsResponse.MessageOption.IsSet)

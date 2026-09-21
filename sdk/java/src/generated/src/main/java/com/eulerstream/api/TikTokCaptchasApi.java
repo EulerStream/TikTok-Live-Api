@@ -31,7 +31,8 @@ import com.eulerstream.model.CaptchaCreditsResponse;
 import java.io.File;
 import com.eulerstream.model.IconCaptchaResponse;
 import com.eulerstream.model.PuzzleCaptchaResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.ShapesCaptchaResponse;
 import com.eulerstream.model.WhirlCaptchaResponse;
 
@@ -165,7 +166,7 @@ public class TikTokCaptchasApi {
 
     /**
      * 
-     *  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+     * The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
      * @param prompt The prompt string provided by TikTok (required)
      * @param captchaImage The uploaded image file (required)
      * @return IconCaptchaResponse
@@ -186,7 +187,7 @@ public class TikTokCaptchasApi {
 
     /**
      * 
-     *  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+     * The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
      * @param prompt The prompt string provided by TikTok (required)
      * @param captchaImage The uploaded image file (required)
      * @return ApiResponse&lt;IconCaptchaResponse&gt;
@@ -208,7 +209,7 @@ public class TikTokCaptchasApi {
 
     /**
      *  (asynchronously)
-     *  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+     * The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
      * @param prompt The prompt string provided by TikTok (required)
      * @param captchaImage The uploaded image file (required)
      * @param _callback The callback to be executed when the API call finishes
@@ -686,7 +687,9 @@ public class TikTokCaptchasApi {
         <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
+     * @deprecated
      */
+    @Deprecated
     public okhttp3.Call retrieveCaptchaCreditsCall(final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
@@ -731,6 +734,7 @@ public class TikTokCaptchasApi {
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
+    @Deprecated
     @SuppressWarnings("rawtypes")
     private okhttp3.Call retrieveCaptchaCreditsValidateBeforeCall(final ApiCallback _callback) throws ApiException {
         return retrieveCaptchaCreditsCall(_callback);
@@ -739,7 +743,7 @@ public class TikTokCaptchasApi {
 
     /**
      * 
-     * Retrieve the rate limits for the provided API key
+     * Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
      * @return CaptchaCreditsResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -750,7 +754,9 @@ public class TikTokCaptchasApi {
         <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
+     * @deprecated
      */
+    @Deprecated
     public CaptchaCreditsResponse retrieveCaptchaCredits() throws ApiException {
         ApiResponse<CaptchaCreditsResponse> localVarResp = retrieveCaptchaCreditsWithHttpInfo();
         return localVarResp.getData();
@@ -758,7 +764,7 @@ public class TikTokCaptchasApi {
 
     /**
      * 
-     * Retrieve the rate limits for the provided API key
+     * Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
      * @return ApiResponse&lt;CaptchaCreditsResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -769,7 +775,9 @@ public class TikTokCaptchasApi {
         <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
+     * @deprecated
      */
+    @Deprecated
     public ApiResponse<CaptchaCreditsResponse> retrieveCaptchaCreditsWithHttpInfo() throws ApiException {
         okhttp3.Call localVarCall = retrieveCaptchaCreditsValidateBeforeCall(null);
         Type localVarReturnType = new TypeToken<CaptchaCreditsResponse>(){}.getType();
@@ -778,7 +786,7 @@ public class TikTokCaptchasApi {
 
     /**
      *  (asynchronously)
-     * Retrieve the rate limits for the provided API key
+     * Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -790,7 +798,9 @@ public class TikTokCaptchasApi {
         <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
         <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
      </table>
+     * @deprecated
      */
+    @Deprecated
     public okhttp3.Call retrieveCaptchaCreditsAsync(final ApiCallback<CaptchaCreditsResponse> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = retrieveCaptchaCreditsValidateBeforeCall(_callback);

@@ -61,5 +61,14 @@ namespace EulerApiSdk.Test.Model
         {
             // TODO unit test for the property 'Level2Tag'
         }
+
+        /// <summary>
+        /// Test the property 'Level1Tag'
+        /// </summary>
+        [Fact]
+        public void Level1TagTest()
+        {
+            // TODO unit test for the property 'Level1Tag'
+        }
     }
 }

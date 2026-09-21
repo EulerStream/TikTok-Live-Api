@@ -31,7 +31,8 @@ import com.eulerstream.model.CreateAlertTargetPayload;
 import com.eulerstream.model.CreateAlertTargetResponse;
 import com.eulerstream.model.DeleteAlertTargetResponse;
 import com.eulerstream.model.ListAlertTargetsResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.TestAlertTargetResponse;
 
 import java.lang.reflect.Type;

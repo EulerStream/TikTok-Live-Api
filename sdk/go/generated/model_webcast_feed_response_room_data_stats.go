@@ -22,7 +22,9 @@ var _ MappedNullable = &WebcastFeedResponseRoomDataStats{}
 // WebcastFeedResponseRoomDataStats struct for WebcastFeedResponseRoomDataStats
 type WebcastFeedResponseRoomDataStats struct {
 	CommentCount float64 `json:"comment_count"`
+	ShareCount *float64 `json:"share_count,omitempty"`
 	EnterCount float64 `json:"enter_count"`
+	UserCountComposition map[string]interface{} `json:"user_count_composition,omitempty"`
 	TotalUser float64 `json:"total_user"`
 }
 
@@ -72,6 +74,38 @@ func (o *WebcastFeedResponseRoomDataStats) SetCommentCount(v float64) {
 	o.CommentCount = v
 }
 
+// GetShareCount returns the ShareCount field value if set, zero value otherwise.
+func (o *WebcastFeedResponseRoomDataStats) GetShareCount() float64 {
+	if o == nil || IsNil(o.ShareCount) {
+		var ret float64
+		return ret
+	}
+	return *o.ShareCount
+}
+
+// GetShareCountOk returns a tuple with the ShareCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WebcastFeedResponseRoomDataStats) GetShareCountOk() (*float64, bool) {
+	if o == nil || IsNil(o.ShareCount) {
+		return nil, false
+	}
+	return o.ShareCount, true
+}
+
+// HasShareCount returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomDataStats) HasShareCount() bool {
+	if o != nil && !IsNil(o.ShareCount) {
+		return true
+	}
+
+	return false
+}
+
+// SetShareCount gets a reference to the given float64 and assigns it to the ShareCount field.
+func (o *WebcastFeedResponseRoomDataStats) SetShareCount(v float64) {
+	o.ShareCount = &v
+}
+
 // GetEnterCount returns the EnterCount field value
 func (o *WebcastFeedResponseRoomDataStats) GetEnterCount() float64 {
 	if o == nil {
@@ -94,6 +128,38 @@ func (o *WebcastFeedResponseRoomDataStats) GetEnterCountOk() (*float64, bool) {
 // SetEnterCount sets field value
 func (o *WebcastFeedResponseRoomDataStats) SetEnterCount(v float64) {
 	o.EnterCount = v
+}
+
+// GetUserCountComposition returns the UserCountComposition field value if set, zero value otherwise.
+func (o *WebcastFeedResponseRoomDataStats) GetUserCountComposition() map[string]interface{} {
+	if o == nil || IsNil(o.UserCountComposition) {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.UserCountComposition
+}
+
+// GetUserCountCompositionOk returns a tuple with the UserCountComposition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WebcastFeedResponseRoomDataStats) GetUserCountCompositionOk() (map[string]interface{}, bool) {
+	if o == nil || IsNil(o.UserCountComposition) {
+		return map[string]interface{}{}, false
+	}
+	return o.UserCountComposition, true
+}
+
+// HasUserCountComposition returns a boolean if a field has been set.
+func (o *WebcastFeedResponseRoomDataStats) HasUserCountComposition() bool {
+	if o != nil && !IsNil(o.UserCountComposition) {
+		return true
+	}
+
+	return false
+}
+
+// SetUserCountComposition gets a reference to the given map[string]interface{} and assigns it to the UserCountComposition field.
+func (o *WebcastFeedResponseRoomDataStats) SetUserCountComposition(v map[string]interface{}) {
+	o.UserCountComposition = v
 }
 
 // GetTotalUser returns the TotalUser field value
@@ -131,7 +197,13 @@ func (o WebcastFeedResponseRoomDataStats) MarshalJSON() ([]byte, error) {
 func (o WebcastFeedResponseRoomDataStats) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["comment_count"] = o.CommentCount
+	if !IsNil(o.ShareCount) {
+		toSerialize["share_count"] = o.ShareCount
+	}
 	toSerialize["enter_count"] = o.EnterCount
+	if !IsNil(o.UserCountComposition) {
+		toSerialize["user_count_composition"] = o.UserCountComposition
+	}
 	toSerialize["total_user"] = o.TotalUser
 	return toSerialize, nil
 }

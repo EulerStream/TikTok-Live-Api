@@ -52,7 +52,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastHashtagListResponseGameTag
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastHashtagListResponseGameTag {
   public static final String SERIALIZED_NAME_BUNDLE_ID = "bundle_id";
   @SerializedName(SERIALIZED_NAME_BUNDLE_ID)

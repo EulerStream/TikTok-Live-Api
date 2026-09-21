@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseExtraLogPb" />
     /// </summary>
-    public class WebcastFeedResponseExtraLogPbJsonConverter : JsonConverter<WebcastFeedResponseExtraLogPb>
+    public partial class WebcastFeedResponseExtraLogPbJsonConverter : JsonConverter<WebcastFeedResponseExtraLogPb>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseExtraLogPbJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseExtraLogPbJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseExtraLogPb" />
         /// </summary>

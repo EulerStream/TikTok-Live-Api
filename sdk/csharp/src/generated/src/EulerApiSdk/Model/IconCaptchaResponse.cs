@@ -33,27 +33,21 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="IconCaptchaResponse" /> class.
         /// </summary>
-        /// <param name="cached">cached</param>
         /// <param name="code">code</param>
-        /// <param name="response">response</param>
+        /// <param name="cached">cached</param>
         /// <param name="message">message</param>
+        /// <param name="response">response</param>
         [JsonConstructor]
-        public IconCaptchaResponse(bool cached, double code, IconsResult? response = default, Option<string?> message = default)
+        public IconCaptchaResponse(double code, bool cached, Option<string?> message = default, IconsResult? response = default)
         {
-            Cached = cached;
             Code = code;
-            Response = response;
+            Cached = cached;
             MessageOption = message;
+            Response = response;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Gets or Sets Cached
-        /// </summary>
-        [JsonPropertyName("cached")]
-        public bool Cached { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
@@ -62,10 +56,10 @@ namespace EulerApiSdk.Model
         public double Code { get; set; }
 
         /// <summary>
-        /// Gets or Sets Response
+        /// Gets or Sets Cached
         /// </summary>
-        [JsonPropertyName("response")]
-        public IconsResult? Response { get; set; }
+        [JsonPropertyName("cached")]
+        public bool Cached { get; set; }
 
         /// <summary>
         /// Used to track the state of Message
@@ -78,7 +72,13 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
+
+        /// <summary>
+        /// Gets or Sets Response
+        /// </summary>
+        [JsonPropertyName("response")]
+        public IconsResult? Response { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,10 +88,10 @@ namespace EulerApiSdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class IconCaptchaResponse {\n");
-            sb.Append("  Cached: ").Append(Cached).Append("\n");
             sb.Append("  Code: ").Append(Code).Append("\n");
-            sb.Append("  Response: ").Append(Response).Append("\n");
+            sb.Append("  Cached: ").Append(Cached).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Response: ").Append(Response).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -110,8 +110,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="IconCaptchaResponse" />
     /// </summary>
-    public class IconCaptchaResponseJsonConverter : JsonConverter<IconCaptchaResponse>
+    public partial class IconCaptchaResponseJsonConverter : JsonConverter<IconCaptchaResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IconCaptchaResponseJsonConverter" /> class.
+        /// </summary>
+        public IconCaptchaResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="IconCaptchaResponse" />
         /// </summary>
@@ -129,10 +139,10 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<bool?> cached = default;
             Option<double?> code = default;
-            Option<IconsResult?> response = default;
+            Option<bool?> cached = default;
             Option<string?> message = default;
+            Option<IconsResult?> response = default;
 
             while (utf8JsonReader.Read())
             {
@@ -149,17 +159,17 @@ namespace EulerApiSdk.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "cached":
-                            cached = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
-                            break;
                         case "code":
                             code = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
-                        case "response":
-                            response = new Option<IconsResult?>(JsonSerializer.Deserialize<IconsResult>(ref utf8JsonReader, jsonSerializerOptions));
+                        case "cached":
+                            cached = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
                             break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
+                        case "response":
+                            response = new Option<IconsResult?>(JsonSerializer.Deserialize<IconsResult>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -167,25 +177,25 @@ namespace EulerApiSdk.Model
                 }
             }
 
-            if (!cached.IsSet)
-                throw new ArgumentException("Property is required for class IconCaptchaResponse.", nameof(cached));
-
             if (!code.IsSet)
                 throw new ArgumentException("Property is required for class IconCaptchaResponse.", nameof(code));
+
+            if (!cached.IsSet)
+                throw new ArgumentException("Property is required for class IconCaptchaResponse.", nameof(cached));
 
             if (!response.IsSet)
                 throw new ArgumentException("Property is required for class IconCaptchaResponse.", nameof(response));
 
-            if (cached.IsSet && cached.Value == null)
-                throw new ArgumentNullException(nameof(cached), "Property is not nullable for class IconCaptchaResponse.");
-
             if (code.IsSet && code.Value == null)
                 throw new ArgumentNullException(nameof(code), "Property is not nullable for class IconCaptchaResponse.");
+
+            if (cached.IsSet && cached.Value == null)
+                throw new ArgumentNullException(nameof(cached), "Property is not nullable for class IconCaptchaResponse.");
 
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class IconCaptchaResponse.");
 
-            return new IconCaptchaResponse(cached.Value!.Value!, code.Value!.Value!, response.Value!, message);
+            return new IconCaptchaResponse(code.Value!.Value!, cached.Value!.Value!, message, response.Value!);
         }
 
         /// <summary>
@@ -215,9 +225,12 @@ namespace EulerApiSdk.Model
             if (iconCaptchaResponse.MessageOption.IsSet && iconCaptchaResponse.Message == null)
                 throw new ArgumentNullException(nameof(iconCaptchaResponse.Message), "Property is required for class IconCaptchaResponse.");
 
+            writer.WriteNumber("code", iconCaptchaResponse.Code);
+
             writer.WriteBoolean("cached", iconCaptchaResponse.Cached);
 
-            writer.WriteNumber("code", iconCaptchaResponse.Code);
+            if (iconCaptchaResponse.MessageOption.IsSet)
+                writer.WriteString("message", iconCaptchaResponse.Message);
 
             if (iconCaptchaResponse.Response != null)
             {
@@ -226,8 +239,6 @@ namespace EulerApiSdk.Model
             }
             else
                 writer.WriteNull("response");
-            if (iconCaptchaResponse.MessageOption.IsSet)
-                writer.WriteString("message", iconCaptchaResponse.Message);
         }
     }
 }

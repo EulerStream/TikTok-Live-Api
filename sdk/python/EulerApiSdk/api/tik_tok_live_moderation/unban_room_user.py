@@ -1,17 +1,21 @@
 from http import HTTPStatus
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.room_unkick_user_api_response import RoomUnkickUserAPIResponse
+from ...models.unban_room_user_response_429 import UnbanRoomUserResponse429
+from ...models.unban_room_user_response_500 import UnbanRoomUserResponse500
+from ...models.unban_room_user_response_503 import UnbanRoomUserResponse503
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
-    *,
     room_id: str,
+    *,
     tiktok_user_id: str,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
@@ -25,15 +29,15 @@ def _get_kwargs(
 
     params: dict[str, Any] = {}
 
-    params["room_id"] = room_id
-
     params["tiktok_user_id"] = tiktok_user_id
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
     _kwargs: dict[str, Any] = {
         "method": "delete",
-        "url": "/webcast/moderation/bans",
+        "url": "/webcast/rooms/{room_id}/moderation/bans".format(
+            room_id=quote(str(room_id), safe=""),
+        ),
         "params": params,
     }
 
@@ -43,11 +47,26 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> RoomUnkickUserAPIResponse | None:
+) -> RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503 | None:
     if response.status_code == 200:
         response_200 = RoomUnkickUserAPIResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = UnbanRoomUserResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = UnbanRoomUserResponse500.from_dict(response.json())
+
+        return response_500
+
+    if response.status_code == 503:
+        response_503 = UnbanRoomUserResponse503.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -57,7 +76,9 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[RoomUnkickUserAPIResponse]:
+) -> Response[
+    RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -67,14 +88,16 @@ def _build_response(
 
 
 def sync_detailed(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[RoomUnkickUserAPIResponse]:
-    """Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).
+) -> Response[
+    RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503
+]:
+    """Unkick a user from a livestream room (allow them back).
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -93,7 +116,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoomUnkickUserAPIResponse]
+        Response[RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503]
     """
 
     kwargs = _get_kwargs(
@@ -111,14 +134,14 @@ def sync_detailed(
 
 
 def sync(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> RoomUnkickUserAPIResponse | None:
-    """Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).
+) -> RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503 | None:
+    """Unkick a user from a livestream room (allow them back).
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -137,12 +160,12 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RoomUnkickUserAPIResponse
+        RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503
     """
 
     return sync_detailed(
-        client=client,
         room_id=room_id,
+        client=client,
         tiktok_user_id=tiktok_user_id,
         x_oauth_token=x_oauth_token,
         x_cookie_header=x_cookie_header,
@@ -150,14 +173,16 @@ def sync(
 
 
 async def asyncio_detailed(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[RoomUnkickUserAPIResponse]:
-    """Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).
+) -> Response[
+    RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503
+]:
+    """Unkick a user from a livestream room (allow them back).
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -176,7 +201,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoomUnkickUserAPIResponse]
+        Response[RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503]
     """
 
     kwargs = _get_kwargs(
@@ -192,14 +217,14 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     tiktok_user_id: str,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> RoomUnkickUserAPIResponse | None:
-    """Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).
+) -> RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503 | None:
+    """Unkick a user from a livestream room (allow them back).
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -218,13 +243,13 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RoomUnkickUserAPIResponse
+        RoomUnkickUserAPIResponse | UnbanRoomUserResponse429 | UnbanRoomUserResponse500 | UnbanRoomUserResponse503
     """
 
     return (
         await asyncio_detailed(
-            client=client,
             room_id=room_id,
+            client=client,
             tiktok_user_id=tiktok_user_id,
             x_oauth_token=x_oauth_token,
             x_cookie_header=x_cookie_header,

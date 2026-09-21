@@ -26,8 +26,9 @@ using EulerApiSdk.Client;
 namespace EulerApiSdk.Model
 {
     /// <summary>
-    /// Defines WebcastFetchPlatform
+    /// Transport for a webcast fetch, and this API&#39;s own query contract. The scrape server&#39;s &#x60;webcastFetch&#x60; route is web-only and carries no platform, so mobile is served by the mobile signing API (see &#x60;fetchWebcastMobileUrl&#x60;) instead.
     /// </summary>
+    /// <value>Transport for a webcast fetch, and this API&#39;s own query contract. The scrape server&#39;s &#x60;webcastFetch&#x60; route is web-only and carries no platform, so mobile is served by the mobile signing API (see &#x60;fetchWebcastMobileUrl&#x60;) instead.</value>
     public enum WebcastFetchPlatform {
         /// <summary>
         /// Enum Mobile for value: mobile
@@ -130,7 +131,7 @@ namespace EulerApiSdk.Model
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, WebcastFetchPlatform webcastFetchPlatform, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(webcastFetchPlatform.ToString());
+            writer.WriteStringValue(WebcastFetchPlatformValueConverter.ToJsonValue(webcastFetchPlatform).ToString());
         }
     }
 
@@ -148,6 +149,9 @@ namespace EulerApiSdk.Model
         /// <returns></returns>
         public override WebcastFetchPlatform? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+                return null;
+
             string? rawValue = reader.GetString();
 
             WebcastFetchPlatform? result = rawValue == null
@@ -161,14 +165,17 @@ namespace EulerApiSdk.Model
         }
 
         /// <summary>
-        /// Writes the DateTime to the json writer
+        /// Writes the WebcastFetchPlatform to the json writer
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="webcastFetchPlatform"></param>
         /// <param name="options"></param>
         public override void Write(Utf8JsonWriter writer, WebcastFetchPlatform? webcastFetchPlatform, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(webcastFetchPlatform?.ToString() ?? "null");
+            if (webcastFetchPlatform.HasValue)
+                writer.WriteStringValue(WebcastFetchPlatformValueConverter.ToJsonValue(webcastFetchPlatform.Value).ToString());
+            else
+                writer.WriteNullValue();
         }
     }
 }

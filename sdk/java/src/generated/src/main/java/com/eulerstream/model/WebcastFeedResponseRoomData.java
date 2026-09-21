@@ -14,11 +14,11 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.RecordStringBooleanOrNumberValue;
 import com.eulerstream.model.WebcastFeedResponseHashtag;
 import com.eulerstream.model.WebcastFeedResponseImage;
 import com.eulerstream.model.WebcastFeedResponseRoomDataFeedRoomLabel;
 import com.eulerstream.model.WebcastFeedResponseRoomDataGameTagDetail;
+import com.eulerstream.model.WebcastFeedResponseRoomDataRoomAuthValue;
 import com.eulerstream.model.WebcastFeedResponseRoomDataSquareCoverImg;
 import com.eulerstream.model.WebcastFeedResponseRoomDataStats;
 import com.eulerstream.model.WebcastFeedResponseRoomDataTaxonomyTagInfo;
@@ -60,7 +60,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastFeedResponseRoomData
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastFeedResponseRoomData {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -130,7 +130,7 @@ public class WebcastFeedResponseRoomData {
   public static final String SERIALIZED_NAME_ROOM_AUTH = "room_auth";
   @SerializedName(SERIALIZED_NAME_ROOM_AUTH)
   @javax.annotation.Nonnull
-  private Map<String, RecordStringBooleanOrNumberValue> roomAuth = new HashMap<>();
+  private Map<String, WebcastFeedResponseRoomDataRoomAuthValue> roomAuth = new HashMap<>();
 
   public static final String SERIALIZED_NAME_LIKE_COUNT = "like_count";
   @SerializedName(SERIALIZED_NAME_LIKE_COUNT)
@@ -442,12 +442,12 @@ public class WebcastFeedResponseRoomData {
   }
 
 
-  public WebcastFeedResponseRoomData roomAuth(@javax.annotation.Nonnull Map<String, RecordStringBooleanOrNumberValue> roomAuth) {
+  public WebcastFeedResponseRoomData roomAuth(@javax.annotation.Nonnull Map<String, WebcastFeedResponseRoomDataRoomAuthValue> roomAuth) {
     this.roomAuth = roomAuth;
     return this;
   }
 
-  public WebcastFeedResponseRoomData putRoomAuthItem(String key, RecordStringBooleanOrNumberValue roomAuthItem) {
+  public WebcastFeedResponseRoomData putRoomAuthItem(String key, WebcastFeedResponseRoomDataRoomAuthValue roomAuthItem) {
     if (this.roomAuth == null) {
       this.roomAuth = new HashMap<>();
     }
@@ -456,15 +456,15 @@ public class WebcastFeedResponseRoomData {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get roomAuth
    * @return roomAuth
    */
   @javax.annotation.Nonnull
-  public Map<String, RecordStringBooleanOrNumberValue> getRoomAuth() {
+  public Map<String, WebcastFeedResponseRoomDataRoomAuthValue> getRoomAuth() {
     return roomAuth;
   }
 
-  public void setRoomAuth(@javax.annotation.Nonnull Map<String, RecordStringBooleanOrNumberValue> roomAuth) {
+  public void setRoomAuth(@javax.annotation.Nonnull Map<String, WebcastFeedResponseRoomDataRoomAuthValue> roomAuth) {
     this.roomAuth = roomAuth;
   }
 
@@ -521,7 +521,7 @@ public class WebcastFeedResponseRoomData {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get commerceInfo
    * @return commerceInfo
    */
   @javax.annotation.Nonnull
@@ -586,7 +586,7 @@ public class WebcastFeedResponseRoomData {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get streamUrlFilteredInfo
    * @return streamUrlFilteredInfo
    */
   @javax.annotation.Nonnull
@@ -670,7 +670,7 @@ public class WebcastFeedResponseRoomData {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get multiStreamUrl
    * @return multiStreamUrl
    */
   @javax.annotation.Nonnull

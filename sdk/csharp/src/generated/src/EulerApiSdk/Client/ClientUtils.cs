@@ -19,6 +19,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using EulerApiSdk.Model;
 using System.Runtime.CompilerServices;
+using System.Net.Http.Headers;
 
 [assembly: InternalsVisibleTo("EulerApiSdk.Test")]
 
@@ -149,42 +150,76 @@ namespace EulerApiSdk.Client
                     : "false";
             if (obj is AccountScopes accountScopes)
                 return AccountScopesValueConverter.ToJsonValue(accountScopes).ToString();
-            if (obj is AlertTargetFormat alertTargetFormat)
-                return AlertTargetFormatValueConverter.ToJsonValue(alertTargetFormat).ToString();
-            if (obj is AlertTargetStatus alertTargetStatus)
-                return AlertTargetStatusValueConverter.ToJsonValue(alertTargetStatus).ToString();
+            if (obj is AvailableWebcastRankName availableWebcastRankName)
+                return AvailableWebcastRankNameValueConverter.ToJsonValue(availableWebcastRankName);
             if (obj is ExchangeTokenRequest.GrantTypeEnum exchangeTokenRequestGrantTypeEnum)
                 return ExchangeTokenRequest.GrantTypeEnumToJsonValue(exchangeTokenRequestGrantTypeEnum);
+            if (obj is GiftCatalogOrderBy giftCatalogOrderBy)
+                return GiftCatalogOrderByValueConverter.ToJsonValue(giftCatalogOrderBy);
+            if (obj is IntrospectRequestBody.TokenTypeHintEnum introspectRequestBodyTokenTypeHintEnum)
+                return IntrospectRequestBody.TokenTypeHintEnumToJsonValue(introspectRequestBodyTokenTypeHintEnum);
+            if (obj is IntrospectionResponse.TokenTypeEnum introspectionResponseTokenTypeEnum)
+                return IntrospectionResponse.TokenTypeEnumToJsonValue(introspectionResponseTokenTypeEnum);
+            if (obj is JWTConfigurationMetadata.VarVersionEnum jWTConfigurationMetadataVarVersionEnum)
+                return JWTConfigurationMetadata.VarVersionEnumToJsonValue(jWTConfigurationMetadataVarVersionEnum);
+            if (obj is LivePushAlertTargetFormat livePushAlertTargetFormat)
+                return LivePushAlertTargetFormatValueConverter.ToJsonValue(livePushAlertTargetFormat).ToString();
+            if (obj is LivePushAlertTargetStatus livePushAlertTargetStatus)
+                return LivePushAlertTargetStatusValueConverter.ToJsonValue(livePushAlertTargetStatus).ToString();
             if (obj is MuteDuration muteDuration)
                 return MuteDurationValueConverter.ToJsonValue(muteDuration).ToString();
+            if (obj is OAuthClientMode oAuthClientMode)
+                return OAuthClientModeValueConverter.ToJsonValue(oAuthClientMode);
             if (obj is OAuthScope oAuthScope)
                 return OAuthScopeValueConverter.ToJsonValue(oAuthScope);
-            if (obj is OxyLabsProxyRegion oxyLabsProxyRegion)
-                return OxyLabsProxyRegionValueConverter.ToJsonValue(oxyLabsProxyRegion);
             if (obj is PeerPresence.TypeEnum peerPresenceTypeEnum)
                 return PeerPresence.TypeEnumToJsonValue(peerPresenceTypeEnum);
             if (obj is PeerRole peerRole)
                 return PeerRoleValueConverter.ToJsonValue(peerRole);
+            if (obj is PooledProxyRegion pooledProxyRegion)
+                return PooledProxyRegionValueConverter.ToJsonValue(pooledProxyRegion);
+            if (obj is RankingLeagueLevel rankingLeagueLevel)
+                return RankingLeagueLevelValueConverter.ToJsonValue(rankingLeagueLevel).ToString();
+            if (obj is RankingLeagueName rankingLeagueName)
+                return RankingLeagueNameValueConverter.ToJsonValue(rankingLeagueName);
+            if (obj is RateLimitType rateLimitType)
+                return RateLimitTypeValueConverter.ToJsonValue(rateLimitType);
+            if (obj is RegionOverview.RankingsEnum regionOverviewRankingsEnum)
+                return RegionOverview.RankingsEnumToJsonValue(regionOverviewRankingsEnum);
+            if (obj is RegionOverview.LeaguesEnum regionOverviewLeaguesEnum)
+                return RegionOverview.LeaguesEnumToJsonValue(regionOverviewLeaguesEnum);
             if (obj is RevokeRequestBody.TokenTypeHintEnum revokeRequestBodyTokenTypeHintEnum)
                 return RevokeRequestBody.TokenTypeHintEnumToJsonValue(revokeRequestBodyTokenTypeHintEnum);
+            if (obj is RoomInfoFetchApiRoute roomInfoFetchApiRoute)
+                return RoomInfoFetchApiRouteValueConverter.ToJsonValue(roomInfoFetchApiRoute);
+            if (obj is RouteImageSource routeImageSource)
+                return RouteImageSourceValueConverter.ToJsonValue(routeImageSource);
             if (obj is SignTikTokUrlBody.MethodEnum signTikTokUrlBodyMethodEnum)
                 return SignTikTokUrlBody.MethodEnumToJsonValue(signTikTokUrlBodyMethodEnum);
             if (obj is SignTikTokUrlBody.TypeEnum signTikTokUrlBodyTypeEnum)
                 return SignTikTokUrlBody.TypeEnumToJsonValue(signTikTokUrlBodyTypeEnum);
-            if (obj is SoaxProxyRegion soaxProxyRegion)
-                return SoaxProxyRegionValueConverter.ToJsonValue(soaxProxyRegion);
-            if (obj is StreamType streamType)
-                return StreamTypeValueConverter.ToJsonValue(streamType);
+            if (obj is StableStreamQuality stableStreamQuality)
+                return StableStreamQualityValueConverter.ToJsonValue(stableStreamQuality);
+            if (obj is StableStreamType stableStreamType)
+                return StableStreamTypeValueConverter.ToJsonValue(stableStreamType);
+            if (obj is StableWebcastUserEarningsOutput.EarningsEstimateCurrencyEnum stableWebcastUserEarningsOutputEarningsEstimateCurrencyEnum)
+                return StableWebcastUserEarningsOutput.EarningsEstimateCurrencyEnumToJsonValue(stableWebcastUserEarningsOutputEarningsEstimateCurrencyEnum);
             if (obj is TikTokSignLiveClient tikTokSignLiveClient)
                 return TikTokSignLiveClientValueConverter.ToJsonValue(tikTokSignLiveClient);
             if (obj is TokenResponse.TokenTypeEnum tokenResponseTokenTypeEnum)
                 return TokenResponse.TokenTypeEnumToJsonValue(tokenResponseTokenTypeEnum);
             if (obj is WebcastFetchPlatform webcastFetchPlatform)
                 return WebcastFetchPlatformValueConverter.ToJsonValue(webcastFetchPlatform);
-            if (obj is WebcastUserEarningsOutput.EarningsEstimateCurrencyEnum webcastUserEarningsOutputEarningsEstimateCurrencyEnum)
-                return WebcastUserEarningsOutput.EarningsEstimateCurrencyEnumToJsonValue(webcastUserEarningsOutputEarningsEstimateCurrencyEnum);
+            if (obj is WebcastGiftGalleryData.AnchorRankingLeagueEnum webcastGiftGalleryDataAnchorRankingLeagueEnum)
+                return WebcastGiftGalleryData.AnchorRankingLeagueEnumToJsonValue(webcastGiftGalleryDataAnchorRankingLeagueEnum);
+            if (obj is WebcastLanguage webcastLanguage)
+                return WebcastLanguageValueConverter.ToJsonValue(webcastLanguage);
             if (obj is WebcastUserEarningsOutputPeriod webcastUserEarningsOutputPeriod)
                 return WebcastUserEarningsOutputPeriodValueConverter.ToJsonValue(webcastUserEarningsOutputPeriod);
+            if (obj is XDynosaurScriptVersion xDynosaurScriptVersion)
+                return XDynosaurScriptVersionValueConverter.ToJsonValue(xDynosaurScriptVersion);
+            if (obj is XGnarlyScriptVersion xGnarlyScriptVersion)
+                return XGnarlyScriptVersionValueConverter.ToJsonValue(xGnarlyScriptVersion);
             if (obj is ICollection collection)
             {
                 List<string?> entries = new();
@@ -294,6 +329,26 @@ namespace EulerApiSdk.Client
             return string.Join(",", accepts);
         }
 
+        
+
+        /// <summary>
+        /// Select the Accept header's value from the given accepts array:
+        /// if JSON exists in the given array, use it;
+        /// otherwise use all of them.
+        /// </summary>
+        /// <param name="accepts">The accepts array to select from.</param>
+        /// <returns>The Accept header values to use.</returns>
+        public static IEnumerable<MediaTypeWithQualityHeaderValue> SelectHeaderAcceptArray(string[] accepts)
+        {
+            if (accepts.Length == 0)
+                    return [];
+
+            if (accepts.Contains("application/json", StringComparer.OrdinalIgnoreCase))
+                    return [MediaTypeWithQualityHeaderValue.Parse("application/json")];
+
+            return accepts.Select(MediaTypeWithQualityHeaderValue.Parse);
+        }
+
         /// <summary>
         /// Provides a case-insensitive check that a provided content type is a known JSON-like content type.
         /// </summary>
@@ -353,6 +408,35 @@ namespace EulerApiSdk.Client
 
             throw new JsonException("The specified discriminator was not found.");
         }
+
+        /// <summary>
+        /// Determines if the provided header is a content header
+        /// </summary>
+        /// <param name="header">The header to check</param>
+        /// <returns>True if a content header; False otherwise</returns>
+        public static bool IsContentHeader(string header)
+        {
+            return ContentHeaders.Contains(header.ToLowerInvariant());
+        }
+
+        /// <summary>
+        /// The collection of content headers as per
+        /// https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.headers
+        /// </summary>
+        private static readonly string[] ContentHeaders = new String[] 
+        {
+            "allow",
+            "content-encoding",
+            "content-disposition",
+            "content-language",
+            "content-length",
+            "content-location",
+            "content-md5",
+            "content-range",
+            "content-type",
+            "expires",
+            "last-modified"
+        };
 
         /// <summary>
         /// The base path of the API

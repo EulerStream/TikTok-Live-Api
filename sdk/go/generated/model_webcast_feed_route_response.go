@@ -24,7 +24,7 @@ type WebcastFeedRouteResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
 	Response *WebcastFeedRouteOutput `json:"response,omitempty"`
-	Region OxyLabsProxyRegion `json:"region"`
+	Region PooledProxyRegion `json:"region"`
 }
 
 type _WebcastFeedRouteResponse WebcastFeedRouteResponse
@@ -33,7 +33,7 @@ type _WebcastFeedRouteResponse WebcastFeedRouteResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastFeedRouteResponse(code float64, region OxyLabsProxyRegion) *WebcastFeedRouteResponse {
+func NewWebcastFeedRouteResponse(code float64, region PooledProxyRegion) *WebcastFeedRouteResponse {
 	this := WebcastFeedRouteResponse{}
 	this.Code = code
 	this.Region = region
@@ -137,9 +137,9 @@ func (o *WebcastFeedRouteResponse) SetResponse(v WebcastFeedRouteOutput) {
 }
 
 // GetRegion returns the Region field value
-func (o *WebcastFeedRouteResponse) GetRegion() OxyLabsProxyRegion {
+func (o *WebcastFeedRouteResponse) GetRegion() PooledProxyRegion {
 	if o == nil {
-		var ret OxyLabsProxyRegion
+		var ret PooledProxyRegion
 		return ret
 	}
 
@@ -148,7 +148,7 @@ func (o *WebcastFeedRouteResponse) GetRegion() OxyLabsProxyRegion {
 
 // GetRegionOk returns a tuple with the Region field value
 // and a boolean to check if the value has been set.
-func (o *WebcastFeedRouteResponse) GetRegionOk() (*OxyLabsProxyRegion, bool) {
+func (o *WebcastFeedRouteResponse) GetRegionOk() (*PooledProxyRegion, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -156,7 +156,7 @@ func (o *WebcastFeedRouteResponse) GetRegionOk() (*OxyLabsProxyRegion, bool) {
 }
 
 // SetRegion sets field value
-func (o *WebcastFeedRouteResponse) SetRegion(v OxyLabsProxyRegion) {
+func (o *WebcastFeedRouteResponse) SetRegion(v PooledProxyRegion) {
 	o.Region = v
 }
 

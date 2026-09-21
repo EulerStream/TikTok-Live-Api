@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptions" />
     /// </summary>
-    public class WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptionsJsonConverter : JsonConverter<WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptions>
+    public partial class WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptionsJsonConverter : JsonConverter<WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptions>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptionsJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptionsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptions" />
         /// </summary>

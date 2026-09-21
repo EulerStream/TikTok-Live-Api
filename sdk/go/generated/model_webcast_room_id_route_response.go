@@ -27,6 +27,8 @@ type WebcastRoomIdRouteResponse struct {
 	RoutesAttempted []string `json:"routes_attempted"`
 	IsLive *bool `json:"is_live,omitempty"`
 	RoomId *string `json:"room_id,omitempty"`
+	RoomStatus *float64 `json:"room_status,omitempty"`
+	Source *string `json:"source,omitempty"`
 }
 
 type _WebcastRoomIdRouteResponse WebcastRoomIdRouteResponse
@@ -219,6 +221,70 @@ func (o *WebcastRoomIdRouteResponse) SetRoomId(v string) {
 	o.RoomId = &v
 }
 
+// GetRoomStatus returns the RoomStatus field value if set, zero value otherwise.
+func (o *WebcastRoomIdRouteResponse) GetRoomStatus() float64 {
+	if o == nil || IsNil(o.RoomStatus) {
+		var ret float64
+		return ret
+	}
+	return *o.RoomStatus
+}
+
+// GetRoomStatusOk returns a tuple with the RoomStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WebcastRoomIdRouteResponse) GetRoomStatusOk() (*float64, bool) {
+	if o == nil || IsNil(o.RoomStatus) {
+		return nil, false
+	}
+	return o.RoomStatus, true
+}
+
+// HasRoomStatus returns a boolean if a field has been set.
+func (o *WebcastRoomIdRouteResponse) HasRoomStatus() bool {
+	if o != nil && !IsNil(o.RoomStatus) {
+		return true
+	}
+
+	return false
+}
+
+// SetRoomStatus gets a reference to the given float64 and assigns it to the RoomStatus field.
+func (o *WebcastRoomIdRouteResponse) SetRoomStatus(v float64) {
+	o.RoomStatus = &v
+}
+
+// GetSource returns the Source field value if set, zero value otherwise.
+func (o *WebcastRoomIdRouteResponse) GetSource() string {
+	if o == nil || IsNil(o.Source) {
+		var ret string
+		return ret
+	}
+	return *o.Source
+}
+
+// GetSourceOk returns a tuple with the Source field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WebcastRoomIdRouteResponse) GetSourceOk() (*string, bool) {
+	if o == nil || IsNil(o.Source) {
+		return nil, false
+	}
+	return o.Source, true
+}
+
+// HasSource returns a boolean if a field has been set.
+func (o *WebcastRoomIdRouteResponse) HasSource() bool {
+	if o != nil && !IsNil(o.Source) {
+		return true
+	}
+
+	return false
+}
+
+// SetSource gets a reference to the given string and assigns it to the Source field.
+func (o *WebcastRoomIdRouteResponse) SetSource(v string) {
+	o.Source = &v
+}
+
 func (o WebcastRoomIdRouteResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -240,6 +306,12 @@ func (o WebcastRoomIdRouteResponse) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.RoomId) {
 		toSerialize["room_id"] = o.RoomId
+	}
+	if !IsNil(o.RoomStatus) {
+		toSerialize["room_status"] = o.RoomStatus
+	}
+	if !IsNil(o.Source) {
+		toSerialize["source"] = o.Source
 	}
 	return toSerialize, nil
 }

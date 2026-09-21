@@ -12,13 +12,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using EulerApiSdk.Client;
+using EulerApiSdk.Logging;
 using EulerApiSdk.Model;
 using System.Diagnostics.CodeAnalysis;
 
@@ -39,36 +42,98 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Add a moderator in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Add a sensitive word to a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="toUserId">The user ID to add as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
+        /// <param name="word">The sensitive word to add</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IAddRoomModeratorApiResponse"/>&gt;</returns>
-        Task<IAddRoomModeratorApiResponse> AddRoomModeratorAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IAddSensitiveWordApiResponse"/>&gt;</returns>
+        Task<IAddSensitiveWordApiResponse> AddSensitiveWordAsync(string word, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Add a moderator in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Add a sensitive word to a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
-        /// <param name="toUserId">The user ID to add as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
+        /// <param name="word">The sensitive word to add</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IAddRoomModeratorApiResponse"/>?&gt;</returns>
-        Task<IAddRoomModeratorApiResponse?> AddRoomModeratorOrDefaultAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <returns><see cref="Task"/>&lt;<see cref="IAddSensitiveWordApiResponse"/>?&gt;</returns>
+        Task<IAddSensitiveWordApiResponse?> AddSensitiveWordOrDefaultAsync(string word, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Delete a sensitive word from a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="wordId">The ID of the sensitive word to delete</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IDeleteSensitiveWordApiResponse"/>&gt;</returns>
+        Task<IDeleteSensitiveWordApiResponse> DeleteSensitiveWordAsync(string wordId, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Delete a sensitive word from a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </remarks>
+        /// <param name="wordId">The ID of the sensitive word to delete</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IDeleteSensitiveWordApiResponse"/>?&gt;</returns>
+        Task<IDeleteSensitiveWordApiResponse?> DeleteSensitiveWordOrDefaultAsync(string wordId, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Retrieve the list of sensitive words for a TikTok LIVE room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetSensitiveWordsApiResponse"/>&gt;</returns>
+        Task<IGetSensitiveWordsApiResponse> GetSensitiveWordsAsync(string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Retrieve the list of sensitive words for a TikTok LIVE room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </remarks>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetSensitiveWordsApiResponse"/>?&gt;</returns>
+        Task<IGetSensitiveWordsApiResponse?> GetSensitiveWordsOrDefaultAsync(string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -84,7 +149,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="tiktokUserId">The numeric user ID for the individual to kick</param>
@@ -99,7 +164,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -116,7 +181,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="userId">The user ID to mute</param>
@@ -132,40 +197,11 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Remove a moderator from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="toUserId">The user ID to remove as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRemoveRoomModeratorApiResponse"/>&gt;</returns>
-        Task<IRemoveRoomModeratorApiResponse> RemoveRoomModeratorAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Premium Routes Addon - Remove a moderator from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </remarks>
-        /// <param name="toUserId">The user ID to remove as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRemoveRoomModeratorApiResponse"/>?&gt;</returns>
-        Task<IRemoveRoomModeratorApiResponse?> RemoveRoomModeratorOrDefaultAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -176,10 +212,10 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -190,63 +226,38 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of moderators in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </remarks>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="anchorId">The streamer&#39;s numeric user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomModeratorsApiResponse"/>&gt;</returns>
-        Task<IRetrieveRoomModeratorsApiResponse> RetrieveRoomModeratorsAsync(string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of moderators in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </remarks>
-        /// <param name="anchorId">The streamer&#39;s numeric user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomModeratorsApiResponse"/>?&gt;</returns>
-        Task<IRetrieveRoomModeratorsApiResponse?> RetrieveRoomModeratorsOrDefaultAsync(string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomMutedUsersApiResponse"/>&gt;</returns>
-        Task<IRetrieveRoomMutedUsersApiResponse> RetrieveRoomMutedUsersAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IRetrieveRoomMutedUsersApiResponse> RetrieveRoomMutedUsersAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomMutedUsersApiResponse"/>?&gt;</returns>
-        Task<IRetrieveRoomMutedUsersApiResponse?> RetrieveRoomMutedUsersOrDefaultAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<IRetrieveRoomMutedUsersApiResponse?> RetrieveRoomMutedUsersOrDefaultAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -261,7 +272,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="enabled">Whether comments should be enabled (true) or disabled (false)</param>
@@ -275,7 +286,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -290,7 +301,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="tiktokUserId">The numeric user ID of the person to unkick</param>
@@ -304,7 +315,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -319,7 +330,7 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        /// Requires Premium Routes Addon - Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </remarks>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="userId">The user ID to unmute</param>
@@ -331,123 +342,303 @@ namespace EulerApiSdk.Api
     }
 
     /// <summary>
-    /// The <see cref="IAddRoomModeratorApiResponse"/>
+    /// The <see cref="IAddSensitiveWordApiResponse"/>
     /// </summary>
-    public interface IAddRoomModeratorApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomAdminUpdateAPIResponse?>
+    public interface IAddSensitiveWordApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomAddSensitiveWordAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IDeleteSensitiveWordApiResponse"/>
+    /// </summary>
+    public interface IDeleteSensitiveWordApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomDelSensitiveWordAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="IGetSensitiveWordsApiResponse"/>
+    /// </summary>
+    public interface IGetSensitiveWordsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomGetSensitiveWordsAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IKickRoomUserApiResponse"/>
     /// </summary>
-    public interface IKickRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomKickUserAPIResponse?>
+    public interface IKickRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomKickUserAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IMuteRoomUserApiResponse"/>
     /// </summary>
-    public interface IMuteRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomMuteUserAPIResponse?>
+    public interface IMuteRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomMuteUserAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
-    }
 
-    /// <summary>
-    /// The <see cref="IRemoveRoomModeratorApiResponse"/>
-    /// </summary>
-    public interface IRemoveRoomModeratorApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomAdminUpdateAPIResponse?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 429 TooManyRequests
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IRetrieveRoomBannedUsersApiResponse"/>
     /// </summary>
-    public interface IRetrieveRoomBannedUsersApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomKickedUsersAPIResponse?>
+    public interface IRetrieveRoomBannedUsersApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomKickedUsersAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
-    }
 
-    /// <summary>
-    /// The <see cref="IRetrieveRoomModeratorsApiResponse"/>
-    /// </summary>
-    public interface IRetrieveRoomModeratorsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomModeratorsAPIResponse?>
-    {
         /// <summary>
-        /// Returns true if the response is 200 Ok
+        /// Returns true if the response is 429 TooManyRequests
         /// </summary>
         /// <returns></returns>
-        bool IsOk { get; }
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IRetrieveRoomMutedUsersApiResponse"/>
     /// </summary>
-    public interface IRetrieveRoomMutedUsersApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomMutedUsersAPIResponse?>
+    public interface IRetrieveRoomMutedUsersApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomMutedUsersAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IToggleRoomCommentsApiResponse"/>
     /// </summary>
-    public interface IToggleRoomCommentsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomCommentsToggleAPIResponse?>
+    public interface IToggleRoomCommentsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomCommentsToggleAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IUnbanRoomUserApiResponse"/>
     /// </summary>
-    public interface IUnbanRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomUnkickUserAPIResponse?>
+    public interface IUnbanRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomUnkickUserAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
     /// The <see cref="IUnmuteRoomUserApiResponse"/>
     /// </summary>
-    public interface IUnmuteRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomUnmuteUserAPIResponse?>
+    public interface IUnmuteRoomUserApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.RoomUnmuteUserAPIResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>, IServiceUnavailable<EulerApiSdk.Model.GetAvailableDates503Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
+
+        /// <summary>
+        /// Returns true if the response is 503 ServiceUnavailable
+        /// </summary>
+        /// <returns></returns>
+        bool IsServiceUnavailable { get; }
     }
 
     /// <summary>
@@ -458,21 +649,61 @@ namespace EulerApiSdk.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnAddRoomModerator;
+        public event EventHandler<ApiResponseEventArgs>? OnAddSensitiveWord;
 
         /// <summary>
         /// The event raised after an error querying the server
         /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorAddRoomModerator;
+        public event EventHandler<ExceptionEventArgs>? OnErrorAddSensitiveWord;
 
-        internal void ExecuteOnAddRoomModerator(TikTokLIVEModerationApi.AddRoomModeratorApiResponse apiResponse)
+        internal void ExecuteOnAddSensitiveWord(TikTokLIVEModerationApi.AddSensitiveWordApiResponse apiResponse)
         {
-            OnAddRoomModerator?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+            OnAddSensitiveWord?.Invoke(this, new ApiResponseEventArgs(apiResponse));
         }
 
-        internal void ExecuteOnErrorAddRoomModerator(Exception exception)
+        internal void ExecuteOnErrorAddSensitiveWord(Exception exception)
         {
-            OnErrorAddRoomModerator?.Invoke(this, new ExceptionEventArgs(exception));
+            OnErrorAddSensitiveWord?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnDeleteSensitiveWord;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorDeleteSensitiveWord;
+
+        internal void ExecuteOnDeleteSensitiveWord(TikTokLIVEModerationApi.DeleteSensitiveWordApiResponse apiResponse)
+        {
+            OnDeleteSensitiveWord?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorDeleteSensitiveWord(Exception exception)
+        {
+            OnErrorDeleteSensitiveWord?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs>? OnGetSensitiveWords;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs>? OnErrorGetSensitiveWords;
+
+        internal void ExecuteOnGetSensitiveWords(TikTokLIVEModerationApi.GetSensitiveWordsApiResponse apiResponse)
+        {
+            OnGetSensitiveWords?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorGetSensitiveWords(Exception exception)
+        {
+            OnErrorGetSensitiveWords?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -518,26 +749,6 @@ namespace EulerApiSdk.Api
         /// <summary>
         /// The event raised after the server response
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnRemoveRoomModerator;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorRemoveRoomModerator;
-
-        internal void ExecuteOnRemoveRoomModerator(TikTokLIVEModerationApi.RemoveRoomModeratorApiResponse apiResponse)
-        {
-            OnRemoveRoomModerator?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorRemoveRoomModerator(Exception exception)
-        {
-            OnErrorRemoveRoomModerator?.Invoke(this, new ExceptionEventArgs(exception));
-        }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
         public event EventHandler<ApiResponseEventArgs>? OnRetrieveRoomBannedUsers;
 
         /// <summary>
@@ -553,26 +764,6 @@ namespace EulerApiSdk.Api
         internal void ExecuteOnErrorRetrieveRoomBannedUsers(Exception exception)
         {
             OnErrorRetrieveRoomBannedUsers?.Invoke(this, new ExceptionEventArgs(exception));
-        }
-
-        /// <summary>
-        /// The event raised after the server response
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs>? OnRetrieveRoomModerators;
-
-        /// <summary>
-        /// The event raised after an error querying the server
-        /// </summary>
-        public event EventHandler<ExceptionEventArgs>? OnErrorRetrieveRoomModerators;
-
-        internal void ExecuteOnRetrieveRoomModerators(TikTokLIVEModerationApi.RetrieveRoomModeratorsApiResponse apiResponse)
-        {
-            OnRetrieveRoomModerators?.Invoke(this, new ApiResponseEventArgs(apiResponse));
-        }
-
-        internal void ExecuteOnErrorRetrieveRoomModerators(Exception exception)
-        {
-            OnErrorRetrieveRoomModerators?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -664,11 +855,6 @@ namespace EulerApiSdk.Api
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// The logger factory
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; }
-
-        /// <summary>
         /// The logger
         /// </summary>
         public ILogger<TikTokLIVEModerationApi> Logger { get; }
@@ -692,34 +878,37 @@ namespace EulerApiSdk.Api
         /// Initializes a new instance of the <see cref="TikTokLIVEModerationApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public TikTokLIVEModerationApi(ILogger<TikTokLIVEModerationApi> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, TikTokLIVEModerationApiEvents tikTokLIVEModerationApiEvents,
+        public TikTokLIVEModerationApi(ILogger<TikTokLIVEModerationApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, TikTokLIVEModerationApiEvents tikTokLIVEModerationApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            LoggerFactory = loggerFactory;
-            Logger = LoggerFactory.CreateLogger<TikTokLIVEModerationApi>();
+            Logger = logger;
             HttpClient = httpClient;
             Events = tikTokLIVEModerationApiEvents;
             ApiKeyProvider = apiKeyProvider;
         }
 
-        partial void FormatAddRoomModerator(ref string toUserId, ref string anchorId, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
+        partial void FormatAddSensitiveWord(ref string word, ref string secAnchorId, ref string roomId, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
+        /// <param name="word"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
         /// <returns></returns>
-        private void ValidateAddRoomModerator(string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        private void ValidateAddSensitiveWord(string word, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
         {
-            if (toUserId == null)
-                throw new ArgumentNullException(nameof(toUserId));
+            if (word == null)
+                throw new ArgumentNullException(nameof(word));
 
-            if (anchorId == null)
-                throw new ArgumentNullException(nameof(anchorId));
+            if (secAnchorId == null)
+                throw new ArgumentNullException(nameof(secAnchorId));
+
+            if (roomId == null)
+                throw new ArgumentNullException(nameof(roomId));
 
             if (xOauthToken.IsSet && xOauthToken.Value == null)
                 throw new ArgumentNullException(nameof(xOauthToken));
@@ -732,16 +921,17 @@ namespace EulerApiSdk.Api
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
+        /// <param name="word"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        private void AfterAddRoomModeratorDefaultImplementation(IAddRoomModeratorApiResponse apiResponseLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        private void AfterAddSensitiveWordDefaultImplementation(IAddSensitiveWordApiResponse apiResponseLocalVar, string word, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
         {
             bool suppressDefaultLog = false;
-            AfterAddRoomModerator(ref suppressDefaultLog, apiResponseLocalVar, toUserId, anchorId, xOauthToken, xCookieHeader);
+            AfterAddSensitiveWord(ref suppressDefaultLog, apiResponseLocalVar, word, secAnchorId, roomId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -749,11 +939,12 @@ namespace EulerApiSdk.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
+        /// <param name="word"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        partial void AfterAddRoomModerator(ref bool suppressDefaultLog, IAddRoomModeratorApiResponse apiResponseLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader);
+        partial void AfterAddSensitiveWord(ref bool suppressDefaultLog, IAddSensitiveWordApiResponse apiResponseLocalVar, string word, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -761,16 +952,17 @@ namespace EulerApiSdk.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
+        /// <param name="word"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        private void OnErrorAddRoomModeratorDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        private void OnErrorAddSensitiveWordDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string word, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorAddRoomModerator(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, toUserId, anchorId, xOauthToken, xCookieHeader);
+            OnErrorAddSensitiveWord(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, word, secAnchorId, roomId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -780,26 +972,28 @@ namespace EulerApiSdk.Api
         /// <param name="exceptionLocalVar"></param>
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
+        /// <param name="word"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        partial void OnErrorAddRoomModerator(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader);
+        partial void OnErrorAddSensitiveWord(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string word, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Add a moderator in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Add a sensitive word to a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
-        /// <param name="toUserId">The user ID to add as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
+        /// <param name="word">The sensitive word to add</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IAddRoomModeratorApiResponse"/>&gt;</returns>
-        public async Task<IAddRoomModeratorApiResponse?> AddRoomModeratorOrDefaultAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IAddSensitiveWordApiResponse"/>&gt;</returns>
+        public async Task<IAddSensitiveWordApiResponse?> AddSensitiveWordOrDefaultAsync(string word, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await AddRoomModeratorAsync(toUserId, anchorId, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
+                return await AddSensitiveWordAsync(word, secAnchorId, roomId, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -808,24 +1002,25 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Add a moderator in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Add a sensitive word to a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="toUserId">The user ID to add as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
+        /// <param name="word">The sensitive word to add</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IAddRoomModeratorApiResponse"/>&gt;</returns>
-        public async Task<IAddRoomModeratorApiResponse> AddRoomModeratorAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        /// <returns><see cref="Task"/>&lt;<see cref="IAddSensitiveWordApiResponse"/>&gt;</returns>
+        public async Task<IAddSensitiveWordApiResponse> AddSensitiveWordAsync(string word, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateAddRoomModerator(toUserId, anchorId, xOauthToken, xCookieHeader);
+                ValidateAddSensitiveWord(word, secAnchorId, roomId, xOauthToken, xCookieHeader);
 
-                FormatAddRoomModerator(ref toUserId, ref anchorId, ref xOauthToken, ref xCookieHeader);
+                FormatAddSensitiveWord(ref word, ref secAnchorId, ref roomId, ref xOauthToken, ref xCookieHeader);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -833,21 +1028,42 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/moderators"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/moderators");
+                        ? "/webcast/rooms/{room_id}/moderation/sensitive-words"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/sensitive-words");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["to_user_id"] = ClientUtils.ParameterToString(toUserId);
-                    parseQueryStringLocalVar["anchor_id"] = ClientUtils.ParameterToString(anchorId);
+                    parseQueryStringLocalVar["word"] = ClientUtils.ParameterToString(word);
+                    parseQueryStringLocalVar["sec_anchor_id"] = ClientUtils.ParameterToString(secAnchorId);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -866,26 +1082,31 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
-                    httpRequestMessageLocalVar.Method = HttpMethod.Put;
+                    httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
                     DateTime requestedAtLocalVar = DateTime.UtcNow;
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        AddSensitiveWordApiResponse apiResponseLocalVar;
 
-                        ILogger<AddRoomModeratorApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<AddRoomModeratorApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/sensitive-words", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AddRoomModeratorApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/moderators", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
-                        AfterAddRoomModeratorDefaultImplementation(apiResponseLocalVar, toUserId, anchorId, xOauthToken, xCookieHeader);
+                        AfterAddSensitiveWordDefaultImplementation(apiResponseLocalVar, word, secAnchorId, roomId, xOauthToken, xCookieHeader);
 
-                        Events.ExecuteOnAddRoomModerator(apiResponseLocalVar);
+                        Events.ExecuteOnAddSensitiveWord(apiResponseLocalVar);
 
                         if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
                             foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
@@ -897,24 +1118,24 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorAddRoomModeratorDefaultImplementation(e, "/webcast/moderation/moderators", uriBuilderLocalVar.Path, toUserId, anchorId, xOauthToken, xCookieHeader);
-                Events.ExecuteOnErrorAddRoomModerator(e);
+                OnErrorAddSensitiveWordDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/sensitive-words", uriBuilderLocalVar.Path, word, secAnchorId, roomId, xOauthToken, xCookieHeader);
+                Events.ExecuteOnErrorAddSensitiveWord(e);
                 throw;
             }
         }
 
         /// <summary>
-        /// The <see cref="AddRoomModeratorApiResponse"/>
+        /// The <see cref="AddSensitiveWordApiResponse"/>
         /// </summary>
-        public partial class AddRoomModeratorApiResponse : EulerApiSdk.Client.ApiResponse, IAddRoomModeratorApiResponse
+        public partial class AddSensitiveWordApiResponse : EulerApiSdk.Client.ApiResponse, IAddSensitiveWordApiResponse
         {
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<AddRoomModeratorApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
-            /// The <see cref="AddRoomModeratorApiResponse"/>
+            /// The <see cref="AddSensitiveWordApiResponse"/>
             /// </summary>
             /// <param name="logger"></param>
             /// <param name="httpRequestMessage"></param>
@@ -923,7 +1144,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public AddRoomModeratorApiResponse(ILogger<AddRoomModeratorApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public AddSensitiveWordApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="AddSensitiveWordApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public AddSensitiveWordApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -941,11 +1178,11 @@ namespace EulerApiSdk.Api
             /// Deserializes the response if the response is 200 Ok
             /// </summary>
             /// <returns></returns>
-            public EulerApiSdk.Model.RoomAdminUpdateAPIResponse? Ok()
+            public EulerApiSdk.Model.RoomAddSensitiveWordAPIResponse? Ok()
             {
                 // This logic may be modified with the AsModel.mustache template
                 return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RoomAdminUpdateAPIResponse>(RawContent, _jsonSerializerOptions)
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RoomAddSensitiveWordAPIResponse>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
@@ -954,7 +1191,7 @@ namespace EulerApiSdk.Api
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RoomAdminUpdateAPIResponse? result)
+            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RoomAddSensitiveWordAPIResponse? result)
             {
                 result = null;
 
@@ -969,12 +1206,1001 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatDeleteSensitiveWord(ref string wordId, ref string secAnchorId, ref string roomId, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="wordId"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        /// <returns></returns>
+        private void ValidateDeleteSensitiveWord(string wordId, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        {
+            if (wordId == null)
+                throw new ArgumentNullException(nameof(wordId));
+
+            if (secAnchorId == null)
+                throw new ArgumentNullException(nameof(secAnchorId));
+
+            if (roomId == null)
+                throw new ArgumentNullException(nameof(roomId));
+
+            if (xOauthToken.IsSet && xOauthToken.Value == null)
+                throw new ArgumentNullException(nameof(xOauthToken));
+
+            if (xCookieHeader.IsSet && xCookieHeader.Value == null)
+                throw new ArgumentNullException(nameof(xCookieHeader));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="wordId"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        private void AfterDeleteSensitiveWordDefaultImplementation(IDeleteSensitiveWordApiResponse apiResponseLocalVar, string wordId, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        {
+            bool suppressDefaultLog = false;
+            AfterDeleteSensitiveWord(ref suppressDefaultLog, apiResponseLocalVar, wordId, secAnchorId, roomId, xOauthToken, xCookieHeader);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="wordId"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        partial void AfterDeleteSensitiveWord(ref bool suppressDefaultLog, IDeleteSensitiveWordApiResponse apiResponseLocalVar, string wordId, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="wordId"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        private void OnErrorDeleteSensitiveWordDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string wordId, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorDeleteSensitiveWord(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, wordId, secAnchorId, roomId, xOauthToken, xCookieHeader);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="wordId"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        partial void OnErrorDeleteSensitiveWord(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string wordId, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader);
+
+        /// <summary>
+        ///  Delete a sensitive word from a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </summary>
+        /// <param name="wordId">The ID of the sensitive word to delete</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IDeleteSensitiveWordApiResponse"/>&gt;</returns>
+        public async Task<IDeleteSensitiveWordApiResponse?> DeleteSensitiveWordOrDefaultAsync(string wordId, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await DeleteSensitiveWordAsync(wordId, secAnchorId, roomId, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  Delete a sensitive word from a TikTok LIVE room&#39;s filter list.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="wordId">The ID of the sensitive word to delete</param>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IDeleteSensitiveWordApiResponse"/>&gt;</returns>
+        public async Task<IDeleteSensitiveWordApiResponse> DeleteSensitiveWordAsync(string wordId, string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateDeleteSensitiveWord(wordId, secAnchorId, roomId, xOauthToken, xCookieHeader);
+
+                FormatDeleteSensitiveWord(ref wordId, ref secAnchorId, ref roomId, ref xOauthToken, ref xCookieHeader);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/webcast/rooms/{room_id}/moderation/sensitive-words"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/sensitive-words");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    parseQueryStringLocalVar["word_id"] = ClientUtils.ParameterToString(wordId);
+                    parseQueryStringLocalVar["sec_anchor_id"] = ClientUtils.ParameterToString(secAnchorId);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    if (xOauthToken.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
+
+                    if (xCookieHeader.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+
+                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
+                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        DeleteSensitiveWordApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/sensitive-words", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterDeleteSensitiveWordDefaultImplementation(apiResponseLocalVar, wordId, secAnchorId, roomId, xOauthToken, xCookieHeader);
+
+                        Events.ExecuteOnDeleteSensitiveWord(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorDeleteSensitiveWordDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/sensitive-words", uriBuilderLocalVar.Path, wordId, secAnchorId, roomId, xOauthToken, xCookieHeader);
+                Events.ExecuteOnErrorDeleteSensitiveWord(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="DeleteSensitiveWordApiResponse"/>
+        /// </summary>
+        public partial class DeleteSensitiveWordApiResponse : EulerApiSdk.Client.ApiResponse, IDeleteSensitiveWordApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="DeleteSensitiveWordApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public DeleteSensitiveWordApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="DeleteSensitiveWordApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public DeleteSensitiveWordApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RoomDelSensitiveWordAPIResponse? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RoomDelSensitiveWordAPIResponse>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RoomDelSensitiveWordAPIResponse? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatGetSensitiveWords(ref string secAnchorId, ref string roomId, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        /// <returns></returns>
+        private void ValidateGetSensitiveWords(string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        {
+            if (secAnchorId == null)
+                throw new ArgumentNullException(nameof(secAnchorId));
+
+            if (roomId == null)
+                throw new ArgumentNullException(nameof(roomId));
+
+            if (xOauthToken.IsSet && xOauthToken.Value == null)
+                throw new ArgumentNullException(nameof(xOauthToken));
+
+            if (xCookieHeader.IsSet && xCookieHeader.Value == null)
+                throw new ArgumentNullException(nameof(xCookieHeader));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        private void AfterGetSensitiveWordsDefaultImplementation(IGetSensitiveWordsApiResponse apiResponseLocalVar, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        {
+            bool suppressDefaultLog = false;
+            AfterGetSensitiveWords(ref suppressDefaultLog, apiResponseLocalVar, secAnchorId, roomId, xOauthToken, xCookieHeader);
+            if (!suppressDefaultLog)
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        partial void AfterGetSensitiveWords(ref bool suppressDefaultLog, IGetSensitiveWordsApiResponse apiResponseLocalVar, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        private void OnErrorGetSensitiveWordsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader)
+        {
+            bool suppressDefaultLogLocalVar = false;
+            OnErrorGetSensitiveWords(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, secAnchorId, roomId, xOauthToken, xCookieHeader);
+            if (!suppressDefaultLogLocalVar)
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLogLocalVar"></param>
+        /// <param name="exceptionLocalVar"></param>
+        /// <param name="pathFormatLocalVar"></param>
+        /// <param name="pathLocalVar"></param>
+        /// <param name="secAnchorId"></param>
+        /// <param name="roomId"></param>
+        /// <param name="xOauthToken"></param>
+        /// <param name="xCookieHeader"></param>
+        partial void OnErrorGetSensitiveWords(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string secAnchorId, string roomId, Option<string> xOauthToken, Option<string> xCookieHeader);
+
+        /// <summary>
+        ///  Retrieve the list of sensitive words for a TikTok LIVE room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </summary>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetSensitiveWordsApiResponse"/>&gt;</returns>
+        public async Task<IGetSensitiveWordsApiResponse?> GetSensitiveWordsOrDefaultAsync(string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await GetSensitiveWordsAsync(secAnchorId, roomId, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  Retrieve the list of sensitive words for a TikTok LIVE room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="secAnchorId">The sec_anchor_id of the room owner</param>
+        /// <param name="roomId">The room ID of the livestream</param>
+        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
+        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="IGetSensitiveWordsApiResponse"/>&gt;</returns>
+        public async Task<IGetSensitiveWordsApiResponse> GetSensitiveWordsAsync(string secAnchorId, string roomId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateGetSensitiveWords(secAnchorId, roomId, xOauthToken, xCookieHeader);
+
+                FormatGetSensitiveWords(ref secAnchorId, ref roomId, ref xOauthToken, ref xCookieHeader);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
+                        ? "/webcast/rooms/{room_id}/moderation/sensitive-words"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/sensitive-words");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
+
+                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
+
+                    parseQueryStringLocalVar["sec_anchor_id"] = ClientUtils.ParameterToString(secAnchorId);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+
+                    if (xOauthToken.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
+
+                    if (xCookieHeader.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
+
+                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
+
+                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
+
+                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
+                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
+                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] acceptLocalVars = new string[] {
+                        "application/json"
+                    };
+
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
+
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
+
+                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        GetSensitiveWordsApiResponse apiResponseLocalVar;
+
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/sensitive-words", requestedAtLocalVar, _jsonSerializerOptions);
+
+                                break;
+                            }
+                        }
+
+                        AfterGetSensitiveWordsDefaultImplementation(apiResponseLocalVar, secAnchorId, roomId, xOauthToken, xCookieHeader);
+
+                        Events.ExecuteOnGetSensitiveWords(apiResponseLocalVar);
+
+                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
+                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
+                                tokenBaseLocalVar.BeginRateLimit();
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorGetSensitiveWordsDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/sensitive-words", uriBuilderLocalVar.Path, secAnchorId, roomId, xOauthToken, xCookieHeader);
+                Events.ExecuteOnErrorGetSensitiveWords(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="GetSensitiveWordsApiResponse"/>
+        /// </summary>
+        public partial class GetSensitiveWordsApiResponse : EulerApiSdk.Client.ApiResponse, IGetSensitiveWordsApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="GetSensitiveWordsApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetSensitiveWordsApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="GetSensitiveWordsApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public GetSensitiveWordsApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RoomGetSensitiveWordsAPIResponse? Ok()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsOk
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RoomGetSensitiveWordsAPIResponse>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RoomGetSensitiveWordsAPIResponse? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = Ok();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -1023,7 +2249,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterKickRoomUser(ref suppressDefaultLog, apiResponseLocalVar, roomId, tiktokUserId, commentMsgId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1054,7 +2280,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorKickRoomUser(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, tiktokUserId, commentMsgId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1072,7 +2298,7 @@ namespace EulerApiSdk.Api
         partial void OnErrorKickRoomUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, string tiktokUserId, Option<string> commentMsgId, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="tiktokUserId">The numeric user ID for the individual to kick</param>
@@ -1094,7 +2320,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Kick a user from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -1120,12 +2346,12 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/bans"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/bans");
+                        ? "/webcast/rooms/{room_id}/moderation/bans"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/bans");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
                     parseQueryStringLocalVar["tiktok_user_id"] = ClientUtils.ParameterToString(tiktokUserId);
 
                     if (commentMsgId.IsSet)
@@ -1134,10 +2360,30 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -1156,10 +2402,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
@@ -1167,11 +2413,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        KickRoomUserApiResponse apiResponseLocalVar;
 
-                        ILogger<KickRoomUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<KickRoomUserApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/bans", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        KickRoomUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/bans", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterKickRoomUserDefaultImplementation(apiResponseLocalVar, roomId, tiktokUserId, commentMsgId, xOauthToken, xCookieHeader);
 
@@ -1187,7 +2438,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorKickRoomUserDefaultImplementation(e, "/webcast/moderation/bans", uriBuilderLocalVar.Path, roomId, tiktokUserId, commentMsgId, xOauthToken, xCookieHeader);
+                OnErrorKickRoomUserDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/bans", uriBuilderLocalVar.Path, roomId, tiktokUserId, commentMsgId, xOauthToken, xCookieHeader);
                 Events.ExecuteOnErrorKickRoomUser(e);
                 throw;
             }
@@ -1201,7 +2452,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<KickRoomUserApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="KickRoomUserApiResponse"/>
@@ -1213,7 +2464,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public KickRoomUserApiResponse(ILogger<KickRoomUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public KickRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="KickRoomUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public KickRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1259,12 +2526,126 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -1310,7 +2691,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterMuteRoomUser(ref suppressDefaultLog, apiResponseLocalVar, roomId, userId, duration, commentMsgId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1343,7 +2724,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorMuteRoomUser(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, userId, duration, commentMsgId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1362,7 +2743,7 @@ namespace EulerApiSdk.Api
         partial void OnErrorMuteRoomUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, string userId, Option<MuteDuration> duration, Option<double> commentMsgId, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="userId">The user ID to mute</param>
@@ -1385,7 +2766,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Mute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -1412,12 +2793,12 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/mutes"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/mutes");
+                        ? "/webcast/rooms/{room_id}/moderation/mutes"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/mutes");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
                     parseQueryStringLocalVar["user_id"] = ClientUtils.ParameterToString(userId);
 
                     if (duration.IsSet)
@@ -1429,10 +2810,30 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -1451,10 +2852,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Put;
 
@@ -1462,11 +2863,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        MuteRoomUserApiResponse apiResponseLocalVar;
 
-                        ILogger<MuteRoomUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<MuteRoomUserApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/mutes", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        MuteRoomUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/mutes", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterMuteRoomUserDefaultImplementation(apiResponseLocalVar, roomId, userId, duration, commentMsgId, xOauthToken, xCookieHeader);
 
@@ -1482,7 +2888,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorMuteRoomUserDefaultImplementation(e, "/webcast/moderation/mutes", uriBuilderLocalVar.Path, roomId, userId, duration, commentMsgId, xOauthToken, xCookieHeader);
+                OnErrorMuteRoomUserDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/mutes", uriBuilderLocalVar.Path, roomId, userId, duration, commentMsgId, xOauthToken, xCookieHeader);
                 Events.ExecuteOnErrorMuteRoomUser(e);
                 throw;
             }
@@ -1496,7 +2902,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<MuteRoomUserApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="MuteRoomUserApiResponse"/>
@@ -1508,7 +2914,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public MuteRoomUserApiResponse(ILogger<MuteRoomUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public MuteRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="MuteRoomUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public MuteRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1554,278 +2976,115 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        partial void FormatRemoveRoomModerator(ref string toUserId, ref string anchorId, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        /// <returns></returns>
-        private void ValidateRemoveRoomModerator(string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
-        {
-            if (toUserId == null)
-                throw new ArgumentNullException(nameof(toUserId));
-
-            if (anchorId == null)
-                throw new ArgumentNullException(nameof(anchorId));
-
-            if (xOauthToken.IsSet && xOauthToken.Value == null)
-                throw new ArgumentNullException(nameof(xOauthToken));
-
-            if (xCookieHeader.IsSet && xCookieHeader.Value == null)
-                throw new ArgumentNullException(nameof(xCookieHeader));
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        private void AfterRemoveRoomModeratorDefaultImplementation(IRemoveRoomModeratorApiResponse apiResponseLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
-        {
-            bool suppressDefaultLog = false;
-            AfterRemoveRoomModerator(ref suppressDefaultLog, apiResponseLocalVar, toUserId, anchorId, xOauthToken, xCookieHeader);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        partial void AfterRemoveRoomModerator(ref bool suppressDefaultLog, IRemoveRoomModeratorApiResponse apiResponseLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        private void OnErrorRemoveRoomModeratorDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorRemoveRoomModerator(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, toUserId, anchorId, xOauthToken, xCookieHeader);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="toUserId"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        partial void OnErrorRemoveRoomModerator(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string toUserId, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader);
-
-        /// <summary>
-        ///  Requires Premium Routes Addon - Remove a moderator from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </summary>
-        /// <param name="toUserId">The user ID to remove as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRemoveRoomModeratorApiResponse"/>&gt;</returns>
-        public async Task<IRemoveRoomModeratorApiResponse?> RemoveRoomModeratorOrDefaultAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await RemoveRoomModeratorAsync(toUserId, anchorId, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Requires Premium Routes Addon - Remove a moderator from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="toUserId">The user ID to remove as moderator</param>
-        /// <param name="anchorId">The streamer&#39;s user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRemoveRoomModeratorApiResponse"/>&gt;</returns>
-        public async Task<IRemoveRoomModeratorApiResponse> RemoveRoomModeratorAsync(string toUserId, string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                ValidateRemoveRoomModerator(toUserId, anchorId, xOauthToken, xCookieHeader);
-
-                FormatRemoveRoomModerator(ref toUserId, ref anchorId, ref xOauthToken, ref xCookieHeader);
-
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/moderators"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/moderators");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["to_user_id"] = ClientUtils.ParameterToString(toUserId);
-                    parseQueryStringLocalVar["anchor_id"] = ClientUtils.ParameterToString(anchorId);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
-
-                    if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Delete;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<RemoveRoomModeratorApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RemoveRoomModeratorApiResponse>();
-
-                        RemoveRoomModeratorApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/moderators", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterRemoveRoomModeratorDefaultImplementation(apiResponseLocalVar, toUserId, anchorId, xOauthToken, xCookieHeader);
-
-                        Events.ExecuteOnRemoveRoomModerator(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorRemoveRoomModeratorDefaultImplementation(e, "/webcast/moderation/moderators", uriBuilderLocalVar.Path, toUserId, anchorId, xOauthToken, xCookieHeader);
-                Events.ExecuteOnErrorRemoveRoomModerator(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="RemoveRoomModeratorApiResponse"/>
-        /// </summary>
-        public partial class RemoveRoomModeratorApiResponse : EulerApiSdk.Client.ApiResponse, IRemoveRoomModeratorApiResponse
-        {
             /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<RemoveRoomModeratorApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="RemoveRoomModeratorApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public RemoveRoomModeratorApiResponse(ILogger<RemoveRoomModeratorApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
+            /// Returns true if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
 
             /// <summary>
-            /// Deserializes the response if the response is 200 Ok
+            /// Deserializes the response if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public EulerApiSdk.Model.RoomAdminUpdateAPIResponse? Ok()
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
             {
                 // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RoomAdminUpdateAPIResponse>(RawContent, _jsonSerializerOptions)
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
             /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RoomAdminUpdateAPIResponse? result)
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
             {
                 result = null;
 
                 try
                 {
-                    result = Ok();
+                    result = TooManyRequests();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
                 }
 
                 return result != null;
@@ -1836,7 +3095,7 @@ namespace EulerApiSdk.Api
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -1876,7 +3135,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterRetrieveRoomBannedUsers(ref suppressDefaultLog, apiResponseLocalVar, roomId, page, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1905,7 +3164,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorRetrieveRoomBannedUsers(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, page, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1922,10 +3181,10 @@ namespace EulerApiSdk.Api
         partial void OnErrorRetrieveRoomBannedUsers(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1943,11 +3202,11 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Retrieve the list of banned users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1968,12 +3227,11 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/bans"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/bans");
+                        ? "/webcast/rooms/{room_id}/moderation/bans"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/bans");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
 
                     if (page.IsSet)
                         parseQueryStringLocalVar["page"] = ClientUtils.ParameterToString(page.Value);
@@ -1981,10 +3239,30 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -2003,10 +3281,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -2014,11 +3292,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        RetrieveRoomBannedUsersApiResponse apiResponseLocalVar;
 
-                        ILogger<RetrieveRoomBannedUsersApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveRoomBannedUsersApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/bans", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        RetrieveRoomBannedUsersApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/bans", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterRetrieveRoomBannedUsersDefaultImplementation(apiResponseLocalVar, roomId, page, xOauthToken, xCookieHeader);
 
@@ -2034,7 +3317,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorRetrieveRoomBannedUsersDefaultImplementation(e, "/webcast/moderation/bans", uriBuilderLocalVar.Path, roomId, page, xOauthToken, xCookieHeader);
+                OnErrorRetrieveRoomBannedUsersDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/bans", uriBuilderLocalVar.Path, roomId, page, xOauthToken, xCookieHeader);
                 Events.ExecuteOnErrorRetrieveRoomBannedUsers(e);
                 throw;
             }
@@ -2048,7 +3331,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<RetrieveRoomBannedUsersApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RetrieveRoomBannedUsersApiResponse"/>
@@ -2060,7 +3343,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public RetrieveRoomBannedUsersApiResponse(ILogger<RetrieveRoomBannedUsersApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public RetrieveRoomBannedUsersApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveRoomBannedUsersApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveRoomBannedUsersApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -2106,267 +3405,115 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
-            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
-            {
-                bool suppressDefaultLog = false;
-                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
-                if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
-            }
-
-            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
-        }
-
-        partial void FormatRetrieveRoomModerators(ref string anchorId, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
-
-        /// <summary>
-        /// Validates the request parameters
-        /// </summary>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        /// <returns></returns>
-        private void ValidateRetrieveRoomModerators(string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
-        {
-            if (anchorId == null)
-                throw new ArgumentNullException(nameof(anchorId));
-
-            if (xOauthToken.IsSet && xOauthToken.Value == null)
-                throw new ArgumentNullException(nameof(xOauthToken));
-
-            if (xCookieHeader.IsSet && xCookieHeader.Value == null)
-                throw new ArgumentNullException(nameof(xCookieHeader));
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        private void AfterRetrieveRoomModeratorsDefaultImplementation(IRetrieveRoomModeratorsApiResponse apiResponseLocalVar, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
-        {
-            bool suppressDefaultLog = false;
-            AfterRetrieveRoomModerators(ref suppressDefaultLog, apiResponseLocalVar, anchorId, xOauthToken, xCookieHeader);
-            if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
-        }
-
-        /// <summary>
-        /// Processes the server response
-        /// </summary>
-        /// <param name="suppressDefaultLog"></param>
-        /// <param name="apiResponseLocalVar"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        partial void AfterRetrieveRoomModerators(ref bool suppressDefaultLog, IRetrieveRoomModeratorsApiResponse apiResponseLocalVar, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader);
-
-        /// <summary>
-        /// Logs exceptions that occur while retrieving the server response
-        /// </summary>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        private void OnErrorRetrieveRoomModeratorsDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader)
-        {
-            bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveRoomModerators(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, anchorId, xOauthToken, xCookieHeader);
-            if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
-        }
-
-        /// <summary>
-        /// A partial method that gives developers a way to provide customized exception handling
-        /// </summary>
-        /// <param name="suppressDefaultLogLocalVar"></param>
-        /// <param name="exceptionLocalVar"></param>
-        /// <param name="pathFormatLocalVar"></param>
-        /// <param name="pathLocalVar"></param>
-        /// <param name="anchorId"></param>
-        /// <param name="xOauthToken"></param>
-        /// <param name="xCookieHeader"></param>
-        partial void OnErrorRetrieveRoomModerators(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string anchorId, Option<string> xOauthToken, Option<string> xCookieHeader);
-
-        /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of moderators in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </summary>
-        /// <param name="anchorId">The streamer&#39;s numeric user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomModeratorsApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomModeratorsApiResponse?> RetrieveRoomModeratorsOrDefaultAsync(string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            try
-            {
-                return await RetrieveRoomModeratorsAsync(anchorId, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of moderators in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-        /// </summary>
-        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="anchorId">The streamer&#39;s numeric user ID</param>
-        /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
-        /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomModeratorsApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomModeratorsApiResponse> RetrieveRoomModeratorsAsync(string anchorId, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
-        {
-            UriBuilder uriBuilderLocalVar = new UriBuilder();
-
-            try
-            {
-                ValidateRetrieveRoomModerators(anchorId, xOauthToken, xCookieHeader);
-
-                FormatRetrieveRoomModerators(ref anchorId, ref xOauthToken, ref xCookieHeader);
-
-                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
-                {
-                    uriBuilderLocalVar.Host = HttpClient.BaseAddress!.Host;
-                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
-                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
-                    uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/moderators"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/moderators");
-
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["anchor_id"] = ClientUtils.ParameterToString(anchorId);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-
-                    if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
-
-                    if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
-
-                    List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-
-                    apiKeyTokenLocalVar1.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("x-api-key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-                    apiKeyTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar);
-
-                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
-
-                    string[] acceptLocalVars = new string[] {
-                        "application/json"
-                    };
-
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
-
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
-
-                    httpRequestMessageLocalVar.Method = HttpMethod.Get;
-
-                    DateTime requestedAtLocalVar = DateTime.UtcNow;
-
-                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
-                    {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-
-                        ILogger<RetrieveRoomModeratorsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveRoomModeratorsApiResponse>();
-
-                        RetrieveRoomModeratorsApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/moderators", requestedAtLocalVar, _jsonSerializerOptions);
-
-                        AfterRetrieveRoomModeratorsDefaultImplementation(apiResponseLocalVar, anchorId, xOauthToken, xCookieHeader);
-
-                        Events.ExecuteOnRetrieveRoomModerators(apiResponseLocalVar);
-
-                        if (apiResponseLocalVar.StatusCode == (HttpStatusCode) 429)
-                            foreach(TokenBase tokenBaseLocalVar in tokenBaseLocalVars)
-                                tokenBaseLocalVar.BeginRateLimit();
-
-                        return apiResponseLocalVar;
-                    }
-                }
-            }
-            catch(Exception e)
-            {
-                OnErrorRetrieveRoomModeratorsDefaultImplementation(e, "/webcast/moderation/moderators", uriBuilderLocalVar.Path, anchorId, xOauthToken, xCookieHeader);
-                Events.ExecuteOnErrorRetrieveRoomModerators(e);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// The <see cref="RetrieveRoomModeratorsApiResponse"/>
-        /// </summary>
-        public partial class RetrieveRoomModeratorsApiResponse : EulerApiSdk.Client.ApiResponse, IRetrieveRoomModeratorsApiResponse
-        {
             /// <summary>
-            /// The logger
-            /// </summary>
-            public ILogger<RetrieveRoomModeratorsApiResponse> Logger { get; }
-
-            /// <summary>
-            /// The <see cref="RetrieveRoomModeratorsApiResponse"/>
-            /// </summary>
-            /// <param name="logger"></param>
-            /// <param name="httpRequestMessage"></param>
-            /// <param name="httpResponseMessage"></param>
-            /// <param name="rawContent"></param>
-            /// <param name="path"></param>
-            /// <param name="requestedAt"></param>
-            /// <param name="jsonSerializerOptions"></param>
-            public RetrieveRoomModeratorsApiResponse(ILogger<RetrieveRoomModeratorsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
-            {
-                Logger = logger;
-                OnCreated(httpRequestMessage, httpResponseMessage);
-            }
-
-            partial void OnCreated(global::System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
-
-            /// <summary>
-            /// Returns true if the response is 200 Ok
+            /// Returns true if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public bool IsOk => 200 == (int)StatusCode;
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
 
             /// <summary>
-            /// Deserializes the response if the response is 200 Ok
+            /// Deserializes the response if the response is 429 TooManyRequests
             /// </summary>
             /// <returns></returns>
-            public EulerApiSdk.Model.RoomModeratorsAPIResponse? Ok()
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
             {
                 // This logic may be modified with the AsModel.mustache template
-                return IsOk
-                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RoomModeratorsAPIResponse>(RawContent, _jsonSerializerOptions)
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
                     : null;
             }
 
             /// <summary>
-            /// Returns true if the response is 200 Ok and the deserialized response is not null
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
             /// </summary>
             /// <param name="result"></param>
             /// <returns></returns>
-            public bool TryOk([NotNullWhen(true)]out EulerApiSdk.Model.RoomModeratorsAPIResponse? result)
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
             {
                 result = null;
 
                 try
                 {
-                    result = Ok();
+                    result = TooManyRequests();
                 } catch (Exception e)
                 {
-                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)200);
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
                 }
 
                 return result != null;
@@ -2377,13 +3524,13 @@ namespace EulerApiSdk.Api
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatRetrieveRoomMutedUsers(ref string roomId, ref Option<double> page, ref Option<string> xOauthToken, ref Option<string> xCookieHeader);
+        partial void FormatRetrieveRoomMutedUsers(ref string roomId, ref Option<double> page, ref Option<string> xOauthToken, ref Option<string> xCookieHeader, ref Option<RouteImageSource> xImageSource);
 
         /// <summary>
         /// Validates the request parameters
@@ -2412,12 +3559,13 @@ namespace EulerApiSdk.Api
         /// <param name="page"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        private void AfterRetrieveRoomMutedUsersDefaultImplementation(IRetrieveRoomMutedUsersApiResponse apiResponseLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader)
+        /// <param name="xImageSource"></param>
+        private void AfterRetrieveRoomMutedUsersDefaultImplementation(IRetrieveRoomMutedUsersApiResponse apiResponseLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader, Option<RouteImageSource> xImageSource)
         {
             bool suppressDefaultLog = false;
-            AfterRetrieveRoomMutedUsers(ref suppressDefaultLog, apiResponseLocalVar, roomId, page, xOauthToken, xCookieHeader);
+            AfterRetrieveRoomMutedUsers(ref suppressDefaultLog, apiResponseLocalVar, roomId, page, xOauthToken, xCookieHeader, xImageSource);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2429,7 +3577,8 @@ namespace EulerApiSdk.Api
         /// <param name="page"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        partial void AfterRetrieveRoomMutedUsers(ref bool suppressDefaultLog, IRetrieveRoomMutedUsersApiResponse apiResponseLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader);
+        /// <param name="xImageSource"></param>
+        partial void AfterRetrieveRoomMutedUsers(ref bool suppressDefaultLog, IRetrieveRoomMutedUsersApiResponse apiResponseLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader, Option<RouteImageSource> xImageSource);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2441,12 +3590,13 @@ namespace EulerApiSdk.Api
         /// <param name="page"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        private void OnErrorRetrieveRoomMutedUsersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader)
+        /// <param name="xImageSource"></param>
+        private void OnErrorRetrieveRoomMutedUsersDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader, Option<RouteImageSource> xImageSource)
         {
             bool suppressDefaultLogLocalVar = false;
-            OnErrorRetrieveRoomMutedUsers(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, page, xOauthToken, xCookieHeader);
+            OnErrorRetrieveRoomMutedUsers(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, page, xOauthToken, xCookieHeader, xImageSource);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2460,22 +3610,24 @@ namespace EulerApiSdk.Api
         /// <param name="page"></param>
         /// <param name="xOauthToken"></param>
         /// <param name="xCookieHeader"></param>
-        partial void OnErrorRetrieveRoomMutedUsers(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader);
+        /// <param name="xImageSource"></param>
+        partial void OnErrorRetrieveRoomMutedUsers(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, Option<double> page, Option<string> xOauthToken, Option<string> xCookieHeader, Option<RouteImageSource> xImageSource);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomMutedUsersApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomMutedUsersApiResponse?> RetrieveRoomMutedUsersOrDefaultAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IRetrieveRoomMutedUsersApiResponse?> RetrieveRoomMutedUsersOrDefaultAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await RetrieveRoomMutedUsersAsync(roomId, page, xOauthToken, xCookieHeader, cancellationToken).ConfigureAwait(false);
+                return await RetrieveRoomMutedUsersAsync(roomId, page, xOauthToken, xCookieHeader, xImageSource, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2484,16 +3636,17 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Retrieve the list of muted users in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
-        /// <param name="page">Page number for pagination (default: 0) (optional, default to 0D)</param>
+        /// <param name="page">Page number for pagination (optional, default to 0D)</param>
         /// <param name="xOauthToken">OAuth access token for session resolution (optional)</param>
         /// <param name="xCookieHeader">Cookie header containing sessionid and tt-target-idc (optional)</param>
+        /// <param name="xImageSource">Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveRoomMutedUsersApiResponse"/>&gt;</returns>
-        public async Task<IRetrieveRoomMutedUsersApiResponse> RetrieveRoomMutedUsersAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<IRetrieveRoomMutedUsersApiResponse> RetrieveRoomMutedUsersAsync(string roomId, Option<double> page = default, Option<string> xOauthToken = default, Option<string> xCookieHeader = default, Option<RouteImageSource> xImageSource = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -2501,7 +3654,7 @@ namespace EulerApiSdk.Api
             {
                 ValidateRetrieveRoomMutedUsers(roomId, xOauthToken, xCookieHeader);
 
-                FormatRetrieveRoomMutedUsers(ref roomId, ref page, ref xOauthToken, ref xCookieHeader);
+                FormatRetrieveRoomMutedUsers(ref roomId, ref page, ref xOauthToken, ref xCookieHeader, ref xImageSource);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2509,12 +3662,11 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/mutes"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/mutes");
+                        ? "/webcast/rooms/{room_id}/moderation/mutes"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/mutes");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
 
                     if (page.IsSet)
                         parseQueryStringLocalVar["page"] = ClientUtils.ParameterToString(page.Value);
@@ -2522,10 +3674,43 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
+
+                    if (xImageSource.IsSet)
+                    {
+                      // Set client side default value of Header Param "x-image-source".                    
+                      if (ClientUtils.IsContentHeader("x-image-source"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-image-source", ClientUtils.ParameterToString(xImageSource.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -2544,10 +3729,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -2555,13 +3740,18 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        RetrieveRoomMutedUsersApiResponse apiResponseLocalVar;
 
-                        ILogger<RetrieveRoomMutedUsersApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveRoomMutedUsersApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/mutes", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        RetrieveRoomMutedUsersApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/mutes", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
-                        AfterRetrieveRoomMutedUsersDefaultImplementation(apiResponseLocalVar, roomId, page, xOauthToken, xCookieHeader);
+                        AfterRetrieveRoomMutedUsersDefaultImplementation(apiResponseLocalVar, roomId, page, xOauthToken, xCookieHeader, xImageSource);
 
                         Events.ExecuteOnRetrieveRoomMutedUsers(apiResponseLocalVar);
 
@@ -2575,7 +3765,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorRetrieveRoomMutedUsersDefaultImplementation(e, "/webcast/moderation/mutes", uriBuilderLocalVar.Path, roomId, page, xOauthToken, xCookieHeader);
+                OnErrorRetrieveRoomMutedUsersDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/mutes", uriBuilderLocalVar.Path, roomId, page, xOauthToken, xCookieHeader, xImageSource);
                 Events.ExecuteOnErrorRetrieveRoomMutedUsers(e);
                 throw;
             }
@@ -2589,7 +3779,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<RetrieveRoomMutedUsersApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RetrieveRoomMutedUsersApiResponse"/>
@@ -2601,7 +3791,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public RetrieveRoomMutedUsersApiResponse(ILogger<RetrieveRoomMutedUsersApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public RetrieveRoomMutedUsersApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveRoomMutedUsersApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveRoomMutedUsersApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -2647,12 +3853,126 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -2692,7 +4012,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterToggleRoomComments(ref suppressDefaultLog, apiResponseLocalVar, roomId, enabled, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2721,7 +4041,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorToggleRoomComments(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, enabled, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -2738,7 +4058,7 @@ namespace EulerApiSdk.Api
         partial void OnErrorToggleRoomComments(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, bool enabled, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="enabled">Whether comments should be enabled (true) or disabled (false)</param>
@@ -2759,7 +4079,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Toggle comments on/off in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -2784,21 +4104,41 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/toggle_comments"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/toggle_comments");
+                        ? "/webcast/rooms/{room_id}/moderation/toggle_comments"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/toggle_comments");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
                     parseQueryStringLocalVar["enabled"] = ClientUtils.ParameterToString(enabled);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -2817,10 +4157,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
@@ -2828,11 +4168,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        ToggleRoomCommentsApiResponse apiResponseLocalVar;
 
-                        ILogger<ToggleRoomCommentsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<ToggleRoomCommentsApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/toggle_comments", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        ToggleRoomCommentsApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/toggle_comments", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterToggleRoomCommentsDefaultImplementation(apiResponseLocalVar, roomId, enabled, xOauthToken, xCookieHeader);
 
@@ -2848,7 +4193,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorToggleRoomCommentsDefaultImplementation(e, "/webcast/moderation/toggle_comments", uriBuilderLocalVar.Path, roomId, enabled, xOauthToken, xCookieHeader);
+                OnErrorToggleRoomCommentsDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/toggle_comments", uriBuilderLocalVar.Path, roomId, enabled, xOauthToken, xCookieHeader);
                 Events.ExecuteOnErrorToggleRoomComments(e);
                 throw;
             }
@@ -2862,7 +4207,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<ToggleRoomCommentsApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="ToggleRoomCommentsApiResponse"/>
@@ -2874,7 +4219,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public ToggleRoomCommentsApiResponse(ILogger<ToggleRoomCommentsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public ToggleRoomCommentsApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="ToggleRoomCommentsApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public ToggleRoomCommentsApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -2920,12 +4281,126 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -2969,7 +4444,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterUnbanRoomUser(ref suppressDefaultLog, apiResponseLocalVar, roomId, tiktokUserId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -2998,7 +4473,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorUnbanRoomUser(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, tiktokUserId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -3015,7 +4490,7 @@ namespace EulerApiSdk.Api
         partial void OnErrorUnbanRoomUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, string tiktokUserId, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="tiktokUserId">The numeric user ID of the person to unkick</param>
@@ -3036,7 +4511,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Unkick a user from a livestream room (allow them back).  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -3061,21 +4536,41 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/bans"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/bans");
+                        ? "/webcast/rooms/{room_id}/moderation/bans"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/bans");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
                     parseQueryStringLocalVar["tiktok_user_id"] = ClientUtils.ParameterToString(tiktokUserId);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -3094,10 +4589,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
@@ -3105,11 +4600,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        UnbanRoomUserApiResponse apiResponseLocalVar;
 
-                        ILogger<UnbanRoomUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UnbanRoomUserApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/bans", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        UnbanRoomUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/bans", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterUnbanRoomUserDefaultImplementation(apiResponseLocalVar, roomId, tiktokUserId, xOauthToken, xCookieHeader);
 
@@ -3125,7 +4625,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorUnbanRoomUserDefaultImplementation(e, "/webcast/moderation/bans", uriBuilderLocalVar.Path, roomId, tiktokUserId, xOauthToken, xCookieHeader);
+                OnErrorUnbanRoomUserDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/bans", uriBuilderLocalVar.Path, roomId, tiktokUserId, xOauthToken, xCookieHeader);
                 Events.ExecuteOnErrorUnbanRoomUser(e);
                 throw;
             }
@@ -3139,7 +4639,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<UnbanRoomUserApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="UnbanRoomUserApiResponse"/>
@@ -3151,7 +4651,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public UnbanRoomUserApiResponse(ILogger<UnbanRoomUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public UnbanRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="UnbanRoomUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public UnbanRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -3197,12 +4713,126 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -3246,7 +4876,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterUnmuteRoomUser(ref suppressDefaultLog, apiResponseLocalVar, roomId, userId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -3275,7 +4905,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorUnmuteRoomUser(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, roomId, userId, xOauthToken, xCookieHeader);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -3292,7 +4922,7 @@ namespace EulerApiSdk.Api
         partial void OnErrorUnmuteRoomUser(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string roomId, string userId, Option<string> xOauthToken, Option<string> xCookieHeader);
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <param name="roomId">The room ID of the livestream</param>
         /// <param name="userId">The user ID to unmute</param>
@@ -3313,7 +4943,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Requires Premium Routes Addon - Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+        ///  Unmute a user in a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="roomId">The room ID of the livestream</param>
@@ -3338,21 +4968,41 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
-                        ? "/webcast/moderation/mutes"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/webcast/moderation/mutes");
+                        ? "/webcast/rooms/{room_id}/moderation/mutes"
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/webcast/rooms/{room_id}/moderation/mutes");
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7Broom_id%7D", Uri.EscapeDataString(roomId.ToString()));
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    parseQueryStringLocalVar["room_id"] = ClientUtils.ParameterToString(roomId);
                     parseQueryStringLocalVar["user_id"] = ClientUtils.ParameterToString(userId);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     if (xOauthToken.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                    {
+                      // Set client side default value of Header Param "x-oauth-token".                    
+                      if (ClientUtils.IsContentHeader("x-oauth-token"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-oauth-token", ClientUtils.ParameterToString(xOauthToken.Value));
+                      }
+                    }
 
                     if (xCookieHeader.IsSet)
-                        httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                    {
+                      // Set client side default value of Header Param "x-cookie-header".                    
+                      if (ClientUtils.IsContentHeader("x-cookie-header"))
+                      {
+                          httpRequestMessageLocalVar.Content?.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                      else
+                      {
+                          httpRequestMessageLocalVar.Headers.Add("x-cookie-header", ClientUtils.ParameterToString(xCookieHeader.Value));
+                      }
+                    }
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -3371,10 +5021,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
@@ -3382,11 +5032,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        UnmuteRoomUserApiResponse apiResponseLocalVar;
 
-                        ILogger<UnmuteRoomUserApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<UnmuteRoomUserApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/rooms/{room_id}/moderation/mutes", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        UnmuteRoomUserApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/webcast/moderation/mutes", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterUnmuteRoomUserDefaultImplementation(apiResponseLocalVar, roomId, userId, xOauthToken, xCookieHeader);
 
@@ -3402,7 +5057,7 @@ namespace EulerApiSdk.Api
             }
             catch(Exception e)
             {
-                OnErrorUnmuteRoomUserDefaultImplementation(e, "/webcast/moderation/mutes", uriBuilderLocalVar.Path, roomId, userId, xOauthToken, xCookieHeader);
+                OnErrorUnmuteRoomUserDefaultImplementation(e, "/webcast/rooms/{room_id}/moderation/mutes", uriBuilderLocalVar.Path, roomId, userId, xOauthToken, xCookieHeader);
                 Events.ExecuteOnErrorUnmuteRoomUser(e);
                 throw;
             }
@@ -3416,7 +5071,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<UnmuteRoomUserApiResponse> Logger { get; }
+            public ILogger<TikTokLIVEModerationApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="UnmuteRoomUserApiResponse"/>
@@ -3428,7 +5083,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public UnmuteRoomUserApiResponse(ILogger<UnmuteRoomUserApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public UnmuteRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="UnmuteRoomUserApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public UnmuteRoomUserApiResponse(ILogger<TikTokLIVEModerationApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -3474,12 +5145,126 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public bool IsServiceUnavailable => 503 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 503 ServiceUnavailable
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.GetAvailableDates503Response? ServiceUnavailable()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsServiceUnavailable
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.GetAvailableDates503Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 503 ServiceUnavailable and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryServiceUnavailable([NotNullWhen(true)]out EulerApiSdk.Model.GetAvailableDates503Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = ServiceUnavailable();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)503);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);

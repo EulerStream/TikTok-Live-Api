@@ -50,7 +50,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastLiveAnalyticsVideoDetailResponseWatcherRank
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastLiveAnalyticsVideoDetailResponseWatcherRank {
   public static final String SERIALIZED_NAME_USER = "user";
   @SerializedName(SERIALIZED_NAME_USER)
@@ -79,7 +79,7 @@ public class WebcastLiveAnalyticsVideoDetailResponseWatcherRank {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get user
    * @return user
    */
   @javax.annotation.Nonnull

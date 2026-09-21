@@ -34,7 +34,7 @@ namespace EulerApiSdk.Model
         /// Initializes a new instance of the <see cref="CreateAlertTargetPayload" /> class.
         /// </summary>
         /// <param name="url">url</param>
-        /// <param name="metadata">Construct a type with a set of properties K of type T</param>
+        /// <param name="metadata">metadata</param>
         [JsonConstructor]
         public CreateAlertTargetPayload(string url, Option<Dictionary<string, Object>?> metadata = default)
         {
@@ -59,11 +59,10 @@ namespace EulerApiSdk.Model
         public Option<Dictionary<string, Object>?> MetadataOption { get; private set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets Metadata
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("metadata")]
-        public Dictionary<string, Object>? Metadata { get { return this.MetadataOption; } set { this.MetadataOption = new(value); } }
+        public Dictionary<string, Object>? Metadata { get { return this.MetadataOption.Value; } set { this.MetadataOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -93,8 +92,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="CreateAlertTargetPayload" />
     /// </summary>
-    public class CreateAlertTargetPayloadJsonConverter : JsonConverter<CreateAlertTargetPayload>
+    public partial class CreateAlertTargetPayloadJsonConverter : JsonConverter<CreateAlertTargetPayload>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateAlertTargetPayloadJsonConverter" /> class.
+        /// </summary>
+        public CreateAlertTargetPayloadJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="CreateAlertTargetPayload" />
         /// </summary>

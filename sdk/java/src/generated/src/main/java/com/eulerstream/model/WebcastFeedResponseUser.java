@@ -53,7 +53,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastFeedResponseUser
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastFeedResponseUser {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -318,7 +318,7 @@ public class WebcastFeedResponseUser {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get payGrade
    * @return payGrade
    */
   @javax.annotation.Nonnull
@@ -345,7 +345,7 @@ public class WebcastFeedResponseUser {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get userAttr
    * @return userAttr
    */
   @javax.annotation.Nonnull

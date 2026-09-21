@@ -3,6 +3,7 @@ from enum import Enum
 
 class OAuthScope(str, Enum):
     USERCONSENTS = "user:consents"
+    USERINFO = "user:info"
     WEBCASTBAN = "webcast:ban"
     WEBCASTBULK_LIVE_CHECK = "webcast:bulk_live_check"
     WEBCASTCHAT = "webcast:chat"
@@ -12,6 +13,7 @@ class OAuthScope(str, Enum):
     WEBCASTMODERATORS = "webcast:moderators"
     WEBCASTMUTE = "webcast:mute"
     WEBCASTRANKINGS = "webcast:rankings"
+    WEBCASTSENSITIVE_WORDS = "webcast:sensitive_words"
     WEBCASTSIGN_URL = "webcast:sign_url"
     WEBCASTUSER_EARNINGS = "webcast:user_earnings"
 

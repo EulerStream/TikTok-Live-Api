@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastHashtagListRouteOutput" />
     /// </summary>
-    public class WebcastHashtagListRouteOutputJsonConverter : JsonConverter<WebcastHashtagListRouteOutput>
+    public partial class WebcastHashtagListRouteOutputJsonConverter : JsonConverter<WebcastHashtagListRouteOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastHashtagListRouteOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastHashtagListRouteOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastHashtagListRouteOutput" />
         /// </summary>

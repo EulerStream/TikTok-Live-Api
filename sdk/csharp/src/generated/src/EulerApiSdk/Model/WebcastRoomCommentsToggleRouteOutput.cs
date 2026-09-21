@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomCommentsToggleRouteOutput" />
     /// </summary>
-    public class WebcastRoomCommentsToggleRouteOutputJsonConverter : JsonConverter<WebcastRoomCommentsToggleRouteOutput>
+    public partial class WebcastRoomCommentsToggleRouteOutputJsonConverter : JsonConverter<WebcastRoomCommentsToggleRouteOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomCommentsToggleRouteOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomCommentsToggleRouteOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomCommentsToggleRouteOutput" />
         /// </summary>

@@ -8,6 +8,8 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.update_key_payload import UpdateKeyPayload
 from ...models.update_key_response import UpdateKeyResponse
+from ...models.update_key_response_429 import UpdateKeyResponse429
+from ...models.update_key_response_500 import UpdateKeyResponse500
 from ...models.update_key_update_by import UpdateKeyUpdateBy
 from ...types import UNSET, Response
 
@@ -46,11 +48,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> UpdateKeyResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500 | None:
     if response.status_code == 200:
         response_200 = UpdateKeyResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = UpdateKeyResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = UpdateKeyResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -58,7 +72,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[UpdateKeyResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -74,7 +90,7 @@ def sync_detailed(
     body: UpdateKeyPayload,
     update_by: UpdateKeyUpdateBy,
     update_param: str,
-) -> Response[UpdateKeyResponse]:
+) -> Response[UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500]:
     """Update an existing API key
 
     Args:
@@ -88,7 +104,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UpdateKeyResponse]
+        Response[UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -112,7 +128,7 @@ def sync(
     body: UpdateKeyPayload,
     update_by: UpdateKeyUpdateBy,
     update_param: str,
-) -> UpdateKeyResponse | None:
+) -> UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500 | None:
     """Update an existing API key
 
     Args:
@@ -126,7 +142,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UpdateKeyResponse
+        UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500
     """
 
     return sync_detailed(
@@ -145,7 +161,7 @@ async def asyncio_detailed(
     body: UpdateKeyPayload,
     update_by: UpdateKeyUpdateBy,
     update_param: str,
-) -> Response[UpdateKeyResponse]:
+) -> Response[UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500]:
     """Update an existing API key
 
     Args:
@@ -159,7 +175,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[UpdateKeyResponse]
+        Response[UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -181,7 +197,7 @@ async def asyncio(
     body: UpdateKeyPayload,
     update_by: UpdateKeyUpdateBy,
     update_param: str,
-) -> UpdateKeyResponse | None:
+) -> UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500 | None:
     """Update an existing API key
 
     Args:
@@ -195,7 +211,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        UpdateKeyResponse
+        UpdateKeyResponse | UpdateKeyResponse429 | UpdateKeyResponse500
     """
 
     return (

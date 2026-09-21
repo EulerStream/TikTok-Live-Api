@@ -15,7 +15,7 @@ import (
 	"fmt"
 )
 
-// TikTokSignLiveClient the model 'TikTokSignLiveClient'
+// TikTokSignLiveClient Logical \"client name\" recorded against each request — supplied by the caller via the `metadata.client_name` RPC field. Free-form on the wire, but conventionally one of the values below.
 type TikTokSignLiveClient string
 
 // List of TikTokSignLiveClient

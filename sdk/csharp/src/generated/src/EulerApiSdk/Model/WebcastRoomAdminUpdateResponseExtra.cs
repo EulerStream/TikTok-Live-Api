@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomAdminUpdateResponseExtra" />
     /// </summary>
-    public class WebcastRoomAdminUpdateResponseExtraJsonConverter : JsonConverter<WebcastRoomAdminUpdateResponseExtra>
+    public partial class WebcastRoomAdminUpdateResponseExtraJsonConverter : JsonConverter<WebcastRoomAdminUpdateResponseExtra>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomAdminUpdateResponseExtraJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomAdminUpdateResponseExtraJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomAdminUpdateResponseExtra" />
         /// </summary>

@@ -36,12 +36,16 @@ namespace EulerApiSdk.Model
         /// <param name="commentCount">commentCount</param>
         /// <param name="enterCount">enterCount</param>
         /// <param name="totalUser">totalUser</param>
+        /// <param name="shareCount">shareCount</param>
+        /// <param name="userCountComposition">userCountComposition</param>
         [JsonConstructor]
-        public WebcastFeedResponseRoomDataStats(double commentCount, double enterCount, double totalUser)
+        public WebcastFeedResponseRoomDataStats(double commentCount, double enterCount, double totalUser, Option<double?> shareCount = default, Option<Dictionary<string, Object>?> userCountComposition = default)
         {
             CommentCount = commentCount;
             EnterCount = enterCount;
             TotalUser = totalUser;
+            ShareCountOption = shareCount;
+            UserCountCompositionOption = userCountComposition;
             OnCreated();
         }
 
@@ -66,6 +70,32 @@ namespace EulerApiSdk.Model
         public double TotalUser { get; set; }
 
         /// <summary>
+        /// Used to track the state of ShareCount
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<double?> ShareCountOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets ShareCount
+        /// </summary>
+        [JsonPropertyName("share_count")]
+        public double? ShareCount { get { return this.ShareCountOption.Value; } set { this.ShareCountOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of UserCountComposition
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Dictionary<string, Object>?> UserCountCompositionOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets UserCountComposition
+        /// </summary>
+        [JsonPropertyName("user_count_composition")]
+        public Dictionary<string, Object>? UserCountComposition { get { return this.UserCountCompositionOption.Value; } set { this.UserCountCompositionOption = new(value); } }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -76,6 +106,8 @@ namespace EulerApiSdk.Model
             sb.Append("  CommentCount: ").Append(CommentCount).Append("\n");
             sb.Append("  EnterCount: ").Append(EnterCount).Append("\n");
             sb.Append("  TotalUser: ").Append(TotalUser).Append("\n");
+            sb.Append("  ShareCount: ").Append(ShareCount).Append("\n");
+            sb.Append("  UserCountComposition: ").Append(UserCountComposition).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -94,8 +126,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseRoomDataStats" />
     /// </summary>
-    public class WebcastFeedResponseRoomDataStatsJsonConverter : JsonConverter<WebcastFeedResponseRoomDataStats>
+    public partial class WebcastFeedResponseRoomDataStatsJsonConverter : JsonConverter<WebcastFeedResponseRoomDataStats>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseRoomDataStatsJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseRoomDataStatsJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseRoomDataStats" />
         /// </summary>
@@ -116,6 +158,8 @@ namespace EulerApiSdk.Model
             Option<double?> commentCount = default;
             Option<double?> enterCount = default;
             Option<double?> totalUser = default;
+            Option<double?> shareCount = default;
+            Option<Dictionary<string, Object>?> userCountComposition = default;
 
             while (utf8JsonReader.Read())
             {
@@ -141,6 +185,12 @@ namespace EulerApiSdk.Model
                         case "total_user":
                             totalUser = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
+                        case "share_count":
+                            shareCount = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
+                        case "user_count_composition":
+                            userCountComposition = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         default:
                             break;
                     }
@@ -165,7 +215,13 @@ namespace EulerApiSdk.Model
             if (totalUser.IsSet && totalUser.Value == null)
                 throw new ArgumentNullException(nameof(totalUser), "Property is not nullable for class WebcastFeedResponseRoomDataStats.");
 
-            return new WebcastFeedResponseRoomDataStats(commentCount.Value!.Value!, enterCount.Value!.Value!, totalUser.Value!.Value!);
+            if (shareCount.IsSet && shareCount.Value == null)
+                throw new ArgumentNullException(nameof(shareCount), "Property is not nullable for class WebcastFeedResponseRoomDataStats.");
+
+            if (userCountComposition.IsSet && userCountComposition.Value == null)
+                throw new ArgumentNullException(nameof(userCountComposition), "Property is not nullable for class WebcastFeedResponseRoomDataStats.");
+
+            return new WebcastFeedResponseRoomDataStats(commentCount.Value!.Value!, enterCount.Value!.Value!, totalUser.Value!.Value!, shareCount, userCountComposition);
         }
 
         /// <summary>
@@ -192,11 +248,23 @@ namespace EulerApiSdk.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(Utf8JsonWriter writer, WebcastFeedResponseRoomDataStats webcastFeedResponseRoomDataStats, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (webcastFeedResponseRoomDataStats.UserCountCompositionOption.IsSet && webcastFeedResponseRoomDataStats.UserCountComposition == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseRoomDataStats.UserCountComposition), "Property is required for class WebcastFeedResponseRoomDataStats.");
+
             writer.WriteNumber("comment_count", webcastFeedResponseRoomDataStats.CommentCount);
 
             writer.WriteNumber("enter_count", webcastFeedResponseRoomDataStats.EnterCount);
 
             writer.WriteNumber("total_user", webcastFeedResponseRoomDataStats.TotalUser);
+
+            if (webcastFeedResponseRoomDataStats.ShareCountOption.IsSet)
+                writer.WriteNumber("share_count", webcastFeedResponseRoomDataStats.ShareCountOption.Value!.Value);
+
+            if (webcastFeedResponseRoomDataStats.UserCountCompositionOption.IsSet)
+            {
+                writer.WritePropertyName("user_count_composition");
+                JsonSerializer.Serialize(writer, webcastFeedResponseRoomDataStats.UserCountComposition, jsonSerializerOptions);
+            }
         }
     }
 }

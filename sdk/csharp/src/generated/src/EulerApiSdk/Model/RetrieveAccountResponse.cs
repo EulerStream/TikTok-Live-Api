@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Account
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Account
         /// </summary>
         [JsonPropertyName("account")]
-        public AccountWithPermissionsSafe? Account { get { return this.AccountOption; } set { this.AccountOption = new(value); } }
+        public AccountWithPermissionsSafe? Account { get { return this.AccountOption.Value; } set { this.AccountOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RetrieveAccountResponse" />
     /// </summary>
-    public class RetrieveAccountResponseJsonConverter : JsonConverter<RetrieveAccountResponse>
+    public partial class RetrieveAccountResponseJsonConverter : JsonConverter<RetrieveAccountResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetrieveAccountResponseJsonConverter" /> class.
+        /// </summary>
+        public RetrieveAccountResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RetrieveAccountResponse" />
         /// </summary>

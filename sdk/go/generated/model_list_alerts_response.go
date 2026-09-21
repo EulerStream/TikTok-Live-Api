@@ -23,7 +23,7 @@ var _ MappedNullable = &ListAlertsResponse{}
 type ListAlertsResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	Alerts []Alert `json:"alerts,omitempty"`
+	Alerts []AlertResponseShape `json:"alerts,omitempty"`
 	HasMore bool `json:"hasMore"`
 }
 
@@ -105,9 +105,9 @@ func (o *ListAlertsResponse) SetMessage(v string) {
 }
 
 // GetAlerts returns the Alerts field value if set, zero value otherwise.
-func (o *ListAlertsResponse) GetAlerts() []Alert {
+func (o *ListAlertsResponse) GetAlerts() []AlertResponseShape {
 	if o == nil || IsNil(o.Alerts) {
-		var ret []Alert
+		var ret []AlertResponseShape
 		return ret
 	}
 	return o.Alerts
@@ -115,7 +115,7 @@ func (o *ListAlertsResponse) GetAlerts() []Alert {
 
 // GetAlertsOk returns a tuple with the Alerts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListAlertsResponse) GetAlertsOk() ([]Alert, bool) {
+func (o *ListAlertsResponse) GetAlertsOk() ([]AlertResponseShape, bool) {
 	if o == nil || IsNil(o.Alerts) {
 		return nil, false
 	}
@@ -131,8 +131,8 @@ func (o *ListAlertsResponse) HasAlerts() bool {
 	return false
 }
 
-// SetAlerts gets a reference to the given []Alert and assigns it to the Alerts field.
-func (o *ListAlertsResponse) SetAlerts(v []Alert) {
+// SetAlerts gets a reference to the given []AlertResponseShape and assigns it to the Alerts field.
+func (o *ListAlertsResponse) SetAlerts(v []AlertResponseShape) {
 	o.Alerts = v
 }
 

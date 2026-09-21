@@ -48,7 +48,7 @@ import com.eulerstream.JSON;
 /**
  * One gift row from the ClickHouse &#x60;tiktok_gifts&#x60; ReplacingMergeTree. Mirrors the searchable columns + the JSON &#x60;raw&#x60; blob (shipped as a UTF-8 JSON string here so consumers can decode lazily without re-encoding through protobuf any-types).
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class TikTokGiftsServerGift {
   public static final String SERIALIZED_NAME_GIFT_ID = "giftId";
   @SerializedName(SERIALIZED_NAME_GIFT_ID)

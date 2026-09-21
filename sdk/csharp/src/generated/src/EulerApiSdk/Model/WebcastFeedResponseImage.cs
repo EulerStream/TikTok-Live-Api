@@ -85,8 +85,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseImage" />
     /// </summary>
-    public class WebcastFeedResponseImageJsonConverter : JsonConverter<WebcastFeedResponseImage>
+    public partial class WebcastFeedResponseImageJsonConverter : JsonConverter<WebcastFeedResponseImage>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseImageJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseImageJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseImage" />
         /// </summary>

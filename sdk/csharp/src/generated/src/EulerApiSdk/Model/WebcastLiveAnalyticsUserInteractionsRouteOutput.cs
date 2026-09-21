@@ -76,8 +76,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastLiveAnalyticsUserInteractionsRouteOutput" />
     /// </summary>
-    public class WebcastLiveAnalyticsUserInteractionsRouteOutputJsonConverter : JsonConverter<WebcastLiveAnalyticsUserInteractionsRouteOutput>
+    public partial class WebcastLiveAnalyticsUserInteractionsRouteOutputJsonConverter : JsonConverter<WebcastLiveAnalyticsUserInteractionsRouteOutput>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastLiveAnalyticsUserInteractionsRouteOutputJsonConverter" /> class.
+        /// </summary>
+        public WebcastLiveAnalyticsUserInteractionsRouteOutputJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastLiveAnalyticsUserInteractionsRouteOutput" />
         /// </summary>

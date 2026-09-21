@@ -184,22 +184,32 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="AccountWithPermissionsSafe" />
     /// </summary>
-    public class AccountWithPermissionsSafeJsonConverter : JsonConverter<AccountWithPermissionsSafe>
+    public partial class AccountWithPermissionsSafeJsonConverter : JsonConverter<AccountWithPermissionsSafe>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountWithPermissionsSafeJsonConverter" /> class.
+        /// </summary>
+        public AccountWithPermissionsSafeJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// The format to use to serialize UpdatedAt
         /// </summary>
-        public static string UpdatedAtFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string UpdatedAtFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize CreatedAt
         /// </summary>
-        public static string CreatedAtFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string CreatedAtFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// The format to use to serialize ExpiresAt
         /// </summary>
-        public static string ExpiresAtFormat { get; set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
+        public string ExpiresAtFormat { get; private set; } = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffffffK";
 
         /// <summary>
         /// Deserializes json to <see cref="AccountWithPermissionsSafe" />

@@ -47,9 +47,9 @@ import java.util.Set;
 import com.eulerstream.JSON;
 
 /**
- * Public, snake_case response shape for an alert.  The gRPC {@link LivePushAlert} model is camelCase; the public API has always exposed alerts in snake_case, so we convert before serializing. Only the field casing is changed here — types and field membership are left as-is.
+ * Public, snake_case response shape for an alert. The gRPC {@link LivePushAlert} model is camelCase; the public API has always exposed alerts in snake_case, so we convert before serializing. Only the field casing is changed here — types and field membership are left as-is.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class AlertResponseShape {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -80,6 +80,11 @@ public class AlertResponseShape {
   @SerializedName(SERIALIZED_NAME_ALERT_CREATOR_USERNAME)
   @javax.annotation.Nonnull
   private String alertCreatorUsername;
+
+  public static final String SERIALIZED_NAME_ALERT_CREATOR_USER_ID = "alert_creator_user_id";
+  @SerializedName(SERIALIZED_NAME_ALERT_CREATOR_USER_ID)
+  @javax.annotation.Nullable
+  private String alertCreatorUserId;
 
   public static final String SERIALIZED_NAME_CREATED_AT = "created_at";
   @SerializedName(SERIALIZED_NAME_CREATED_AT)
@@ -220,6 +225,25 @@ public class AlertResponseShape {
   }
 
 
+  public AlertResponseShape alertCreatorUserId(@javax.annotation.Nullable String alertCreatorUserId) {
+    this.alertCreatorUserId = alertCreatorUserId;
+    return this;
+  }
+
+  /**
+   * The creator&#39;s TikTok numeric user id. Unset when the alerts service has not yet resolved it (the gRPC layer carries an empty string in that case).
+   * @return alertCreatorUserId
+   */
+  @javax.annotation.Nullable
+  public String getAlertCreatorUserId() {
+    return alertCreatorUserId;
+  }
+
+  public void setAlertCreatorUserId(@javax.annotation.Nullable String alertCreatorUserId) {
+    this.alertCreatorUserId = alertCreatorUserId;
+  }
+
+
   public AlertResponseShape createdAt(@javax.annotation.Nonnull OffsetDateTime createdAt) {
     this.createdAt = createdAt;
     return this;
@@ -320,6 +344,7 @@ public class AlertResponseShape {
         Objects.equals(this.readOnly, alertResponseShape.readOnly) &&
         Objects.equals(this.enabled, alertResponseShape.enabled) &&
         Objects.equals(this.alertCreatorUsername, alertResponseShape.alertCreatorUsername) &&
+        Objects.equals(this.alertCreatorUserId, alertResponseShape.alertCreatorUserId) &&
         Objects.equals(this.createdAt, alertResponseShape.createdAt) &&
         Objects.equals(this.updatedAt, alertResponseShape.updatedAt) &&
         Objects.equals(this.alertCreatorAvatarUrl, alertResponseShape.alertCreatorAvatarUrl) &&
@@ -328,7 +353,7 @@ public class AlertResponseShape {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, accountId, alertCreatorId, readOnly, enabled, alertCreatorUsername, createdAt, updatedAt, alertCreatorAvatarUrl, alertCreatorNickname);
+    return Objects.hash(id, accountId, alertCreatorId, readOnly, enabled, alertCreatorUsername, alertCreatorUserId, createdAt, updatedAt, alertCreatorAvatarUrl, alertCreatorNickname);
   }
 
   @Override
@@ -341,6 +366,7 @@ public class AlertResponseShape {
     sb.append("    readOnly: ").append(toIndentedString(readOnly)).append("\n");
     sb.append("    enabled: ").append(toIndentedString(enabled)).append("\n");
     sb.append("    alertCreatorUsername: ").append(toIndentedString(alertCreatorUsername)).append("\n");
+    sb.append("    alertCreatorUserId: ").append(toIndentedString(alertCreatorUserId)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("    alertCreatorAvatarUrl: ").append(toIndentedString(alertCreatorAvatarUrl)).append("\n");
@@ -363,7 +389,7 @@ public class AlertResponseShape {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("id", "account_id", "alert_creator_id", "read_only", "enabled", "alert_creator_username", "created_at", "updated_at", "alert_creator_avatar_url", "alert_creator_nickname"));
+    openapiFields = new HashSet<String>(Arrays.asList("id", "account_id", "alert_creator_id", "read_only", "enabled", "alert_creator_username", "alert_creator_user_id", "created_at", "updated_at", "alert_creator_avatar_url", "alert_creator_nickname"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("id", "account_id", "alert_creator_id", "read_only", "enabled", "alert_creator_username", "created_at", "updated_at"));
@@ -399,6 +425,9 @@ public class AlertResponseShape {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if (!jsonObj.get("alert_creator_username").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `alert_creator_username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("alert_creator_username").toString()));
+      }
+      if ((jsonObj.get("alert_creator_user_id") != null && !jsonObj.get("alert_creator_user_id").isJsonNull()) && !jsonObj.get("alert_creator_user_id").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `alert_creator_user_id` to be a primitive type in the JSON string but got `%s`", jsonObj.get("alert_creator_user_id").toString()));
       }
       if ((jsonObj.get("alert_creator_avatar_url") != null && !jsonObj.get("alert_creator_avatar_url").isJsonNull()) && !jsonObj.get("alert_creator_avatar_url").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format(java.util.Locale.ROOT, "Expected the field `alert_creator_avatar_url` to be a primitive type in the JSON string but got `%s`", jsonObj.get("alert_creator_avatar_url").toString()));

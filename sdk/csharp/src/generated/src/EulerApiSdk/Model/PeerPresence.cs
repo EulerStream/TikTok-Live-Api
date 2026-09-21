@@ -168,8 +168,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="PeerPresence" />
     /// </summary>
-    public class PeerPresenceJsonConverter : JsonConverter<PeerPresence>
+    public partial class PeerPresenceJsonConverter : JsonConverter<PeerPresence>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PeerPresenceJsonConverter" /> class.
+        /// </summary>
+        public PeerPresenceJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PeerPresence" />
         /// </summary>
@@ -211,9 +221,7 @@ namespace EulerApiSdk.Model
                             lastSeen = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
                         case "role":
-                            string? roleRawValue = utf8JsonReader.GetString();
-                            if (roleRawValue != null)
-                                role = new Option<PeerRole?>(PeerRoleValueConverter.FromStringOrDefault(roleRawValue));
+                            role = new Option<PeerRole?>(JsonSerializer.Deserialize<PeerRole?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "id":
                             id = new Option<string?>(utf8JsonReader.GetString()!);

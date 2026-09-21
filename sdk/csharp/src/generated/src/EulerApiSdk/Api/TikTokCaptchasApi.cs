@@ -12,13 +12,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using EulerApiSdk.Client;
+using EulerApiSdk.Logging;
 using EulerApiSdk.Model;
 using System.Diagnostics.CodeAnalysis;
 
@@ -39,26 +42,26 @@ namespace EulerApiSdk.Api
         /// 
         /// </summary>
         /// <remarks>
-        ///  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+        /// The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="prompt">The prompt string provided by TikTok</param>
         /// <param name="captchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteIconCaptchaApiResponse"/>&gt;</returns>
-        Task<ICompleteIconCaptchaApiResponse> CompleteIconCaptchaAsync(string prompt, System.IO.Stream captchaImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompleteIconCaptchaApiResponse> CompleteIconCaptchaAsync(string prompt, EulerApiSdk.Client.FileParameter captchaImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        ///  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+        /// The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
         /// </remarks>
         /// <param name="prompt">The prompt string provided by TikTok</param>
         /// <param name="captchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteIconCaptchaApiResponse"/>?&gt;</returns>
-        Task<ICompleteIconCaptchaApiResponse?> CompleteIconCaptchaOrDefaultAsync(string prompt, System.IO.Stream captchaImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompleteIconCaptchaApiResponse?> CompleteIconCaptchaOrDefaultAsync(string prompt, EulerApiSdk.Client.FileParameter captchaImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -71,7 +74,7 @@ namespace EulerApiSdk.Api
         /// <param name="pieceImage">The uploaded puzzle piece image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompletePuzzleCaptchaApiResponse"/>&gt;</returns>
-        Task<ICompletePuzzleCaptchaApiResponse> CompletePuzzleCaptchaAsync(System.IO.Stream backgroundImage, System.IO.Stream pieceImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompletePuzzleCaptchaApiResponse> CompletePuzzleCaptchaAsync(EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -83,7 +86,7 @@ namespace EulerApiSdk.Api
         /// <param name="pieceImage">The uploaded puzzle piece image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompletePuzzleCaptchaApiResponse"/>?&gt;</returns>
-        Task<ICompletePuzzleCaptchaApiResponse?> CompletePuzzleCaptchaOrDefaultAsync(System.IO.Stream backgroundImage, System.IO.Stream pieceImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompletePuzzleCaptchaApiResponse?> CompletePuzzleCaptchaOrDefaultAsync(EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -95,7 +98,7 @@ namespace EulerApiSdk.Api
         /// <param name="shapesCaptchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteShapesCaptchaApiResponse"/>&gt;</returns>
-        Task<ICompleteShapesCaptchaApiResponse> CompleteShapesCaptchaAsync(System.IO.Stream shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompleteShapesCaptchaApiResponse> CompleteShapesCaptchaAsync(EulerApiSdk.Client.FileParameter shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -106,7 +109,7 @@ namespace EulerApiSdk.Api
         /// <param name="shapesCaptchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteShapesCaptchaApiResponse"/>?&gt;</returns>
-        Task<ICompleteShapesCaptchaApiResponse?> CompleteShapesCaptchaOrDefaultAsync(System.IO.Stream shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompleteShapesCaptchaApiResponse?> CompleteShapesCaptchaOrDefaultAsync(EulerApiSdk.Client.FileParameter shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -119,7 +122,7 @@ namespace EulerApiSdk.Api
         /// <param name="innerImage">The inner image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteWhirlCaptchaApiResponse"/>&gt;</returns>
-        Task<ICompleteWhirlCaptchaApiResponse> CompleteWhirlCaptchaAsync(System.IO.Stream outerImage, System.IO.Stream innerImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompleteWhirlCaptchaApiResponse> CompleteWhirlCaptchaAsync(EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -131,88 +134,150 @@ namespace EulerApiSdk.Api
         /// <param name="innerImage">The inner image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteWhirlCaptchaApiResponse"/>?&gt;</returns>
-        Task<ICompleteWhirlCaptchaApiResponse?> CompleteWhirlCaptchaOrDefaultAsync(System.IO.Stream outerImage, System.IO.Stream innerImage, System.Threading.CancellationToken cancellationToken = default);
+        Task<ICompleteWhirlCaptchaApiResponse?> CompleteWhirlCaptchaOrDefaultAsync(EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Retrieve the rate limits for the provided API key
+        /// Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveCaptchaCreditsApiResponse"/>&gt;</returns>
+        [Obsolete]
         Task<IRetrieveCaptchaCreditsApiResponse> RetrieveCaptchaCreditsAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
         /// </summary>
         /// <remarks>
-        /// Retrieve the rate limits for the provided API key
+        /// Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
         /// </remarks>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveCaptchaCreditsApiResponse"/>?&gt;</returns>
+        [Obsolete]
         Task<IRetrieveCaptchaCreditsApiResponse?> RetrieveCaptchaCreditsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
     /// The <see cref="ICompleteIconCaptchaApiResponse"/>
     /// </summary>
-    public interface ICompleteIconCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.IconCaptchaResponse?>
+    public interface ICompleteIconCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.IconCaptchaResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
     }
 
     /// <summary>
     /// The <see cref="ICompletePuzzleCaptchaApiResponse"/>
     /// </summary>
-    public interface ICompletePuzzleCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.PuzzleCaptchaResponse?>
+    public interface ICompletePuzzleCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.PuzzleCaptchaResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
     }
 
     /// <summary>
     /// The <see cref="ICompleteShapesCaptchaApiResponse"/>
     /// </summary>
-    public interface ICompleteShapesCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.ShapesCaptchaResponse?>
+    public interface ICompleteShapesCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.ShapesCaptchaResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
     }
 
     /// <summary>
     /// The <see cref="ICompleteWhirlCaptchaApiResponse"/>
     /// </summary>
-    public interface ICompleteWhirlCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WhirlCaptchaResponse?>
+    public interface ICompleteWhirlCaptchaApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.WhirlCaptchaResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
     }
 
     /// <summary>
     /// The <see cref="IRetrieveCaptchaCreditsApiResponse"/>
     /// </summary>
-    public interface IRetrieveCaptchaCreditsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.CaptchaCreditsResponse?>
+    public interface IRetrieveCaptchaCreditsApiResponse : EulerApiSdk.Client.IApiResponse, IOk<EulerApiSdk.Model.CaptchaCreditsResponse?>, ITooManyRequests<EulerApiSdk.Model.RetrieveAccountSelf429Response?>, IInternalServerError<EulerApiSdk.Model.RetrieveAccountSelf500Response?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
         /// </summary>
         /// <returns></returns>
         bool IsOk { get; }
+
+        /// <summary>
+        /// Returns true if the response is 429 TooManyRequests
+        /// </summary>
+        /// <returns></returns>
+        bool IsTooManyRequests { get; }
+
+        /// <summary>
+        /// Returns true if the response is 500 InternalServerError
+        /// </summary>
+        /// <returns></returns>
+        bool IsInternalServerError { get; }
     }
 
     /// <summary>
@@ -329,11 +394,6 @@ namespace EulerApiSdk.Api
         private JsonSerializerOptions _jsonSerializerOptions;
 
         /// <summary>
-        /// The logger factory
-        /// </summary>
-        public ILoggerFactory LoggerFactory { get; }
-
-        /// <summary>
         /// The logger
         /// </summary>
         public ILogger<TikTokCaptchasApi> Logger { get; }
@@ -357,18 +417,17 @@ namespace EulerApiSdk.Api
         /// Initializes a new instance of the <see cref="TikTokCaptchasApi"/> class.
         /// </summary>
         /// <returns></returns>
-        public TikTokCaptchasApi(ILogger<TikTokCaptchasApi> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, TikTokCaptchasApiEvents tikTokCaptchasApiEvents,
+        public TikTokCaptchasApi(ILogger<TikTokCaptchasApi> logger, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, TikTokCaptchasApiEvents tikTokCaptchasApiEvents,
             TokenProvider<ApiKeyToken> apiKeyProvider)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
-            LoggerFactory = loggerFactory;
-            Logger = LoggerFactory.CreateLogger<TikTokCaptchasApi>();
+            Logger = logger;
             HttpClient = httpClient;
             Events = tikTokCaptchasApiEvents;
             ApiKeyProvider = apiKeyProvider;
         }
 
-        partial void FormatCompleteIconCaptcha(ref string prompt, ref System.IO.Stream captchaImage);
+        partial void FormatCompleteIconCaptcha(ref string prompt, ref EulerApiSdk.Client.FileParameter captchaImage);
 
         /// <summary>
         /// Validates the request parameters
@@ -376,7 +435,7 @@ namespace EulerApiSdk.Api
         /// <param name="prompt"></param>
         /// <param name="captchaImage"></param>
         /// <returns></returns>
-        private void ValidateCompleteIconCaptcha(string prompt, System.IO.Stream captchaImage)
+        private void ValidateCompleteIconCaptcha(string prompt, EulerApiSdk.Client.FileParameter captchaImage)
         {
             if (prompt == null)
                 throw new ArgumentNullException(nameof(prompt));
@@ -391,12 +450,12 @@ namespace EulerApiSdk.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="prompt"></param>
         /// <param name="captchaImage"></param>
-        private void AfterCompleteIconCaptchaDefaultImplementation(ICompleteIconCaptchaApiResponse apiResponseLocalVar, string prompt, System.IO.Stream captchaImage)
+        private void AfterCompleteIconCaptchaDefaultImplementation(ICompleteIconCaptchaApiResponse apiResponseLocalVar, string prompt, EulerApiSdk.Client.FileParameter captchaImage)
         {
             bool suppressDefaultLog = false;
             AfterCompleteIconCaptcha(ref suppressDefaultLog, apiResponseLocalVar, prompt, captchaImage);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -406,7 +465,7 @@ namespace EulerApiSdk.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="prompt"></param>
         /// <param name="captchaImage"></param>
-        partial void AfterCompleteIconCaptcha(ref bool suppressDefaultLog, ICompleteIconCaptchaApiResponse apiResponseLocalVar, string prompt, System.IO.Stream captchaImage);
+        partial void AfterCompleteIconCaptcha(ref bool suppressDefaultLog, ICompleteIconCaptchaApiResponse apiResponseLocalVar, string prompt, EulerApiSdk.Client.FileParameter captchaImage);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -416,12 +475,12 @@ namespace EulerApiSdk.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="prompt"></param>
         /// <param name="captchaImage"></param>
-        private void OnErrorCompleteIconCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string prompt, System.IO.Stream captchaImage)
+        private void OnErrorCompleteIconCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string prompt, EulerApiSdk.Client.FileParameter captchaImage)
         {
             bool suppressDefaultLogLocalVar = false;
             OnErrorCompleteIconCaptcha(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, prompt, captchaImage);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -433,16 +492,16 @@ namespace EulerApiSdk.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="prompt"></param>
         /// <param name="captchaImage"></param>
-        partial void OnErrorCompleteIconCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string prompt, System.IO.Stream captchaImage);
+        partial void OnErrorCompleteIconCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, string prompt, EulerApiSdk.Client.FileParameter captchaImage);
 
         /// <summary>
-        ///   The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+        ///  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
         /// </summary>
         /// <param name="prompt">The prompt string provided by TikTok</param>
         /// <param name="captchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteIconCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompleteIconCaptchaApiResponse?> CompleteIconCaptchaOrDefaultAsync(string prompt, System.IO.Stream captchaImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompleteIconCaptchaApiResponse?> CompleteIconCaptchaOrDefaultAsync(string prompt, EulerApiSdk.Client.FileParameter captchaImage, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -455,14 +514,14 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///   The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
+        ///  The icons captcha requires just one image &amp; a prompt string.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/icon.png\&quot; alt&#x3D;\&quot;Icons Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The &#x60;prompt&#x60; is the text prompt provided by TikTok. The Icon captcha solution is provided as a list of points, where each point marks a location on the image that needs to be clicked. These points are expressed as ratios relative to the image&#39;s width and height. A point of (0.0, 0.0) corresponds to the image’s upper-left corner, while (1.0, 1.0) represents the lower-right corner. For reference, (0.5, 0.5) sits at the exact center.  The captcha image selector is &#x60;.captcha-verify-image&#x60;
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="prompt">The prompt string provided by TikTok</param>
         /// <param name="captchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteIconCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompleteIconCaptchaApiResponse> CompleteIconCaptchaAsync(string prompt, System.IO.Stream captchaImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompleteIconCaptchaApiResponse> CompleteIconCaptchaAsync(string prompt, EulerApiSdk.Client.FileParameter captchaImage, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -479,7 +538,7 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/tiktok/captchas/icons"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/tiktok/captchas/icons");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/tiktok/captchas/icons");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -487,13 +546,20 @@ namespace EulerApiSdk.Api
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
+                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
 
                     httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    multipartContentLocalVar.Add(new StreamContent(captchaImage));
+                    {
+                        var streamContentLocalVar = new StreamContent(captchaImage.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(captchaImage.ContentType);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "captchaImage", captchaImage.FileName ?? "captchaImage");
+                    }
+
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -512,19 +578,14 @@ namespace EulerApiSdk.Api
                         "multipart/form-data"
                     };
 
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
                     string[] acceptLocalVars = new string[] {
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
@@ -532,11 +593,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        CompleteIconCaptchaApiResponse apiResponseLocalVar;
 
-                        ILogger<CompleteIconCaptchaApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CompleteIconCaptchaApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/icons", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        CompleteIconCaptchaApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/icons", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterCompleteIconCaptchaDefaultImplementation(apiResponseLocalVar, prompt, captchaImage);
 
@@ -566,7 +632,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<CompleteIconCaptchaApiResponse> Logger { get; }
+            public ILogger<TikTokCaptchasApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CompleteIconCaptchaApiResponse"/>
@@ -578,7 +644,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public CompleteIconCaptchaApiResponse(ILogger<CompleteIconCaptchaApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public CompleteIconCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CompleteIconCaptchaApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CompleteIconCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -624,18 +706,94 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatCompletePuzzleCaptcha(ref System.IO.Stream backgroundImage, ref System.IO.Stream pieceImage);
+        partial void FormatCompletePuzzleCaptcha(ref EulerApiSdk.Client.FileParameter backgroundImage, ref EulerApiSdk.Client.FileParameter pieceImage);
 
         /// <summary>
         /// Validates the request parameters
@@ -643,7 +801,7 @@ namespace EulerApiSdk.Api
         /// <param name="backgroundImage"></param>
         /// <param name="pieceImage"></param>
         /// <returns></returns>
-        private void ValidateCompletePuzzleCaptcha(System.IO.Stream backgroundImage, System.IO.Stream pieceImage)
+        private void ValidateCompletePuzzleCaptcha(EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage)
         {
             if (backgroundImage == null)
                 throw new ArgumentNullException(nameof(backgroundImage));
@@ -658,12 +816,12 @@ namespace EulerApiSdk.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="backgroundImage"></param>
         /// <param name="pieceImage"></param>
-        private void AfterCompletePuzzleCaptchaDefaultImplementation(ICompletePuzzleCaptchaApiResponse apiResponseLocalVar, System.IO.Stream backgroundImage, System.IO.Stream pieceImage)
+        private void AfterCompletePuzzleCaptchaDefaultImplementation(ICompletePuzzleCaptchaApiResponse apiResponseLocalVar, EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage)
         {
             bool suppressDefaultLog = false;
             AfterCompletePuzzleCaptcha(ref suppressDefaultLog, apiResponseLocalVar, backgroundImage, pieceImage);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -673,7 +831,7 @@ namespace EulerApiSdk.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="backgroundImage"></param>
         /// <param name="pieceImage"></param>
-        partial void AfterCompletePuzzleCaptcha(ref bool suppressDefaultLog, ICompletePuzzleCaptchaApiResponse apiResponseLocalVar, System.IO.Stream backgroundImage, System.IO.Stream pieceImage);
+        partial void AfterCompletePuzzleCaptcha(ref bool suppressDefaultLog, ICompletePuzzleCaptchaApiResponse apiResponseLocalVar, EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -683,12 +841,12 @@ namespace EulerApiSdk.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="backgroundImage"></param>
         /// <param name="pieceImage"></param>
-        private void OnErrorCompletePuzzleCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, System.IO.Stream backgroundImage, System.IO.Stream pieceImage)
+        private void OnErrorCompletePuzzleCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage)
         {
             bool suppressDefaultLogLocalVar = false;
             OnErrorCompletePuzzleCaptcha(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, backgroundImage, pieceImage);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -700,7 +858,7 @@ namespace EulerApiSdk.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="backgroundImage"></param>
         /// <param name="pieceImage"></param>
-        partial void OnErrorCompletePuzzleCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, System.IO.Stream backgroundImage, System.IO.Stream pieceImage);
+        partial void OnErrorCompletePuzzleCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage);
 
         /// <summary>
         ///  The puzzle captcha requires two images  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/puzzle.png\&quot; alt&#x3D;\&quot;Puzzle Piece Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The solution to the puzzle captcha is the distance to move the slider to fit the puzzle piece into the background.  The &#x60;backgroundImage&#x60; is the full background image with the missing piece. The &#x60;pieceImage&#x60; is the small puzzle piece that needs to be fit into the background.  The captcha image selectors are: - Background: &#x60;.captcha-verify-image&#x60; - Piece: &#x60;#captcha-verify-image ~ div.cap-absolute &gt; img&#x60;  The solution is the &#x60;x&#x60; proportion (0-1) of the width of the background image where the piece fits. It is 1:1 with the slider distance proportion.
@@ -709,7 +867,7 @@ namespace EulerApiSdk.Api
         /// <param name="pieceImage">The uploaded puzzle piece image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompletePuzzleCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompletePuzzleCaptchaApiResponse?> CompletePuzzleCaptchaOrDefaultAsync(System.IO.Stream backgroundImage, System.IO.Stream pieceImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompletePuzzleCaptchaApiResponse?> CompletePuzzleCaptchaOrDefaultAsync(EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -729,7 +887,7 @@ namespace EulerApiSdk.Api
         /// <param name="pieceImage">The uploaded puzzle piece image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompletePuzzleCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompletePuzzleCaptchaApiResponse> CompletePuzzleCaptchaAsync(System.IO.Stream backgroundImage, System.IO.Stream pieceImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompletePuzzleCaptchaApiResponse> CompletePuzzleCaptchaAsync(EulerApiSdk.Client.FileParameter backgroundImage, EulerApiSdk.Client.FileParameter pieceImage, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -746,19 +904,30 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/tiktok/captchas/puzzle"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/tiktok/captchas/puzzle");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/tiktok/captchas/puzzle");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
+                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
 
                     httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    multipartContentLocalVar.Add(new StreamContent(backgroundImage));
+                    {
+                        var streamContentLocalVar = new StreamContent(backgroundImage.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(backgroundImage.ContentType);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "backgroundImage", backgroundImage.FileName ?? "backgroundImage");
+                    }
 
-                    multipartContentLocalVar.Add(new StreamContent(pieceImage));
+                    {
+                        var streamContentLocalVar = new StreamContent(pieceImage.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(pieceImage.ContentType);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "pieceImage", pieceImage.FileName ?? "pieceImage");
+                    }
+
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -777,19 +946,14 @@ namespace EulerApiSdk.Api
                         "multipart/form-data"
                     };
 
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
                     string[] acceptLocalVars = new string[] {
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
@@ -797,11 +961,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        CompletePuzzleCaptchaApiResponse apiResponseLocalVar;
 
-                        ILogger<CompletePuzzleCaptchaApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CompletePuzzleCaptchaApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/puzzle", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        CompletePuzzleCaptchaApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/puzzle", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterCompletePuzzleCaptchaDefaultImplementation(apiResponseLocalVar, backgroundImage, pieceImage);
 
@@ -831,7 +1000,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<CompletePuzzleCaptchaApiResponse> Logger { get; }
+            public ILogger<TikTokCaptchasApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CompletePuzzleCaptchaApiResponse"/>
@@ -843,7 +1012,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public CompletePuzzleCaptchaApiResponse(ILogger<CompletePuzzleCaptchaApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public CompletePuzzleCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CompletePuzzleCaptchaApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CompletePuzzleCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -889,25 +1074,101 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatCompleteShapesCaptcha(ref System.IO.Stream shapesCaptchaImage);
+        partial void FormatCompleteShapesCaptcha(ref EulerApiSdk.Client.FileParameter shapesCaptchaImage);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="shapesCaptchaImage"></param>
         /// <returns></returns>
-        private void ValidateCompleteShapesCaptcha(System.IO.Stream shapesCaptchaImage)
+        private void ValidateCompleteShapesCaptcha(EulerApiSdk.Client.FileParameter shapesCaptchaImage)
         {
             if (shapesCaptchaImage == null)
                 throw new ArgumentNullException(nameof(shapesCaptchaImage));
@@ -918,12 +1179,12 @@ namespace EulerApiSdk.Api
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="shapesCaptchaImage"></param>
-        private void AfterCompleteShapesCaptchaDefaultImplementation(ICompleteShapesCaptchaApiResponse apiResponseLocalVar, System.IO.Stream shapesCaptchaImage)
+        private void AfterCompleteShapesCaptchaDefaultImplementation(ICompleteShapesCaptchaApiResponse apiResponseLocalVar, EulerApiSdk.Client.FileParameter shapesCaptchaImage)
         {
             bool suppressDefaultLog = false;
             AfterCompleteShapesCaptcha(ref suppressDefaultLog, apiResponseLocalVar, shapesCaptchaImage);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -932,7 +1193,7 @@ namespace EulerApiSdk.Api
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="shapesCaptchaImage"></param>
-        partial void AfterCompleteShapesCaptcha(ref bool suppressDefaultLog, ICompleteShapesCaptchaApiResponse apiResponseLocalVar, System.IO.Stream shapesCaptchaImage);
+        partial void AfterCompleteShapesCaptcha(ref bool suppressDefaultLog, ICompleteShapesCaptchaApiResponse apiResponseLocalVar, EulerApiSdk.Client.FileParameter shapesCaptchaImage);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -941,12 +1202,12 @@ namespace EulerApiSdk.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="shapesCaptchaImage"></param>
-        private void OnErrorCompleteShapesCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, System.IO.Stream shapesCaptchaImage)
+        private void OnErrorCompleteShapesCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, EulerApiSdk.Client.FileParameter shapesCaptchaImage)
         {
             bool suppressDefaultLogLocalVar = false;
             OnErrorCompleteShapesCaptcha(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, shapesCaptchaImage);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -957,7 +1218,7 @@ namespace EulerApiSdk.Api
         /// <param name="pathFormatLocalVar"></param>
         /// <param name="pathLocalVar"></param>
         /// <param name="shapesCaptchaImage"></param>
-        partial void OnErrorCompleteShapesCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, System.IO.Stream shapesCaptchaImage);
+        partial void OnErrorCompleteShapesCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, EulerApiSdk.Client.FileParameter shapesCaptchaImage);
 
         /// <summary>
         ///  The shapes captcha requires just one image.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/threed.png\&quot; alt&#x3D;\&quot;Shapes Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The solution to the shapes captcha are two points that need to be clicked. To use it in the GUI, convert the proportions to pixel values based on the image size.  The &#x60;points&#x60; are returned as &#x60;x&#x60; and &#x60;y&#x60; proportions (0-1) of the width and height of the source image. The captcha image selector is &#x60;.captcha-verify-image&#x60;
@@ -965,7 +1226,7 @@ namespace EulerApiSdk.Api
         /// <param name="shapesCaptchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteShapesCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompleteShapesCaptchaApiResponse?> CompleteShapesCaptchaOrDefaultAsync(System.IO.Stream shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompleteShapesCaptchaApiResponse?> CompleteShapesCaptchaOrDefaultAsync(EulerApiSdk.Client.FileParameter shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -984,7 +1245,7 @@ namespace EulerApiSdk.Api
         /// <param name="shapesCaptchaImage">The uploaded image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteShapesCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompleteShapesCaptchaApiResponse> CompleteShapesCaptchaAsync(System.IO.Stream shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompleteShapesCaptchaApiResponse> CompleteShapesCaptchaAsync(EulerApiSdk.Client.FileParameter shapesCaptchaImage, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1001,17 +1262,24 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/tiktok/captchas/shapes"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/tiktok/captchas/shapes");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/tiktok/captchas/shapes");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
+                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
 
                     httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    multipartContentLocalVar.Add(new StreamContent(shapesCaptchaImage));
+                    {
+                        var streamContentLocalVar = new StreamContent(shapesCaptchaImage.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(shapesCaptchaImage.ContentType);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "shapesCaptchaImage", shapesCaptchaImage.FileName ?? "shapesCaptchaImage");
+                    }
+
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -1030,19 +1298,14 @@ namespace EulerApiSdk.Api
                         "multipart/form-data"
                     };
 
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
                     string[] acceptLocalVars = new string[] {
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
@@ -1050,11 +1313,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        CompleteShapesCaptchaApiResponse apiResponseLocalVar;
 
-                        ILogger<CompleteShapesCaptchaApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CompleteShapesCaptchaApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/shapes", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        CompleteShapesCaptchaApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/shapes", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterCompleteShapesCaptchaDefaultImplementation(apiResponseLocalVar, shapesCaptchaImage);
 
@@ -1084,7 +1352,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<CompleteShapesCaptchaApiResponse> Logger { get; }
+            public ILogger<TikTokCaptchasApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CompleteShapesCaptchaApiResponse"/>
@@ -1096,7 +1364,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public CompleteShapesCaptchaApiResponse(ILogger<CompleteShapesCaptchaApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public CompleteShapesCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CompleteShapesCaptchaApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CompleteShapesCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1142,18 +1426,94 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatCompleteWhirlCaptcha(ref System.IO.Stream outerImage, ref System.IO.Stream innerImage);
+        partial void FormatCompleteWhirlCaptcha(ref EulerApiSdk.Client.FileParameter outerImage, ref EulerApiSdk.Client.FileParameter innerImage);
 
         /// <summary>
         /// Validates the request parameters
@@ -1161,7 +1521,7 @@ namespace EulerApiSdk.Api
         /// <param name="outerImage"></param>
         /// <param name="innerImage"></param>
         /// <returns></returns>
-        private void ValidateCompleteWhirlCaptcha(System.IO.Stream outerImage, System.IO.Stream innerImage)
+        private void ValidateCompleteWhirlCaptcha(EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage)
         {
             if (outerImage == null)
                 throw new ArgumentNullException(nameof(outerImage));
@@ -1176,12 +1536,12 @@ namespace EulerApiSdk.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerImage"></param>
         /// <param name="innerImage"></param>
-        private void AfterCompleteWhirlCaptchaDefaultImplementation(ICompleteWhirlCaptchaApiResponse apiResponseLocalVar, System.IO.Stream outerImage, System.IO.Stream innerImage)
+        private void AfterCompleteWhirlCaptchaDefaultImplementation(ICompleteWhirlCaptchaApiResponse apiResponseLocalVar, EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage)
         {
             bool suppressDefaultLog = false;
             AfterCompleteWhirlCaptcha(ref suppressDefaultLog, apiResponseLocalVar, outerImage, innerImage);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1191,7 +1551,7 @@ namespace EulerApiSdk.Api
         /// <param name="apiResponseLocalVar"></param>
         /// <param name="outerImage"></param>
         /// <param name="innerImage"></param>
-        partial void AfterCompleteWhirlCaptcha(ref bool suppressDefaultLog, ICompleteWhirlCaptchaApiResponse apiResponseLocalVar, System.IO.Stream outerImage, System.IO.Stream innerImage);
+        partial void AfterCompleteWhirlCaptcha(ref bool suppressDefaultLog, ICompleteWhirlCaptchaApiResponse apiResponseLocalVar, EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -1201,12 +1561,12 @@ namespace EulerApiSdk.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="outerImage"></param>
         /// <param name="innerImage"></param>
-        private void OnErrorCompleteWhirlCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, System.IO.Stream outerImage, System.IO.Stream innerImage)
+        private void OnErrorCompleteWhirlCaptchaDefaultImplementation(Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage)
         {
             bool suppressDefaultLogLocalVar = false;
             OnErrorCompleteWhirlCaptcha(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar, outerImage, innerImage);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1218,7 +1578,7 @@ namespace EulerApiSdk.Api
         /// <param name="pathLocalVar"></param>
         /// <param name="outerImage"></param>
         /// <param name="innerImage"></param>
-        partial void OnErrorCompleteWhirlCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, System.IO.Stream outerImage, System.IO.Stream innerImage);
+        partial void OnErrorCompleteWhirlCaptcha(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar, EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage);
 
         /// <summary>
         ///  The whirl captcha requires two images: the outer image and the inner image.  ## Example Image &lt;img src&#x3D;\&quot;https://www.eulerstream.com/_static/captchas/rotate.png\&quot; alt&#x3D;\&quot;Whirl Captcha Example\&quot; width&#x3D;\&quot;480\&quot; /&gt;  ## Usage  The solution to the whirl captcha is an angle from 0-360. To use it in the GUI, it must be converted to a slider distance:  &#x60;px &#x3D; ((sidebar_length - icon_length) * angle) / 360&#x60;  - &#x60;sidebar_length&#x60; is the width of &#x60;.captcha_verify_slide- -slidebar&#x60; - &#x60;icon_length&#x60; is the width of &#x60;.secsdk-captcha-drag-icon&#x60;
@@ -1227,7 +1587,7 @@ namespace EulerApiSdk.Api
         /// <param name="innerImage">The inner image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteWhirlCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompleteWhirlCaptchaApiResponse?> CompleteWhirlCaptchaOrDefaultAsync(System.IO.Stream outerImage, System.IO.Stream innerImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompleteWhirlCaptchaApiResponse?> CompleteWhirlCaptchaOrDefaultAsync(EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -1247,7 +1607,7 @@ namespace EulerApiSdk.Api
         /// <param name="innerImage">The inner image file</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ICompleteWhirlCaptchaApiResponse"/>&gt;</returns>
-        public async Task<ICompleteWhirlCaptchaApiResponse> CompleteWhirlCaptchaAsync(System.IO.Stream outerImage, System.IO.Stream innerImage, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ICompleteWhirlCaptchaApiResponse> CompleteWhirlCaptchaAsync(EulerApiSdk.Client.FileParameter outerImage, EulerApiSdk.Client.FileParameter innerImage, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
@@ -1264,19 +1624,30 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/tiktok/captchas/whirl"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/tiktok/captchas/whirl");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/tiktok/captchas/whirl");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
-                    MultipartContent multipartContentLocalVar = new MultipartContent();
+                    MultipartFormDataContent multipartContentLocalVar = new MultipartFormDataContent();
 
                     httpRequestMessageLocalVar.Content = multipartContentLocalVar;
 
-                    List<KeyValuePair<string?, string?>> formParameterLocalVars = new List<KeyValuePair<string?, string?>>();
+                    List<KeyValuePair<string, string?>> formParameterLocalVars = new List<KeyValuePair<string, string?>>();
 
-                    multipartContentLocalVar.Add(new FormUrlEncodedContent(formParameterLocalVars));                    multipartContentLocalVar.Add(new StreamContent(outerImage));
+                    {
+                        var streamContentLocalVar = new StreamContent(outerImage.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(outerImage.ContentType);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "outerImage", outerImage.FileName ?? "outerImage");
+                    }
 
-                    multipartContentLocalVar.Add(new StreamContent(innerImage));
+                    {
+                        var streamContentLocalVar = new StreamContent(innerImage.Content);
+                        streamContentLocalVar.Headers.ContentType = new MediaTypeHeaderValue(innerImage.ContentType);
+                        multipartContentLocalVar.Add(streamContentLocalVar, "innerImage", innerImage.FileName ?? "innerImage");
+                    }
+
+                    foreach (var formParamLocalVar in formParameterLocalVars)
+                        multipartContentLocalVar.Add(new StringContent(formParamLocalVar.Value ?? string.Empty), formParamLocalVar.Key);
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("apiKey", cancellationToken).ConfigureAwait(false);
@@ -1295,19 +1666,14 @@ namespace EulerApiSdk.Api
                         "multipart/form-data"
                     };
 
-                    string? contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
-
-                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
-                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
-
                     string[] acceptLocalVars = new string[] {
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Post;
 
@@ -1315,11 +1681,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        CompleteWhirlCaptchaApiResponse apiResponseLocalVar;
 
-                        ILogger<CompleteWhirlCaptchaApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<CompleteWhirlCaptchaApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/whirl", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        CompleteWhirlCaptchaApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/whirl", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterCompleteWhirlCaptchaDefaultImplementation(apiResponseLocalVar, outerImage, innerImage);
 
@@ -1349,7 +1720,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<CompleteWhirlCaptchaApiResponse> Logger { get; }
+            public ILogger<TikTokCaptchasApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="CompleteWhirlCaptchaApiResponse"/>
@@ -1361,7 +1732,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public CompleteWhirlCaptchaApiResponse(ILogger<CompleteWhirlCaptchaApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public CompleteWhirlCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="CompleteWhirlCaptchaApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public CompleteWhirlCaptchaApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1407,12 +1794,88 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
@@ -1427,7 +1890,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLog = false;
             AfterRetrieveCaptchaCredits(ref suppressDefaultLog, apiResponseLocalVar);
             if (!suppressDefaultLog)
-                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+                Logger.LogInformation(RestLogEvents.ApiRequestCompleted, "{0,-9} | {1} | {2}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
 
         /// <summary>
@@ -1448,7 +1911,7 @@ namespace EulerApiSdk.Api
             bool suppressDefaultLogLocalVar = false;
             OnErrorRetrieveCaptchaCredits(ref suppressDefaultLogLocalVar, exceptionLocalVar, pathFormatLocalVar, pathLocalVar);
             if (!suppressDefaultLogLocalVar)
-                Logger.LogError(exceptionLocalVar, "An error occurred while sending the request to the server.");
+                Logger.LogError(RestLogEvents.ApiRequestFailed, exceptionLocalVar, "An error occurred while sending the request to the server.");
         }
 
         /// <summary>
@@ -1461,7 +1924,7 @@ namespace EulerApiSdk.Api
         partial void OnErrorRetrieveCaptchaCredits(ref bool suppressDefaultLogLocalVar, Exception exceptionLocalVar, string pathFormatLocalVar, string pathLocalVar);
 
         /// <summary>
-        ///  Retrieve the rate limits for the provided API key
+        ///  Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
         /// </summary>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IRetrieveCaptchaCreditsApiResponse"/>&gt;</returns>
@@ -1478,7 +1941,7 @@ namespace EulerApiSdk.Api
         }
 
         /// <summary>
-        ///  Retrieve the rate limits for the provided API key
+        ///  Retrieve the rate limits for the provided API key.  This route is deprecated as CAPTCHAs are no longer billed for usage.
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1496,7 +1959,7 @@ namespace EulerApiSdk.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = HttpClient.BaseAddress.AbsolutePath == "/"
                         ? "/tiktok/captchas/credits"
-                        : string.Concat(HttpClient.BaseAddress.AbsolutePath, "/tiktok/captchas/credits");
+                        : string.Concat(HttpClient.BaseAddress.AbsolutePath.TrimEnd('/'), "/tiktok/captchas/credits");
 
                     System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
 
@@ -1517,10 +1980,10 @@ namespace EulerApiSdk.Api
                         "application/json"
                     };
 
-                    string? acceptLocalVar = ClientUtils.SelectHeaderAccept(acceptLocalVars);
+                    IEnumerable<MediaTypeWithQualityHeaderValue> acceptHeaderValuesLocalVar = ClientUtils.SelectHeaderAcceptArray(acceptLocalVars);
 
-                    if (acceptLocalVar != null)
-                        httpRequestMessageLocalVar.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(acceptLocalVar));
+                    foreach (var acceptLocalVar in acceptHeaderValuesLocalVar)
+                        httpRequestMessageLocalVar.Headers.Accept.Add(acceptLocalVar);
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Get;
 
@@ -1528,11 +1991,16 @@ namespace EulerApiSdk.Api
 
                     using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
                     {
-                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                        RetrieveCaptchaCreditsApiResponse apiResponseLocalVar;
 
-                        ILogger<RetrieveCaptchaCreditsApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<RetrieveCaptchaCreditsApiResponse>();
+                        switch ((int)httpResponseMessageLocalVar.StatusCode) {
+                            default: {
+                                string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                apiResponseLocalVar = new(Logger, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/credits", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        RetrieveCaptchaCreditsApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/tiktok/captchas/credits", requestedAtLocalVar, _jsonSerializerOptions);
+                                break;
+                            }
+                        }
 
                         AfterRetrieveCaptchaCreditsDefaultImplementation(apiResponseLocalVar);
 
@@ -1562,7 +2030,7 @@ namespace EulerApiSdk.Api
             /// <summary>
             /// The logger
             /// </summary>
-            public ILogger<RetrieveCaptchaCreditsApiResponse> Logger { get; }
+            public ILogger<TikTokCaptchasApi> Logger { get; }
 
             /// <summary>
             /// The <see cref="RetrieveCaptchaCreditsApiResponse"/>
@@ -1574,7 +2042,23 @@ namespace EulerApiSdk.Api
             /// <param name="path"></param>
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
-            public RetrieveCaptchaCreditsApiResponse(ILogger<RetrieveCaptchaCreditsApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            public RetrieveCaptchaCreditsApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            /// <summary>
+            /// The <see cref="RetrieveCaptchaCreditsApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="contentStream"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public RetrieveCaptchaCreditsApiResponse(ILogger<TikTokCaptchasApi> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, System.IO.Stream contentStream, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, contentStream, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);
@@ -1620,12 +2104,88 @@ namespace EulerApiSdk.Api
                 return result != null;
             }
 
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public bool IsTooManyRequests => 429 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 429 TooManyRequests
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf429Response? TooManyRequests()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsTooManyRequests
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf429Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 429 TooManyRequests and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryTooManyRequests([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf429Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = TooManyRequests();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)429);
+                }
+
+                return result != null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public bool IsInternalServerError => 500 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 500 InternalServerError
+            /// </summary>
+            /// <returns></returns>
+            public EulerApiSdk.Model.RetrieveAccountSelf500Response? InternalServerError()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsInternalServerError
+                    ? System.Text.Json.JsonSerializer.Deserialize<EulerApiSdk.Model.RetrieveAccountSelf500Response>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 500 InternalServerError and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryInternalServerError([NotNullWhen(true)]out EulerApiSdk.Model.RetrieveAccountSelf500Response? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = InternalServerError();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)500);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
                 OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
                 if (!suppressDefaultLog)
-                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+                    Logger.LogError(RestLogEvents.ApiDeserializationFailed, exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
             }
 
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);

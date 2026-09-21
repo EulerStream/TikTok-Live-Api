@@ -27,13 +27,16 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import com.eulerstream.model.PooledProxyRegion;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.GetAvailableDates503Response;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RoomGiftsResponse;
+import com.eulerstream.model.RouteImageSource;
 import com.eulerstream.model.SendRoomChatRequest;
 import com.eulerstream.model.WebcastFetchPlatform;
 import com.eulerstream.model.WebcastLanguage;
 import com.eulerstream.model.WebcastRoomChatRouteResponse;
+import com.eulerstream.model.WebcastRoomInfoByRoomIdRouteResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -80,18 +83,14 @@ public class TikTokLiveRoomsApi {
 
     /**
      * Build call for fetchWebcastURL
-     * @param roomId The room ID to fetch the Webcast URL for. (required)
+     * @param roomId The room ID to fetch the Webcast URL for. Must be a numeric string. (required)
      * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
-     * @param uniqueId The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. Pass \&quot;0\&quot; to room_id. (optional)
      * @param cursor Starting cursor for the webcast connection, if any (optional)
      * @param userAgent Override the user agent used for signing and fetching (optional)
      * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
-     * @param country Country code to make the request from. (optional)
      * @param platform Platform to connect with (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
-     * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
-     * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -105,7 +104,7 @@ public class TikTokLiveRoomsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fetchWebcastURLCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String uniqueId, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable PooledProxyRegion country, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call fetchWebcastURLCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -135,10 +134,6 @@ public class TikTokLiveRoomsApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("client", client));
         }
 
-        if (uniqueId != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("unique_id", uniqueId));
-        }
-
         if (cursor != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("cursor", cursor));
         }
@@ -151,20 +146,8 @@ public class TikTokLiveRoomsApi {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_enter", clientEnter));
         }
 
-        if (country != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("country", country));
-        }
-
         if (platform != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("platform", platform));
-        }
-
-        if (sessionId != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("session_id", sessionId));
-        }
-
-        if (ttTargetIdc != null) {
-            localVarQueryParams.addAll(localVarApiClient.parameterToPair("tt_target_idc", ttTargetIdc));
         }
 
         final String[] localVarAccepts = {
@@ -198,31 +181,27 @@ public class TikTokLiveRoomsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call fetchWebcastURLValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String uniqueId, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable PooledProxyRegion country, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call fetchWebcastURLValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'roomId' is set
         if (roomId == null) {
             throw new ApiException("Missing the required parameter 'roomId' when calling fetchWebcastURL(Async)");
         }
 
-        return fetchWebcastURLCall(roomId, client, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, _callback);
+        return fetchWebcastURLCall(roomId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader, _callback);
 
     }
 
     /**
      * 
      * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-     * @param roomId The room ID to fetch the Webcast URL for. (required)
+     * @param roomId The room ID to fetch the Webcast URL for. Must be a numeric string. (required)
      * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
-     * @param uniqueId The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. Pass \&quot;0\&quot; to room_id. (optional)
      * @param cursor Starting cursor for the webcast connection, if any (optional)
      * @param userAgent Override the user agent used for signing and fetching (optional)
      * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
-     * @param country Country code to make the request from. (optional)
      * @param platform Platform to connect with (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
-     * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
-     * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
      * @return Object
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -235,26 +214,22 @@ public class TikTokLiveRoomsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public Object fetchWebcastURL(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String uniqueId, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable PooledProxyRegion country, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc) throws ApiException {
-        ApiResponse<Object> localVarResp = fetchWebcastURLWithHttpInfo(roomId, client, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+    public Object fetchWebcastURL(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
+        ApiResponse<Object> localVarResp = fetchWebcastURLWithHttpInfo(roomId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader);
         return localVarResp.getData();
     }
 
     /**
      * 
      * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-     * @param roomId The room ID to fetch the Webcast URL for. (required)
+     * @param roomId The room ID to fetch the Webcast URL for. Must be a numeric string. (required)
      * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
-     * @param uniqueId The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. Pass \&quot;0\&quot; to room_id. (optional)
      * @param cursor Starting cursor for the webcast connection, if any (optional)
      * @param userAgent Override the user agent used for signing and fetching (optional)
      * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
-     * @param country Country code to make the request from. (optional)
      * @param platform Platform to connect with (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
-     * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
-     * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
      * @return ApiResponse&lt;Object&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -267,8 +242,8 @@ public class TikTokLiveRoomsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<Object> fetchWebcastURLWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String uniqueId, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable PooledProxyRegion country, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc) throws ApiException {
-        okhttp3.Call localVarCall = fetchWebcastURLValidateBeforeCall(roomId, client, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, null);
+    public ApiResponse<Object> fetchWebcastURLWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader) throws ApiException {
+        okhttp3.Call localVarCall = fetchWebcastURLValidateBeforeCall(roomId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader, null);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -276,18 +251,14 @@ public class TikTokLiveRoomsApi {
     /**
      *  (asynchronously)
      * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given a Room ID.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
-     * @param roomId The room ID to fetch the Webcast URL for. (required)
+     * @param roomId The room ID to fetch the Webcast URL for. Must be a numeric string. (required)
      * @param client The client library identifier. Used for metrics. (optional, default to ttlive-other)
-     * @param uniqueId The unique ID of the TikTok user. Send this instead of a Room ID, if you&#39;re an Enterprise user. Pass \&quot;0\&quot; to room_id. (optional)
      * @param cursor Starting cursor for the webcast connection, if any (optional)
      * @param userAgent Override the user agent used for signing and fetching (optional)
      * @param clientEnter Whether the client enters a room after connecting, or if it&#39;s done by query parameters (optional, default to true)
-     * @param country Country code to make the request from. (optional)
      * @param platform Platform to connect with (optional)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
-     * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
-     * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -301,9 +272,9 @@ public class TikTokLiveRoomsApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call fetchWebcastURLAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String uniqueId, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable PooledProxyRegion country, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback<Object> _callback) throws ApiException {
+    public okhttp3.Call fetchWebcastURLAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable String client, @javax.annotation.Nullable String cursor, @javax.annotation.Nullable String userAgent, @javax.annotation.Nullable Boolean clientEnter, @javax.annotation.Nullable WebcastFetchPlatform platform, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, final ApiCallback<Object> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = fetchWebcastURLValidateBeforeCall(roomId, client, uniqueId, cursor, userAgent, clientEnter, country, platform, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, _callback);
+        okhttp3.Call localVarCall = fetchWebcastURLValidateBeforeCall(roomId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader, _callback);
         Type localVarReturnType = new TypeToken<Object>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -452,6 +423,154 @@ public class TikTokLiveRoomsApi {
 
         okhttp3.Call localVarCall = retrieveRoomGiftsValidateBeforeCall(roomId, webcastLanguage, _callback);
         Type localVarReturnType = new TypeToken<RoomGiftsResponse>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for retrieveRoomInfoByRoomId
+     * @param roomId The TikTok LIVE room ID. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call retrieveRoomInfoByRoomIdCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/webcast/rooms/{room_id}/room_info"
+            .replace("{" + "room_id" + "}", localVarApiClient.escapeString(roomId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
+        String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call retrieveRoomInfoByRoomIdValidateBeforeCall(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'roomId' is set
+        if (roomId == null) {
+            throw new ApiException("Missing the required parameter 'roomId' when calling retrieveRoomInfoByRoomId(Async)");
+        }
+
+        return retrieveRoomInfoByRoomIdCall(roomId, xImageSource, _callback);
+
+    }
+
+    /**
+     * 
+     * Retrieve TikTok LIVE room information by room ID.
+     * @param roomId The TikTok LIVE room ID. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
+     * @return WebcastRoomInfoByRoomIdRouteResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public WebcastRoomInfoByRoomIdRouteResponse retrieveRoomInfoByRoomId(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<WebcastRoomInfoByRoomIdRouteResponse> localVarResp = retrieveRoomInfoByRoomIdWithHttpInfo(roomId, xImageSource);
+        return localVarResp.getData();
+    }
+
+    /**
+     * 
+     * Retrieve TikTok LIVE room information by room ID.
+     * @param roomId The TikTok LIVE room ID. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
+     * @return ApiResponse&lt;WebcastRoomInfoByRoomIdRouteResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<WebcastRoomInfoByRoomIdRouteResponse> retrieveRoomInfoByRoomIdWithHttpInfo(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveRoomInfoByRoomIdValidateBeforeCall(roomId, xImageSource, null);
+        Type localVarReturnType = new TypeToken<WebcastRoomInfoByRoomIdRouteResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     *  (asynchronously)
+     * Retrieve TikTok LIVE room information by room ID.
+     * @param roomId The TikTok LIVE room ID. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Ok </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too Many Requests </td><td>  -  </td></tr>
+        <tr><td> 500 </td><td> Internal Server Error </td><td>  -  </td></tr>
+        <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call retrieveRoomInfoByRoomIdAsync(@javax.annotation.Nonnull String roomId, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<WebcastRoomInfoByRoomIdRouteResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = retrieveRoomInfoByRoomIdValidateBeforeCall(roomId, xImageSource, _callback);
+        Type localVarReturnType = new TypeToken<WebcastRoomInfoByRoomIdRouteResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }

@@ -64,7 +64,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
@@ -77,7 +77,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public WebcastRoomKickedUsersRouteOutput? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public WebcastRoomKickedUsersRouteOutput? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="RoomKickedUsersAPIResponse" />
     /// </summary>
-    public class RoomKickedUsersAPIResponseJsonConverter : JsonConverter<RoomKickedUsersAPIResponse>
+    public partial class RoomKickedUsersAPIResponseJsonConverter : JsonConverter<RoomKickedUsersAPIResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoomKickedUsersAPIResponseJsonConverter" /> class.
+        /// </summary>
+        public RoomKickedUsersAPIResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="RoomKickedUsersAPIResponse" />
         /// </summary>

@@ -14,7 +14,7 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray;
+import com.eulerstream.model.ProxySignResult;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -49,7 +49,7 @@ import com.eulerstream.JSON;
 /**
  * SignTikTokUrlResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class SignTikTokUrlResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -64,7 +64,7 @@ public class SignTikTokUrlResponse {
   public static final String SERIALIZED_NAME_RESPONSE = "response";
   @SerializedName(SERIALIZED_NAME_RESPONSE)
   @javax.annotation.Nullable
-  private PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray response;
+  private ProxySignResult response;
 
   public SignTikTokUrlResponse() {
   }
@@ -107,7 +107,7 @@ public class SignTikTokUrlResponse {
   }
 
 
-  public SignTikTokUrlResponse response(@javax.annotation.Nullable PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray response) {
+  public SignTikTokUrlResponse response(@javax.annotation.Nullable ProxySignResult response) {
     this.response = response;
     return this;
   }
@@ -117,11 +117,11 @@ public class SignTikTokUrlResponse {
    * @return response
    */
   @javax.annotation.Nullable
-  public PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray getResponse() {
+  public ProxySignResult getResponse() {
     return response;
   }
 
-  public void setResponse(@javax.annotation.Nullable PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray response) {
+  public void setResponse(@javax.annotation.Nullable ProxySignResult response) {
     this.response = response;
   }
 
@@ -210,7 +210,7 @@ public class SignTikTokUrlResponse {
       }
       // validate the optional field `response`
       if (jsonObj.get("response") != null && !jsonObj.get("response").isJsonNull()) {
-        PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray.validateJsonElement(jsonObj.get("response"));
+        ProxySignResult.validateJsonElement(jsonObj.get("response"));
       }
   }
 

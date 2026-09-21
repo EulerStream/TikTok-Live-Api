@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_keys_response import ListKeysResponse
+from ...models.list_keys_response_429 import ListKeysResponse429
+from ...models.list_keys_response_500 import ListKeysResponse500
 from ...types import Response
 
 
@@ -23,11 +25,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ListKeysResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ListKeysResponse | ListKeysResponse429 | ListKeysResponse500 | None:
     if response.status_code == 200:
         response_200 = ListKeysResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = ListKeysResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = ListKeysResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -35,7 +49,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ListKeysResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[ListKeysResponse | ListKeysResponse429 | ListKeysResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -48,7 +64,7 @@ def sync_detailed(
     account_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[ListKeysResponse]:
+) -> Response[ListKeysResponse | ListKeysResponse429 | ListKeysResponse500]:
     """Retrieve an API key by its key value, name, or ID
 
     Args:
@@ -59,7 +75,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListKeysResponse]
+        Response[ListKeysResponse | ListKeysResponse429 | ListKeysResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -77,7 +93,7 @@ def sync(
     account_id: float,
     *,
     client: AuthenticatedClient,
-) -> ListKeysResponse | None:
+) -> ListKeysResponse | ListKeysResponse429 | ListKeysResponse500 | None:
     """Retrieve an API key by its key value, name, or ID
 
     Args:
@@ -88,7 +104,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListKeysResponse
+        ListKeysResponse | ListKeysResponse429 | ListKeysResponse500
     """
 
     return sync_detailed(
@@ -101,7 +117,7 @@ async def asyncio_detailed(
     account_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[ListKeysResponse]:
+) -> Response[ListKeysResponse | ListKeysResponse429 | ListKeysResponse500]:
     """Retrieve an API key by its key value, name, or ID
 
     Args:
@@ -112,7 +128,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListKeysResponse]
+        Response[ListKeysResponse | ListKeysResponse429 | ListKeysResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -128,7 +144,7 @@ async def asyncio(
     account_id: float,
     *,
     client: AuthenticatedClient,
-) -> ListKeysResponse | None:
+) -> ListKeysResponse | ListKeysResponse429 | ListKeysResponse500 | None:
     """Retrieve an API key by its key value, name, or ID
 
     Args:
@@ -139,7 +155,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListKeysResponse
+        ListKeysResponse | ListKeysResponse429 | ListKeysResponse500
     """
 
     return (

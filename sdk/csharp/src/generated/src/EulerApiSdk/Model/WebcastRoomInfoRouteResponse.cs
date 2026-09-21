@@ -37,19 +37,28 @@ namespace EulerApiSdk.Model
         /// <param name="ok">ok</param>
         /// <param name="routesAttempted">routesAttempted</param>
         /// <param name="message">message</param>
+        /// <param name="source">Which source produced &#x60;data&#x60;. &#x60;CACHE&#x60; / &#x60;CACHE_UNVERIFIED&#x60; indicate the room info came out of Euler&#39;s cache — &#x60;CACHE&#x60; means its live state was revalidated, &#x60;CACHE_UNVERIFIED&#x60; means it could not be. Without this, &#x60;X-Cache-Hit&#x60; is a bare boolean and those two are indistinguishable.</param>
         /// <param name="data">data</param>
         [JsonConstructor]
-        public WebcastRoomInfoRouteResponse(double code, bool ok, List<string> routesAttempted, Option<string?> message = default, TikTokLiveUser? data = default)
+        public WebcastRoomInfoRouteResponse(double code, bool ok, List<string> routesAttempted, Option<string?> message = default, RoomInfoFetchApiRoute? source = default, StableTikTokLiveUser? data = default)
         {
             Code = code;
             Ok = ok;
             RoutesAttempted = routesAttempted;
             MessageOption = message;
+            Source = source;
             Data = data;
             OnCreated();
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Which source produced &#x60;data&#x60;. &#x60;CACHE&#x60; / &#x60;CACHE_UNVERIFIED&#x60; indicate the room info came out of Euler&#39;s cache — &#x60;CACHE&#x60; means its live state was revalidated, &#x60;CACHE_UNVERIFIED&#x60; means it could not be. Without this, &#x60;X-Cache-Hit&#x60; is a bare boolean and those two are indistinguishable.
+        /// </summary>
+        /// <value>Which source produced &#x60;data&#x60;. &#x60;CACHE&#x60; / &#x60;CACHE_UNVERIFIED&#x60; indicate the room info came out of Euler&#39;s cache — &#x60;CACHE&#x60; means its live state was revalidated, &#x60;CACHE_UNVERIFIED&#x60; means it could not be. Without this, &#x60;X-Cache-Hit&#x60; is a bare boolean and those two are indistinguishable.</value>
+        [JsonPropertyName("source")]
+        public RoomInfoFetchApiRoute? Source { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
@@ -80,13 +89,13 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Data
         /// </summary>
         [JsonPropertyName("data")]
-        public TikTokLiveUser? Data { get; set; }
+        public StableTikTokLiveUser? Data { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -100,6 +109,7 @@ namespace EulerApiSdk.Model
             sb.Append("  Ok: ").Append(Ok).Append("\n");
             sb.Append("  RoutesAttempted: ").Append(RoutesAttempted).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
+            sb.Append("  Source: ").Append(Source).Append("\n");
             sb.Append("  Data: ").Append(Data).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -119,8 +129,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomInfoRouteResponse" />
     /// </summary>
-    public class WebcastRoomInfoRouteResponseJsonConverter : JsonConverter<WebcastRoomInfoRouteResponse>
+    public partial class WebcastRoomInfoRouteResponseJsonConverter : JsonConverter<WebcastRoomInfoRouteResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomInfoRouteResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomInfoRouteResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomInfoRouteResponse" />
         /// </summary>
@@ -142,7 +162,8 @@ namespace EulerApiSdk.Model
             Option<bool?> ok = default;
             Option<List<string>?> routesAttempted = default;
             Option<string?> message = default;
-            Option<TikTokLiveUser?> data = default;
+            Option<RoomInfoFetchApiRoute?> source = default;
+            Option<StableTikTokLiveUser?> data = default;
 
             while (utf8JsonReader.Read())
             {
@@ -171,8 +192,11 @@ namespace EulerApiSdk.Model
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "source":
+                            source = new Option<RoomInfoFetchApiRoute?>(JsonSerializer.Deserialize<RoomInfoFetchApiRoute?>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
                         case "data":
-                            data = new Option<TikTokLiveUser?>(JsonSerializer.Deserialize<TikTokLiveUser>(ref utf8JsonReader, jsonSerializerOptions));
+                            data = new Option<StableTikTokLiveUser?>(JsonSerializer.Deserialize<StableTikTokLiveUser>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -189,6 +213,9 @@ namespace EulerApiSdk.Model
             if (!routesAttempted.IsSet)
                 throw new ArgumentException("Property is required for class WebcastRoomInfoRouteResponse.", nameof(routesAttempted));
 
+            if (!source.IsSet)
+                throw new ArgumentException("Property is required for class WebcastRoomInfoRouteResponse.", nameof(source));
+
             if (!data.IsSet)
                 throw new ArgumentException("Property is required for class WebcastRoomInfoRouteResponse.", nameof(data));
 
@@ -204,7 +231,7 @@ namespace EulerApiSdk.Model
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class WebcastRoomInfoRouteResponse.");
 
-            return new WebcastRoomInfoRouteResponse(code.Value!.Value!, ok.Value!.Value!, routesAttempted.Value!, message, data.Value!);
+            return new WebcastRoomInfoRouteResponse(code.Value!.Value!, ok.Value!.Value!, routesAttempted.Value!, message, source.Value!, data.Value!);
         }
 
         /// <summary>
@@ -245,6 +272,17 @@ namespace EulerApiSdk.Model
             JsonSerializer.Serialize(writer, webcastRoomInfoRouteResponse.RoutesAttempted, jsonSerializerOptions);
             if (webcastRoomInfoRouteResponse.MessageOption.IsSet)
                 writer.WriteString("message", webcastRoomInfoRouteResponse.Message);
+
+            if (webcastRoomInfoRouteResponse.Source == null)
+                writer.WriteNull("source");
+            else
+            {
+                var sourceRawValue = RoomInfoFetchApiRouteValueConverter.ToJsonValue(webcastRoomInfoRouteResponse.Source.Value);
+                if (sourceRawValue != null)
+                    writer.WriteString("source", sourceRawValue);
+                else
+                    writer.WriteNull("source");
+            }
 
             if (webcastRoomInfoRouteResponse.Data != null)
             {

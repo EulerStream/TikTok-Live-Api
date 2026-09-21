@@ -30,6 +30,8 @@ import com.google.gson.stream.JsonWriter;
 @JsonAdapter(RankingLeagueLevel.Adapter.class)
 public enum RankingLeagueLevel {
   
+  NUMBER_0(new BigDecimal("0")),
+  
   NUMBER_100(new BigDecimal("100")),
   
   NUMBER_200(new BigDecimal("200")),

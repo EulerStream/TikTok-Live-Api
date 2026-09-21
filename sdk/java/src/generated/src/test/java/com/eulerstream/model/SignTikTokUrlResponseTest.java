@@ -13,7 +13,7 @@
 
 package com.eulerstream.model;
 
-import com.eulerstream.model.PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray;
+import com.eulerstream.model.ProxySignResult;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;

@@ -21,7 +21,6 @@ var _ MappedNullable = &WebcastRoomMutedUsersResponseUserAttr{}
 
 // WebcastRoomMutedUsersResponseUserAttr struct for WebcastRoomMutedUsersResponseUserAttr
 type WebcastRoomMutedUsersResponseUserAttr struct {
-	// Construct a type with a set of properties K of type T
 	AdminPermissions map[string]float64 `json:"admin_permissions"`
 	HasVotingFunction bool `json:"has_voting_function"`
 	IsAdmin bool `json:"is_admin"`

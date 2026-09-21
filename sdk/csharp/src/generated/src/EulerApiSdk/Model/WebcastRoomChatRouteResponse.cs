@@ -37,7 +37,7 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="data">data</param>
         [JsonConstructor]
-        public WebcastRoomChatRouteResponse(double code, Option<string?> message = default, Option<Object?> data = default)
+        public WebcastRoomChatRouteResponse(double code, Option<string?> message = default, Option<WebcastRoomSendChatResponse?> data = default)
         {
             Code = code;
             MessageOption = message;
@@ -64,20 +64,20 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Data
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Object?> DataOption { get; private set; }
+        public Option<WebcastRoomSendChatResponse?> DataOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Data
         /// </summary>
         [JsonPropertyName("data")]
-        public Object? Data { get { return this.DataOption; } set { this.DataOption = new(value); } }
+        public WebcastRoomSendChatResponse? Data { get { return this.DataOption.Value; } set { this.DataOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,8 +108,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomChatRouteResponse" />
     /// </summary>
-    public class WebcastRoomChatRouteResponseJsonConverter : JsonConverter<WebcastRoomChatRouteResponse>
+    public partial class WebcastRoomChatRouteResponseJsonConverter : JsonConverter<WebcastRoomChatRouteResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomChatRouteResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomChatRouteResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomChatRouteResponse" />
         /// </summary>
@@ -129,7 +139,7 @@ namespace EulerApiSdk.Model
 
             Option<double?> code = default;
             Option<string?> message = default;
-            Option<Object?> data = default;
+            Option<WebcastRoomSendChatResponse?> data = default;
 
             while (utf8JsonReader.Read())
             {
@@ -153,7 +163,7 @@ namespace EulerApiSdk.Model
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "data":
-                            data = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            data = new Option<WebcastRoomSendChatResponse?>(JsonSerializer.Deserialize<WebcastRoomSendChatResponse>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -169,6 +179,9 @@ namespace EulerApiSdk.Model
 
             if (message.IsSet && message.Value == null)
                 throw new ArgumentNullException(nameof(message), "Property is not nullable for class WebcastRoomChatRouteResponse.");
+
+            if (data.IsSet && data.Value == null)
+                throw new ArgumentNullException(nameof(data), "Property is not nullable for class WebcastRoomChatRouteResponse.");
 
             return new WebcastRoomChatRouteResponse(code.Value!.Value!, message, data);
         }
@@ -200,19 +213,19 @@ namespace EulerApiSdk.Model
             if (webcastRoomChatRouteResponse.MessageOption.IsSet && webcastRoomChatRouteResponse.Message == null)
                 throw new ArgumentNullException(nameof(webcastRoomChatRouteResponse.Message), "Property is required for class WebcastRoomChatRouteResponse.");
 
+            if (webcastRoomChatRouteResponse.DataOption.IsSet && webcastRoomChatRouteResponse.Data == null)
+                throw new ArgumentNullException(nameof(webcastRoomChatRouteResponse.Data), "Property is required for class WebcastRoomChatRouteResponse.");
+
             writer.WriteNumber("code", webcastRoomChatRouteResponse.Code);
 
             if (webcastRoomChatRouteResponse.MessageOption.IsSet)
                 writer.WriteString("message", webcastRoomChatRouteResponse.Message);
 
             if (webcastRoomChatRouteResponse.DataOption.IsSet)
-                if (webcastRoomChatRouteResponse.DataOption.Value != null)
-                {
-                    writer.WritePropertyName("data");
-                    JsonSerializer.Serialize(writer, webcastRoomChatRouteResponse.Data, jsonSerializerOptions);
-                }
-                else
-                    writer.WriteNull("data");
+            {
+                writer.WritePropertyName("data");
+                JsonSerializer.Serialize(writer, webcastRoomChatRouteResponse.Data, jsonSerializerOptions);
+            }
         }
     }
 }

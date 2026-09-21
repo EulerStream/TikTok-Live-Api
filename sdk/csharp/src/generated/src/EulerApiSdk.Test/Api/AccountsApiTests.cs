@@ -51,6 +51,18 @@ namespace EulerApiSdk.Test.Api
         }
 
         /// <summary>
+        /// Test GetRateLimits
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task GetRateLimitsAsyncTest()
+        {
+            Client.Option<RateLimitType> type = default!;
+            var response = await _instance.GetRateLimitsAsync(type);
+            var model = response.Ok();
+            Assert.IsType<GetRateLimits>(model);
+        }
+
+        /// <summary>
         /// Test RetrieveAccountSelf
         /// </summary>
         [Fact (Skip = "not implemented")]

@@ -55,7 +55,7 @@ import com.eulerstream.JSON;
 /**
  * Gallery entrance payload. Only the fields we model are typed; the rest of the (large) TikTok response rides through as &#x60;any&#x60;.
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastGiftGalleryData {
   public static final String SERIALIZED_NAME_NORMAL_GIFTS = "normal_gifts";
   @SerializedName(SERIALIZED_NAME_NORMAL_GIFTS)
@@ -196,7 +196,7 @@ public class WebcastGiftGalleryData {
   }
 
   /**
-   * Construct a type with a set of properties K of type T
+   * Get currentUserProgress
    * @return currentUserProgress
    */
   @javax.annotation.Nullable

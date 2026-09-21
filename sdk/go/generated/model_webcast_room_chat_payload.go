@@ -23,9 +23,9 @@ var _ MappedNullable = &WebcastRoomChatPayload{}
 type WebcastRoomChatPayload struct {
 	// The chat message content to send
 	Content string `json:"content"`
-	// The room ID to send the chat to (either this or targetUniqueId is required)
+	// Deprecated
 	TargetRoomId *string `json:"targetRoomId,omitempty"`
-	// The username of the room to send the chat to (either this or targetRoomId is required)
+	// The username of the room to send the chat to (either this or targetRoomId is required). Pass room_id = 0 to parameter for this to work.
 	TargetUniqueId *string `json:"targetUniqueId,omitempty"`
 }
 
@@ -74,6 +74,7 @@ func (o *WebcastRoomChatPayload) SetContent(v string) {
 }
 
 // GetTargetRoomId returns the TargetRoomId field value if set, zero value otherwise.
+// Deprecated
 func (o *WebcastRoomChatPayload) GetTargetRoomId() string {
 	if o == nil || IsNil(o.TargetRoomId) {
 		var ret string
@@ -84,6 +85,7 @@ func (o *WebcastRoomChatPayload) GetTargetRoomId() string {
 
 // GetTargetRoomIdOk returns a tuple with the TargetRoomId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *WebcastRoomChatPayload) GetTargetRoomIdOk() (*string, bool) {
 	if o == nil || IsNil(o.TargetRoomId) {
 		return nil, false
@@ -101,6 +103,7 @@ func (o *WebcastRoomChatPayload) HasTargetRoomId() bool {
 }
 
 // SetTargetRoomId gets a reference to the given string and assigns it to the TargetRoomId field.
+// Deprecated
 func (o *WebcastRoomChatPayload) SetTargetRoomId(v string) {
 	o.TargetRoomId = &v
 }

@@ -1,20 +1,26 @@
 from http import HTTPStatus
 from typing import Any
+from urllib.parse import quote
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
+from ...models.retrieve_room_muted_users_response_429 import RetrieveRoomMutedUsersResponse429
+from ...models.retrieve_room_muted_users_response_500 import RetrieveRoomMutedUsersResponse500
+from ...models.retrieve_room_muted_users_response_503 import RetrieveRoomMutedUsersResponse503
 from ...models.room_muted_users_api_response import RoomMutedUsersAPIResponse
+from ...models.route_image_source import RouteImageSource
 from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
-    *,
     room_id: str,
+    *,
     page: float | Unset = 0.0,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
+    x_image_source: RouteImageSource | Unset = UNSET,
 ) -> dict[str, Any]:
     headers: dict[str, Any] = {}
     if not isinstance(x_oauth_token, Unset):
@@ -23,9 +29,10 @@ def _get_kwargs(
     if not isinstance(x_cookie_header, Unset):
         headers["x-cookie-header"] = x_cookie_header
 
-    params: dict[str, Any] = {}
+    if not isinstance(x_image_source, Unset):
+        headers["x-image-source"] = str(x_image_source)
 
-    params["room_id"] = room_id
+    params: dict[str, Any] = {}
 
     params["page"] = page
 
@@ -33,7 +40,9 @@ def _get_kwargs(
 
     _kwargs: dict[str, Any] = {
         "method": "get",
-        "url": "/webcast/moderation/mutes",
+        "url": "/webcast/rooms/{room_id}/moderation/mutes".format(
+            room_id=quote(str(room_id), safe=""),
+        ),
         "params": params,
     }
 
@@ -43,11 +52,32 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> RoomMutedUsersAPIResponse | None:
+) -> (
+    RetrieveRoomMutedUsersResponse429
+    | RetrieveRoomMutedUsersResponse500
+    | RetrieveRoomMutedUsersResponse503
+    | RoomMutedUsersAPIResponse
+    | None
+):
     if response.status_code == 200:
         response_200 = RoomMutedUsersAPIResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = RetrieveRoomMutedUsersResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = RetrieveRoomMutedUsersResponse500.from_dict(response.json())
+
+        return response_500
+
+    if response.status_code == 503:
+        response_503 = RetrieveRoomMutedUsersResponse503.from_dict(response.json())
+
+        return response_503
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -57,7 +87,12 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[RoomMutedUsersAPIResponse]:
+) -> Response[
+    RetrieveRoomMutedUsersResponse429
+    | RetrieveRoomMutedUsersResponse500
+    | RetrieveRoomMutedUsersResponse503
+    | RoomMutedUsersAPIResponse
+]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -67,14 +102,20 @@ def _build_response(
 
 
 def sync_detailed(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     page: float | Unset = 0.0,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[RoomMutedUsersAPIResponse]:
-    """Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.
+    x_image_source: RouteImageSource | Unset = UNSET,
+) -> Response[
+    RetrieveRoomMutedUsersResponse429
+    | RetrieveRoomMutedUsersResponse500
+    | RetrieveRoomMutedUsersResponse503
+    | RoomMutedUsersAPIResponse
+]:
+    """Retrieve the list of muted users in a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -87,13 +128,16 @@ def sync_detailed(
         page (float | Unset):  Default: 0.0.
         x_oauth_token (str | Unset):
         x_cookie_header (str | Unset):
+        x_image_source (RouteImageSource | Unset): Where a scraped image URL should be served
+            from. Selected per-request via the `x-image-source` header. Defaults to {@link
+            RouteImageSource.ORIGIN}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoomMutedUsersAPIResponse]
+        Response[RetrieveRoomMutedUsersResponse429 | RetrieveRoomMutedUsersResponse500 | RetrieveRoomMutedUsersResponse503 | RoomMutedUsersAPIResponse]
     """
 
     kwargs = _get_kwargs(
@@ -101,6 +145,7 @@ def sync_detailed(
         page=page,
         x_oauth_token=x_oauth_token,
         x_cookie_header=x_cookie_header,
+        x_image_source=x_image_source,
     )
 
     response = client.get_httpx_client().request(
@@ -111,14 +156,21 @@ def sync_detailed(
 
 
 def sync(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     page: float | Unset = 0.0,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> RoomMutedUsersAPIResponse | None:
-    """Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.
+    x_image_source: RouteImageSource | Unset = UNSET,
+) -> (
+    RetrieveRoomMutedUsersResponse429
+    | RetrieveRoomMutedUsersResponse500
+    | RetrieveRoomMutedUsersResponse503
+    | RoomMutedUsersAPIResponse
+    | None
+):
+    """Retrieve the list of muted users in a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -131,33 +183,43 @@ def sync(
         page (float | Unset):  Default: 0.0.
         x_oauth_token (str | Unset):
         x_cookie_header (str | Unset):
+        x_image_source (RouteImageSource | Unset): Where a scraped image URL should be served
+            from. Selected per-request via the `x-image-source` header. Defaults to {@link
+            RouteImageSource.ORIGIN}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RoomMutedUsersAPIResponse
+        RetrieveRoomMutedUsersResponse429 | RetrieveRoomMutedUsersResponse500 | RetrieveRoomMutedUsersResponse503 | RoomMutedUsersAPIResponse
     """
 
     return sync_detailed(
-        client=client,
         room_id=room_id,
+        client=client,
         page=page,
         x_oauth_token=x_oauth_token,
         x_cookie_header=x_cookie_header,
+        x_image_source=x_image_source,
     ).parsed
 
 
 async def asyncio_detailed(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     page: float | Unset = 0.0,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[RoomMutedUsersAPIResponse]:
-    """Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.
+    x_image_source: RouteImageSource | Unset = UNSET,
+) -> Response[
+    RetrieveRoomMutedUsersResponse429
+    | RetrieveRoomMutedUsersResponse500
+    | RetrieveRoomMutedUsersResponse503
+    | RoomMutedUsersAPIResponse
+]:
+    """Retrieve the list of muted users in a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -170,13 +232,16 @@ async def asyncio_detailed(
         page (float | Unset):  Default: 0.0.
         x_oauth_token (str | Unset):
         x_cookie_header (str | Unset):
+        x_image_source (RouteImageSource | Unset): Where a scraped image URL should be served
+            from. Selected per-request via the `x-image-source` header. Defaults to {@link
+            RouteImageSource.ORIGIN}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RoomMutedUsersAPIResponse]
+        Response[RetrieveRoomMutedUsersResponse429 | RetrieveRoomMutedUsersResponse500 | RetrieveRoomMutedUsersResponse503 | RoomMutedUsersAPIResponse]
     """
 
     kwargs = _get_kwargs(
@@ -184,6 +249,7 @@ async def asyncio_detailed(
         page=page,
         x_oauth_token=x_oauth_token,
         x_cookie_header=x_cookie_header,
+        x_image_source=x_image_source,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -192,14 +258,21 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    room_id: str,
     *,
     client: AuthenticatedClient,
-    room_id: str,
     page: float | Unset = 0.0,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> RoomMutedUsersAPIResponse | None:
-    """Requires Premium Routes Addon - Retrieve the list of muted users in a livestream room.
+    x_image_source: RouteImageSource | Unset = UNSET,
+) -> (
+    RetrieveRoomMutedUsersResponse429
+    | RetrieveRoomMutedUsersResponse500
+    | RetrieveRoomMutedUsersResponse503
+    | RoomMutedUsersAPIResponse
+    | None
+):
+    """Retrieve the list of muted users in a livestream room.
 
     **Authentication:** Provide exactly one of the following headers:
     - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored
@@ -212,21 +285,25 @@ async def asyncio(
         page (float | Unset):  Default: 0.0.
         x_oauth_token (str | Unset):
         x_cookie_header (str | Unset):
+        x_image_source (RouteImageSource | Unset): Where a scraped image URL should be served
+            from. Selected per-request via the `x-image-source` header. Defaults to {@link
+            RouteImageSource.ORIGIN}.
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RoomMutedUsersAPIResponse
+        RetrieveRoomMutedUsersResponse429 | RetrieveRoomMutedUsersResponse500 | RetrieveRoomMutedUsersResponse503 | RoomMutedUsersAPIResponse
     """
 
     return (
         await asyncio_detailed(
-            client=client,
             room_id=room_id,
+            client=client,
             page=page,
             x_oauth_token=x_oauth_token,
             x_cookie_header=x_cookie_header,
+            x_image_source=x_image_source,
         )
     ).parsed

@@ -23,7 +23,7 @@ var _ MappedNullable = &ListAlertTargetsResponse{}
 type ListAlertTargetsResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	Targets []AlertTarget `json:"targets,omitempty"`
+	Targets []AlertTargetResponseShape `json:"targets,omitempty"`
 }
 
 type _ListAlertTargetsResponse ListAlertTargetsResponse
@@ -103,9 +103,9 @@ func (o *ListAlertTargetsResponse) SetMessage(v string) {
 }
 
 // GetTargets returns the Targets field value if set, zero value otherwise.
-func (o *ListAlertTargetsResponse) GetTargets() []AlertTarget {
+func (o *ListAlertTargetsResponse) GetTargets() []AlertTargetResponseShape {
 	if o == nil || IsNil(o.Targets) {
-		var ret []AlertTarget
+		var ret []AlertTargetResponseShape
 		return ret
 	}
 	return o.Targets
@@ -113,7 +113,7 @@ func (o *ListAlertTargetsResponse) GetTargets() []AlertTarget {
 
 // GetTargetsOk returns a tuple with the Targets field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListAlertTargetsResponse) GetTargetsOk() ([]AlertTarget, bool) {
+func (o *ListAlertTargetsResponse) GetTargetsOk() ([]AlertTargetResponseShape, bool) {
 	if o == nil || IsNil(o.Targets) {
 		return nil, false
 	}
@@ -129,8 +129,8 @@ func (o *ListAlertTargetsResponse) HasTargets() bool {
 	return false
 }
 
-// SetTargets gets a reference to the given []AlertTarget and assigns it to the Targets field.
-func (o *ListAlertTargetsResponse) SetTargets(v []AlertTarget) {
+// SetTargets gets a reference to the given []AlertTargetResponseShape and assigns it to the Targets field.
+func (o *ListAlertTargetsResponse) SetTargets(v []AlertTargetResponseShape) {
 	o.Targets = v
 }
 

@@ -23,7 +23,6 @@ var _ MappedNullable = &WebcastFeedResponseExtra{}
 type WebcastFeedResponseExtra struct {
 	Now float64 `json:"now"`
 	UnreadExtra string `json:"unread_extra"`
-	// Construct a type with a set of properties K of type T
 	Banner map[string]interface{} `json:"banner"`
 	Total float64 `json:"total"`
 	MaxTime float64 `json:"max_time"`

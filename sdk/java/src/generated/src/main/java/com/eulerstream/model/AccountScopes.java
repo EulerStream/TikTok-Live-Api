@@ -54,7 +54,13 @@ public enum AccountScopes {
   
   NUMBER_15(new BigDecimal("15")),
   
-  NUMBER_16(new BigDecimal("16"));
+  NUMBER_16(new BigDecimal("16")),
+  
+  NUMBER_17(new BigDecimal("17")),
+  
+  NUMBER_18(new BigDecimal("18")),
+  
+  NUMBER_19(new BigDecimal("19"));
 
   private BigDecimal value;
 

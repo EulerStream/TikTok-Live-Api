@@ -57,7 +57,7 @@ namespace EulerApiSdk.Test.Api
         public async Task CompleteIconCaptchaAsyncTest()
         {
             string prompt = default!;
-            System.IO.Stream captchaImage = default!;
+            EulerApiSdk.Client.FileParameter captchaImage = default!;
             var response = await _instance.CompleteIconCaptchaAsync(prompt, captchaImage);
             var model = response.Ok();
             Assert.IsType<IconCaptchaResponse>(model);
@@ -69,8 +69,8 @@ namespace EulerApiSdk.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CompletePuzzleCaptchaAsyncTest()
         {
-            System.IO.Stream backgroundImage = default!;
-            System.IO.Stream pieceImage = default!;
+            EulerApiSdk.Client.FileParameter backgroundImage = default!;
+            EulerApiSdk.Client.FileParameter pieceImage = default!;
             var response = await _instance.CompletePuzzleCaptchaAsync(backgroundImage, pieceImage);
             var model = response.Ok();
             Assert.IsType<PuzzleCaptchaResponse>(model);
@@ -82,7 +82,7 @@ namespace EulerApiSdk.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CompleteShapesCaptchaAsyncTest()
         {
-            System.IO.Stream shapesCaptchaImage = default!;
+            EulerApiSdk.Client.FileParameter shapesCaptchaImage = default!;
             var response = await _instance.CompleteShapesCaptchaAsync(shapesCaptchaImage);
             var model = response.Ok();
             Assert.IsType<ShapesCaptchaResponse>(model);
@@ -94,8 +94,8 @@ namespace EulerApiSdk.Test.Api
         [Fact (Skip = "not implemented")]
         public async Task CompleteWhirlCaptchaAsyncTest()
         {
-            System.IO.Stream outerImage = default!;
-            System.IO.Stream innerImage = default!;
+            EulerApiSdk.Client.FileParameter outerImage = default!;
+            EulerApiSdk.Client.FileParameter innerImage = default!;
             var response = await _instance.CompleteWhirlCaptchaAsync(outerImage, innerImage);
             var model = response.Ok();
             Assert.IsType<WhirlCaptchaResponse>(model);

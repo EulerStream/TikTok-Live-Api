@@ -45,22 +45,22 @@ namespace EulerApiSdk.Model
         /// <param name="stats">stats</param>
         /// <param name="feedRoomLabel">feedRoomLabel</param>
         /// <param name="owner">owner</param>
-        /// <param name="liveTypeThirdParty">liveTypeThirdParty</param>
-        /// <param name="roomAuth">Construct a type with a set of properties K of type T</param>
-        /// <param name="likeCount">likeCount</param>
+        /// <param name="roomAuth">roomAuth</param>
         /// <param name="anchorTabType">anchorTabType</param>
-        /// <param name="commerceInfo">Construct a type with a set of properties K of type T</param>
+        /// <param name="commerceInfo">commerceInfo</param>
+        /// <param name="streamUrlFilteredInfo">streamUrlFilteredInfo</param>
+        /// <param name="blurredCover">blurredCover</param>
+        /// <param name="multiStreamUrl">multiStreamUrl</param>
+        /// <param name="liveTypeThirdParty">liveTypeThirdParty</param>
+        /// <param name="likeCount">likeCount</param>
+        /// <param name="hashtag">hashtag</param>
         /// <param name="liveRoomMode">liveRoomMode</param>
-        /// <param name="streamUrlFilteredInfo">Construct a type with a set of properties K of type T</param>
         /// <param name="squareCoverImg">squareCoverImg</param>
         /// <param name="rectangleCoverImg">rectangleCoverImg</param>
-        /// <param name="blurredCover">blurredCover</param>
-        /// <param name="multiStreamUrl">Construct a type with a set of properties K of type T</param>
         /// <param name="gameTagDetail">gameTagDetail</param>
         /// <param name="taxonomyTagInfo">taxonomyTagInfo</param>
-        /// <param name="hashtag">hashtag</param>
         [JsonConstructor]
-        public WebcastFeedResponseRoomData(double id, string idStr, double status, double ownerUserId, string title, double userCount, double clientVersion, WebcastFeedResponseImage cover, WebcastFeedResponseStreamUrl streamUrl, WebcastFeedResponseRoomDataStats stats, WebcastFeedResponseRoomDataFeedRoomLabel feedRoomLabel, WebcastFeedResponseUser owner, bool liveTypeThirdParty, Dictionary<string, RecordStringBooleanOrNumberValue> roomAuth, double likeCount, double anchorTabType, Dictionary<string, Object> commerceInfo, double liveRoomMode, Dictionary<string, Object> streamUrlFilteredInfo, WebcastFeedResponseRoomDataSquareCoverImg squareCoverImg, WebcastFeedResponseRoomDataFeedRoomLabel rectangleCoverImg, WebcastFeedResponseRoomDataSquareCoverImg blurredCover, Dictionary<string, Object> multiStreamUrl, WebcastFeedResponseRoomDataGameTagDetail gameTagDetail, WebcastFeedResponseRoomDataTaxonomyTagInfo taxonomyTagInfo, Option<WebcastFeedResponseHashtag?> hashtag = default)
+        public WebcastFeedResponseRoomData(double id, string idStr, double status, double ownerUserId, string title, double userCount, double clientVersion, WebcastFeedResponseImage cover, WebcastFeedResponseStreamUrl streamUrl, WebcastFeedResponseRoomDataStats stats, WebcastFeedResponseRoomDataFeedRoomLabel feedRoomLabel, WebcastFeedResponseUser owner, Dictionary<string, WebcastFeedResponseRoomDataRoomAuthValue> roomAuth, double anchorTabType, Dictionary<string, Object> commerceInfo, Dictionary<string, Object> streamUrlFilteredInfo, WebcastFeedResponseRoomDataSquareCoverImg blurredCover, Dictionary<string, Object> multiStreamUrl, Option<bool?> liveTypeThirdParty = default, Option<double?> likeCount = default, Option<WebcastFeedResponseHashtag?> hashtag = default, Option<double?> liveRoomMode = default, Option<WebcastFeedResponseRoomDataSquareCoverImg?> squareCoverImg = default, Option<WebcastFeedResponseRoomDataFeedRoomLabel?> rectangleCoverImg = default, Option<WebcastFeedResponseRoomDataGameTagDetail?> gameTagDetail = default, Option<WebcastFeedResponseRoomDataTaxonomyTagInfo?> taxonomyTagInfo = default)
         {
             Id = id;
             IdStr = idStr;
@@ -74,20 +74,20 @@ namespace EulerApiSdk.Model
             Stats = stats;
             FeedRoomLabel = feedRoomLabel;
             Owner = owner;
-            LiveTypeThirdParty = liveTypeThirdParty;
             RoomAuth = roomAuth;
-            LikeCount = likeCount;
             AnchorTabType = anchorTabType;
             CommerceInfo = commerceInfo;
-            LiveRoomMode = liveRoomMode;
             StreamUrlFilteredInfo = streamUrlFilteredInfo;
-            SquareCoverImg = squareCoverImg;
-            RectangleCoverImg = rectangleCoverImg;
             BlurredCover = blurredCover;
             MultiStreamUrl = multiStreamUrl;
-            GameTagDetail = gameTagDetail;
-            TaxonomyTagInfo = taxonomyTagInfo;
+            LiveTypeThirdPartyOption = liveTypeThirdParty;
+            LikeCountOption = likeCount;
             HashtagOption = hashtag;
+            LiveRoomModeOption = liveRoomMode;
+            SquareCoverImgOption = squareCoverImg;
+            RectangleCoverImgOption = rectangleCoverImg;
+            GameTagDetailOption = gameTagDetail;
+            TaxonomyTagInfoOption = taxonomyTagInfo;
             OnCreated();
         }
 
@@ -166,23 +166,10 @@ namespace EulerApiSdk.Model
         public WebcastFeedResponseUser Owner { get; set; }
 
         /// <summary>
-        /// Gets or Sets LiveTypeThirdParty
+        /// Gets or Sets RoomAuth
         /// </summary>
-        [JsonPropertyName("live_type_third_party")]
-        public bool LiveTypeThirdParty { get; set; }
-
-        /// <summary>
-        /// Construct a type with a set of properties K of type T
-        /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("room_auth")]
-        public Dictionary<string, RecordStringBooleanOrNumberValue> RoomAuth { get; set; }
-
-        /// <summary>
-        /// Gets or Sets LikeCount
-        /// </summary>
-        [JsonPropertyName("like_count")]
-        public double LikeCount { get; set; }
+        public Dictionary<string, WebcastFeedResponseRoomDataRoomAuthValue> RoomAuth { get; set; }
 
         /// <summary>
         /// Gets or Sets AnchorTabType
@@ -191,36 +178,16 @@ namespace EulerApiSdk.Model
         public double AnchorTabType { get; set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets CommerceInfo
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("commerce_info")]
         public Dictionary<string, Object> CommerceInfo { get; set; }
 
         /// <summary>
-        /// Gets or Sets LiveRoomMode
+        /// Gets or Sets StreamUrlFilteredInfo
         /// </summary>
-        [JsonPropertyName("live_room_mode")]
-        public double LiveRoomMode { get; set; }
-
-        /// <summary>
-        /// Construct a type with a set of properties K of type T
-        /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("stream_url_filtered_info")]
         public Dictionary<string, Object> StreamUrlFilteredInfo { get; set; }
-
-        /// <summary>
-        /// Gets or Sets SquareCoverImg
-        /// </summary>
-        [JsonPropertyName("square_cover_img")]
-        public WebcastFeedResponseRoomDataSquareCoverImg SquareCoverImg { get; set; }
-
-        /// <summary>
-        /// Gets or Sets RectangleCoverImg
-        /// </summary>
-        [JsonPropertyName("rectangle_cover_img")]
-        public WebcastFeedResponseRoomDataFeedRoomLabel RectangleCoverImg { get; set; }
 
         /// <summary>
         /// Gets or Sets BlurredCover
@@ -229,23 +196,36 @@ namespace EulerApiSdk.Model
         public WebcastFeedResponseRoomDataSquareCoverImg BlurredCover { get; set; }
 
         /// <summary>
-        /// Construct a type with a set of properties K of type T
+        /// Gets or Sets MultiStreamUrl
         /// </summary>
-        /// <value>Construct a type with a set of properties K of type T</value>
         [JsonPropertyName("multi_stream_url")]
         public Dictionary<string, Object> MultiStreamUrl { get; set; }
 
         /// <summary>
-        /// Gets or Sets GameTagDetail
+        /// Used to track the state of LiveTypeThirdParty
         /// </summary>
-        [JsonPropertyName("game_tag_detail")]
-        public WebcastFeedResponseRoomDataGameTagDetail GameTagDetail { get; set; }
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> LiveTypeThirdPartyOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets TaxonomyTagInfo
+        /// Gets or Sets LiveTypeThirdParty
         /// </summary>
-        [JsonPropertyName("taxonomy_tag_info")]
-        public WebcastFeedResponseRoomDataTaxonomyTagInfo TaxonomyTagInfo { get; set; }
+        [JsonPropertyName("live_type_third_party")]
+        public bool? LiveTypeThirdParty { get { return this.LiveTypeThirdPartyOption.Value; } set { this.LiveTypeThirdPartyOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of LikeCount
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<double?> LikeCountOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets LikeCount
+        /// </summary>
+        [JsonPropertyName("like_count")]
+        public double? LikeCount { get { return this.LikeCountOption.Value; } set { this.LikeCountOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Hashtag
@@ -258,7 +238,72 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Hashtag
         /// </summary>
         [JsonPropertyName("hashtag")]
-        public WebcastFeedResponseHashtag? Hashtag { get { return this.HashtagOption; } set { this.HashtagOption = new(value); } }
+        public WebcastFeedResponseHashtag? Hashtag { get { return this.HashtagOption.Value; } set { this.HashtagOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of LiveRoomMode
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<double?> LiveRoomModeOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets LiveRoomMode
+        /// </summary>
+        [JsonPropertyName("live_room_mode")]
+        public double? LiveRoomMode { get { return this.LiveRoomModeOption.Value; } set { this.LiveRoomModeOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of SquareCoverImg
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<WebcastFeedResponseRoomDataSquareCoverImg?> SquareCoverImgOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets SquareCoverImg
+        /// </summary>
+        [JsonPropertyName("square_cover_img")]
+        public WebcastFeedResponseRoomDataSquareCoverImg? SquareCoverImg { get { return this.SquareCoverImgOption.Value; } set { this.SquareCoverImgOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of RectangleCoverImg
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<WebcastFeedResponseRoomDataFeedRoomLabel?> RectangleCoverImgOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets RectangleCoverImg
+        /// </summary>
+        [JsonPropertyName("rectangle_cover_img")]
+        public WebcastFeedResponseRoomDataFeedRoomLabel? RectangleCoverImg { get { return this.RectangleCoverImgOption.Value; } set { this.RectangleCoverImgOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of GameTagDetail
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<WebcastFeedResponseRoomDataGameTagDetail?> GameTagDetailOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets GameTagDetail
+        /// </summary>
+        [JsonPropertyName("game_tag_detail")]
+        public WebcastFeedResponseRoomDataGameTagDetail? GameTagDetail { get { return this.GameTagDetailOption.Value; } set { this.GameTagDetailOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of TaxonomyTagInfo
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<WebcastFeedResponseRoomDataTaxonomyTagInfo?> TaxonomyTagInfoOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets TaxonomyTagInfo
+        /// </summary>
+        [JsonPropertyName("taxonomy_tag_info")]
+        public WebcastFeedResponseRoomDataTaxonomyTagInfo? TaxonomyTagInfo { get { return this.TaxonomyTagInfoOption.Value; } set { this.TaxonomyTagInfoOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -280,20 +325,20 @@ namespace EulerApiSdk.Model
             sb.Append("  Stats: ").Append(Stats).Append("\n");
             sb.Append("  FeedRoomLabel: ").Append(FeedRoomLabel).Append("\n");
             sb.Append("  Owner: ").Append(Owner).Append("\n");
-            sb.Append("  LiveTypeThirdParty: ").Append(LiveTypeThirdParty).Append("\n");
             sb.Append("  RoomAuth: ").Append(RoomAuth).Append("\n");
-            sb.Append("  LikeCount: ").Append(LikeCount).Append("\n");
             sb.Append("  AnchorTabType: ").Append(AnchorTabType).Append("\n");
             sb.Append("  CommerceInfo: ").Append(CommerceInfo).Append("\n");
-            sb.Append("  LiveRoomMode: ").Append(LiveRoomMode).Append("\n");
             sb.Append("  StreamUrlFilteredInfo: ").Append(StreamUrlFilteredInfo).Append("\n");
-            sb.Append("  SquareCoverImg: ").Append(SquareCoverImg).Append("\n");
-            sb.Append("  RectangleCoverImg: ").Append(RectangleCoverImg).Append("\n");
             sb.Append("  BlurredCover: ").Append(BlurredCover).Append("\n");
             sb.Append("  MultiStreamUrl: ").Append(MultiStreamUrl).Append("\n");
+            sb.Append("  LiveTypeThirdParty: ").Append(LiveTypeThirdParty).Append("\n");
+            sb.Append("  LikeCount: ").Append(LikeCount).Append("\n");
+            sb.Append("  Hashtag: ").Append(Hashtag).Append("\n");
+            sb.Append("  LiveRoomMode: ").Append(LiveRoomMode).Append("\n");
+            sb.Append("  SquareCoverImg: ").Append(SquareCoverImg).Append("\n");
+            sb.Append("  RectangleCoverImg: ").Append(RectangleCoverImg).Append("\n");
             sb.Append("  GameTagDetail: ").Append(GameTagDetail).Append("\n");
             sb.Append("  TaxonomyTagInfo: ").Append(TaxonomyTagInfo).Append("\n");
-            sb.Append("  Hashtag: ").Append(Hashtag).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -312,8 +357,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseRoomData" />
     /// </summary>
-    public class WebcastFeedResponseRoomDataJsonConverter : JsonConverter<WebcastFeedResponseRoomData>
+    public partial class WebcastFeedResponseRoomDataJsonConverter : JsonConverter<WebcastFeedResponseRoomData>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseRoomDataJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseRoomDataJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseRoomData" />
         /// </summary>
@@ -343,20 +398,20 @@ namespace EulerApiSdk.Model
             Option<WebcastFeedResponseRoomDataStats?> stats = default;
             Option<WebcastFeedResponseRoomDataFeedRoomLabel?> feedRoomLabel = default;
             Option<WebcastFeedResponseUser?> owner = default;
-            Option<bool?> liveTypeThirdParty = default;
-            Option<Dictionary<string, RecordStringBooleanOrNumberValue>?> roomAuth = default;
-            Option<double?> likeCount = default;
+            Option<Dictionary<string, WebcastFeedResponseRoomDataRoomAuthValue>?> roomAuth = default;
             Option<double?> anchorTabType = default;
             Option<Dictionary<string, Object>?> commerceInfo = default;
-            Option<double?> liveRoomMode = default;
             Option<Dictionary<string, Object>?> streamUrlFilteredInfo = default;
-            Option<WebcastFeedResponseRoomDataSquareCoverImg?> squareCoverImg = default;
-            Option<WebcastFeedResponseRoomDataFeedRoomLabel?> rectangleCoverImg = default;
             Option<WebcastFeedResponseRoomDataSquareCoverImg?> blurredCover = default;
             Option<Dictionary<string, Object>?> multiStreamUrl = default;
+            Option<bool?> liveTypeThirdParty = default;
+            Option<double?> likeCount = default;
+            Option<WebcastFeedResponseHashtag?> hashtag = default;
+            Option<double?> liveRoomMode = default;
+            Option<WebcastFeedResponseRoomDataSquareCoverImg?> squareCoverImg = default;
+            Option<WebcastFeedResponseRoomDataFeedRoomLabel?> rectangleCoverImg = default;
             Option<WebcastFeedResponseRoomDataGameTagDetail?> gameTagDetail = default;
             Option<WebcastFeedResponseRoomDataTaxonomyTagInfo?> taxonomyTagInfo = default;
-            Option<WebcastFeedResponseHashtag?> hashtag = default;
 
             while (utf8JsonReader.Read())
             {
@@ -409,14 +464,8 @@ namespace EulerApiSdk.Model
                         case "owner":
                             owner = new Option<WebcastFeedResponseUser?>(JsonSerializer.Deserialize<WebcastFeedResponseUser>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
-                        case "live_type_third_party":
-                            liveTypeThirdParty = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
-                            break;
                         case "room_auth":
-                            roomAuth = new Option<Dictionary<string, RecordStringBooleanOrNumberValue>?>(JsonSerializer.Deserialize<Dictionary<string, RecordStringBooleanOrNumberValue>>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
-                        case "like_count":
-                            likeCount = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            roomAuth = new Option<Dictionary<string, WebcastFeedResponseRoomDataRoomAuthValue>?>(JsonSerializer.Deserialize<Dictionary<string, WebcastFeedResponseRoomDataRoomAuthValue>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "anchor_tab_type":
                             anchorTabType = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
@@ -424,17 +473,8 @@ namespace EulerApiSdk.Model
                         case "commerce_info":
                             commerceInfo = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
-                        case "live_room_mode":
-                            liveRoomMode = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
-                            break;
                         case "stream_url_filtered_info":
                             streamUrlFilteredInfo = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
-                        case "square_cover_img":
-                            squareCoverImg = new Option<WebcastFeedResponseRoomDataSquareCoverImg?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataSquareCoverImg>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
-                        case "rectangle_cover_img":
-                            rectangleCoverImg = new Option<WebcastFeedResponseRoomDataFeedRoomLabel?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataFeedRoomLabel>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "blurred_cover":
                             blurredCover = new Option<WebcastFeedResponseRoomDataSquareCoverImg?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataSquareCoverImg>(ref utf8JsonReader, jsonSerializerOptions)!);
@@ -442,14 +482,29 @@ namespace EulerApiSdk.Model
                         case "multi_stream_url":
                             multiStreamUrl = new Option<Dictionary<string, Object>?>(JsonSerializer.Deserialize<Dictionary<string, Object>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
+                        case "live_type_third_party":
+                            liveTypeThirdParty = new Option<bool?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (bool?)null : utf8JsonReader.GetBoolean());
+                            break;
+                        case "like_count":
+                            likeCount = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
+                        case "hashtag":
+                            hashtag = new Option<WebcastFeedResponseHashtag?>(JsonSerializer.Deserialize<WebcastFeedResponseHashtag>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "live_room_mode":
+                            liveRoomMode = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
+                        case "square_cover_img":
+                            squareCoverImg = new Option<WebcastFeedResponseRoomDataSquareCoverImg?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataSquareCoverImg>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
+                        case "rectangle_cover_img":
+                            rectangleCoverImg = new Option<WebcastFeedResponseRoomDataFeedRoomLabel?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataFeedRoomLabel>(ref utf8JsonReader, jsonSerializerOptions)!);
+                            break;
                         case "game_tag_detail":
                             gameTagDetail = new Option<WebcastFeedResponseRoomDataGameTagDetail?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataGameTagDetail>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "taxonomy_tag_info":
                             taxonomyTagInfo = new Option<WebcastFeedResponseRoomDataTaxonomyTagInfo?>(JsonSerializer.Deserialize<WebcastFeedResponseRoomDataTaxonomyTagInfo>(ref utf8JsonReader, jsonSerializerOptions)!);
-                            break;
-                        case "hashtag":
-                            hashtag = new Option<WebcastFeedResponseHashtag?>(JsonSerializer.Deserialize<WebcastFeedResponseHashtag>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -493,14 +548,8 @@ namespace EulerApiSdk.Model
             if (!owner.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(owner));
 
-            if (!liveTypeThirdParty.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(liveTypeThirdParty));
-
             if (!roomAuth.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(roomAuth));
-
-            if (!likeCount.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(likeCount));
 
             if (!anchorTabType.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(anchorTabType));
@@ -508,29 +557,14 @@ namespace EulerApiSdk.Model
             if (!commerceInfo.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(commerceInfo));
 
-            if (!liveRoomMode.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(liveRoomMode));
-
             if (!streamUrlFilteredInfo.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(streamUrlFilteredInfo));
-
-            if (!squareCoverImg.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(squareCoverImg));
-
-            if (!rectangleCoverImg.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(rectangleCoverImg));
 
             if (!blurredCover.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(blurredCover));
 
             if (!multiStreamUrl.IsSet)
                 throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(multiStreamUrl));
-
-            if (!gameTagDetail.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(gameTagDetail));
-
-            if (!taxonomyTagInfo.IsSet)
-                throw new ArgumentException("Property is required for class WebcastFeedResponseRoomData.", nameof(taxonomyTagInfo));
 
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class WebcastFeedResponseRoomData.");
@@ -568,14 +602,8 @@ namespace EulerApiSdk.Model
             if (owner.IsSet && owner.Value == null)
                 throw new ArgumentNullException(nameof(owner), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
-            if (liveTypeThirdParty.IsSet && liveTypeThirdParty.Value == null)
-                throw new ArgumentNullException(nameof(liveTypeThirdParty), "Property is not nullable for class WebcastFeedResponseRoomData.");
-
             if (roomAuth.IsSet && roomAuth.Value == null)
                 throw new ArgumentNullException(nameof(roomAuth), "Property is not nullable for class WebcastFeedResponseRoomData.");
-
-            if (likeCount.IsSet && likeCount.Value == null)
-                throw new ArgumentNullException(nameof(likeCount), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
             if (anchorTabType.IsSet && anchorTabType.Value == null)
                 throw new ArgumentNullException(nameof(anchorTabType), "Property is not nullable for class WebcastFeedResponseRoomData.");
@@ -583,17 +611,8 @@ namespace EulerApiSdk.Model
             if (commerceInfo.IsSet && commerceInfo.Value == null)
                 throw new ArgumentNullException(nameof(commerceInfo), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
-            if (liveRoomMode.IsSet && liveRoomMode.Value == null)
-                throw new ArgumentNullException(nameof(liveRoomMode), "Property is not nullable for class WebcastFeedResponseRoomData.");
-
             if (streamUrlFilteredInfo.IsSet && streamUrlFilteredInfo.Value == null)
                 throw new ArgumentNullException(nameof(streamUrlFilteredInfo), "Property is not nullable for class WebcastFeedResponseRoomData.");
-
-            if (squareCoverImg.IsSet && squareCoverImg.Value == null)
-                throw new ArgumentNullException(nameof(squareCoverImg), "Property is not nullable for class WebcastFeedResponseRoomData.");
-
-            if (rectangleCoverImg.IsSet && rectangleCoverImg.Value == null)
-                throw new ArgumentNullException(nameof(rectangleCoverImg), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
             if (blurredCover.IsSet && blurredCover.Value == null)
                 throw new ArgumentNullException(nameof(blurredCover), "Property is not nullable for class WebcastFeedResponseRoomData.");
@@ -601,16 +620,31 @@ namespace EulerApiSdk.Model
             if (multiStreamUrl.IsSet && multiStreamUrl.Value == null)
                 throw new ArgumentNullException(nameof(multiStreamUrl), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
+            if (liveTypeThirdParty.IsSet && liveTypeThirdParty.Value == null)
+                throw new ArgumentNullException(nameof(liveTypeThirdParty), "Property is not nullable for class WebcastFeedResponseRoomData.");
+
+            if (likeCount.IsSet && likeCount.Value == null)
+                throw new ArgumentNullException(nameof(likeCount), "Property is not nullable for class WebcastFeedResponseRoomData.");
+
+            if (hashtag.IsSet && hashtag.Value == null)
+                throw new ArgumentNullException(nameof(hashtag), "Property is not nullable for class WebcastFeedResponseRoomData.");
+
+            if (liveRoomMode.IsSet && liveRoomMode.Value == null)
+                throw new ArgumentNullException(nameof(liveRoomMode), "Property is not nullable for class WebcastFeedResponseRoomData.");
+
+            if (squareCoverImg.IsSet && squareCoverImg.Value == null)
+                throw new ArgumentNullException(nameof(squareCoverImg), "Property is not nullable for class WebcastFeedResponseRoomData.");
+
+            if (rectangleCoverImg.IsSet && rectangleCoverImg.Value == null)
+                throw new ArgumentNullException(nameof(rectangleCoverImg), "Property is not nullable for class WebcastFeedResponseRoomData.");
+
             if (gameTagDetail.IsSet && gameTagDetail.Value == null)
                 throw new ArgumentNullException(nameof(gameTagDetail), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
             if (taxonomyTagInfo.IsSet && taxonomyTagInfo.Value == null)
                 throw new ArgumentNullException(nameof(taxonomyTagInfo), "Property is not nullable for class WebcastFeedResponseRoomData.");
 
-            if (hashtag.IsSet && hashtag.Value == null)
-                throw new ArgumentNullException(nameof(hashtag), "Property is not nullable for class WebcastFeedResponseRoomData.");
-
-            return new WebcastFeedResponseRoomData(id.Value!.Value!, idStr.Value!, status.Value!.Value!, ownerUserId.Value!.Value!, title.Value!, userCount.Value!.Value!, clientVersion.Value!.Value!, cover.Value!, streamUrl.Value!, stats.Value!, feedRoomLabel.Value!, owner.Value!, liveTypeThirdParty.Value!.Value!, roomAuth.Value!, likeCount.Value!.Value!, anchorTabType.Value!.Value!, commerceInfo.Value!, liveRoomMode.Value!.Value!, streamUrlFilteredInfo.Value!, squareCoverImg.Value!, rectangleCoverImg.Value!, blurredCover.Value!, multiStreamUrl.Value!, gameTagDetail.Value!, taxonomyTagInfo.Value!, hashtag);
+            return new WebcastFeedResponseRoomData(id.Value!.Value!, idStr.Value!, status.Value!.Value!, ownerUserId.Value!.Value!, title.Value!, userCount.Value!.Value!, clientVersion.Value!.Value!, cover.Value!, streamUrl.Value!, stats.Value!, feedRoomLabel.Value!, owner.Value!, roomAuth.Value!, anchorTabType.Value!.Value!, commerceInfo.Value!, streamUrlFilteredInfo.Value!, blurredCover.Value!, multiStreamUrl.Value!, liveTypeThirdParty, likeCount, hashtag, liveRoomMode, squareCoverImg, rectangleCoverImg, gameTagDetail, taxonomyTagInfo);
         }
 
         /// <summary>
@@ -667,26 +701,26 @@ namespace EulerApiSdk.Model
             if (webcastFeedResponseRoomData.StreamUrlFilteredInfo == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.StreamUrlFilteredInfo), "Property is required for class WebcastFeedResponseRoomData.");
 
-            if (webcastFeedResponseRoomData.SquareCoverImg == null)
-                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.SquareCoverImg), "Property is required for class WebcastFeedResponseRoomData.");
-
-            if (webcastFeedResponseRoomData.RectangleCoverImg == null)
-                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.RectangleCoverImg), "Property is required for class WebcastFeedResponseRoomData.");
-
             if (webcastFeedResponseRoomData.BlurredCover == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.BlurredCover), "Property is required for class WebcastFeedResponseRoomData.");
 
             if (webcastFeedResponseRoomData.MultiStreamUrl == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.MultiStreamUrl), "Property is required for class WebcastFeedResponseRoomData.");
 
-            if (webcastFeedResponseRoomData.GameTagDetail == null)
-                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.GameTagDetail), "Property is required for class WebcastFeedResponseRoomData.");
-
-            if (webcastFeedResponseRoomData.TaxonomyTagInfo == null)
-                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.TaxonomyTagInfo), "Property is required for class WebcastFeedResponseRoomData.");
-
             if (webcastFeedResponseRoomData.HashtagOption.IsSet && webcastFeedResponseRoomData.Hashtag == null)
                 throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.Hashtag), "Property is required for class WebcastFeedResponseRoomData.");
+
+            if (webcastFeedResponseRoomData.SquareCoverImgOption.IsSet && webcastFeedResponseRoomData.SquareCoverImg == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.SquareCoverImg), "Property is required for class WebcastFeedResponseRoomData.");
+
+            if (webcastFeedResponseRoomData.RectangleCoverImgOption.IsSet && webcastFeedResponseRoomData.RectangleCoverImg == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.RectangleCoverImg), "Property is required for class WebcastFeedResponseRoomData.");
+
+            if (webcastFeedResponseRoomData.GameTagDetailOption.IsSet && webcastFeedResponseRoomData.GameTagDetail == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.GameTagDetail), "Property is required for class WebcastFeedResponseRoomData.");
+
+            if (webcastFeedResponseRoomData.TaxonomyTagInfoOption.IsSet && webcastFeedResponseRoomData.TaxonomyTagInfo == null)
+                throw new ArgumentNullException(nameof(webcastFeedResponseRoomData.TaxonomyTagInfo), "Property is required for class WebcastFeedResponseRoomData.");
 
             writer.WriteNumber("id", webcastFeedResponseRoomData.Id);
 
@@ -712,36 +746,51 @@ namespace EulerApiSdk.Model
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.FeedRoomLabel, jsonSerializerOptions);
             writer.WritePropertyName("owner");
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.Owner, jsonSerializerOptions);
-            writer.WriteBoolean("live_type_third_party", webcastFeedResponseRoomData.LiveTypeThirdParty);
-
             writer.WritePropertyName("room_auth");
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.RoomAuth, jsonSerializerOptions);
-            writer.WriteNumber("like_count", webcastFeedResponseRoomData.LikeCount);
-
             writer.WriteNumber("anchor_tab_type", webcastFeedResponseRoomData.AnchorTabType);
 
             writer.WritePropertyName("commerce_info");
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.CommerceInfo, jsonSerializerOptions);
-            writer.WriteNumber("live_room_mode", webcastFeedResponseRoomData.LiveRoomMode);
-
             writer.WritePropertyName("stream_url_filtered_info");
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.StreamUrlFilteredInfo, jsonSerializerOptions);
-            writer.WritePropertyName("square_cover_img");
-            JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.SquareCoverImg, jsonSerializerOptions);
-            writer.WritePropertyName("rectangle_cover_img");
-            JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.RectangleCoverImg, jsonSerializerOptions);
             writer.WritePropertyName("blurred_cover");
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.BlurredCover, jsonSerializerOptions);
             writer.WritePropertyName("multi_stream_url");
             JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.MultiStreamUrl, jsonSerializerOptions);
-            writer.WritePropertyName("game_tag_detail");
-            JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.GameTagDetail, jsonSerializerOptions);
-            writer.WritePropertyName("taxonomy_tag_info");
-            JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.TaxonomyTagInfo, jsonSerializerOptions);
+            if (webcastFeedResponseRoomData.LiveTypeThirdPartyOption.IsSet)
+                writer.WriteBoolean("live_type_third_party", webcastFeedResponseRoomData.LiveTypeThirdPartyOption.Value!.Value);
+
+            if (webcastFeedResponseRoomData.LikeCountOption.IsSet)
+                writer.WriteNumber("like_count", webcastFeedResponseRoomData.LikeCountOption.Value!.Value);
+
             if (webcastFeedResponseRoomData.HashtagOption.IsSet)
             {
                 writer.WritePropertyName("hashtag");
                 JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.Hashtag, jsonSerializerOptions);
+            }
+            if (webcastFeedResponseRoomData.LiveRoomModeOption.IsSet)
+                writer.WriteNumber("live_room_mode", webcastFeedResponseRoomData.LiveRoomModeOption.Value!.Value);
+
+            if (webcastFeedResponseRoomData.SquareCoverImgOption.IsSet)
+            {
+                writer.WritePropertyName("square_cover_img");
+                JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.SquareCoverImg, jsonSerializerOptions);
+            }
+            if (webcastFeedResponseRoomData.RectangleCoverImgOption.IsSet)
+            {
+                writer.WritePropertyName("rectangle_cover_img");
+                JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.RectangleCoverImg, jsonSerializerOptions);
+            }
+            if (webcastFeedResponseRoomData.GameTagDetailOption.IsSet)
+            {
+                writer.WritePropertyName("game_tag_detail");
+                JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.GameTagDetail, jsonSerializerOptions);
+            }
+            if (webcastFeedResponseRoomData.TaxonomyTagInfoOption.IsSet)
+            {
+                writer.WritePropertyName("taxonomy_tag_info");
+                JsonSerializer.Serialize(writer, webcastFeedResponseRoomData.TaxonomyTagInfo, jsonSerializerOptions);
             }
         }
     }

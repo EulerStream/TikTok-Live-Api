@@ -38,7 +38,7 @@ namespace EulerApiSdk.Model
         /// <param name="status">status</param>
         /// <param name="statusLabel">statusLabel</param>
         [JsonConstructor]
-        public TestAlertTargetResponse(double code, Option<string?> message = default, Option<AlertTargetStatus?> status = default, Option<string?> statusLabel = default)
+        public TestAlertTargetResponse(double code, Option<string?> message = default, Option<LivePushAlertTargetStatus?> status = default, Option<string?> statusLabel = default)
         {
             Code = code;
             MessageOption = message;
@@ -54,13 +54,13 @@ namespace EulerApiSdk.Model
         /// </summary>
         [JsonIgnore]
         [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<AlertTargetStatus?> StatusOption { get; private set; }
+        public Option<LivePushAlertTargetStatus?> StatusOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Status
         /// </summary>
         [JsonPropertyName("status")]
-        public AlertTargetStatus? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public LivePushAlertTargetStatus? Status { get { return this.StatusOption.Value; } set { this.StatusOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Code
@@ -79,7 +79,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of StatusLabel
@@ -92,7 +92,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets StatusLabel
         /// </summary>
         [JsonPropertyName("statusLabel")]
-        public string? StatusLabel { get { return this.StatusLabelOption; } set { this.StatusLabelOption = new(value); } }
+        public string? StatusLabel { get { return this.StatusLabelOption.Value; } set { this.StatusLabelOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -124,8 +124,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="TestAlertTargetResponse" />
     /// </summary>
-    public class TestAlertTargetResponseJsonConverter : JsonConverter<TestAlertTargetResponse>
+    public partial class TestAlertTargetResponseJsonConverter : JsonConverter<TestAlertTargetResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestAlertTargetResponseJsonConverter" /> class.
+        /// </summary>
+        public TestAlertTargetResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="TestAlertTargetResponse" />
         /// </summary>
@@ -145,7 +155,7 @@ namespace EulerApiSdk.Model
 
             Option<double?> code = default;
             Option<string?> message = default;
-            Option<AlertTargetStatus?> status = default;
+            Option<LivePushAlertTargetStatus?> status = default;
             Option<string?> statusLabel = default;
 
             while (utf8JsonReader.Read())
@@ -170,9 +180,7 @@ namespace EulerApiSdk.Model
                             message = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "status":
-                            string? statusRawValue = utf8JsonReader.GetString();
-                            if (statusRawValue != null)
-                                status = new Option<AlertTargetStatus?>(AlertTargetStatusValueConverter.FromStringOrDefault(statusRawValue));
+                            status = new Option<LivePushAlertTargetStatus?>(JsonSerializer.Deserialize<LivePushAlertTargetStatus?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "statusLabel":
                             statusLabel = new Option<string?>(utf8JsonReader.GetString()!);
@@ -237,10 +245,8 @@ namespace EulerApiSdk.Model
                 writer.WriteString("message", testAlertTargetResponse.Message);
 
             if (testAlertTargetResponse.StatusOption.IsSet)
-            {
-                var statusRawValue = AlertTargetStatusValueConverter.ToJsonValue(testAlertTargetResponse.Status!.Value);
-                writer.WriteNumber("status", statusRawValue);
-            }
+                writer.WriteNumber("status", LivePushAlertTargetStatusValueConverter.ToJsonValue(testAlertTargetResponse.StatusOption.Value!.Value));
+
             if (testAlertTargetResponse.StatusLabelOption.IsSet)
                 writer.WriteString("statusLabel", testAlertTargetResponse.StatusLabel);
         }

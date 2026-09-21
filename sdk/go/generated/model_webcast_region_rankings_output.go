@@ -22,6 +22,7 @@ var _ MappedNullable = &WebcastRegionRankingsOutput{}
 
 // WebcastRegionRankingsOutput struct for WebcastRegionRankingsOutput
 type WebcastRegionRankingsOutput struct {
+	Attempts float64 `json:"attempts"`
 	Ranks []PartialWebcastRegionRankingsOutputRank `json:"ranks"`
 	RankTitle NullableString `json:"rank_title"`
 	RankType NullableString `json:"rank_type"`
@@ -35,8 +36,9 @@ type _WebcastRegionRankingsOutput WebcastRegionRankingsOutput
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastRegionRankingsOutput(ranks []PartialWebcastRegionRankingsOutputRank, rankTitle NullableString, rankType NullableString, resetsAt NullableTime, resetsIn NullableFloat64) *WebcastRegionRankingsOutput {
+func NewWebcastRegionRankingsOutput(attempts float64, ranks []PartialWebcastRegionRankingsOutputRank, rankTitle NullableString, rankType NullableString, resetsAt NullableTime, resetsIn NullableFloat64) *WebcastRegionRankingsOutput {
 	this := WebcastRegionRankingsOutput{}
+	this.Attempts = attempts
 	this.Ranks = ranks
 	this.RankTitle = rankTitle
 	this.RankType = rankType
@@ -51,6 +53,30 @@ func NewWebcastRegionRankingsOutput(ranks []PartialWebcastRegionRankingsOutputRa
 func NewWebcastRegionRankingsOutputWithDefaults() *WebcastRegionRankingsOutput {
 	this := WebcastRegionRankingsOutput{}
 	return &this
+}
+
+// GetAttempts returns the Attempts field value
+func (o *WebcastRegionRankingsOutput) GetAttempts() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.Attempts
+}
+
+// GetAttemptsOk returns a tuple with the Attempts field value
+// and a boolean to check if the value has been set.
+func (o *WebcastRegionRankingsOutput) GetAttemptsOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Attempts, true
+}
+
+// SetAttempts sets field value
+func (o *WebcastRegionRankingsOutput) SetAttempts(v float64) {
+	o.Attempts = v
 }
 
 // GetRanks returns the Ranks field value
@@ -191,6 +217,7 @@ func (o WebcastRegionRankingsOutput) MarshalJSON() ([]byte, error) {
 
 func (o WebcastRegionRankingsOutput) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
+	toSerialize["attempts"] = o.Attempts
 	toSerialize["ranks"] = o.Ranks
 	toSerialize["rank_title"] = o.RankTitle.Get()
 	toSerialize["rank_type"] = o.RankType.Get()
@@ -204,6 +231,7 @@ func (o *WebcastRegionRankingsOutput) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
+		"attempts",
 		"ranks",
 		"rank_title",
 		"rank_type",

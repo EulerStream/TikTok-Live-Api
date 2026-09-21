@@ -8,6 +8,8 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_key_payload import CreateKeyPayload
 from ...models.create_key_response import CreateKeyResponse
+from ...models.create_key_response_429 import CreateKeyResponse429
+from ...models.create_key_response_500 import CreateKeyResponse500
 from ...types import Response
 
 
@@ -33,11 +35,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CreateKeyResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500 | None:
     if response.status_code == 200:
         response_200 = CreateKeyResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CreateKeyResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CreateKeyResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +59,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CreateKeyResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,7 +75,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateKeyPayload,
-) -> Response[CreateKeyResponse]:
+) -> Response[CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500]:
     """Create a new API key
 
     Args:
@@ -71,7 +87,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateKeyResponse]
+        Response[CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -91,7 +107,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CreateKeyPayload,
-) -> CreateKeyResponse | None:
+) -> CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500 | None:
     """Create a new API key
 
     Args:
@@ -103,7 +119,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateKeyResponse
+        CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500
     """
 
     return sync_detailed(
@@ -118,7 +134,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateKeyPayload,
-) -> Response[CreateKeyResponse]:
+) -> Response[CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500]:
     """Create a new API key
 
     Args:
@@ -130,7 +146,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateKeyResponse]
+        Response[CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -148,7 +164,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CreateKeyPayload,
-) -> CreateKeyResponse | None:
+) -> CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500 | None:
     """Create a new API key
 
     Args:
@@ -160,7 +176,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateKeyResponse
+        CreateKeyResponse | CreateKeyResponse429 | CreateKeyResponse500
     """
 
     return (

@@ -14,7 +14,7 @@
 package com.eulerstream.model;
 
 import java.util.Objects;
-import com.eulerstream.model.WebcastUserEarningsOutput;
+import com.eulerstream.model.StableWebcastUserEarningsOutput;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -49,7 +49,7 @@ import com.eulerstream.JSON;
 /**
  * WebcastUserEarningsResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-06-14T20:43:07.534178-04:00[America/Toronto]", comments = "Generator version: 7.23.0")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2026-09-21T01:30:55.330854-04:00[America/Toronto]", comments = "Generator version: 7.24.0")
 public class WebcastUserEarningsResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -64,7 +64,7 @@ public class WebcastUserEarningsResponse {
   public static final String SERIALIZED_NAME_RESPONSE = "response";
   @SerializedName(SERIALIZED_NAME_RESPONSE)
   @javax.annotation.Nullable
-  private WebcastUserEarningsOutput response;
+  private StableWebcastUserEarningsOutput response;
 
   public WebcastUserEarningsResponse() {
   }
@@ -107,7 +107,7 @@ public class WebcastUserEarningsResponse {
   }
 
 
-  public WebcastUserEarningsResponse response(@javax.annotation.Nullable WebcastUserEarningsOutput response) {
+  public WebcastUserEarningsResponse response(@javax.annotation.Nullable StableWebcastUserEarningsOutput response) {
     this.response = response;
     return this;
   }
@@ -117,11 +117,11 @@ public class WebcastUserEarningsResponse {
    * @return response
    */
   @javax.annotation.Nullable
-  public WebcastUserEarningsOutput getResponse() {
+  public StableWebcastUserEarningsOutput getResponse() {
     return response;
   }
 
-  public void setResponse(@javax.annotation.Nullable WebcastUserEarningsOutput response) {
+  public void setResponse(@javax.annotation.Nullable StableWebcastUserEarningsOutput response) {
     this.response = response;
   }
 
@@ -210,7 +210,7 @@ public class WebcastUserEarningsResponse {
       }
       // validate the optional field `response`
       if (jsonObj.get("response") != null && !jsonObj.get("response").isJsonNull()) {
-        WebcastUserEarningsOutput.validateJsonElement(jsonObj.get("response"));
+        StableWebcastUserEarningsOutput.validateJsonElement(jsonObj.get("response"));
       }
   }
 

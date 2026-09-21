@@ -94,8 +94,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedResponseHashtag" />
     /// </summary>
-    public class WebcastFeedResponseHashtagJsonConverter : JsonConverter<WebcastFeedResponseHashtag>
+    public partial class WebcastFeedResponseHashtagJsonConverter : JsonConverter<WebcastFeedResponseHashtag>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedResponseHashtagJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedResponseHashtagJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedResponseHashtag" />
         /// </summary>

@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_alert_targets_response import ListAlertTargetsResponse
+from ...models.list_alert_targets_response_429 import ListAlertTargetsResponse429
+from ...models.list_alert_targets_response_500 import ListAlertTargetsResponse500
 from ...types import Response
 
 
@@ -27,11 +29,21 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> ListAlertTargetsResponse | None:
+) -> ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500 | None:
     if response.status_code == 200:
         response_200 = ListAlertTargetsResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = ListAlertTargetsResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = ListAlertTargetsResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -41,7 +53,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[ListAlertTargetsResponse]:
+) -> Response[ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -55,7 +67,7 @@ def sync_detailed(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[ListAlertTargetsResponse]:
+) -> Response[ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500]:
     """List all alert targets for a specific alert
 
     Args:
@@ -67,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAlertTargetsResponse]
+        Response[ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -87,7 +99,7 @@ def sync(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> ListAlertTargetsResponse | None:
+) -> ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500 | None:
     """List all alert targets for a specific alert
 
     Args:
@@ -99,7 +111,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAlertTargetsResponse
+        ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500
     """
 
     return sync_detailed(
@@ -114,7 +126,7 @@ async def asyncio_detailed(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[ListAlertTargetsResponse]:
+) -> Response[ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500]:
     """List all alert targets for a specific alert
 
     Args:
@@ -126,7 +138,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAlertTargetsResponse]
+        Response[ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -144,7 +156,7 @@ async def asyncio(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> ListAlertTargetsResponse | None:
+) -> ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500 | None:
     """List all alert targets for a specific alert
 
     Args:
@@ -156,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAlertTargetsResponse
+        ListAlertTargetsResponse | ListAlertTargetsResponse429 | ListAlertTargetsResponse500
     """
 
     return (

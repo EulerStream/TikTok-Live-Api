@@ -8,6 +8,8 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.create_alert_body import CreateAlertBody
 from ...models.create_alert_response import CreateAlertResponse
+from ...models.create_alert_response_429 import CreateAlertResponse429
+from ...models.create_alert_response_500 import CreateAlertResponse500
 from ...types import Response
 
 
@@ -33,11 +35,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> CreateAlertResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500 | None:
     if response.status_code == 200:
         response_200 = CreateAlertResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = CreateAlertResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = CreateAlertResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -45,7 +59,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[CreateAlertResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -59,19 +75,19 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateAlertBody,
-) -> Response[CreateAlertResponse]:
+) -> Response[CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500]:
     """Create a creator alert. These Alerts are used to notify users of a new livestream.
 
     Args:
         account_id (float):
-        body (CreateAlertBody): Configuration for the alert
+        body (CreateAlertBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateAlertResponse]
+        Response[CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -91,19 +107,19 @@ def sync(
     *,
     client: AuthenticatedClient,
     body: CreateAlertBody,
-) -> CreateAlertResponse | None:
+) -> CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500 | None:
     """Create a creator alert. These Alerts are used to notify users of a new livestream.
 
     Args:
         account_id (float):
-        body (CreateAlertBody): Configuration for the alert
+        body (CreateAlertBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateAlertResponse
+        CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500
     """
 
     return sync_detailed(
@@ -118,19 +134,19 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     body: CreateAlertBody,
-) -> Response[CreateAlertResponse]:
+) -> Response[CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500]:
     """Create a creator alert. These Alerts are used to notify users of a new livestream.
 
     Args:
         account_id (float):
-        body (CreateAlertBody): Configuration for the alert
+        body (CreateAlertBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[CreateAlertResponse]
+        Response[CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -148,19 +164,19 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     body: CreateAlertBody,
-) -> CreateAlertResponse | None:
+) -> CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500 | None:
     """Create a creator alert. These Alerts are used to notify users of a new livestream.
 
     Args:
         account_id (float):
-        body (CreateAlertBody): Configuration for the alert
+        body (CreateAlertBody):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        CreateAlertResponse
+        CreateAlertResponse | CreateAlertResponse429 | CreateAlertResponse500
     """
 
     return (

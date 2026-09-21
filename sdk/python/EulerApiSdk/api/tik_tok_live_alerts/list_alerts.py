@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.list_alerts_response import ListAlertsResponse
+from ...models.list_alerts_response_429 import ListAlertsResponse429
+from ...models.list_alerts_response_500 import ListAlertsResponse500
 from ...types import UNSET, Response, Unset
 
 
@@ -32,11 +34,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> ListAlertsResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500 | None:
     if response.status_code == 200:
         response_200 = ListAlertsResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = ListAlertsResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = ListAlertsResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -44,7 +58,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[ListAlertsResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -58,7 +74,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient,
     page: float | Unset = 0.0,
-) -> Response[ListAlertsResponse]:
+) -> Response[ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500]:
     """
     Args:
         account_id (float):
@@ -69,7 +85,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAlertsResponse]
+        Response[ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -89,7 +105,7 @@ def sync(
     *,
     client: AuthenticatedClient,
     page: float | Unset = 0.0,
-) -> ListAlertsResponse | None:
+) -> ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500 | None:
     """
     Args:
         account_id (float):
@@ -100,7 +116,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAlertsResponse
+        ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500
     """
 
     return sync_detailed(
@@ -115,7 +131,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
     page: float | Unset = 0.0,
-) -> Response[ListAlertsResponse]:
+) -> Response[ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500]:
     """
     Args:
         account_id (float):
@@ -126,7 +142,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[ListAlertsResponse]
+        Response[ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -144,7 +160,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient,
     page: float | Unset = 0.0,
-) -> ListAlertsResponse | None:
+) -> ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500 | None:
     """
     Args:
         account_id (float):
@@ -155,7 +171,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        ListAlertsResponse
+        ListAlertsResponse | ListAlertsResponse429 | ListAlertsResponse500
     """
 
     return (

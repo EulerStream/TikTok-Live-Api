@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -19,30 +19,24 @@ T = TypeVar("T", bound="PuzzleCaptchaResponse")
 class PuzzleCaptchaResponse:
     """
     Attributes:
-        response (None | PuzzleResult):
-        cached (bool):
         code (float):
+        response (PuzzleResult):
+        cached (bool):
         message (str | Unset):
     """
 
-    response: None | PuzzleResult
-    cached: bool
     code: float
+    response: PuzzleResult
+    cached: bool
     message: str | Unset = UNSET
     additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        from ..models.puzzle_result import PuzzleResult
+        code = self.code
 
-        response: dict[str, Any] | None
-        if isinstance(self.response, PuzzleResult):
-            response = self.response.to_dict()
-        else:
-            response = self.response
+        response = self.response.to_dict()
 
         cached = self.cached
-
-        code = self.code
 
         message = self.message
 
@@ -50,9 +44,9 @@ class PuzzleCaptchaResponse:
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
+                "code": code,
                 "response": response,
                 "cached": cached,
-                "code": code,
             }
         )
         if message is not UNSET:
@@ -65,32 +59,18 @@ class PuzzleCaptchaResponse:
         from ..models.puzzle_result import PuzzleResult
 
         d = dict(src_dict)
+        code = d.pop("code")
 
-        def _parse_response(data: object) -> None | PuzzleResult:
-            if data is None:
-                return data
-            try:
-                if not isinstance(data, dict):
-                    raise TypeError()
-                response_type_1 = PuzzleResult.from_dict(data)
-
-                return response_type_1
-            except (TypeError, ValueError, AttributeError, KeyError):
-                pass
-            return cast(None | PuzzleResult, data)
-
-        response = _parse_response(d.pop("response"))
+        response = PuzzleResult.from_dict(d.pop("response"))
 
         cached = d.pop("cached")
-
-        code = d.pop("code")
 
         message = d.pop("message", UNSET)
 
         puzzle_captcha_response = cls(
+            code=code,
             response=response,
             cached=cached,
-            code=code,
             message=message,
         )
 

@@ -14,16 +14,19 @@
 package com.eulerstream.api;
 
 import com.eulerstream.ApiException;
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.LiveAnalyticsUserInteractionsAPIResponse;
 import com.eulerstream.model.LiveAnalyticsVideoDetailAPIResponse;
 import com.eulerstream.model.LiveAnalyticsVideoListAPIResponse;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveRoomCoverResponse;
-import com.eulerstream.model.RetrieveRoomVideoResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
 import com.eulerstream.model.RoomAdminUpdateAPIResponse;
 import com.eulerstream.model.RoomModeratorsAPIResponse;
-import com.eulerstream.model.StreamType;
+import com.eulerstream.model.RouteImageSource;
+import com.eulerstream.model.WebcastFetchPlatform;
 import com.eulerstream.model.WebcastGiftGalleryResponse;
+import com.eulerstream.model.WebcastLanguage;
 import com.eulerstream.model.WebcastRoomIdRouteResponse;
 import com.eulerstream.model.WebcastRoomInfoRouteResponse;
 import com.eulerstream.model.WebcastUserEarningsOutputPeriod;
@@ -61,6 +64,25 @@ public class TikTokLiveAnchorsApiTest {
     }
 
     /**
+     * Fetch the WebSocket URL &amp; first payload for a TikTok LIVE Room given the anchor&#39;s unique ID (handle).  Resolves the handle to its current Room ID, then behaves exactly as fetching by Room ID. Requires the Business plan.  **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void fetchWebcastURLByUniqueIdTest() throws ApiException {
+        String uniqueId = null;
+        String client = null;
+        String cursor = null;
+        String userAgent = null;
+        Boolean clientEnter = null;
+        WebcastFetchPlatform platform = null;
+        String xOauthToken = null;
+        String xCookieHeader = null;
+        Object response = api.fetchWebcastURLByUniqueId(uniqueId, client, cursor, userAgent, clientEnter, platform, xOauthToken, xCookieHeader);
+        // TODO: test validations
+    }
+
+    /**
      * Remove a moderator from a livestream room.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      *
      * @throws ApiException if the Api call fails
@@ -86,7 +108,8 @@ public class TikTokLiveAnchorsApiTest {
         String userId = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        LiveAnalyticsUserInteractionsAPIResponse response = api.retrieveLiveAnalyticsUserInteractions(roomId, userId, xOauthToken, xCookieHeader);
+        RouteImageSource xImageSource = null;
+        LiveAnalyticsUserInteractionsAPIResponse response = api.retrieveLiveAnalyticsUserInteractions(roomId, userId, xOauthToken, xCookieHeader, xImageSource);
         // TODO: test validations
     }
 
@@ -100,7 +123,8 @@ public class TikTokLiveAnchorsApiTest {
         String roomId = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        LiveAnalyticsVideoDetailAPIResponse response = api.retrieveLiveAnalyticsVideoDetail(roomId, xOauthToken, xCookieHeader);
+        RouteImageSource xImageSource = null;
+        LiveAnalyticsVideoDetailAPIResponse response = api.retrieveLiveAnalyticsVideoDetail(roomId, xOauthToken, xCookieHeader, xImageSource);
         // TODO: test validations
     }
 
@@ -115,7 +139,8 @@ public class TikTokLiveAnchorsApiTest {
         Double offset = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        LiveAnalyticsVideoListAPIResponse response = api.retrieveLiveAnalyticsVideoList(count, offset, xOauthToken, xCookieHeader);
+        RouteImageSource xImageSource = null;
+        LiveAnalyticsVideoListAPIResponse response = api.retrieveLiveAnalyticsVideoList(count, offset, xOauthToken, xCookieHeader, xImageSource);
         // TODO: test validations
     }
 
@@ -128,7 +153,8 @@ public class TikTokLiveAnchorsApiTest {
     public void retrieveRoomCoverTest() throws ApiException {
         String uniqueId = null;
         Boolean redirect = null;
-        RetrieveRoomCoverResponse response = api.retrieveRoomCover(uniqueId, redirect);
+        RouteImageSource xImageSource = null;
+        RetrieveRoomCoverResponse response = api.retrieveRoomCover(uniqueId, redirect, xImageSource);
         // TODO: test validations
     }
 
@@ -152,7 +178,8 @@ public class TikTokLiveAnchorsApiTest {
     @Test
     public void retrieveRoomInfoTest() throws ApiException {
         String uniqueId = null;
-        WebcastRoomInfoRouteResponse response = api.retrieveRoomInfo(uniqueId);
+        RouteImageSource xImageSource = null;
+        WebcastRoomInfoRouteResponse response = api.retrieveRoomInfo(uniqueId, xImageSource);
         // TODO: test validations
     }
 
@@ -166,21 +193,8 @@ public class TikTokLiveAnchorsApiTest {
         String anchorId = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        RoomModeratorsAPIResponse response = api.retrieveRoomModerators(anchorId, xOauthToken, xCookieHeader);
-        // TODO: test validations
-    }
-
-    /**
-     * Fetch TikTok LIVE Stream video given a uniqueId.
-     *
-     * @throws ApiException if the Api call fails
-     */
-    @Test
-    public void retrieveRoomVideoTest() throws ApiException {
-        String uniqueId = null;
-        StreamType streamType = null;
-        Boolean redirect = null;
-        RetrieveRoomVideoResponse response = api.retrieveRoomVideo(uniqueId, streamType, redirect);
+        RouteImageSource xImageSource = null;
+        RoomModeratorsAPIResponse response = api.retrieveRoomModerators(anchorId, xOauthToken, xCookieHeader, xImageSource);
         // TODO: test validations
     }
 
@@ -192,9 +206,11 @@ public class TikTokLiveAnchorsApiTest {
     @Test
     public void retrieveWebcastGiftGalleryTest() throws ApiException {
         String uniqueId = null;
+        WebcastLanguage webcastLanguage = null;
         String xOauthToken = null;
         String xCookieHeader = null;
-        WebcastGiftGalleryResponse response = api.retrieveWebcastGiftGallery(uniqueId, xOauthToken, xCookieHeader);
+        RouteImageSource xImageSource = null;
+        WebcastGiftGalleryResponse response = api.retrieveWebcastGiftGallery(uniqueId, webcastLanguage, xOauthToken, xCookieHeader, xImageSource);
         // TODO: test validations
     }
 
@@ -211,12 +227,13 @@ public class TikTokLiveAnchorsApiTest {
         String xCookieHeader = null;
         String sessionId = null;
         String ttTargetIdc = null;
-        WebcastUserEarningsResponse response = api.retrieveWebcastUserEarnings(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+        RouteImageSource xImageSource = null;
+        WebcastUserEarningsResponse response = api.retrieveWebcastUserEarnings(uniqueId, period, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
         // TODO: test validations
     }
 
     /**
-     * Resolve a TikTok
+     * Resolve a TikTok @unique_id (handle) to its numeric TikTok user ID.
      *
      * @throws ApiException if the Api call fails
      */

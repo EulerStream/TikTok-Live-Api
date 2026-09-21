@@ -27,11 +27,14 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
+import com.eulerstream.model.GetAvailableDates503Response;
 import com.eulerstream.model.HashtagListAPIResponse;
 import com.eulerstream.model.PooledProxyRegion;
+import com.eulerstream.model.RetrieveAccountSelf429Response;
+import com.eulerstream.model.RetrieveAccountSelf500Response;
 import com.eulerstream.model.RetrieveBulkLiveCheckRequest;
 import com.eulerstream.model.RetrieveBulkLiveCheckResponse;
-import com.eulerstream.model.RetrieveWebSocketState429Response;
+import com.eulerstream.model.RouteImageSource;
 import com.eulerstream.model.WebcastFeedRouteResponse;
 import com.eulerstream.model.WebcastRegionRankingsResponse;
 
@@ -237,6 +240,7 @@ public class TikTokLiveApi {
     }
     /**
      * Build call for retrieveHashtagList
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -250,7 +254,7 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveHashtagListCall(final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveHashtagListCall(@javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -290,19 +294,25 @@ public class TikTokLiveApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "jwt_key_header", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveHashtagListValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        return retrieveHashtagListCall(_callback);
+    private okhttp3.Call retrieveHashtagListValidateBeforeCall(@javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
+        return retrieveHashtagListCall(xImageSource, _callback);
 
     }
 
     /**
      * 
      * Retrieve the list of available hashtags for TikTok LIVE streams.
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return HashtagListAPIResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -315,14 +325,15 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public HashtagListAPIResponse retrieveHashtagList() throws ApiException {
-        ApiResponse<HashtagListAPIResponse> localVarResp = retrieveHashtagListWithHttpInfo();
+    public HashtagListAPIResponse retrieveHashtagList(@javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<HashtagListAPIResponse> localVarResp = retrieveHashtagListWithHttpInfo(xImageSource);
         return localVarResp.getData();
     }
 
     /**
      * 
      * Retrieve the list of available hashtags for TikTok LIVE streams.
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;HashtagListAPIResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -335,8 +346,8 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<HashtagListAPIResponse> retrieveHashtagListWithHttpInfo() throws ApiException {
-        okhttp3.Call localVarCall = retrieveHashtagListValidateBeforeCall(null);
+    public ApiResponse<HashtagListAPIResponse> retrieveHashtagListWithHttpInfo(@javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveHashtagListValidateBeforeCall(xImageSource, null);
         Type localVarReturnType = new TypeToken<HashtagListAPIResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -344,6 +355,7 @@ public class TikTokLiveApi {
     /**
      *  (asynchronously)
      * Retrieve the list of available hashtags for TikTok LIVE streams.
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -357,9 +369,9 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveHashtagListAsync(final ApiCallback<HashtagListAPIResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveHashtagListAsync(@javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<HashtagListAPIResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveHashtagListValidateBeforeCall(_callback);
+        okhttp3.Call localVarCall = retrieveHashtagListValidateBeforeCall(xImageSource, _callback);
         Type localVarReturnType = new TypeToken<HashtagListAPIResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -367,6 +379,7 @@ public class TikTokLiveApi {
     /**
      * Build call for retrieveWebcastFeed
      * @param region The region (country) with which to fetch a feed from. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -380,7 +393,7 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastFeedCall(@javax.annotation.Nonnull PooledProxyRegion region, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastFeedCall(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -424,18 +437,23 @@ public class TikTokLiveApi {
             localVarHeaderParams.put("Content-Type", localVarContentType);
         }
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "jwt_key_header", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveWebcastFeedValidateBeforeCall(@javax.annotation.Nonnull PooledProxyRegion region, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveWebcastFeedValidateBeforeCall(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'region' is set
         if (region == null) {
             throw new ApiException("Missing the required parameter 'region' when calling retrieveWebcastFeed(Async)");
         }
 
-        return retrieveWebcastFeedCall(region, _callback);
+        return retrieveWebcastFeedCall(region, xImageSource, _callback);
 
     }
 
@@ -443,6 +461,7 @@ public class TikTokLiveApi {
      * 
      * Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
      * @param region The region (country) with which to fetch a feed from. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return WebcastFeedRouteResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -455,8 +474,8 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public WebcastFeedRouteResponse retrieveWebcastFeed(@javax.annotation.Nonnull PooledProxyRegion region) throws ApiException {
-        ApiResponse<WebcastFeedRouteResponse> localVarResp = retrieveWebcastFeedWithHttpInfo(region);
+    public WebcastFeedRouteResponse retrieveWebcastFeed(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<WebcastFeedRouteResponse> localVarResp = retrieveWebcastFeedWithHttpInfo(region, xImageSource);
         return localVarResp.getData();
     }
 
@@ -464,6 +483,7 @@ public class TikTokLiveApi {
      * 
      * Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
      * @param region The region (country) with which to fetch a feed from. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;WebcastFeedRouteResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -476,8 +496,8 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<WebcastFeedRouteResponse> retrieveWebcastFeedWithHttpInfo(@javax.annotation.Nonnull PooledProxyRegion region) throws ApiException {
-        okhttp3.Call localVarCall = retrieveWebcastFeedValidateBeforeCall(region, null);
+    public ApiResponse<WebcastFeedRouteResponse> retrieveWebcastFeedWithHttpInfo(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveWebcastFeedValidateBeforeCall(region, xImageSource, null);
         Type localVarReturnType = new TypeToken<WebcastFeedRouteResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -486,6 +506,7 @@ public class TikTokLiveApi {
      *  (asynchronously)
      * Fetch the TikTok LIVE webcast feed for a specific region. Gets a random sampling of creators for a region.
      * @param region The region (country) with which to fetch a feed from. (required)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -499,9 +520,9 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastFeedAsync(@javax.annotation.Nonnull PooledProxyRegion region, final ApiCallback<WebcastFeedRouteResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastFeedAsync(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<WebcastFeedRouteResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveWebcastFeedValidateBeforeCall(region, _callback);
+        okhttp3.Call localVarCall = retrieveWebcastFeedValidateBeforeCall(region, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<WebcastFeedRouteResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -514,6 +535,7 @@ public class TikTokLiveApi {
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
@@ -527,7 +549,7 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastRankingsCall(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastRankingsCall(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -593,12 +615,17 @@ public class TikTokLiveApi {
         }
 
 
+        if (xImageSource != null) {
+            localVarHeaderParams.put("x-image-source", localVarApiClient.parameterToString(xImageSource));
+        }
+
+
         String[] localVarAuthNames = new String[] { "api_key_query", "api_key_header" };
         return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call retrieveWebcastRankingsValidateBeforeCall(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call retrieveWebcastRankingsValidateBeforeCall(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'region' is set
         if (region == null) {
             throw new ApiException("Missing the required parameter 'region' when calling retrieveWebcastRankings(Async)");
@@ -609,19 +636,20 @@ public class TikTokLiveApi {
             throw new ApiException("Missing the required parameter 'rankType' when calling retrieveWebcastRankings(Async)");
         }
 
-        return retrieveWebcastRankingsCall(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, _callback);
+        return retrieveWebcastRankingsCall(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, _callback);
 
     }
 
     /**
      * 
-     * Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      * @param region The region (country) with which to fetch a feed from. (required)
      * @param rankType The type of ranking to fetch. See documentation for more details. (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return WebcastRegionRankingsResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -634,20 +662,21 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public WebcastRegionRankingsResponse retrieveWebcastRankings(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc) throws ApiException {
-        ApiResponse<WebcastRegionRankingsResponse> localVarResp = retrieveWebcastRankingsWithHttpInfo(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc);
+    public WebcastRegionRankingsResponse retrieveWebcastRankings(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        ApiResponse<WebcastRegionRankingsResponse> localVarResp = retrieveWebcastRankingsWithHttpInfo(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource);
         return localVarResp.getData();
     }
 
     /**
      * 
-     * Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      * @param region The region (country) with which to fetch a feed from. (required)
      * @param rankType The type of ranking to fetch. See documentation for more details. (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @return ApiResponse&lt;WebcastRegionRankingsResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      * @http.response.details
@@ -660,21 +689,22 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<WebcastRegionRankingsResponse> retrieveWebcastRankingsWithHttpInfo(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc) throws ApiException {
-        okhttp3.Call localVarCall = retrieveWebcastRankingsValidateBeforeCall(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, null);
+    public ApiResponse<WebcastRegionRankingsResponse> retrieveWebcastRankingsWithHttpInfo(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource) throws ApiException {
+        okhttp3.Call localVarCall = retrieveWebcastRankingsValidateBeforeCall(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, null);
         Type localVarReturnType = new TypeToken<WebcastRegionRankingsResponse>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
 
     /**
      *  (asynchronously)
-     * Retrieve TikTok LIVE rankings for a specific region.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
+     * Retrieve TikTok LIVE rankings for a specific region. This is NOT a catalogue endpoint, and is available with any paid plan.  **Authentication:** Provide exactly one of the following headers: - &#x60;x-oauth-token&#x60;: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth) - &#x60;x-cookie-header&#x60;: A cookie header string containing &#x60;sessionid&#x60; and &#x60;tt-target-idc&#x60; cookies from TikTok.
      * @param region The region (country) with which to fetch a feed from. (required)
      * @param rankType The type of ranking to fetch. See documentation for more details. (required)
      * @param xOauthToken OAuth access token for session resolution (optional)
      * @param xCookieHeader Cookie header containing sessionid and tt-target-idc (optional)
      * @param sessionId Use x-oauth-token or x-cookie-header instead (optional)
      * @param ttTargetIdc Use x-oauth-token or x-cookie-header instead (optional)
+     * @param xImageSource Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME). (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
@@ -688,9 +718,9 @@ public class TikTokLiveApi {
         <tr><td> 503 </td><td> Service Unavailable </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call retrieveWebcastRankingsAsync(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, final ApiCallback<WebcastRegionRankingsResponse> _callback) throws ApiException {
+    public okhttp3.Call retrieveWebcastRankingsAsync(@javax.annotation.Nonnull PooledProxyRegion region, @javax.annotation.Nonnull String rankType, @javax.annotation.Nullable String xOauthToken, @javax.annotation.Nullable String xCookieHeader, @javax.annotation.Nullable String sessionId, @javax.annotation.Nullable String ttTargetIdc, @javax.annotation.Nullable RouteImageSource xImageSource, final ApiCallback<WebcastRegionRankingsResponse> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = retrieveWebcastRankingsValidateBeforeCall(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, _callback);
+        okhttp3.Call localVarCall = retrieveWebcastRankingsValidateBeforeCall(region, rankType, xOauthToken, xCookieHeader, sessionId, ttTargetIdc, xImageSource, _callback);
         Type localVarReturnType = new TypeToken<WebcastRegionRankingsResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

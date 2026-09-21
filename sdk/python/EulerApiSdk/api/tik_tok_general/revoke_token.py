@@ -7,6 +7,8 @@ from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.o_auth_revoke_response import OAuthRevokeResponse
 from ...models.revoke_request_body import RevokeRequestBody
+from ...models.revoke_token_response_429 import RevokeTokenResponse429
+from ...models.revoke_token_response_500 import RevokeTokenResponse500
 from ...types import Response
 
 
@@ -29,11 +31,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> OAuthRevokeResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500 | None:
     if response.status_code == 200:
         response_200 = OAuthRevokeResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = RevokeTokenResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = RevokeTokenResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -41,7 +55,9 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
         return None
 
 
-def _build_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> Response[OAuthRevokeResponse]:
+def _build_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> Response[OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -54,7 +70,7 @@ def sync_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: RevokeRequestBody,
-) -> Response[OAuthRevokeResponse]:
+) -> Response[OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500]:
     """Revoke an access token or refresh token (RFC 7009).
     This endpoint always returns success for valid client credentials,
     even if the token was already revoked or invalid.
@@ -67,7 +83,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OAuthRevokeResponse]
+        Response[OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -85,7 +101,7 @@ def sync(
     *,
     client: AuthenticatedClient | Client,
     body: RevokeRequestBody,
-) -> OAuthRevokeResponse | None:
+) -> OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500 | None:
     """Revoke an access token or refresh token (RFC 7009).
     This endpoint always returns success for valid client credentials,
     even if the token was already revoked or invalid.
@@ -98,7 +114,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OAuthRevokeResponse
+        OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500
     """
 
     return sync_detailed(
@@ -111,7 +127,7 @@ async def asyncio_detailed(
     *,
     client: AuthenticatedClient | Client,
     body: RevokeRequestBody,
-) -> Response[OAuthRevokeResponse]:
+) -> Response[OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500]:
     """Revoke an access token or refresh token (RFC 7009).
     This endpoint always returns success for valid client credentials,
     even if the token was already revoked or invalid.
@@ -124,7 +140,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[OAuthRevokeResponse]
+        Response[OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -140,7 +156,7 @@ async def asyncio(
     *,
     client: AuthenticatedClient | Client,
     body: RevokeRequestBody,
-) -> OAuthRevokeResponse | None:
+) -> OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500 | None:
     """Revoke an access token or refresh token (RFC 7009).
     This endpoint always returns success for valid client credentials,
     even if the token was already revoked or invalid.
@@ -153,7 +169,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        OAuthRevokeResponse
+        OAuthRevokeResponse | RevokeTokenResponse429 | RevokeTokenResponse500
     """
 
     return (

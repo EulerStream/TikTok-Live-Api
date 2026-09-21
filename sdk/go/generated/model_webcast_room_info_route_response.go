@@ -25,7 +25,9 @@ type WebcastRoomInfoRouteResponse struct {
 	Message *string `json:"message,omitempty"`
 	Ok bool `json:"ok"`
 	RoutesAttempted []string `json:"routes_attempted"`
-	Data NullableTikTokLiveUser `json:"data"`
+	// Which source produced `data`. `CACHE` / `CACHE_UNVERIFIED` indicate the room info came out of Euler's cache — `CACHE` means its live state was revalidated, `CACHE_UNVERIFIED` means it could not be. Without this, `X-Cache-Hit` is a bare boolean and those two are indistinguishable.
+	Source NullableRoomInfoFetchApiRoute `json:"source"`
+	Data NullableStableTikTokLiveUser `json:"data"`
 }
 
 type _WebcastRoomInfoRouteResponse WebcastRoomInfoRouteResponse
@@ -34,11 +36,12 @@ type _WebcastRoomInfoRouteResponse WebcastRoomInfoRouteResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastRoomInfoRouteResponse(code float64, ok bool, routesAttempted []string, data NullableTikTokLiveUser) *WebcastRoomInfoRouteResponse {
+func NewWebcastRoomInfoRouteResponse(code float64, ok bool, routesAttempted []string, source NullableRoomInfoFetchApiRoute, data NullableStableTikTokLiveUser) *WebcastRoomInfoRouteResponse {
 	this := WebcastRoomInfoRouteResponse{}
 	this.Code = code
 	this.Ok = ok
 	this.RoutesAttempted = routesAttempted
+	this.Source = source
 	this.Data = data
 	return &this
 }
@@ -155,11 +158,37 @@ func (o *WebcastRoomInfoRouteResponse) SetRoutesAttempted(v []string) {
 	o.RoutesAttempted = v
 }
 
+// GetSource returns the Source field value
+// If the value is explicit nil, the zero value for RoomInfoFetchApiRoute will be returned
+func (o *WebcastRoomInfoRouteResponse) GetSource() RoomInfoFetchApiRoute {
+	if o == nil || o.Source.Get() == nil {
+		var ret RoomInfoFetchApiRoute
+		return ret
+	}
+
+	return *o.Source.Get()
+}
+
+// GetSourceOk returns a tuple with the Source field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *WebcastRoomInfoRouteResponse) GetSourceOk() (*RoomInfoFetchApiRoute, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Source.Get(), o.Source.IsSet()
+}
+
+// SetSource sets field value
+func (o *WebcastRoomInfoRouteResponse) SetSource(v RoomInfoFetchApiRoute) {
+	o.Source.Set(&v)
+}
+
 // GetData returns the Data field value
-// If the value is explicit nil, the zero value for TikTokLiveUser will be returned
-func (o *WebcastRoomInfoRouteResponse) GetData() TikTokLiveUser {
+// If the value is explicit nil, the zero value for StableTikTokLiveUser will be returned
+func (o *WebcastRoomInfoRouteResponse) GetData() StableTikTokLiveUser {
 	if o == nil || o.Data.Get() == nil {
-		var ret TikTokLiveUser
+		var ret StableTikTokLiveUser
 		return ret
 	}
 
@@ -169,7 +198,7 @@ func (o *WebcastRoomInfoRouteResponse) GetData() TikTokLiveUser {
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WebcastRoomInfoRouteResponse) GetDataOk() (*TikTokLiveUser, bool) {
+func (o *WebcastRoomInfoRouteResponse) GetDataOk() (*StableTikTokLiveUser, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -177,7 +206,7 @@ func (o *WebcastRoomInfoRouteResponse) GetDataOk() (*TikTokLiveUser, bool) {
 }
 
 // SetData sets field value
-func (o *WebcastRoomInfoRouteResponse) SetData(v TikTokLiveUser) {
+func (o *WebcastRoomInfoRouteResponse) SetData(v StableTikTokLiveUser) {
 	o.Data.Set(&v)
 }
 
@@ -197,6 +226,7 @@ func (o WebcastRoomInfoRouteResponse) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["ok"] = o.Ok
 	toSerialize["routes_attempted"] = o.RoutesAttempted
+	toSerialize["source"] = o.Source.Get()
 	toSerialize["data"] = o.Data.Get()
 	return toSerialize, nil
 }
@@ -209,6 +239,7 @@ func (o *WebcastRoomInfoRouteResponse) UnmarshalJSON(data []byte) (err error) {
 		"code",
 		"ok",
 		"routes_attempted",
+		"source",
 		"data",
 	}
 

@@ -33,13 +33,17 @@ namespace EulerApiSdk.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PartialWebcastRegionRankingsOutputRankUser" /> class.
         /// </summary>
+        /// <param name="followingCount">followingCount</param>
+        /// <param name="followerCount">followerCount</param>
         /// <param name="nickname">nickname</param>
         /// <param name="numericId">numericId</param>
         /// <param name="uniqueId">uniqueId</param>
         /// <param name="avatarThumb">avatarThumb</param>
         [JsonConstructor]
-        public PartialWebcastRegionRankingsOutputRankUser(string nickname, string numericId, string uniqueId, List<string> avatarThumb)
+        public PartialWebcastRegionRankingsOutputRankUser(double followingCount, double followerCount, string nickname, string numericId, string uniqueId, List<string> avatarThumb)
         {
+            FollowingCount = followingCount;
+            FollowerCount = followerCount;
             Nickname = nickname;
             NumericId = numericId;
             UniqueId = uniqueId;
@@ -48,6 +52,18 @@ namespace EulerApiSdk.Model
         }
 
         partial void OnCreated();
+
+        /// <summary>
+        /// Gets or Sets FollowingCount
+        /// </summary>
+        [JsonPropertyName("following_count")]
+        public double FollowingCount { get; set; }
+
+        /// <summary>
+        /// Gets or Sets FollowerCount
+        /// </summary>
+        [JsonPropertyName("follower_count")]
+        public double FollowerCount { get; set; }
 
         /// <summary>
         /// Gets or Sets Nickname
@@ -81,6 +97,8 @@ namespace EulerApiSdk.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class PartialWebcastRegionRankingsOutputRankUser {\n");
+            sb.Append("  FollowingCount: ").Append(FollowingCount).Append("\n");
+            sb.Append("  FollowerCount: ").Append(FollowerCount).Append("\n");
             sb.Append("  Nickname: ").Append(Nickname).Append("\n");
             sb.Append("  NumericId: ").Append(NumericId).Append("\n");
             sb.Append("  UniqueId: ").Append(UniqueId).Append("\n");
@@ -103,8 +121,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="PartialWebcastRegionRankingsOutputRankUser" />
     /// </summary>
-    public class PartialWebcastRegionRankingsOutputRankUserJsonConverter : JsonConverter<PartialWebcastRegionRankingsOutputRankUser>
+    public partial class PartialWebcastRegionRankingsOutputRankUserJsonConverter : JsonConverter<PartialWebcastRegionRankingsOutputRankUser>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PartialWebcastRegionRankingsOutputRankUserJsonConverter" /> class.
+        /// </summary>
+        public PartialWebcastRegionRankingsOutputRankUserJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="PartialWebcastRegionRankingsOutputRankUser" />
         /// </summary>
@@ -122,6 +150,8 @@ namespace EulerApiSdk.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            Option<double?> followingCount = default;
+            Option<double?> followerCount = default;
             Option<string?> nickname = default;
             Option<string?> numericId = default;
             Option<string?> uniqueId = default;
@@ -142,6 +172,12 @@ namespace EulerApiSdk.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "following_count":
+                            followingCount = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
+                        case "follower_count":
+                            followerCount = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
                         case "nickname":
                             nickname = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
@@ -160,6 +196,12 @@ namespace EulerApiSdk.Model
                 }
             }
 
+            if (!followingCount.IsSet)
+                throw new ArgumentException("Property is required for class PartialWebcastRegionRankingsOutputRankUser.", nameof(followingCount));
+
+            if (!followerCount.IsSet)
+                throw new ArgumentException("Property is required for class PartialWebcastRegionRankingsOutputRankUser.", nameof(followerCount));
+
             if (!nickname.IsSet)
                 throw new ArgumentException("Property is required for class PartialWebcastRegionRankingsOutputRankUser.", nameof(nickname));
 
@@ -171,6 +213,12 @@ namespace EulerApiSdk.Model
 
             if (!avatarThumb.IsSet)
                 throw new ArgumentException("Property is required for class PartialWebcastRegionRankingsOutputRankUser.", nameof(avatarThumb));
+
+            if (followingCount.IsSet && followingCount.Value == null)
+                throw new ArgumentNullException(nameof(followingCount), "Property is not nullable for class PartialWebcastRegionRankingsOutputRankUser.");
+
+            if (followerCount.IsSet && followerCount.Value == null)
+                throw new ArgumentNullException(nameof(followerCount), "Property is not nullable for class PartialWebcastRegionRankingsOutputRankUser.");
 
             if (nickname.IsSet && nickname.Value == null)
                 throw new ArgumentNullException(nameof(nickname), "Property is not nullable for class PartialWebcastRegionRankingsOutputRankUser.");
@@ -184,7 +232,7 @@ namespace EulerApiSdk.Model
             if (avatarThumb.IsSet && avatarThumb.Value == null)
                 throw new ArgumentNullException(nameof(avatarThumb), "Property is not nullable for class PartialWebcastRegionRankingsOutputRankUser.");
 
-            return new PartialWebcastRegionRankingsOutputRankUser(nickname.Value!, numericId.Value!, uniqueId.Value!, avatarThumb.Value!);
+            return new PartialWebcastRegionRankingsOutputRankUser(followingCount.Value!.Value!, followerCount.Value!.Value!, nickname.Value!, numericId.Value!, uniqueId.Value!, avatarThumb.Value!);
         }
 
         /// <summary>
@@ -222,6 +270,10 @@ namespace EulerApiSdk.Model
 
             if (partialWebcastRegionRankingsOutputRankUser.AvatarThumb == null)
                 throw new ArgumentNullException(nameof(partialWebcastRegionRankingsOutputRankUser.AvatarThumb), "Property is required for class PartialWebcastRegionRankingsOutputRankUser.");
+
+            writer.WriteNumber("following_count", partialWebcastRegionRankingsOutputRankUser.FollowingCount);
+
+            writer.WriteNumber("follower_count", partialWebcastRegionRankingsOutputRankUser.FollowerCount);
 
             writer.WriteString("nickname", partialWebcastRegionRankingsOutputRankUser.Nickname);
 

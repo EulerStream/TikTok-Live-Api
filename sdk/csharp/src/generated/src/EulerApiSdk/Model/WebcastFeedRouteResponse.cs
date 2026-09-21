@@ -38,7 +38,7 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="response">response</param>
         [JsonConstructor]
-        public WebcastFeedRouteResponse(double code, OxyLabsProxyRegion region, Option<string?> message = default, Option<WebcastFeedRouteOutput?> response = default)
+        public WebcastFeedRouteResponse(double code, PooledProxyRegion region, Option<string?> message = default, Option<WebcastFeedRouteOutput?> response = default)
         {
             Code = code;
             Region = region;
@@ -53,7 +53,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Region
         /// </summary>
         [JsonPropertyName("region")]
-        public OxyLabsProxyRegion Region { get; set; }
+        public PooledProxyRegion Region { get; set; }
 
         /// <summary>
         /// Gets or Sets Code
@@ -72,7 +72,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Response
@@ -85,7 +85,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Response
         /// </summary>
         [JsonPropertyName("response")]
-        public WebcastFeedRouteOutput? Response { get { return this.ResponseOption; } set { this.ResponseOption = new(value); } }
+        public WebcastFeedRouteOutput? Response { get { return this.ResponseOption.Value; } set { this.ResponseOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -117,8 +117,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastFeedRouteResponse" />
     /// </summary>
-    public class WebcastFeedRouteResponseJsonConverter : JsonConverter<WebcastFeedRouteResponse>
+    public partial class WebcastFeedRouteResponseJsonConverter : JsonConverter<WebcastFeedRouteResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastFeedRouteResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastFeedRouteResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastFeedRouteResponse" />
         /// </summary>
@@ -137,7 +147,7 @@ namespace EulerApiSdk.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<double?> code = default;
-            Option<OxyLabsProxyRegion?> region = default;
+            Option<PooledProxyRegion?> region = default;
             Option<string?> message = default;
             Option<WebcastFeedRouteOutput?> response = default;
 
@@ -160,9 +170,7 @@ namespace EulerApiSdk.Model
                             code = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
                             break;
                         case "region":
-                            string? regionRawValue = utf8JsonReader.GetString();
-                            if (regionRawValue != null)
-                                region = new Option<OxyLabsProxyRegion?>(OxyLabsProxyRegionValueConverter.FromStringOrDefault(regionRawValue));
+                            region = new Option<PooledProxyRegion?>(JsonSerializer.Deserialize<PooledProxyRegion?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "message":
                             message = new Option<string?>(utf8JsonReader.GetString()!);
@@ -229,7 +237,7 @@ namespace EulerApiSdk.Model
 
             writer.WriteNumber("code", webcastFeedRouteResponse.Code);
 
-            var regionRawValue = OxyLabsProxyRegionValueConverter.ToJsonValue(webcastFeedRouteResponse.Region);
+            var regionRawValue = PooledProxyRegionValueConverter.ToJsonValue(webcastFeedRouteResponse.Region);
             writer.WriteString("region", regionRawValue);
 
             if (webcastFeedRouteResponse.MessageOption.IsSet)

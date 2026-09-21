@@ -7,6 +7,8 @@ import httpx
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.retrieve_alert_response import RetrieveAlertResponse
+from ...models.retrieve_alert_response_429 import RetrieveAlertResponse429
+from ...models.retrieve_alert_response_500 import RetrieveAlertResponse500
 from ...types import Response
 
 
@@ -25,11 +27,23 @@ def _get_kwargs(
     return _kwargs
 
 
-def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Response) -> RetrieveAlertResponse | None:
+def _parse_response(
+    *, client: AuthenticatedClient | Client, response: httpx.Response
+) -> RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500 | None:
     if response.status_code == 200:
         response_200 = RetrieveAlertResponse.from_dict(response.json())
 
         return response_200
+
+    if response.status_code == 429:
+        response_429 = RetrieveAlertResponse429.from_dict(response.json())
+
+        return response_429
+
+    if response.status_code == 500:
+        response_500 = RetrieveAlertResponse500.from_dict(response.json())
+
+        return response_500
 
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
@@ -39,7 +53,7 @@ def _parse_response(*, client: AuthenticatedClient | Client, response: httpx.Res
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[RetrieveAlertResponse]:
+) -> Response[RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,7 +67,7 @@ def sync_detailed(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[RetrieveAlertResponse]:
+) -> Response[RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500]:
     """Retrieve a specific alert by its ID
 
     Args:
@@ -65,7 +79,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RetrieveAlertResponse]
+        Response[RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -85,7 +99,7 @@ def sync(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> RetrieveAlertResponse | None:
+) -> RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500 | None:
     """Retrieve a specific alert by its ID
 
     Args:
@@ -97,7 +111,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RetrieveAlertResponse
+        RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500
     """
 
     return sync_detailed(
@@ -112,7 +126,7 @@ async def asyncio_detailed(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> Response[RetrieveAlertResponse]:
+) -> Response[RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500]:
     """Retrieve a specific alert by its ID
 
     Args:
@@ -124,7 +138,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[RetrieveAlertResponse]
+        Response[RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500]
     """
 
     kwargs = _get_kwargs(
@@ -142,7 +156,7 @@ async def asyncio(
     alert_id: float,
     *,
     client: AuthenticatedClient,
-) -> RetrieveAlertResponse | None:
+) -> RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500 | None:
     """Retrieve a specific alert by its ID
 
     Args:
@@ -154,7 +168,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        RetrieveAlertResponse
+        RetrieveAlertResponse | RetrieveAlertResponse429 | RetrieveAlertResponse500
     """
 
     return (

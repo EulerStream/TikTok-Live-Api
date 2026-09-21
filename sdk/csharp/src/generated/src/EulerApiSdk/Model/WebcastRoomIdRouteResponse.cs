@@ -39,8 +39,10 @@ namespace EulerApiSdk.Model
         /// <param name="message">message</param>
         /// <param name="isLive">isLive</param>
         /// <param name="roomId">roomId</param>
+        /// <param name="roomStatus">roomStatus</param>
+        /// <param name="source">source</param>
         [JsonConstructor]
-        public WebcastRoomIdRouteResponse(double code, bool ok, List<string> routesAttempted, Option<string?> message = default, Option<bool?> isLive = default, Option<string?> roomId = default)
+        public WebcastRoomIdRouteResponse(double code, bool ok, List<string> routesAttempted, Option<string?> message = default, Option<bool?> isLive = default, Option<string?> roomId = default, Option<double?> roomStatus = default, Option<string?> source = default)
         {
             Code = code;
             Ok = ok;
@@ -48,6 +50,8 @@ namespace EulerApiSdk.Model
             MessageOption = message;
             IsLiveOption = isLive;
             RoomIdOption = roomId;
+            RoomStatusOption = roomStatus;
+            SourceOption = source;
             OnCreated();
         }
 
@@ -82,7 +86,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string? Message { get { return this.MessageOption; } set { this.MessageOption = new(value); } }
+        public string? Message { get { return this.MessageOption.Value; } set { this.MessageOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IsLive
@@ -95,7 +99,7 @@ namespace EulerApiSdk.Model
         /// Gets or Sets IsLive
         /// </summary>
         [JsonPropertyName("is_live")]
-        public bool? IsLive { get { return this.IsLiveOption; } set { this.IsLiveOption = new(value); } }
+        public bool? IsLive { get { return this.IsLiveOption.Value; } set { this.IsLiveOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of RoomId
@@ -108,7 +112,33 @@ namespace EulerApiSdk.Model
         /// Gets or Sets RoomId
         /// </summary>
         [JsonPropertyName("room_id")]
-        public string? RoomId { get { return this.RoomIdOption; } set { this.RoomIdOption = new(value); } }
+        public string? RoomId { get { return this.RoomIdOption.Value; } set { this.RoomIdOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of RoomStatus
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<double?> RoomStatusOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets RoomStatus
+        /// </summary>
+        [JsonPropertyName("room_status")]
+        public double? RoomStatus { get { return this.RoomStatusOption.Value; } set { this.RoomStatusOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of Source
+        /// </summary>
+        [JsonIgnore]
+        [global::System.ComponentModel.EditorBrowsable(global::System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> SourceOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Source
+        /// </summary>
+        [JsonPropertyName("source")]
+        public string? Source { get { return this.SourceOption.Value; } set { this.SourceOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -124,6 +154,8 @@ namespace EulerApiSdk.Model
             sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("  IsLive: ").Append(IsLive).Append("\n");
             sb.Append("  RoomId: ").Append(RoomId).Append("\n");
+            sb.Append("  RoomStatus: ").Append(RoomStatus).Append("\n");
+            sb.Append("  Source: ").Append(Source).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -142,8 +174,18 @@ namespace EulerApiSdk.Model
     /// <summary>
     /// A Json converter for type <see cref="WebcastRoomIdRouteResponse" />
     /// </summary>
-    public class WebcastRoomIdRouteResponseJsonConverter : JsonConverter<WebcastRoomIdRouteResponse>
+    public partial class WebcastRoomIdRouteResponseJsonConverter : JsonConverter<WebcastRoomIdRouteResponse>
     {
+        partial void OnCreated();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcastRoomIdRouteResponseJsonConverter" /> class.
+        /// </summary>
+        public WebcastRoomIdRouteResponseJsonConverter()
+        {
+            OnCreated();
+        }
+
         /// <summary>
         /// Deserializes json to <see cref="WebcastRoomIdRouteResponse" />
         /// </summary>
@@ -167,6 +209,8 @@ namespace EulerApiSdk.Model
             Option<string?> message = default;
             Option<bool?> isLive = default;
             Option<string?> roomId = default;
+            Option<double?> roomStatus = default;
+            Option<string?> source = default;
 
             while (utf8JsonReader.Read())
             {
@@ -201,6 +245,12 @@ namespace EulerApiSdk.Model
                         case "room_id":
                             roomId = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
+                        case "room_status":
+                            roomStatus = new Option<double?>(utf8JsonReader.TokenType == JsonTokenType.Null ? (double?)null : utf8JsonReader.GetDouble());
+                            break;
+                        case "source":
+                            source = new Option<string?>(utf8JsonReader.GetString()!);
+                            break;
                         default:
                             break;
                     }
@@ -234,7 +284,13 @@ namespace EulerApiSdk.Model
             if (roomId.IsSet && roomId.Value == null)
                 throw new ArgumentNullException(nameof(roomId), "Property is not nullable for class WebcastRoomIdRouteResponse.");
 
-            return new WebcastRoomIdRouteResponse(code.Value!.Value!, ok.Value!.Value!, routesAttempted.Value!, message, isLive, roomId);
+            if (roomStatus.IsSet && roomStatus.Value == null)
+                throw new ArgumentNullException(nameof(roomStatus), "Property is not nullable for class WebcastRoomIdRouteResponse.");
+
+            if (source.IsSet && source.Value == null)
+                throw new ArgumentNullException(nameof(source), "Property is not nullable for class WebcastRoomIdRouteResponse.");
+
+            return new WebcastRoomIdRouteResponse(code.Value!.Value!, ok.Value!.Value!, routesAttempted.Value!, message, isLive, roomId, roomStatus, source);
         }
 
         /// <summary>
@@ -270,6 +326,9 @@ namespace EulerApiSdk.Model
             if (webcastRoomIdRouteResponse.RoomIdOption.IsSet && webcastRoomIdRouteResponse.RoomId == null)
                 throw new ArgumentNullException(nameof(webcastRoomIdRouteResponse.RoomId), "Property is required for class WebcastRoomIdRouteResponse.");
 
+            if (webcastRoomIdRouteResponse.SourceOption.IsSet && webcastRoomIdRouteResponse.Source == null)
+                throw new ArgumentNullException(nameof(webcastRoomIdRouteResponse.Source), "Property is required for class WebcastRoomIdRouteResponse.");
+
             writer.WriteNumber("code", webcastRoomIdRouteResponse.Code);
 
             writer.WriteBoolean("ok", webcastRoomIdRouteResponse.Ok);
@@ -284,6 +343,12 @@ namespace EulerApiSdk.Model
 
             if (webcastRoomIdRouteResponse.RoomIdOption.IsSet)
                 writer.WriteString("room_id", webcastRoomIdRouteResponse.RoomId);
+
+            if (webcastRoomIdRouteResponse.RoomStatusOption.IsSet)
+                writer.WriteNumber("room_status", webcastRoomIdRouteResponse.RoomStatusOption.Value!.Value);
+
+            if (webcastRoomIdRouteResponse.SourceOption.IsSet)
+                writer.WriteString("source", webcastRoomIdRouteResponse.Source);
         }
     }
 }

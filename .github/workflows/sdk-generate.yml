@@ -44,11 +44,11 @@ jobs:
       - name: Install root dependencies
         run: pnpm install
 
-      - name: Download spec & generate
+      - name: Copy spec & generate
         working-directory: sdk/typescript
         run: |
           mkdir -p build
-          wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi
+          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           rm -rf ./src/sdk
           npx openapi-generator-cli generate -i ./build/openapi.json -g typescript-axios -o ./src/sdk
@@ -90,7 +90,7 @@ jobs:
         working-directory: sdk/python
         run: |
           mkdir -p build
-          wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi
+          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           openapi-python-client generate \
             --path ./build/openapi.json \
@@ -141,11 +141,11 @@ jobs:
       - name: Install root dependencies
         run: npm install -g pnpm && pnpm install
 
-      - name: Download spec & generate
+      - name: Copy spec & generate
         working-directory: sdk/csharp
         run: |
           mkdir -p build
-          wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi
+          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           rm -rf ./src/generated
           npx @openapitools/openapi-generator-cli generate \
@@ -192,11 +192,11 @@ jobs:
       - name: Install root dependencies
         run: npm install -g pnpm && pnpm install
 
-      - name: Download spec & generate
+      - name: Copy spec & generate
         working-directory: sdk/java
         run: |
           mkdir -p build
-          wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi
+          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           rm -rf ./src/generated
           npx @openapitools/openapi-generator-cli generate \
@@ -242,11 +242,11 @@ jobs:
       - name: Install root dependencies
         run: npm install -g pnpm && pnpm install
 
-      - name: Download spec & generate
+      - name: Copy spec & generate
         working-directory: sdk/go
         run: |
           mkdir -p build
-          wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi
+          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
           rm -rf ./generated
           npx @openapitools/openapi-generator-cli generate \
@@ -291,10 +291,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Download spec
+      - name: Copy spec
         run: |
           mkdir -p build
-          wget -O ./build/openapi.json https://api.eulerstream.com/dashboard/openapi
+          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
           python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
 
       - name: Generate examples
