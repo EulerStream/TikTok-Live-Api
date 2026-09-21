@@ -29,8 +29,8 @@ namespace EulerApiSdk.Tests
 
             var hostsResponse = response.Ok();
             Assert.NotNull(hostsResponse);
+            // Shape only, like the other languages' e2e tests: the list is empty whenever no peer is registered.
             Assert.NotNull(hostsResponse.Hosts);
-            Assert.NotEmpty(hostsResponse.Hosts);
         }
     }
 }
