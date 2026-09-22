@@ -15,9 +15,9 @@ wget -O "$SCRIPT_DIR/build/openapi.json" https://api.eulerstream.com/dashboard/o
 echo "Generating C# SDK..."
 cd "$ROOT_DIR"
 npx @openapitools/openapi-generator-cli generate \
-  -i ./csharp-sdk/build/openapi.json \
+  -i ./csharp/build/openapi.json \
   -g csharp \
-  -o ./csharp-sdk/src/generated \
+  -o ./csharp/src/generated \
   --additional-properties=packageName=EulerApiSdk,targetFramework=net8.0,nullableReferenceTypes=true
 
 # Fix enum member conflicts in generated code

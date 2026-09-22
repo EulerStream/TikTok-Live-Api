@@ -1,7 +1,7 @@
 {
   "name": "tiktok-live-api-sdk",
   "version": "0.6.0",
-  "description": "Node.js module for interacting with the Euler Stream TikTok LIVE API.",
+  "description": "TikTok LIVE API SDK for Node.js & TypeScript. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
@@ -9,7 +9,7 @@
     "dist"
   ],
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "generate": "mkdir -p build && cp ../../spec/openapi.json ./build/openapi.json && python3 ../../.github/scripts/normalize_spec.py ./build/openapi.json && rm -rf ./src/sdk && npx @openapitools/openapi-generator-cli generate -i ./build/openapi.json -g typescript-axios -o ./src/sdk && tsx ./scripts/render-template.ts",
@@ -19,29 +19,51 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/EulerStream/TikTok-Live-Api"
+    "url": "git+https://github.com/EulerStream/TikTok-Live-Api.git",
+    "directory": "sdk/typescript"
+  },
+  "bugs": {
+    "url": "https://github.com/EulerStream/TikTok-Live-Api/issues"
   },
   "keywords": [
     "tiktok",
     "tiktok live",
-    "tiktok.com",
+    "tiktok-live",
+    "tiktoklive",
+    "tiktok live api",
+    "tiktok api",
+    "tiktok live sdk",
+    "tiktok live chat",
+    "tiktok live gifts",
+    "tiktok gifts",
+    "tiktok live stream",
+    "tiktok livestream",
+    "tiktok webcast",
+    "tiktok live connector",
+    "tiktok live events",
+    "tiktok live alerts",
+    "tiktok live moderation",
+    "tiktok signing",
+    "eulerstream",
+    "euler stream",
     "live",
-    "stream",
     "livestream",
+    "stream",
     "chat",
-    "connector",
-    "api",
-    "webcast",
-    "tracker",
-    "scraper",
+    "gifts",
     "websocket",
+    "webcast",
+    "api",
+    "sdk",
+    "client",
     "bot",
-    "broadcast",
-    "reader"
+    "scraper",
+    "typescript",
+    "nodejs"
   ],
-  "author": "eulerstream",
+  "author": "EulerStream (https://www.eulerstream.com)",
   "license": "MIT",
-  "homepage": "https://github.com/eulerstream/EulerApiSdk",
+  "homepage": "https://www.eulerstream.com",
   "dependencies": {
     "axios": "^1.9.0"
   },

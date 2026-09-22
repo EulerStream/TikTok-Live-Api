@@ -2,7 +2,7 @@ boilerplate:
   showImports: true
 
 variables:
-  sdkImport: "import io.github.isaackogan.EulerStreamApiClient;"
+  sdkImport: "import com.eulerstream.EulerStreamApiClient;"
   clientConstruction: |
     EulerStreamApiClient client = EulerStreamApiClient.builder()
         .basePath("$baseUrl")

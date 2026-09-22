@@ -2,8 +2,8 @@
 
 The [TikTok LIVE API](https://www.eulerstream.com/) allows you to connect to any TikTok LIVE stream and receive real-time chat messages, gifts, likes, follows, shares, viewer counts, room stats, and PK battles over a single managed WebSocket. Official SDKs for Node.js/TypeScript, Python, C#, Java, and Go. Powered by [EulerStream](https://www.eulerstream.com), the managed backend behind the popular [`TikTokLive`](https://github.com/isaackogan/TikTokLive) library.
 
-[![Stars](https://img.shields.io/github/stars/EulerStream/EulerApiSdk?style=flat&color=0274b5)](https://github.com/EulerStream/EulerApiSdk)
-[![Issues](https://img.shields.io/github/issues/EulerStream/EulerApiSdk)](https://github.com/EulerStream/EulerApiSdk/issues)
+[![Stars](https://img.shields.io/github/stars/EulerStream/TikTok-Live-Api?style=flat&color=0274b5)](https://github.com/EulerStream/TikTok-Live-Api)
+[![Issues](https://img.shields.io/github/issues/EulerStream/TikTok-Live-Api)](https://github.com/EulerStream/TikTok-Live-Api/issues)
 [![Patrons](https://www.eulerstream.com/api/pips/patrons?v=002)](https://www.eulerstream.com/)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
@@ -51,7 +51,7 @@ Full API documentation and the interactive OpenAPI spec live at [eulerstream.com
 
 | Language | Package | Install |
 |----------|---------|---------|
-| TypeScript / Node.js | [`@eulerstream/euler-api-sdk`](https://www.npmjs.com/package/@eulerstream/euler-api-sdk) | `npm i @eulerstream/euler-api-sdk` |
+| TypeScript / Node.js | [`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk) | `npm i tiktok-live-api-sdk` |
 | Python | [`EulerApiSdk`](https://pypi.org/project/EulerApiSdk/) | `pip install EulerApiSdk` |
 | C# / .NET | [`EulerApiSdk`](https://www.nuget.org/packages/EulerApiSdk) | `dotnet add package EulerApiSdk` |
 | Java | [`com.eulerstream:euler-api-sdk`](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) | Maven / Gradle |
@@ -70,29 +70,42 @@ Everything else can use the language-agnostic WebSocket directly. A [payload dec
 ### TypeScript / Node.js
 
 ```ts
-import EulerStreamApiClient from "@eulerstream/euler-api-sdk";
+import EulerStreamApiClient from "tiktok-live-api-sdk";
 
 const client = new EulerStreamApiClient({ apiKey: "YOUR_API_KEY" });
 
-// Fetch a TikTok LIVE webcast URL for any streamer
-const res = await client.webcast.fetchWebcastURL("ttlive-node", undefined, "tv_asahi_news");
-console.log(res.status, res.data);
+// Look up any TikTok user by @username
+const user = await client.tikTokUsers.retrieveTikTokUserBasic("tv_asahi_news");
+console.log(user.data.user?.nickname);
+
+// Browse the TikTok LIVE gift catalog
+const catalog = await client.gifts.listWebcastGifts();
+console.log(catalog.data.gifts?.length, "gifts");
+
+// Business plan: fetch the TikTok LIVE WebSocket URL straight from the creator's @username
+const webcast = await client.anchors.fetchWebcastURLByUniqueId("tv_asahi_news");
 ```
 
 ### Python
 
 ```python
 from EulerApiSdk import AuthenticatedClient
-from EulerApiSdk.api.tik_tok_live import fetch_webcast_url
+from EulerApiSdk.api.tik_tok_users import retrieve_tik_tok_user_basic
+from EulerApiSdk.api.tik_tok_live_gifts import list_webcast_gifts
 
 client = AuthenticatedClient(base_url="https://api.eulerstream.com", token="YOUR_API_KEY")
 
 with client as c:
-    response = fetch_webcast_url.sync_detailed(client=c)
-    print(response.status_code, response.parsed)
+    # Look up any TikTok user by @username
+    user = retrieve_tik_tok_user_basic.sync(unique_id="tv_asahi_news", client=c)
+    print(user.user.nickname)
+
+    # Browse the TikTok LIVE gift catalog
+    catalog = list_webcast_gifts.sync(client=c)
+    print(len(catalog.gifts), "gifts")
 ```
 
-Per-language SDK docs: [TypeScript](./typescript-sdk/README.md) · [Python](./python-sdk/README.md) · [C#](./csharp-sdk/) · [Java](./java-sdk/) · [Go](./sdk/go/)
+Per-language SDK docs: [TypeScript](./sdk/typescript/README.md) · [Python](./sdk/python/README.md) · [C#](./sdk/csharp/README.md) · [Java](./sdk/java/README.md) · [Go](./sdk/go/README.md)
 
 ---
 
@@ -206,7 +219,7 @@ No. This is an independent, unofficial third-party project. It is not affiliated
 
 ## Community
 
-Questions, issues, or feedback? Join the [EulerStream Discord](https://www.eulerstream.com/discord) or open a [GitHub issue](https://github.com/EulerStream/EulerApiSdk/issues).
+Questions, issues, or feedback? Join the [EulerStream Discord](https://www.eulerstream.com/discord) or open a [GitHub issue](https://github.com/EulerStream/TikTok-Live-Api/issues).
 
 ## License
 

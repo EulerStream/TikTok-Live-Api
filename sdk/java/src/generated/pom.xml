@@ -4,14 +4,14 @@
     <groupId>com.eulerstream</groupId>
     <artifactId>euler-api-sdk</artifactId>
     <packaging>jar</packaging>
-    <name>euler-api-sdk</name>
-    <version>0.3.2</version>
-    <url>https://github.com/EulerStream/EulerApiSdk</url>
-    <description>Official EulerStream API SDK for Java — TikTok LIVE signing and API client.</description>
+    <name>TikTok LIVE API SDK for Java</name>
+    <version>0.4.0</version>
+    <url>https://www.eulerstream.com</url>
+    <description>TikTok LIVE API SDK for Java. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with a typed client for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics. Free tier at https://www.eulerstream.com</description>
     <scm>
-        <connection>scm:git:https://github.com/EulerStream/EulerApiSdk.git</connection>
-        <developerConnection>scm:git:https://github.com/EulerStream/EulerApiSdk.git</developerConnection>
-        <url>https://github.com/EulerStream/EulerApiSdk</url>
+        <connection>scm:git:https://github.com/EulerStream/TikTok-Live-Api.git</connection>
+        <developerConnection>scm:git:https://github.com/EulerStream/TikTok-Live-Api.git</developerConnection>
+        <url>https://github.com/EulerStream/TikTok-Live-Api</url>
     </scm>
 
     <licenses>

@@ -18,6 +18,7 @@ class AccountScopes(IntEnum):
     VALUE_17 = 17
     VALUE_18 = 18
     VALUE_19 = 19
+    VALUE_20 = 20
 
     def __str__(self) -> str:
         return str(self.value)

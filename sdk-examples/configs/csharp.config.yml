@@ -7,7 +7,14 @@ variables:
     using EulerApiSdk.Client;
   clientConstruction: |
     var client = new EulerStreamApiClient(
-        host => host.AddTokens(new ApiKeyToken("$apiKey", ClientUtils.ApiKeyHeader.ApiKey)),
+        host => host.AddTokens(new[]
+        {
+            new ApiKeyToken("$apiKey", ClientUtils.ApiKeyHeader.X_api_key, prefix: ""),
+            // The generated client resolves a token for every declared auth scheme;
+            // empty placeholders satisfy the query-string and JWT slots (the API ignores them).
+            new ApiKeyToken("", ClientUtils.ApiKeyHeader.ApiKey, prefix: ""),
+            new ApiKeyToken("", ClientUtils.ApiKeyHeader.X_jwt_key, prefix: ""),
+        }),
         baseAddress: "$baseUrl"
     );
   clientVar: client

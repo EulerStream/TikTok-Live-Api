@@ -2,7 +2,7 @@ boilerplate:
   showImports: true
 
 variables:
-  sdkImport: "import EulerStreamApiClient from '@eulerstream/euler-api-sdk'"
+  sdkImport: "import EulerStreamApiClient from 'tiktok-live-api-sdk'"
   clientConstruction: "const client = new EulerStreamApiClient({ apiKey: '$apiKey', basePath: '$baseUrl' });"
   clientVar: client
   apiAccessPattern: dot

@@ -1,6 +1,12 @@
+{# Custom override of openapi-python-client's pyproject_poetry.toml.jinja.
+   The stock template emits placeholder metadata (no authors, keywords, URLs or
+   classifiers) and a description derived from the OpenAPI title, none of which
+   is what PyPI should show. Everything PyPI renders in the sidebar and search
+   results is set here; project_name / package_name / package_version still
+   come from the generator (config.yaml + `poetry version` in CI). #}
 [tool.poetry]
-name = "EulerApiSdk"
-version = "0.4.0"
+name = "{{ project_name }}"
+version = "{{ package_version }}"
 description = "TikTok LIVE API SDK for Python. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics."
 authors = ["EulerStream"]
 license = "MIT"
@@ -49,9 +55,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 packages = [
-    { include = "EulerApiSdk" },
+    { include = "{{ package_name }}" },
 ]
-include = ["EulerApiSdk/py.typed"]
+include = ["{{ package_name }}/py.typed"]
 
 [tool.poetry.urls]
 "Homepage" = "https://www.eulerstream.com"
@@ -71,9 +77,3 @@ python-dateutil = "^2.8.0"
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.ruff]
-line-length = 120
-
-[tool.ruff.lint]
-select = ["F", "I", "UP"]

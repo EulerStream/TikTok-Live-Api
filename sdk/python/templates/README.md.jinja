@@ -1,12 +1,15 @@
+{# Custom override of openapi-python-client's README.md.jinja. The stock README is
+   generic generator boilerplate (api.example.com, MyDataModel, ...); this one is
+   what PyPI and GitHub actually show for the package. #}
 # TikTok LIVE API SDK for Python
 
-[![PyPI version](https://img.shields.io/pypi/v/EulerApiSdk?color=0274b5)](https://pypi.org/project/EulerApiSdk/)
-[![PyPI downloads](https://img.shields.io/pypi/dm/EulerApiSdk)](https://pypi.org/project/EulerApiSdk/)
-[![Python versions](https://img.shields.io/pypi/pyversions/EulerApiSdk)](https://pypi.org/project/EulerApiSdk/)
+[![PyPI version](https://img.shields.io/pypi/v/{{ project_name }}?color=0274b5)](https://pypi.org/project/{{ project_name }}/)
+[![PyPI downloads](https://img.shields.io/pypi/dm/{{ project_name }})](https://pypi.org/project/{{ project_name }}/)
+[![Python versions](https://img.shields.io/pypi/pyversions/{{ project_name }})](https://pypi.org/project/{{ project_name }}/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Live-Api/blob/master/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
-`EulerApiSdk` is the official Python client for the [EulerStream TikTok LIVE API](https://www.eulerstream.com). Connect to any TikTok LIVE stream by `@username` and receive real-time **chat messages, gifts, likes, follows, shares, viewer counts, room stats and PK battles** over a managed WebSocket, plus fully typed sync and async clients for webcast signing, LIVE rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics.
+`{{ project_name }}` is the official Python client for the [EulerStream TikTok LIVE API](https://www.eulerstream.com). Connect to any TikTok LIVE stream by `@username` and receive real-time **chat messages, gifts, likes, follows, shares, viewer counts, room stats and PK battles** over a managed WebSocket, plus fully typed sync and async clients for webcast signing, LIVE rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics.
 
 EulerStream is the managed TikTok LIVE backend behind [TikTokLive](https://github.com/isaackogan/TikTokLive), the most popular Python library for TikTok LIVE. The connection layer is hosted and maintained for you, so your integration keeps working when TikTok changes its webcast protocol.
 
@@ -15,7 +18,7 @@ EulerStream is the managed TikTok LIVE backend behind [TikTokLive](https://githu
 ## Installation
 
 ```bash
-pip install EulerApiSdk
+pip install {{ project_name }}
 ```
 
 Requires Python 3.10+. Built on [httpx](https://www.python-httpx.org/) and [attrs](https://www.attrs.org/); every endpoint has `sync`, `sync_detailed`, `asyncio` and `asyncio_detailed` variants and ships with full type hints (`py.typed`).
@@ -27,10 +30,10 @@ Requires Python 3.10+. Built on [httpx](https://www.python-httpx.org/) and [attr
 3. Make your first calls:
 
 ```python
-from EulerApiSdk import AuthenticatedClient
-from EulerApiSdk.api.tik_tok_users import retrieve_tik_tok_user_basic
-from EulerApiSdk.api.tik_tok_live_gifts import list_webcast_gifts
-from EulerApiSdk.api.tik_tok_live_rooms import fetch_webcast_url
+from {{ package_name }} import AuthenticatedClient
+from {{ package_name }}.api.tik_tok_users import retrieve_tik_tok_user_basic
+from {{ package_name }}.api.tik_tok_live_gifts import list_webcast_gifts
+from {{ package_name }}.api.tik_tok_live_rooms import fetch_webcast_url
 
 client = AuthenticatedClient(base_url="https://api.eulerstream.com", token="YOUR_API_KEY")
 
@@ -53,8 +56,8 @@ The same calls with asyncio:
 
 ```python
 import asyncio
-from EulerApiSdk import AuthenticatedClient
-from EulerApiSdk.api.tik_tok_users import retrieve_tik_tok_user_basic
+from {{ package_name }} import AuthenticatedClient
+from {{ package_name }}.api.tik_tok_users import retrieve_tik_tok_user_basic
 
 async def main():
     async with AuthenticatedClient(base_url="https://api.eulerstream.com", token="YOUR_API_KEY") as c:
@@ -64,7 +67,7 @@ async def main():
 asyncio.run(main())
 ```
 
-Business plans can resolve a LIVE room straight from the creator's `@username` with `EulerApiSdk.api.tik_tok_live_anchors.fetch_webcast_url_by_unique_id`. `AuthenticatedClient` sends your key in the `X-Api-Key` header; use `EulerApiSdk.Client` for the handful of routes that allow anonymous access.
+Business plans can resolve a LIVE room straight from the creator's `@username` with `{{ package_name }}.api.tik_tok_live_anchors.fetch_webcast_url_by_unique_id`. `AuthenticatedClient` sends your key in the `X-Api-Key` header; use `{{ package_name }}.Client` for the handful of routes that allow anonymous access.
 
 ## What you can build
 
@@ -77,7 +80,7 @@ Business plans can resolve a LIVE room straight from the creator's `@username` w
 
 ## API coverage
 
-Every path/method in the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi) becomes a module under `EulerApiSdk.api.<group>`, so the SDK always matches the live API.
+Every path/method in the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi) becomes a module under `{{ package_name }}.api.<group>`, so the SDK always matches the live API.
 
 | Module | TikTok LIVE API group |
 |---|---|
@@ -105,7 +108,7 @@ Customize the underlying `httpx.Client` / `httpx.AsyncClient` (timeouts, proxies
 
 ```python
 import httpx
-from EulerApiSdk import AuthenticatedClient
+from {{ package_name }} import AuthenticatedClient
 
 client = AuthenticatedClient(
     base_url="https://api.eulerstream.com",

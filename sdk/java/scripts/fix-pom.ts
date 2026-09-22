@@ -14,7 +14,9 @@ import * as path from 'path';
  *   - sets the project <version> from version.txt (the persisted source of truth,
  *     which lives OUTSIDE the regenerated tree so it survives regeneration),
  *   - replaces the placeholder name/description/url/scm/licenses/developers with
- *     EulerStream's,
+ *     EulerStream's. <url> is deliberately the eulerstream.com homepage rather
+ *     than the repo: central.sonatype.com renders it as a plain (dofollow) link,
+ *     while <scm> carries the GitHub coordinates,
  *   - adds the central-publishing-maven-plugin (auto-publish on validation) and
  *     skips the default deploy plugin, and
  *   - rewrites the sign-artifacts profile's GPG plugin to sign non-interactively
@@ -26,7 +28,8 @@ const VERSION_PATH = path.resolve(__dirname, '..', 'version.txt');
 
 const GROUP_ID = 'com.eulerstream';
 const ARTIFACT_ID = 'euler-api-sdk';
-const REPO_URL = 'https://github.com/EulerStream/EulerApiSdk';
+const REPO_URL = 'https://github.com/EulerStream/TikTok-Live-Api';
+const HOMEPAGE_URL = 'https://www.eulerstream.com';
 
 const version = fs.readFileSync(VERSION_PATH, 'utf-8').trim();
 let pom = fs.readFileSync(POM_PATH, 'utf-8');
@@ -44,15 +47,15 @@ replaceFirst(/<groupId>[^<]*<\/groupId>/, `<groupId>${GROUP_ID}</groupId>`, 'pro
 replaceFirst(/<version>[^<]*<\/version>/, `<version>${version}</version>`, 'project version');
 
 // Project metadata required by Maven Central.
-replaceFirst(/<name>[^<]*<\/name>/, `<name>${ARTIFACT_ID}</name>`, 'project name');
+replaceFirst(/<name>[^<]*<\/name>/, '<name>TikTok LIVE API SDK for Java</name>', 'project name');
 replaceFirst(
     /<url>[^<]*<\/url>/,
-    `<url>${REPO_URL}</url>`,
+    `<url>${HOMEPAGE_URL}</url>`,
     'project url',
 );
 replaceFirst(
     /<description>[^<]*<\/description>/,
-    '<description>Official EulerStream API SDK for Java — TikTok LIVE signing and API client.</description>',
+    '<description>TikTok LIVE API SDK for Java. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with a typed client for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics. Free tier at https://www.eulerstream.com</description>',
     'project description',
 );
 replaceFirst(
@@ -86,7 +89,7 @@ replaceFirst(
         '        <developer>',
         '            <id>eulerstream</id>',
         '            <name>EulerStream</name>',
-        '            <url>https://www.eulerstream.com</url>',
+        `            <url>${HOMEPAGE_URL}</url>`,
         '        </developer>',
         '    </developers>',
     ].join('\n'),

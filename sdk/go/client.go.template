@@ -1,3 +1,34 @@
+// Package eulerstream is the TikTok LIVE API SDK for Go, the official Go client
+// for the [EulerStream] TikTok LIVE API.
+//
+// Connect to any TikTok LIVE stream by @username and receive real-time chat
+// messages, gifts, likes, follows, shares, viewer counts, room stats and PK
+// battles over a managed WebSocket, plus a fully typed client for webcast
+// signing, LIVE rooms, gifts, rankings, LIVE alerts, moderation, captchas and
+// analytics. EulerStream hosts and maintains the connection layer, so your
+// integration keeps working when TikTok changes its webcast protocol.
+//
+// Get a free API key at https://www.eulerstream.com/register, then:
+//
+//	client := eulerstream.NewEulerStreamClient(eulerstream.WithAPIKey("YOUR_API_KEY"))
+//
+//	// Look up any TikTok user by @username
+//	user, _, err := client.TikTokUsers.RetrieveTikTokUserBasic(ctx, "tv_asahi_news").Execute()
+//
+//	// Browse the TikTok LIVE gift catalog
+//	catalog, _, err := client.TikTokLiveGifts.ListWebcastGifts(ctx).Execute()
+//
+// Every API group in the [EulerStream OpenAPI spec] is a field on
+// [EulerStreamClient]; see the [EulerStream docs] for per-endpoint Go examples,
+// and [pricing] for the free Community tier and paid plans.
+//
+// This project is not affiliated with, endorsed by, or connected to TikTok or
+// ByteDance.
+//
+// [EulerStream]: https://www.eulerstream.com
+// [EulerStream OpenAPI spec]: https://www.eulerstream.com/docs/openapi
+// [EulerStream docs]: https://www.eulerstream.com/docs/intro
+// [pricing]: https://www.eulerstream.com/pricing
 package eulerstream
 
 import (
