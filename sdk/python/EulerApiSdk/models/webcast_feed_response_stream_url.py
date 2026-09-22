@@ -75,12 +75,14 @@ class WebcastFeedResponseStreamUrl:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_feed_response_stream_url_flv_pull_url import WebcastFeedResponseStreamUrlFlvPullUrl
+        from ..models.webcast_feed_response_stream_url_flv_pull_url import (
+            WebcastFeedResponseStreamUrlFlvPullUrl,  # noqa: PLC0415
+        )
         from ..models.webcast_feed_response_stream_url_flv_pull_url_params import (
-            WebcastFeedResponseStreamUrlFlvPullUrlParams,
+            WebcastFeedResponseStreamUrlFlvPullUrlParams,  # noqa: PLC0415
         )
         from ..models.webcast_feed_response_stream_url_live_core_sdk_data import (
-            WebcastFeedResponseStreamUrlLiveCoreSdkData,
+            WebcastFeedResponseStreamUrlLiveCoreSdkData,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

@@ -100,12 +100,14 @@ class SignedJWTConfiguration:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.accounts_table_request_limits import AccountsTableRequestLimits
+        from ..models.accounts_table_request_limits import AccountsTableRequestLimits  # noqa: PLC0415
         from ..models.partial_enabled_boolean_matches_string_array_access_permitted_boolean_upload_permitted_boolean import (
-            PartialEnabledBooleanMatchesStringArrayAccessPermittedBooleanUploadPermittedBoolean,
+            PartialEnabledBooleanMatchesStringArrayAccessPermittedBooleanUploadPermittedBoolean,  # noqa: PLC0415
         )
-        from ..models.signed_jwt_configuration_extra import SignedJWTConfigurationExtra
-        from ..models.signed_jwt_configuration_web_socket_data import SignedJWTConfigurationWebSocketData
+        from ..models.signed_jwt_configuration_extra import SignedJWTConfigurationExtra  # noqa: PLC0415
+        from ..models.signed_jwt_configuration_web_socket_data import (
+            SignedJWTConfigurationWebSocketData,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         id = d.pop("id")

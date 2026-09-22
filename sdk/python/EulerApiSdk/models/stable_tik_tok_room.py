@@ -80,7 +80,7 @@ class StableTikTokRoom:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.stable_stream_url import StableStreamUrl
+        from ..models.stable_stream_url import StableStreamUrl  # noqa: PLC0415
 
         d = dict(src_dict)
         stream_urls = []

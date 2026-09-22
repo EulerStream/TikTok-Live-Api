@@ -49,8 +49,10 @@ class WebcastRoomAdminUpdateResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_admin_update_response_data import WebcastRoomAdminUpdateResponseData
-        from ..models.webcast_room_admin_update_response_extra import WebcastRoomAdminUpdateResponseExtra
+        from ..models.webcast_room_admin_update_response_data import WebcastRoomAdminUpdateResponseData  # noqa: PLC0415
+        from ..models.webcast_room_admin_update_response_extra import (
+            WebcastRoomAdminUpdateResponseExtra,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         data = WebcastRoomAdminUpdateResponseData.from_dict(d.pop("data"))

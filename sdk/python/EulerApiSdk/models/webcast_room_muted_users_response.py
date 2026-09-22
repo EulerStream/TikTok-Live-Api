@@ -52,8 +52,8 @@ class WebcastRoomMutedUsersResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_muted_users_response_extra import WebcastRoomMutedUsersResponseExtra
-        from ..models.webcast_room_muted_users_response_user import WebcastRoomMutedUsersResponseUser
+        from ..models.webcast_room_muted_users_response_extra import WebcastRoomMutedUsersResponseExtra  # noqa: PLC0415
+        from ..models.webcast_room_muted_users_response_user import WebcastRoomMutedUsersResponseUser  # noqa: PLC0415
 
         d = dict(src_dict)
         data = []

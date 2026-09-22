@@ -77,9 +77,9 @@ class WebcastRoomAdminListResponseAdmin:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_room_admin_list_response_admin_admin_permissions import (
-            WebcastRoomAdminListResponseAdminAdminPermissions,
+            WebcastRoomAdminListResponseAdminAdminPermissions,  # noqa: PLC0415
         )
-        from ..models.webcast_room_admin_list_response_image import WebcastRoomAdminListResponseImage
+        from ..models.webcast_room_admin_list_response_image import WebcastRoomAdminListResponseImage  # noqa: PLC0415
 
         d = dict(src_dict)
         admin_permissions = WebcastRoomAdminListResponseAdminAdminPermissions.from_dict(d.pop("admin_permissions"))

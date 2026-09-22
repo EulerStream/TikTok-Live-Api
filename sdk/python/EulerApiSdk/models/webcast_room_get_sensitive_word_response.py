@@ -49,8 +49,12 @@ class WebcastRoomGetSensitiveWordResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_get_sensitive_word_response_data import WebcastRoomGetSensitiveWordResponseData
-        from ..models.webcast_room_get_sensitive_word_response_extra import WebcastRoomGetSensitiveWordResponseExtra
+        from ..models.webcast_room_get_sensitive_word_response_data import (
+            WebcastRoomGetSensitiveWordResponseData,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_get_sensitive_word_response_extra import (
+            WebcastRoomGetSensitiveWordResponseExtra,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         data = WebcastRoomGetSensitiveWordResponseData.from_dict(d.pop("data"))

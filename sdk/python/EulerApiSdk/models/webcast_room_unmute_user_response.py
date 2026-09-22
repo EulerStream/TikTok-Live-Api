@@ -49,8 +49,8 @@ class WebcastRoomUnmuteUserResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_unmute_user_response_data import WebcastRoomUnmuteUserResponseData
-        from ..models.webcast_room_unmute_user_response_extra import WebcastRoomUnmuteUserResponseExtra
+        from ..models.webcast_room_unmute_user_response_data import WebcastRoomUnmuteUserResponseData  # noqa: PLC0415
+        from ..models.webcast_room_unmute_user_response_extra import WebcastRoomUnmuteUserResponseExtra  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastRoomUnmuteUserResponseData.from_dict(d.pop("data"))

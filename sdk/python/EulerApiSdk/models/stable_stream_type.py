@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class StableStreamType(str, Enum):
+class StableStreamType(StrEnum):
     FLV = "FLV"
     HLS = "HLS"
 

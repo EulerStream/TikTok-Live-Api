@@ -54,7 +54,7 @@ class RetrieveWebSocketRouteResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.web_socket_state import WebSocketState
+        from ..models.web_socket_state import WebSocketState  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

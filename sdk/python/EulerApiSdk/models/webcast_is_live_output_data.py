@@ -15,8 +15,6 @@ T = TypeVar("T", bound="WebcastIsLiveOutputData")
 
 @_attrs_define
 class WebcastIsLiveOutputData:
-    """ """
-
     additional_properties: dict[str, WebcastIsLiveOutputDataAdditionalProperty] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,7 +26,9 @@ class WebcastIsLiveOutputData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_is_live_output_data_additional_property import WebcastIsLiveOutputDataAdditionalProperty
+        from ..models.webcast_is_live_output_data_additional_property import (
+            WebcastIsLiveOutputDataAdditionalProperty,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         webcast_is_live_output_data = cls()

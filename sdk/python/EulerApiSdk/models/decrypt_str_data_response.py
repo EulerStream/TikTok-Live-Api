@@ -55,7 +55,7 @@ class DecryptStrDataResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.decrypt_str_data_response_data import DecryptStrDataResponseData
+        from ..models.decrypt_str_data_response_data import DecryptStrDataResponseData  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

@@ -54,7 +54,7 @@ class RoomMuteUserAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_mute_user_route_output import WebcastRoomMuteUserRouteOutput
+        from ..models.webcast_room_mute_user_route_output import WebcastRoomMuteUserRouteOutput  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

@@ -33,6 +33,8 @@ def _get_kwargs(
 
     _kwargs["files"] = body.to_multipart()
 
+    headers["Content-Type"] = "multipart/form-data; boundary=+++"
+
     _kwargs["headers"] = headers
     return _kwargs
 
@@ -78,11 +80,11 @@ def sync_detailed(
     body: CompleteIconCaptchaBody,
     prompt: str,
 ) -> Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]:
-    r"""The icons captcha requires just one image & a prompt string.
+    """The icons captcha requires just one image & a prompt string.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/icon.png" alt="Icons Captcha Example"
+    width="480" />
 
     ## Usage
 
@@ -124,11 +126,11 @@ def sync(
     body: CompleteIconCaptchaBody,
     prompt: str,
 ) -> CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse | None:
-    r"""The icons captcha requires just one image & a prompt string.
+    """The icons captcha requires just one image & a prompt string.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/icon.png" alt="Icons Captcha Example"
+    width="480" />
 
     ## Usage
 
@@ -165,11 +167,11 @@ async def asyncio_detailed(
     body: CompleteIconCaptchaBody,
     prompt: str,
 ) -> Response[CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse]:
-    r"""The icons captcha requires just one image & a prompt string.
+    """The icons captcha requires just one image & a prompt string.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/icon.png" alt="Icons Captcha Example"
+    width="480" />
 
     ## Usage
 
@@ -209,11 +211,11 @@ async def asyncio(
     body: CompleteIconCaptchaBody,
     prompt: str,
 ) -> CompleteIconCaptchaResponse429 | CompleteIconCaptchaResponse500 | IconCaptchaResponse | None:
-    r"""The icons captcha requires just one image & a prompt string.
+    """The icons captcha requires just one image & a prompt string.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/icon.png\" alt=\"Icons Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/icon.png" alt="Icons Captcha Example"
+    width="480" />
 
     ## Usage
 

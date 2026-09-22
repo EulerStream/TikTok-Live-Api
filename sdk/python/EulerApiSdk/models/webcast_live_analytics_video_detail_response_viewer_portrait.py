@@ -60,13 +60,13 @@ class WebcastLiveAnalyticsVideoDetailResponseViewerPortrait:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_video_detail_response_viewers_age import (
-            WebcastLiveAnalyticsVideoDetailResponseViewersAge,
+            WebcastLiveAnalyticsVideoDetailResponseViewersAge,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_viewers_gender import (
-            WebcastLiveAnalyticsVideoDetailResponseViewersGender,
+            WebcastLiveAnalyticsVideoDetailResponseViewersGender,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_viewers_region import (
-            WebcastLiveAnalyticsVideoDetailResponseViewersRegion,
+            WebcastLiveAnalyticsVideoDetailResponseViewersRegion,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

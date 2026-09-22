@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class IntrospectRequestBodyTokenTypeHint(str, Enum):
+class IntrospectRequestBodyTokenTypeHint(StrEnum):
     ACCESS_TOKEN = "access_token"
     REFRESH_TOKEN = "refresh_token"
 

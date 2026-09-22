@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class WebcastGiftGalleryDataAnchorRankingLeague(str, Enum):
+class WebcastGiftGalleryDataAnchorRankingLeague(StrEnum):
     TOEXPONENTIAL = "toExponential"
     TOFIXED = "toFixed"
     TOLOCALESTRING = "toLocaleString"

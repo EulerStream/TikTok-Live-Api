@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class GetKeyRetrieveBy(str, Enum):
+class GetKeyRetrieveBy(StrEnum):
     ID = "id"
     VALUE = "value"
 

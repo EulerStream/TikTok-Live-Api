@@ -6,9 +6,9 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.fetch_webcast_url_by_unique_id_response_429 import FetchWebcastURLByUniqueIdResponse429
-from ...models.fetch_webcast_url_by_unique_id_response_500 import FetchWebcastURLByUniqueIdResponse500
-from ...models.fetch_webcast_url_by_unique_id_response_503 import FetchWebcastURLByUniqueIdResponse503
+from ...models.fetch_webcast_url_by_unique_id_response_429 import FetchWebcastUrlByUniqueIdResponse429
+from ...models.fetch_webcast_url_by_unique_id_response_500 import FetchWebcastUrlByUniqueIdResponse500
+from ...models.fetch_webcast_url_by_unique_id_response_503 import FetchWebcastUrlByUniqueIdResponse503
 from ...models.webcast_fetch_platform import WebcastFetchPlatform
 from ...types import UNSET, Response, Unset
 
@@ -64,23 +64,23 @@ def _get_kwargs(
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> (
-    FetchWebcastURLByUniqueIdResponse429
-    | FetchWebcastURLByUniqueIdResponse500
-    | FetchWebcastURLByUniqueIdResponse503
+    FetchWebcastUrlByUniqueIdResponse429
+    | FetchWebcastUrlByUniqueIdResponse500
+    | FetchWebcastUrlByUniqueIdResponse503
     | None
 ):
     if response.status_code == 429:
-        response_429 = FetchWebcastURLByUniqueIdResponse429.from_dict(response.json())
+        response_429 = FetchWebcastUrlByUniqueIdResponse429.from_dict(response.json())
 
         return response_429
 
     if response.status_code == 500:
-        response_500 = FetchWebcastURLByUniqueIdResponse500.from_dict(response.json())
+        response_500 = FetchWebcastUrlByUniqueIdResponse500.from_dict(response.json())
 
         return response_500
 
     if response.status_code == 503:
-        response_503 = FetchWebcastURLByUniqueIdResponse503.from_dict(response.json())
+        response_503 = FetchWebcastUrlByUniqueIdResponse503.from_dict(response.json())
 
         return response_503
 
@@ -93,7 +93,7 @@ def _parse_response(
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
 ) -> Response[
-    FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503
+    FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503
 ]:
     return Response(
         status_code=HTTPStatus(response.status_code),
@@ -115,7 +115,7 @@ def sync_detailed(
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
 ) -> Response[
-    FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503
+    FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503
 ]:
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given the anchor's unique ID
     (handle).
@@ -148,7 +148,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503]
+        Response[FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503]
     """
 
     kwargs = _get_kwargs(
@@ -181,9 +181,9 @@ def sync(
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
 ) -> (
-    FetchWebcastURLByUniqueIdResponse429
-    | FetchWebcastURLByUniqueIdResponse500
-    | FetchWebcastURLByUniqueIdResponse503
+    FetchWebcastUrlByUniqueIdResponse429
+    | FetchWebcastUrlByUniqueIdResponse500
+    | FetchWebcastUrlByUniqueIdResponse503
     | None
 ):
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given the anchor's unique ID
@@ -217,7 +217,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503
+        FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503
     """
 
     return sync_detailed(
@@ -245,7 +245,7 @@ async def asyncio_detailed(
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
 ) -> Response[
-    FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503
+    FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503
 ]:
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given the anchor's unique ID
     (handle).
@@ -278,7 +278,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503]
+        Response[FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503]
     """
 
     kwargs = _get_kwargs(
@@ -309,9 +309,9 @@ async def asyncio(
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
 ) -> (
-    FetchWebcastURLByUniqueIdResponse429
-    | FetchWebcastURLByUniqueIdResponse500
-    | FetchWebcastURLByUniqueIdResponse503
+    FetchWebcastUrlByUniqueIdResponse429
+    | FetchWebcastUrlByUniqueIdResponse500
+    | FetchWebcastUrlByUniqueIdResponse503
     | None
 ):
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given the anchor's unique ID
@@ -345,7 +345,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FetchWebcastURLByUniqueIdResponse429 | FetchWebcastURLByUniqueIdResponse500 | FetchWebcastURLByUniqueIdResponse503
+        FetchWebcastUrlByUniqueIdResponse429 | FetchWebcastUrlByUniqueIdResponse500 | FetchWebcastUrlByUniqueIdResponse503
     """
 
     return (

@@ -6,7 +6,7 @@
    come from the generator (config.yaml + `poetry version` in CI). #}
 [tool.poetry]
 name = "{{ project_name }}"
-version = "{{ package_version }}"
+version = "{{ package_version | in_double_quote_literal }}"
 description = "TikTok LIVE API SDK for Python. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics."
 authors = ["EulerStream"]
 license = "MIT"
@@ -44,7 +44,6 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -69,8 +68,8 @@ include = ["{{ package_name }}/py.typed"]
 "Issues" = "https://github.com/EulerStream/TikTok-Live-Api/issues"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-httpx = ">=0.23.0,<0.29.0"
+python = "^3.11"
+httpx = ">=0.23.1,<0.29.0"
 attrs = ">=22.2.0"
 python-dateutil = "^2.8.0"
 

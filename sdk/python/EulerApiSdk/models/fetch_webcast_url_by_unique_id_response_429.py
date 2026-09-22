@@ -6,11 +6,11 @@ from typing import Any, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="FetchWebcastURLByUniqueIdResponse429")
+T = TypeVar("T", bound="FetchWebcastUrlByUniqueIdResponse429")
 
 
 @_attrs_define
-class FetchWebcastURLByUniqueIdResponse429:
+class FetchWebcastUrlByUniqueIdResponse429:
     """
     Attributes:
         code (int):  Example: 429.

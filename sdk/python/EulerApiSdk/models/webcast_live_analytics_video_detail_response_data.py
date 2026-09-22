@@ -140,31 +140,31 @@ class WebcastLiveAnalyticsVideoDetailResponseData:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_video_detail_response_analytics import (
-            WebcastLiveAnalyticsVideoDetailResponseAnalytics,
+            WebcastLiveAnalyticsVideoDetailResponseAnalytics,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_average_watch_time import (
-            WebcastLiveAnalyticsVideoDetailResponseAverageWatchTime,
+            WebcastLiveAnalyticsVideoDetailResponseAverageWatchTime,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_behavior_summary import (
-            WebcastLiveAnalyticsVideoDetailResponseBehaviorSummary,
+            WebcastLiveAnalyticsVideoDetailResponseBehaviorSummary,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_comments_info import (
-            WebcastLiveAnalyticsVideoDetailResponseCommentsInfo,
+            WebcastLiveAnalyticsVideoDetailResponseCommentsInfo,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_detailed_metrics import (
-            WebcastLiveAnalyticsVideoDetailResponseDetailedMetrics,
+            WebcastLiveAnalyticsVideoDetailResponseDetailedMetrics,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_new_analytics import (
-            WebcastLiveAnalyticsVideoDetailResponseNewAnalytics,
+            WebcastLiveAnalyticsVideoDetailResponseNewAnalytics,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_traffic_info import (
-            WebcastLiveAnalyticsVideoDetailResponseTrafficInfo,
+            WebcastLiveAnalyticsVideoDetailResponseTrafficInfo,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_viewer_info import (
-            WebcastLiveAnalyticsVideoDetailResponseViewerInfo,
+            WebcastLiveAnalyticsVideoDetailResponseViewerInfo,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_views_by_section import (
-            WebcastLiveAnalyticsVideoDetailResponseViewsBySection,
+            WebcastLiveAnalyticsVideoDetailResponseViewsBySection,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

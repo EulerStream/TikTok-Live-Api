@@ -54,7 +54,7 @@ class WebcastRoomChatRouteResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_send_chat_response import WebcastRoomSendChatResponse
+        from ..models.webcast_room_send_chat_response import WebcastRoomSendChatResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

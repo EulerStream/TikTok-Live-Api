@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class TikTokSignLiveClient(str, Enum):
+class TikTokSignLiveClient(StrEnum):
     GOTIKTOK_LIVE = "gotiktok_live"
     INTERNAL = "internal"
     TTLIVE_CLOUDFLARE = "ttlive-cloudflare"

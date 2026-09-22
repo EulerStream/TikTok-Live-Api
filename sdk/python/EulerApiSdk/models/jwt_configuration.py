@@ -70,15 +70,15 @@ class JWTConfiguration:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.jwt_configuration_metadata import JWTConfigurationMetadata
+        from ..models.jwt_configuration_metadata import JWTConfigurationMetadata  # noqa: PLC0415
         from ..models.partial_enabled_boolean_config_jwt_configuration_web_socket_data import (
-            PartialEnabledBooleanConfigJWTConfigurationWebSocketData,
+            PartialEnabledBooleanConfigJWTConfigurationWebSocketData,  # noqa: PLC0415
         )
         from ..models.partial_enabled_boolean_limits_accounts_table_request_limits_or_null import (
-            PartialEnabledBooleanLimitsAccountsTableRequestLimitsOrNull,
+            PartialEnabledBooleanLimitsAccountsTableRequestLimitsOrNull,  # noqa: PLC0415
         )
         from ..models.partial_enabled_boolean_matches_string_array_access_permitted_boolean_upload_permitted_boolean import (
-            PartialEnabledBooleanMatchesStringArrayAccessPermittedBooleanUploadPermittedBoolean,
+            PartialEnabledBooleanMatchesStringArrayAccessPermittedBooleanUploadPermittedBoolean,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

@@ -51,7 +51,7 @@ class WebcastLiveAnalyticsVideoDetailResponseDetailedMetrics:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_video_detail_response_follower_metric import (
-            WebcastLiveAnalyticsVideoDetailResponseFollowerMetric,
+            WebcastLiveAnalyticsVideoDetailResponseFollowerMetric,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

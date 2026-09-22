@@ -83,8 +83,11 @@ jobs:
         with:
           python-version: '3.12'
 
+      # Pinned: the generator's template variables changed between minors
+      # (0.29 wraps them in UntrustedString and needs the in_double_quote_literal
+      # filter), and the custom templates in sdk/python/templates target this one.
       - name: Install tools
-        run: pip install openapi-python-client poetry
+        run: pip install "openapi-python-client==0.29.1" poetry
 
       - name: Generate Python SDK
         working-directory: sdk/python

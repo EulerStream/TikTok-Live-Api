@@ -52,7 +52,7 @@ class GiftOverride:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.gift_override_gift_sponsor_info import GiftOverrideGiftSponsorInfo
+        from ..models.gift_override_gift_sponsor_info import GiftOverrideGiftSponsorInfo  # noqa: PLC0415
 
         d = dict(src_dict)
         is_displayed_on_panel = d.pop("is_displayed_on_panel", UNSET)

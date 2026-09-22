@@ -53,7 +53,7 @@ class WebcastRoomMutedUsersResponseBadgeBackground:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_muted_users_response_image import WebcastRoomMutedUsersResponseImage
+        from ..models.webcast_room_muted_users_response_image import WebcastRoomMutedUsersResponseImage  # noqa: PLC0415
 
         d = dict(src_dict)
         background_color_code = d.pop("background_color_code")

@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..models.stable_webcast_user_earnings_output_earnings_estimate_currency import (
     StableWebcastUserEarningsOutputEarningsEstimateCurrency,
@@ -82,7 +81,7 @@ class StableWebcastUserEarningsOutput:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.stable_tik_tok_live_user import StableTikTokLiveUser
+        from ..models.stable_tik_tok_live_user import StableTikTokLiveUser  # noqa: PLC0415
 
         d = dict(src_dict)
 
@@ -99,7 +98,7 @@ class StableWebcastUserEarningsOutput:
             try:
                 if not isinstance(data, str):
                     raise TypeError()
-                resets_at_type_0 = isoparse(data)
+                resets_at_type_0 = datetime.datetime.fromisoformat(data)
 
                 return resets_at_type_0
             except (TypeError, ValueError, AttributeError, KeyError):

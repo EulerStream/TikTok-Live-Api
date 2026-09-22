@@ -54,7 +54,7 @@ class OAuthRevokeResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.token_error_response import TokenErrorResponse
+        from ..models.token_error_response import TokenErrorResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

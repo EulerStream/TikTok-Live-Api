@@ -57,13 +57,13 @@ class WebcastLiveAnalyticsVideoDetailResponseNewAnalytics:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_video_detail_response_new_earnings import (
-            WebcastLiveAnalyticsVideoDetailResponseNewEarnings,
+            WebcastLiveAnalyticsVideoDetailResponseNewEarnings,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_new_interaction import (
-            WebcastLiveAnalyticsVideoDetailResponseNewInteraction,
+            WebcastLiveAnalyticsVideoDetailResponseNewInteraction,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_video_detail_response_new_views import (
-            WebcastLiveAnalyticsVideoDetailResponseNewViews,
+            WebcastLiveAnalyticsVideoDetailResponseNewViews,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

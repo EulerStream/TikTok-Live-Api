@@ -44,8 +44,8 @@ from .create_alert_target_response import CreateAlertTargetResponse
 from .create_alert_target_response_429 import CreateAlertTargetResponse429
 from .create_alert_target_response_500 import CreateAlertTargetResponse500
 from .create_jwt_response import CreateJWTResponse
-from .create_jwt_response_429 import CreateJWTResponse429
-from .create_jwt_response_500 import CreateJWTResponse500
+from .create_jwt_response_429 import CreateJwtResponse429
+from .create_jwt_response_500 import CreateJwtResponse500
 from .create_key_payload import CreateKeyPayload
 from .create_key_response import CreateKeyResponse
 from .create_key_response_429 import CreateKeyResponse429
@@ -89,12 +89,12 @@ from .exchange_token_response_429 import ExchangeTokenResponse429
 from .exchange_token_response_500 import ExchangeTokenResponse500
 from .fetch_agents_response_429 import FetchAgentsResponse429
 from .fetch_agents_response_500 import FetchAgentsResponse500
-from .fetch_webcast_url_by_unique_id_response_429 import FetchWebcastURLByUniqueIdResponse429
-from .fetch_webcast_url_by_unique_id_response_500 import FetchWebcastURLByUniqueIdResponse500
-from .fetch_webcast_url_by_unique_id_response_503 import FetchWebcastURLByUniqueIdResponse503
-from .fetch_webcast_url_response_429 import FetchWebcastURLResponse429
-from .fetch_webcast_url_response_500 import FetchWebcastURLResponse500
-from .fetch_webcast_url_response_503 import FetchWebcastURLResponse503
+from .fetch_webcast_url_by_unique_id_response_429 import FetchWebcastUrlByUniqueIdResponse429
+from .fetch_webcast_url_by_unique_id_response_500 import FetchWebcastUrlByUniqueIdResponse500
+from .fetch_webcast_url_by_unique_id_response_503 import FetchWebcastUrlByUniqueIdResponse503
+from .fetch_webcast_url_response_429 import FetchWebcastUrlResponse429
+from .fetch_webcast_url_response_500 import FetchWebcastUrlResponse500
+from .fetch_webcast_url_response_503 import FetchWebcastUrlResponse503
 from .get_available_dates_response_429 import GetAvailableDatesResponse429
 from .get_available_dates_response_500 import GetAvailableDatesResponse500
 from .get_available_dates_response_503 import GetAvailableDatesResponse503
@@ -736,8 +736,8 @@ __all__ = (
     "CreateAlertTargetResponse429",
     "CreateAlertTargetResponse500",
     "CreateJWTResponse",
-    "CreateJWTResponse429",
-    "CreateJWTResponse500",
+    "CreateJwtResponse429",
+    "CreateJwtResponse500",
     "CreateKeyPayload",
     "CreateKeyResponse",
     "CreateKeyResponse429",
@@ -781,12 +781,12 @@ __all__ = (
     "ExchangeTokenResponse500",
     "FetchAgentsResponse429",
     "FetchAgentsResponse500",
-    "FetchWebcastURLByUniqueIdResponse429",
-    "FetchWebcastURLByUniqueIdResponse500",
-    "FetchWebcastURLByUniqueIdResponse503",
-    "FetchWebcastURLResponse429",
-    "FetchWebcastURLResponse500",
-    "FetchWebcastURLResponse503",
+    "FetchWebcastUrlByUniqueIdResponse429",
+    "FetchWebcastUrlByUniqueIdResponse500",
+    "FetchWebcastUrlByUniqueIdResponse503",
+    "FetchWebcastUrlResponse429",
+    "FetchWebcastUrlResponse500",
+    "FetchWebcastUrlResponse503",
     "GetAvailableDatesResponse429",
     "GetAvailableDatesResponse500",
     "GetAvailableDatesResponse503",

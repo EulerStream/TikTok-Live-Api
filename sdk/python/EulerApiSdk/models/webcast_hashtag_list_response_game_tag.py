@@ -100,8 +100,12 @@ class WebcastHashtagListResponseGameTag:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_hashtag_list_response_game_category import WebcastHashtagListResponseGameCategory
-        from ..models.webcast_hashtag_list_response_hashtag_simple import WebcastHashtagListResponseHashtagSimple
+        from ..models.webcast_hashtag_list_response_game_category import (
+            WebcastHashtagListResponseGameCategory,  # noqa: PLC0415
+        )
+        from ..models.webcast_hashtag_list_response_hashtag_simple import (
+            WebcastHashtagListResponseHashtagSimple,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         bundle_id = d.pop("bundle_id")

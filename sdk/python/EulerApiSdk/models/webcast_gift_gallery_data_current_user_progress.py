@@ -15,8 +15,6 @@ T = TypeVar("T", bound="WebcastGiftGalleryDataCurrentUserProgress")
 
 @_attrs_define
 class WebcastGiftGalleryDataCurrentUserProgress:
-    """ """
-
     additional_properties: dict[str, GiftGalleryProgressItem] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,7 +26,7 @@ class WebcastGiftGalleryDataCurrentUserProgress:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.gift_gallery_progress_item import GiftGalleryProgressItem
+        from ..models.gift_gallery_progress_item import GiftGalleryProgressItem  # noqa: PLC0415
 
         d = dict(src_dict)
         webcast_gift_gallery_data_current_user_progress = cls()

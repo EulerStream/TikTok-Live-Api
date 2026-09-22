@@ -6,9 +6,9 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.fetch_webcast_url_response_429 import FetchWebcastURLResponse429
-from ...models.fetch_webcast_url_response_500 import FetchWebcastURLResponse500
-from ...models.fetch_webcast_url_response_503 import FetchWebcastURLResponse503
+from ...models.fetch_webcast_url_response_429 import FetchWebcastUrlResponse429
+from ...models.fetch_webcast_url_response_500 import FetchWebcastUrlResponse500
+from ...models.fetch_webcast_url_response_503 import FetchWebcastUrlResponse503
 from ...models.webcast_fetch_platform import WebcastFetchPlatform
 from ...types import UNSET, Response, Unset
 
@@ -63,19 +63,19 @@ def _get_kwargs(
 
 def _parse_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503 | None:
+) -> FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503 | None:
     if response.status_code == 429:
-        response_429 = FetchWebcastURLResponse429.from_dict(response.json())
+        response_429 = FetchWebcastUrlResponse429.from_dict(response.json())
 
         return response_429
 
     if response.status_code == 500:
-        response_500 = FetchWebcastURLResponse500.from_dict(response.json())
+        response_500 = FetchWebcastUrlResponse500.from_dict(response.json())
 
         return response_500
 
     if response.status_code == 503:
-        response_503 = FetchWebcastURLResponse503.from_dict(response.json())
+        response_503 = FetchWebcastUrlResponse503.from_dict(response.json())
 
         return response_503
 
@@ -87,7 +87,7 @@ def _parse_response(
 
 def _build_response(
     *, client: AuthenticatedClient | Client, response: httpx.Response
-) -> Response[FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503]:
+) -> Response[FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -107,7 +107,7 @@ def sync_detailed(
     platform: WebcastFetchPlatform | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503]:
+) -> Response[FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503]:
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given a Room ID.
 
     **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide
@@ -135,7 +135,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503]
+        Response[FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503]
     """
 
     kwargs = _get_kwargs(
@@ -167,7 +167,7 @@ def sync(
     platform: WebcastFetchPlatform | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503 | None:
+) -> FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503 | None:
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given a Room ID.
 
     **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide
@@ -195,7 +195,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503
+        FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503
     """
 
     return sync_detailed(
@@ -222,7 +222,7 @@ async def asyncio_detailed(
     platform: WebcastFetchPlatform | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> Response[FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503]:
+) -> Response[FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503]:
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given a Room ID.
 
     **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide
@@ -250,7 +250,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503]
+        Response[FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503]
     """
 
     kwargs = _get_kwargs(
@@ -280,7 +280,7 @@ async def asyncio(
     platform: WebcastFetchPlatform | Unset = UNSET,
     x_oauth_token: str | Unset = UNSET,
     x_cookie_header: str | Unset = UNSET,
-) -> FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503 | None:
+) -> FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503 | None:
     """Fetch the WebSocket URL & first payload for a TikTok LIVE Room given a Room ID.
 
     **Authentication (Optional):** Anonymous access is supported. For authenticated requests, provide
@@ -308,7 +308,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        FetchWebcastURLResponse429 | FetchWebcastURLResponse500 | FetchWebcastURLResponse503
+        FetchWebcastUrlResponse429 | FetchWebcastUrlResponse500 | FetchWebcastUrlResponse503
     """
 
     return (

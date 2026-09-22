@@ -118,11 +118,11 @@ class WebcastFeedResponseUser:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_feed_response_image import WebcastFeedResponseImage
-        from ..models.webcast_feed_response_user_follow_info import WebcastFeedResponseUserFollowInfo
-        from ..models.webcast_feed_response_user_own_room import WebcastFeedResponseUserOwnRoom
-        from ..models.webcast_feed_response_user_pay_grade import WebcastFeedResponseUserPayGrade
-        from ..models.webcast_feed_response_user_user_attr import WebcastFeedResponseUserUserAttr
+        from ..models.webcast_feed_response_image import WebcastFeedResponseImage  # noqa: PLC0415
+        from ..models.webcast_feed_response_user_follow_info import WebcastFeedResponseUserFollowInfo  # noqa: PLC0415
+        from ..models.webcast_feed_response_user_own_room import WebcastFeedResponseUserOwnRoom  # noqa: PLC0415
+        from ..models.webcast_feed_response_user_pay_grade import WebcastFeedResponseUserPayGrade  # noqa: PLC0415
+        from ..models.webcast_feed_response_user_user_attr import WebcastFeedResponseUserUserAttr  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id")

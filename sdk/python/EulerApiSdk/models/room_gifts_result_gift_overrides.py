@@ -15,8 +15,6 @@ T = TypeVar("T", bound="RoomGiftsResultGiftOverrides")
 
 @_attrs_define
 class RoomGiftsResultGiftOverrides:
-    """ """
-
     additional_properties: dict[str, GiftOverride] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,7 +26,7 @@ class RoomGiftsResultGiftOverrides:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.gift_override import GiftOverride
+        from ..models.gift_override import GiftOverride  # noqa: PLC0415
 
         d = dict(src_dict)
         room_gifts_result_gift_overrides = cls()

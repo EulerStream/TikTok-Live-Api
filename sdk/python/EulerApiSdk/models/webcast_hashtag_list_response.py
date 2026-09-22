@@ -49,8 +49,8 @@ class WebcastHashtagListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_hashtag_list_response_data import WebcastHashtagListResponseData
-        from ..models.webcast_hashtag_list_response_extra import WebcastHashtagListResponseExtra
+        from ..models.webcast_hashtag_list_response_data import WebcastHashtagListResponseData  # noqa: PLC0415
+        from ..models.webcast_hashtag_list_response_extra import WebcastHashtagListResponseExtra  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastHashtagListResponseData.from_dict(d.pop("data"))

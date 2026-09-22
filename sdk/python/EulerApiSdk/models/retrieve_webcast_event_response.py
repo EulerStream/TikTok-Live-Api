@@ -54,7 +54,7 @@ class RetrieveWebcastEventResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_event import WebcastEvent
+        from ..models.webcast_event import WebcastEvent  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

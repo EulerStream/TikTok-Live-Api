@@ -71,7 +71,7 @@ class WebcastRoomMutedUsersResponseUserAttr:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_room_muted_users_response_user_attr_admin_permissions import (
-            WebcastRoomMutedUsersResponseUserAttrAdminPermissions,
+            WebcastRoomMutedUsersResponseUserAttrAdminPermissions,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

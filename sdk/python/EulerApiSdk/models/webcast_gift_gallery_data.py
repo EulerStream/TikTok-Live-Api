@@ -81,8 +81,10 @@ class WebcastGiftGalleryData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.normal_gift_item import NormalGiftItem
-        from ..models.webcast_gift_gallery_data_current_user_progress import WebcastGiftGalleryDataCurrentUserProgress
+        from ..models.normal_gift_item import NormalGiftItem  # noqa: PLC0415
+        from ..models.webcast_gift_gallery_data_current_user_progress import (
+            WebcastGiftGalleryDataCurrentUserProgress,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         normal_gifts = []

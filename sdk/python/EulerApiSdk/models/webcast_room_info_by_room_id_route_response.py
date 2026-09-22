@@ -69,7 +69,7 @@ class WebcastRoomInfoByRoomIdRouteResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.stable_tik_tok_live_user import StableTikTokLiveUser
+        from ..models.stable_tik_tok_live_user import StableTikTokLiveUser  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

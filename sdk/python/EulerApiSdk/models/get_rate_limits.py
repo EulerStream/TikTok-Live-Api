@@ -70,7 +70,7 @@ class GetRateLimits:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.rate_limit_info import RateLimitInfo
+        from ..models.rate_limit_info import RateLimitInfo  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

@@ -46,7 +46,9 @@ class WebcastLiveAnalyticsVideoListResponseData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_live_analytics_video_list_response_video import WebcastLiveAnalyticsVideoListResponseVideo
+        from ..models.webcast_live_analytics_video_list_response_video import (
+            WebcastLiveAnalyticsVideoListResponseVideo,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         total = d.pop("total")

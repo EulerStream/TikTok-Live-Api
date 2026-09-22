@@ -38,7 +38,7 @@ class WebcastFeedRouteOutput:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_feed_response import WebcastFeedResponse
+        from ..models.webcast_feed_response import WebcastFeedResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastFeedResponse.from_dict(d.pop("data"))

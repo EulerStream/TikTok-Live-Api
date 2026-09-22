@@ -54,7 +54,7 @@ class SignTikTokUrlResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.proxy_sign_result import ProxySignResult
+        from ..models.proxy_sign_result import ProxySignResult  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

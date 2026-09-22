@@ -51,7 +51,7 @@ class AvailableRankingsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.available_rankings_response_regions import AvailableRankingsResponseRegions
+        from ..models.available_rankings_response_regions import AvailableRankingsResponseRegions  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

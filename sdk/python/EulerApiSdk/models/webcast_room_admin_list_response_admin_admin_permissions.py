@@ -11,8 +11,6 @@ T = TypeVar("T", bound="WebcastRoomAdminListResponseAdminAdminPermissions")
 
 @_attrs_define
 class WebcastRoomAdminListResponseAdminAdminPermissions:
-    """ """
-
     additional_properties: dict[str, float] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

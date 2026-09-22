@@ -58,7 +58,7 @@ class TikTokVideoBasicVideo:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.tik_tok_video_basic_music import TikTokVideoBasicMusic
+        from ..models.tik_tok_video_basic_music import TikTokVideoBasicMusic  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id")

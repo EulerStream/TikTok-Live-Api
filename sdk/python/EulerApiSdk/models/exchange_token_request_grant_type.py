@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ExchangeTokenRequestGrantType(str, Enum):
+class ExchangeTokenRequestGrantType(StrEnum):
     AUTHORIZATION_CODE = "authorization_code"
     REFRESH_TOKEN = "refresh_token"
 

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class GiftCatalogOrderBy(str, Enum):
+class GiftCatalogOrderBy(StrEnum):
     NAME = "name"
     PRICE = "price"
 

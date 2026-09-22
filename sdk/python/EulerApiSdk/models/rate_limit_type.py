@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RateLimitType(str, Enum):
+class RateLimitType(StrEnum):
     ALERTS = "ALERTS"
     CATALOG = "CATALOG"
     RANKINGS = "RANKINGS"

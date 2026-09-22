@@ -25,6 +25,8 @@ def _get_kwargs(
 
     _kwargs["files"] = body.to_multipart()
 
+    headers["Content-Type"] = "multipart/form-data; boundary=+++"
+
     _kwargs["headers"] = headers
     return _kwargs
 
@@ -69,11 +71,11 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
 ) -> Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]:
-    r"""The puzzle captcha requires two images
+    """The puzzle captcha requires two images
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/puzzle.png\" alt=\"Puzzle Piece Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/puzzle.png" alt="Puzzle Piece Example"
+    width="480" />
 
     ## Usage
 
@@ -117,11 +119,11 @@ def sync(
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
 ) -> CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse | None:
-    r"""The puzzle captcha requires two images
+    """The puzzle captcha requires two images
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/puzzle.png\" alt=\"Puzzle Piece Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/puzzle.png" alt="Puzzle Piece Example"
+    width="480" />
 
     ## Usage
 
@@ -160,11 +162,11 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
 ) -> Response[CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse]:
-    r"""The puzzle captcha requires two images
+    """The puzzle captcha requires two images
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/puzzle.png\" alt=\"Puzzle Piece Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/puzzle.png" alt="Puzzle Piece Example"
+    width="480" />
 
     ## Usage
 
@@ -206,11 +208,11 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CompletePuzzleCaptchaBody,
 ) -> CompletePuzzleCaptchaResponse429 | CompletePuzzleCaptchaResponse500 | PuzzleCaptchaResponse | None:
-    r"""The puzzle captcha requires two images
+    """The puzzle captcha requires two images
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/puzzle.png\" alt=\"Puzzle Piece Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/puzzle.png" alt="Puzzle Piece Example"
+    width="480" />
 
     ## Usage
 

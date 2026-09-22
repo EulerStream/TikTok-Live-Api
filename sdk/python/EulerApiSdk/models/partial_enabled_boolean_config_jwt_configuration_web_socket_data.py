@@ -46,7 +46,7 @@ class PartialEnabledBooleanConfigJWTConfigurationWebSocketData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.jwt_configuration_web_socket_data import JWTConfigurationWebSocketData
+        from ..models.jwt_configuration_web_socket_data import JWTConfigurationWebSocketData  # noqa: PLC0415
 
         d = dict(src_dict)
         enabled = d.pop("enabled", UNSET)

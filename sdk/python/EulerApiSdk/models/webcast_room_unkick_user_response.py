@@ -49,8 +49,8 @@ class WebcastRoomUnkickUserResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_unkick_user_response_data import WebcastRoomUnkickUserResponseData
-        from ..models.webcast_room_unkick_user_response_extra import WebcastRoomUnkickUserResponseExtra
+        from ..models.webcast_room_unkick_user_response_data import WebcastRoomUnkickUserResponseData  # noqa: PLC0415
+        from ..models.webcast_room_unkick_user_response_extra import WebcastRoomUnkickUserResponseExtra  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastRoomUnkickUserResponseData.from_dict(d.pop("data"))

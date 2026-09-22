@@ -54,7 +54,7 @@ class RoomKickUserAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_kick_user_route_output import WebcastRoomKickUserRouteOutput
+        from ..models.webcast_room_kick_user_route_output import WebcastRoomKickUserRouteOutput  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

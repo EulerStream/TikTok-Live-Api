@@ -201,27 +201,41 @@ class WebcastFeedResponseRoomData:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_feed_response_hashtag import WebcastFeedResponseHashtag
-        from ..models.webcast_feed_response_image import WebcastFeedResponseImage
-        from ..models.webcast_feed_response_room_data_blurred_cover import WebcastFeedResponseRoomDataBlurredCover
-        from ..models.webcast_feed_response_room_data_commerce_info import WebcastFeedResponseRoomDataCommerceInfo
-        from ..models.webcast_feed_response_room_data_feed_room_label import WebcastFeedResponseRoomDataFeedRoomLabel
-        from ..models.webcast_feed_response_room_data_game_tag_detail import WebcastFeedResponseRoomDataGameTagDetail
-        from ..models.webcast_feed_response_room_data_multi_stream_url import WebcastFeedResponseRoomDataMultiStreamUrl
-        from ..models.webcast_feed_response_room_data_rectangle_cover_img import (
-            WebcastFeedResponseRoomDataRectangleCoverImg,
+        from ..models.webcast_feed_response_hashtag import WebcastFeedResponseHashtag  # noqa: PLC0415
+        from ..models.webcast_feed_response_image import WebcastFeedResponseImage  # noqa: PLC0415
+        from ..models.webcast_feed_response_room_data_blurred_cover import (
+            WebcastFeedResponseRoomDataBlurredCover,  # noqa: PLC0415
         )
-        from ..models.webcast_feed_response_room_data_room_auth import WebcastFeedResponseRoomDataRoomAuth
-        from ..models.webcast_feed_response_room_data_square_cover_img import WebcastFeedResponseRoomDataSquareCoverImg
-        from ..models.webcast_feed_response_room_data_stats import WebcastFeedResponseRoomDataStats
+        from ..models.webcast_feed_response_room_data_commerce_info import (
+            WebcastFeedResponseRoomDataCommerceInfo,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_feed_room_label import (
+            WebcastFeedResponseRoomDataFeedRoomLabel,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_game_tag_detail import (
+            WebcastFeedResponseRoomDataGameTagDetail,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_multi_stream_url import (
+            WebcastFeedResponseRoomDataMultiStreamUrl,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_rectangle_cover_img import (
+            WebcastFeedResponseRoomDataRectangleCoverImg,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_room_auth import (
+            WebcastFeedResponseRoomDataRoomAuth,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_square_cover_img import (
+            WebcastFeedResponseRoomDataSquareCoverImg,  # noqa: PLC0415
+        )
+        from ..models.webcast_feed_response_room_data_stats import WebcastFeedResponseRoomDataStats  # noqa: PLC0415
         from ..models.webcast_feed_response_room_data_stream_url_filtered_info import (
-            WebcastFeedResponseRoomDataStreamUrlFilteredInfo,
+            WebcastFeedResponseRoomDataStreamUrlFilteredInfo,  # noqa: PLC0415
         )
         from ..models.webcast_feed_response_room_data_taxonomy_tag_info import (
-            WebcastFeedResponseRoomDataTaxonomyTagInfo,
+            WebcastFeedResponseRoomDataTaxonomyTagInfo,  # noqa: PLC0415
         )
-        from ..models.webcast_feed_response_stream_url import WebcastFeedResponseStreamUrl
-        from ..models.webcast_feed_response_user import WebcastFeedResponseUser
+        from ..models.webcast_feed_response_stream_url import WebcastFeedResponseStreamUrl  # noqa: PLC0415
+        from ..models.webcast_feed_response_user import WebcastFeedResponseUser  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id")

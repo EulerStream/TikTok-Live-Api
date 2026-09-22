@@ -79,8 +79,8 @@ class DecryptXDynosaurResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.decrypt_x_dynosaur_response_data import DecryptXDynosaurResponseData
-        from ..models.x_dynosaur_header import XDynosaurHeader
+        from ..models.decrypt_x_dynosaur_response_data import DecryptXDynosaurResponseData  # noqa: PLC0415
+        from ..models.x_dynosaur_header import XDynosaurHeader  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

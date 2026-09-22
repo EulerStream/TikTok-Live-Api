@@ -49,8 +49,12 @@ class WebcastRoomCommentsToggleResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_comments_toggle_response_data import WebcastRoomCommentsToggleResponseData
-        from ..models.webcast_room_comments_toggle_response_extra import WebcastRoomCommentsToggleResponseExtra
+        from ..models.webcast_room_comments_toggle_response_data import (
+            WebcastRoomCommentsToggleResponseData,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_comments_toggle_response_extra import (
+            WebcastRoomCommentsToggleResponseExtra,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         data = WebcastRoomCommentsToggleResponseData.from_dict(d.pop("data"))

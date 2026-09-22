@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RegionOverviewRankingsItem(str, Enum):
+class RegionOverviewRankingsItem(StrEnum):
     DAILY_RANK = "DAILY_RANK"
     FANS_TEAM_RANK = "FANS_TEAM_RANK"
     RANKING_LEAGUE = "RANKING_LEAGUE"

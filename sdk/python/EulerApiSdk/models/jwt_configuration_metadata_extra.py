@@ -11,8 +11,6 @@ T = TypeVar("T", bound="JWTConfigurationMetadataExtra")
 
 @_attrs_define
 class JWTConfigurationMetadataExtra:
-    """ """
-
     additional_properties: dict[str, float | str] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

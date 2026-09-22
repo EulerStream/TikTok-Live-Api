@@ -120,8 +120,8 @@ class NormalGiftItem:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.gift_gallery_sponsor_info import GiftGallerySponsorInfo
-        from ..models.normal_gift_item_biz_extra import NormalGiftItemBizExtra
+        from ..models.gift_gallery_sponsor_info import GiftGallerySponsorInfo  # noqa: PLC0415
+        from ..models.normal_gift_item_biz_extra import NormalGiftItemBizExtra  # noqa: PLC0415
 
         d = dict(src_dict)
         unlighted_image_url = d.pop("unlighted_image_url")

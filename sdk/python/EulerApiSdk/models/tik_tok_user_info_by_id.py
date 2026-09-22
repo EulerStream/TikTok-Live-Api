@@ -113,8 +113,8 @@ class TikTokUserInfoById:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.tik_tok_user_info_by_id_follow_info import TikTokUserInfoByIdFollowInfo
-        from ..models.tik_tok_user_info_by_id_image import TikTokUserInfoByIdImage
+        from ..models.tik_tok_user_info_by_id_follow_info import TikTokUserInfoByIdFollowInfo  # noqa: PLC0415
+        from ..models.tik_tok_user_info_by_id_image import TikTokUserInfoByIdImage  # noqa: PLC0415
 
         d = dict(src_dict)
         id_str = d.pop("id_str")

@@ -63,8 +63,8 @@ class OAuthIntrospectResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.introspection_response import IntrospectionResponse
-        from ..models.token_error_response import TokenErrorResponse
+        from ..models.introspection_response import IntrospectionResponse  # noqa: PLC0415
+        from ..models.token_error_response import TokenErrorResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

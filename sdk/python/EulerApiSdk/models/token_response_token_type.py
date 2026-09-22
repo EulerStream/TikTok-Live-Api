@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class TokenResponseTokenType(str, Enum):
+class TokenResponseTokenType(StrEnum):
     BEARER = "Bearer"
 
     def __str__(self) -> str:

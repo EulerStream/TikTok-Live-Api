@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class StableStreamQuality(str, Enum):
+class StableStreamQuality(StrEnum):
     AUDIO_ONLY = "AUDIO_ONLY"
     AUTO = "AUTO"
     HD = "HD"

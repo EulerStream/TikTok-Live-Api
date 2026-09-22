@@ -54,7 +54,7 @@ class OAuthUserInfoResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.tik_tok_o_auth_user_info import TikTokOAuthUserInfo
+        from ..models.tik_tok_o_auth_user_info import TikTokOAuthUserInfo  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

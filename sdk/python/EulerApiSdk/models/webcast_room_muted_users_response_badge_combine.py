@@ -96,10 +96,12 @@ class WebcastRoomMutedUsersResponseBadgeCombine:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_room_muted_users_response_badge_background import (
-            WebcastRoomMutedUsersResponseBadgeBackground,
+            WebcastRoomMutedUsersResponseBadgeBackground,  # noqa: PLC0415
         )
-        from ..models.webcast_room_muted_users_response_badge_text import WebcastRoomMutedUsersResponseBadgeText
-        from ..models.webcast_room_muted_users_response_image import WebcastRoomMutedUsersResponseImage
+        from ..models.webcast_room_muted_users_response_badge_text import (
+            WebcastRoomMutedUsersResponseBadgeText,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_muted_users_response_image import WebcastRoomMutedUsersResponseImage  # noqa: PLC0415
 
         d = dict(src_dict)
         background = WebcastRoomMutedUsersResponseBadgeBackground.from_dict(d.pop("background"))

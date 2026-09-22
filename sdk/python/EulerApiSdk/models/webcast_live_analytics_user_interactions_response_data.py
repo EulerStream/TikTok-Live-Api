@@ -92,10 +92,10 @@ class WebcastLiveAnalyticsUserInteractionsResponseData:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_user_interactions_response_comment import (
-            WebcastLiveAnalyticsUserInteractionsResponseComment,
+            WebcastLiveAnalyticsUserInteractionsResponseComment,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_user_interactions_response_user import (
-            WebcastLiveAnalyticsUserInteractionsResponseUser,
+            WebcastLiveAnalyticsUserInteractionsResponseUser,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

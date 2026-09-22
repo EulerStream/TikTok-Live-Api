@@ -66,8 +66,8 @@ class RetrieveTikTokUserDetailedResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.tik_tok_user_detailed_user import TikTokUserDetailedUser
-        from ..models.tik_tok_user_detailed_video import TikTokUserDetailedVideo
+        from ..models.tik_tok_user_detailed_user import TikTokUserDetailedUser  # noqa: PLC0415
+        from ..models.tik_tok_user_detailed_video import TikTokUserDetailedVideo  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

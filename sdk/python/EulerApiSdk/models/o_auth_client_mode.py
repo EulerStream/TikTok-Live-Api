@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class OAuthClientMode(str, Enum):
+class OAuthClientMode(StrEnum):
     AUTO = "auto"
     DARK = "dark"
     LIGHT = "light"

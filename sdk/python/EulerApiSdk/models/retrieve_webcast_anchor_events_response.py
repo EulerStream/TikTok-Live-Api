@@ -69,7 +69,7 @@ class RetrieveWebcastAnchorEventsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_event_list_item import WebcastEventListItem
+        from ..models.webcast_event_list_item import WebcastEventListItem  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

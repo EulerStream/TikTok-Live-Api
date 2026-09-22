@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class SignTikTokUrlBodyMethod(str, Enum):
+class SignTikTokUrlBodyMethod(StrEnum):
     DELETE = "DELETE"
     GET = "GET"
     HEAD = "HEAD"

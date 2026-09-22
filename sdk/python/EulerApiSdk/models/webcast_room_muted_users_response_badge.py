@@ -111,10 +111,14 @@ class WebcastRoomMutedUsersResponseBadge:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_muted_users_response_badge_combine import WebcastRoomMutedUsersResponseBadgeCombine
-        from ..models.webcast_room_muted_users_response_badge_text import WebcastRoomMutedUsersResponseBadgeText
+        from ..models.webcast_room_muted_users_response_badge_combine import (
+            WebcastRoomMutedUsersResponseBadgeCombine,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_muted_users_response_badge_text import (
+            WebcastRoomMutedUsersResponseBadgeText,  # noqa: PLC0415
+        )
         from ..models.webcast_room_muted_users_response_privilege_log_extra import (
-            WebcastRoomMutedUsersResponsePrivilegeLogExtra,
+            WebcastRoomMutedUsersResponsePrivilegeLogExtra,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

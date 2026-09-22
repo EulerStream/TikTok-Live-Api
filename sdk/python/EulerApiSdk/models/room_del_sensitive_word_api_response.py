@@ -54,7 +54,9 @@ class RoomDelSensitiveWordAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_del_sensitive_word_route_output import WebcastRoomDelSensitiveWordRouteOutput
+        from ..models.webcast_room_del_sensitive_word_route_output import (
+            WebcastRoomDelSensitiveWordRouteOutput,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         code = d.pop("code")

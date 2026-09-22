@@ -63,8 +63,8 @@ class OAuthTokenResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.token_error_response import TokenErrorResponse
-        from ..models.token_response import TokenResponse
+        from ..models.token_error_response import TokenErrorResponse  # noqa: PLC0415
+        from ..models.token_response import TokenResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

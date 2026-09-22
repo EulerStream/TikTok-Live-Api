@@ -54,7 +54,7 @@ class RetrieveAccountResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.account_with_permissions_safe import AccountWithPermissionsSafe
+        from ..models.account_with_permissions_safe import AccountWithPermissionsSafe  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

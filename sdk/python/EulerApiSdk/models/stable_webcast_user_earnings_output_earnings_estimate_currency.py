@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class StableWebcastUserEarningsOutputEarningsEstimateCurrency(str, Enum):
+class StableWebcastUserEarningsOutputEarningsEstimateCurrency(StrEnum):
     USD = "USD"
 
     def __str__(self) -> str:

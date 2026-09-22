@@ -54,7 +54,7 @@ class RoomAdminUpdateAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_admin_update_route_output import WebcastRoomAdminUpdateRouteOutput
+        from ..models.webcast_room_admin_update_route_output import WebcastRoomAdminUpdateRouteOutput  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

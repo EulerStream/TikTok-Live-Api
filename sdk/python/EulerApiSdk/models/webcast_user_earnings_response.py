@@ -54,7 +54,7 @@ class WebcastUserEarningsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.stable_webcast_user_earnings_output import StableWebcastUserEarningsOutput
+        from ..models.stable_webcast_user_earnings_output import StableWebcastUserEarningsOutput  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

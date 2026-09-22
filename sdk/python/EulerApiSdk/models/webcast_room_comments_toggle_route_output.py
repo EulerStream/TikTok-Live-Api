@@ -38,7 +38,7 @@ class WebcastRoomCommentsToggleRouteOutput:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_comments_toggle_response import WebcastRoomCommentsToggleResponse
+        from ..models.webcast_room_comments_toggle_response import WebcastRoomCommentsToggleResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastRoomCommentsToggleResponse.from_dict(d.pop("data"))

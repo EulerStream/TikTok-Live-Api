@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class WebcastFetchPlatform(str, Enum):
+class WebcastFetchPlatform(StrEnum):
     MOBILE = "mobile"
     WEB = "web"
 

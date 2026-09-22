@@ -71,7 +71,7 @@ class WebcastLiveAnalyticsUserInteractionsResponseUserAttr:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_user_interactions_response_user_attr_admin_permissions import (
-            WebcastLiveAnalyticsUserInteractionsResponseUserAttrAdminPermissions,
+            WebcastLiveAnalyticsUserInteractionsResponseUserAttrAdminPermissions,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

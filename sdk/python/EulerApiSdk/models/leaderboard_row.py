@@ -53,7 +53,7 @@ class LeaderboardRow:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.leaderboard_row_user import LeaderboardRowUser
+        from ..models.leaderboard_row_user import LeaderboardRowUser  # noqa: PLC0415
 
         d = dict(src_dict)
         rank = d.pop("rank")

@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class PeerRole(str, Enum):
+class PeerRole(StrEnum):
     ENTERPRISE = "enterprise"
     PUBLIC = "public"
     STAGING = "staging"

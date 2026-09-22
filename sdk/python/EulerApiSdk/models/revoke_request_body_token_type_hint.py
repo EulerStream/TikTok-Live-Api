@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RevokeRequestBodyTokenTypeHint(str, Enum):
+class RevokeRequestBodyTokenTypeHint(StrEnum):
     ACCESS_TOKEN = "access_token"
     REFRESH_TOKEN = "refresh_token"
 

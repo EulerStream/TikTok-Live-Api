@@ -11,8 +11,6 @@ T = TypeVar("T", bound="SignedJWTConfigurationExtra")
 
 @_attrs_define
 class SignedJWTConfigurationExtra:
-    """ """
-
     additional_properties: dict[str, float | str] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:

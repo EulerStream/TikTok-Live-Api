@@ -54,7 +54,7 @@ class RoomModeratorsAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_admin_list_route_output import WebcastRoomAdminListRouteOutput
+        from ..models.webcast_room_admin_list_route_output import WebcastRoomAdminListRouteOutput  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

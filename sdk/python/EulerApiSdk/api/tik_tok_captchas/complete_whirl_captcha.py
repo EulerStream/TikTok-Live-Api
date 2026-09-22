@@ -25,6 +25,8 @@ def _get_kwargs(
 
     _kwargs["files"] = body.to_multipart()
 
+    headers["Content-Type"] = "multipart/form-data; boundary=+++"
+
     _kwargs["headers"] = headers
     return _kwargs
 
@@ -69,11 +71,11 @@ def sync_detailed(
     client: AuthenticatedClient,
     body: CompleteWhirlCaptchaBody,
 ) -> Response[CompleteWhirlCaptchaResponse429 | CompleteWhirlCaptchaResponse500 | WhirlCaptchaResponse]:
-    r"""The whirl captcha requires two images: the outer image and the inner image.
+    """The whirl captcha requires two images: the outer image and the inner image.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/rotate.png\" alt=\"Whirl Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/rotate.png" alt="Whirl Captcha Example"
+    width="480" />
 
     ## Usage
 
@@ -112,11 +114,11 @@ def sync(
     client: AuthenticatedClient,
     body: CompleteWhirlCaptchaBody,
 ) -> CompleteWhirlCaptchaResponse429 | CompleteWhirlCaptchaResponse500 | WhirlCaptchaResponse | None:
-    r"""The whirl captcha requires two images: the outer image and the inner image.
+    """The whirl captcha requires two images: the outer image and the inner image.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/rotate.png\" alt=\"Whirl Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/rotate.png" alt="Whirl Captcha Example"
+    width="480" />
 
     ## Usage
 
@@ -150,11 +152,11 @@ async def asyncio_detailed(
     client: AuthenticatedClient,
     body: CompleteWhirlCaptchaBody,
 ) -> Response[CompleteWhirlCaptchaResponse429 | CompleteWhirlCaptchaResponse500 | WhirlCaptchaResponse]:
-    r"""The whirl captcha requires two images: the outer image and the inner image.
+    """The whirl captcha requires two images: the outer image and the inner image.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/rotate.png\" alt=\"Whirl Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/rotate.png" alt="Whirl Captcha Example"
+    width="480" />
 
     ## Usage
 
@@ -191,11 +193,11 @@ async def asyncio(
     client: AuthenticatedClient,
     body: CompleteWhirlCaptchaBody,
 ) -> CompleteWhirlCaptchaResponse429 | CompleteWhirlCaptchaResponse500 | WhirlCaptchaResponse | None:
-    r"""The whirl captcha requires two images: the outer image and the inner image.
+    """The whirl captcha requires two images: the outer image and the inner image.
 
     ## Example Image
-    <img src=\"https://www.eulerstream.com/_static/captchas/rotate.png\" alt=\"Whirl Captcha Example\"
-    width=\"480\" />
+    <img src="https://www.eulerstream.com/_static/captchas/rotate.png" alt="Whirl Captcha Example"
+    width="480" />
 
     ## Usage
 

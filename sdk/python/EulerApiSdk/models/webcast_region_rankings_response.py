@@ -60,7 +60,7 @@ class WebcastRegionRankingsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_region_rankings_output import WebcastRegionRankingsOutput
+        from ..models.webcast_region_rankings_output import WebcastRegionRankingsOutput  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

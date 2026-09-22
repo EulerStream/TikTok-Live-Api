@@ -44,7 +44,7 @@ class WebcastRoomAddSensitiveWordResponseData:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_room_add_sensitive_word_response_data_words_item import (
-            WebcastRoomAddSensitiveWordResponseDataWordsItem,
+            WebcastRoomAddSensitiveWordResponseDataWordsItem,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

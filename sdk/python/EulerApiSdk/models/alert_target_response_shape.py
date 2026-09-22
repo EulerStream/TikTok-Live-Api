@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING, Any, TypeVar
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
-from dateutil.parser import isoparse
 
 from ..models.live_push_alert_target_format import LivePushAlertTargetFormat
 from ..models.live_push_alert_target_status import LivePushAlertTargetStatus
@@ -92,7 +91,7 @@ class AlertTargetResponseShape:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.alert_target_response_shape_metadata import AlertTargetResponseShapeMetadata
+        from ..models.alert_target_response_shape_metadata import AlertTargetResponseShapeMetadata  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id")
@@ -111,9 +110,9 @@ class AlertTargetResponseShape:
 
         format_ = LivePushAlertTargetFormat(d.pop("format"))
 
-        created_at = isoparse(d.pop("created_at"))
+        created_at = datetime.datetime.fromisoformat(d.pop("created_at"))
 
-        updated_at = isoparse(d.pop("updated_at"))
+        updated_at = datetime.datetime.fromisoformat(d.pop("updated_at"))
 
         alert_target_response_shape = cls(
             id=id,

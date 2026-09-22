@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RouteImageSource(str, Enum):
+class RouteImageSource(StrEnum):
     CDN = "CDN"
     CDN_CNAME = "CDN_CNAME"
     ORIGIN = "ORIGIN"

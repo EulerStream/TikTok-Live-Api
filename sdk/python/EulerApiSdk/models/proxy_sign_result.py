@@ -85,9 +85,9 @@ class ProxySignResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.proxy_sign_result_cookies_item import ProxySignResultCookiesItem
-        from ..models.proxy_sign_result_request_headers import ProxySignResultRequestHeaders
-        from ..models.proxy_sign_result_tokens import ProxySignResultTokens
+        from ..models.proxy_sign_result_cookies_item import ProxySignResultCookiesItem  # noqa: PLC0415
+        from ..models.proxy_sign_result_request_headers import ProxySignResultRequestHeaders  # noqa: PLC0415
+        from ..models.proxy_sign_result_tokens import ProxySignResultTokens  # noqa: PLC0415
 
         d = dict(src_dict)
         signed_url = d.pop("signedUrl", UNSET)

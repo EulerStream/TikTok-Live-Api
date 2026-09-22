@@ -59,8 +59,8 @@ class RoomGiftsResult:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.room_gifts_result_gift_overrides import RoomGiftsResultGiftOverrides
-        from ..models.room_gifts_result_panel_refresh_data import RoomGiftsResultPanelRefreshData
+        from ..models.room_gifts_result_gift_overrides import RoomGiftsResultGiftOverrides  # noqa: PLC0415
+        from ..models.room_gifts_result_panel_refresh_data import RoomGiftsResultPanelRefreshData  # noqa: PLC0415
 
         d = dict(src_dict)
         room_id = d.pop("room_id")

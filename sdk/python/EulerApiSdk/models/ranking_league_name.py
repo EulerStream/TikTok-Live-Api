@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RankingLeagueName(str, Enum):
+class RankingLeagueName(StrEnum):
     A1 = "A1"
     A2 = "A2"
     A3 = "A3"

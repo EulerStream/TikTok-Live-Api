@@ -56,7 +56,7 @@ class IconCaptchaResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.icons_result import IconsResult
+        from ..models.icons_result import IconsResult  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

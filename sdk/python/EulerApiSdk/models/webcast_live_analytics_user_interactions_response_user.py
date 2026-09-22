@@ -410,16 +410,16 @@ class WebcastLiveAnalyticsUserInteractionsResponseUser:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_live_analytics_user_interactions_response_enigma_info import (
-            WebcastLiveAnalyticsUserInteractionsResponseEnigmaInfo,
+            WebcastLiveAnalyticsUserInteractionsResponseEnigmaInfo,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_user_interactions_response_image import (
-            WebcastLiveAnalyticsUserInteractionsResponseImage,
+            WebcastLiveAnalyticsUserInteractionsResponseImage,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_user_interactions_response_pay_grade import (
-            WebcastLiveAnalyticsUserInteractionsResponsePayGrade,
+            WebcastLiveAnalyticsUserInteractionsResponsePayGrade,  # noqa: PLC0415
         )
         from ..models.webcast_live_analytics_user_interactions_response_user_attr import (
-            WebcastLiveAnalyticsUserInteractionsResponseUserAttr,
+            WebcastLiveAnalyticsUserInteractionsResponseUserAttr,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

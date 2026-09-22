@@ -130,7 +130,7 @@ class WebcastEventHost:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_event_image import WebcastEventImage
+        from ..models.webcast_event_image import WebcastEventImage  # noqa: PLC0415
 
         d = dict(src_dict)
         uid = d.pop("uid")

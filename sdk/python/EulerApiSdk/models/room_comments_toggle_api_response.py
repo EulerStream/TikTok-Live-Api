@@ -54,7 +54,9 @@ class RoomCommentsToggleAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_comments_toggle_route_output import WebcastRoomCommentsToggleRouteOutput
+        from ..models.webcast_room_comments_toggle_route_output import (
+            WebcastRoomCommentsToggleRouteOutput,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         code = d.pop("code")

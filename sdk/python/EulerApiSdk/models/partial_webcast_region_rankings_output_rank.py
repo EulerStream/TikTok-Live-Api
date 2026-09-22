@@ -64,7 +64,9 @@ class PartialWebcastRegionRankingsOutputRank:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.partial_webcast_region_rankings_output_rank_user import PartialWebcastRegionRankingsOutputRankUser
+        from ..models.partial_webcast_region_rankings_output_rank_user import (
+            PartialWebcastRegionRankingsOutputRankUser,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         rank = d.pop("rank", UNSET)

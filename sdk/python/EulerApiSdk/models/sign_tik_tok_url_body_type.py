@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class SignTikTokUrlBodyType(str, Enum):
+class SignTikTokUrlBodyType(StrEnum):
     FETCH = "fetch"
     XHR = "xhr"
 

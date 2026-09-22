@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class WebcastUserEarningsOutputPeriod(str, Enum):
+class WebcastUserEarningsOutputPeriod(StrEnum):
     DAILY = "daily"
 
     def __str__(self) -> str:

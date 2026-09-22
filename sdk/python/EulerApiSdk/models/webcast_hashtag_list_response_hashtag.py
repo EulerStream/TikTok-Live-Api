@@ -53,7 +53,7 @@ class WebcastHashtagListResponseHashtag:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_hashtag_list_response_image import WebcastHashtagListResponseImage
+        from ..models.webcast_hashtag_list_response_image import WebcastHashtagListResponseImage  # noqa: PLC0415
 
         d = dict(src_dict)
         id = d.pop("id")

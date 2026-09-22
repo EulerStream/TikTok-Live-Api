@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class OAuthScope(str, Enum):
+class OAuthScope(StrEnum):
     USERCONSENTS = "user:consents"
     USERINFO = "user:info"
     WEBCASTBAN = "webcast:ban"

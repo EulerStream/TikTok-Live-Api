@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class XDynosaurScriptVersion(str, Enum):
+class XDynosaurScriptVersion(StrEnum):
     VALUE_0 = "5.3.0"
 
     def __str__(self) -> str:

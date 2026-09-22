@@ -41,7 +41,7 @@ class WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptions:
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
         from ..models.webcast_feed_response_stream_url_live_core_sdk_data_pull_data_options_default_quality import (
-            WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptionsDefaultQuality,
+            WebcastFeedResponseStreamUrlLiveCoreSdkDataPullDataOptionsDefaultQuality,  # noqa: PLC0415
         )
 
         d = dict(src_dict)

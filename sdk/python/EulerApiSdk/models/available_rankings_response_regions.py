@@ -15,8 +15,6 @@ T = TypeVar("T", bound="AvailableRankingsResponseRegions")
 
 @_attrs_define
 class AvailableRankingsResponseRegions:
-    """ """
-
     additional_properties: dict[str, RegionOverview] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
@@ -28,7 +26,7 @@ class AvailableRankingsResponseRegions:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.region_overview import RegionOverview
+        from ..models.region_overview import RegionOverview  # noqa: PLC0415
 
         d = dict(src_dict)
         available_rankings_response_regions = cls()

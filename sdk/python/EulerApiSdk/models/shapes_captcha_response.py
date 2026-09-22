@@ -56,7 +56,7 @@ class ShapesCaptchaResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.shapes_result import ShapesResult
+        from ..models.shapes_result import ShapesResult  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

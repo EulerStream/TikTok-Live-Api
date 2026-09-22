@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class JWTConfigurationMetadataVersion(str, Enum):
+class JWTConfigurationMetadataVersion(StrEnum):
     V1 = "v1"
     V2 = "v2"
 

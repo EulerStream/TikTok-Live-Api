@@ -81,8 +81,8 @@ class UserHistoryResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.user_history_point import UserHistoryPoint
-        from ..models.user_history_response_user import UserHistoryResponseUser
+        from ..models.user_history_point import UserHistoryPoint  # noqa: PLC0415
+        from ..models.user_history_response_user import UserHistoryResponseUser  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

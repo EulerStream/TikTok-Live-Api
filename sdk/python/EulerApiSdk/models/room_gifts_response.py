@@ -54,7 +54,7 @@ class RoomGiftsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.room_gifts_result import RoomGiftsResult
+        from ..models.room_gifts_result import RoomGiftsResult  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

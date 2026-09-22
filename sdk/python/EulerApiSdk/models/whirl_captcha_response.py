@@ -56,7 +56,7 @@ class WhirlCaptchaResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.whirl_result import WhirlResult
+        from ..models.whirl_result import WhirlResult  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

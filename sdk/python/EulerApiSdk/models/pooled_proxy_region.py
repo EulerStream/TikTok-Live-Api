@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class PooledProxyRegion(str, Enum):
+class PooledProxyRegion(StrEnum):
     AD = "AD"
     AE = "AE"
     AL = "AL"

@@ -52,8 +52,8 @@ class WebcastFeedResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_feed_response_extra import WebcastFeedResponseExtra
-        from ..models.webcast_feed_response_item import WebcastFeedResponseItem
+        from ..models.webcast_feed_response_extra import WebcastFeedResponseExtra  # noqa: PLC0415
+        from ..models.webcast_feed_response_item import WebcastFeedResponseItem  # noqa: PLC0415
 
         d = dict(src_dict)
         status_code = d.pop("status_code")

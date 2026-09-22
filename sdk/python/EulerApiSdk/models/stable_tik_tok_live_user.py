@@ -63,9 +63,9 @@ class StableTikTokLiveUser:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.stable_tik_tok_live_user_raw import StableTikTokLiveUserRaw
-        from ..models.stable_tik_tok_room import StableTikTokRoom
-        from ..models.stable_tik_tok_room_user import StableTikTokRoomUser
+        from ..models.stable_tik_tok_live_user_raw import StableTikTokLiveUserRaw  # noqa: PLC0415
+        from ..models.stable_tik_tok_room import StableTikTokRoom  # noqa: PLC0415
+        from ..models.stable_tik_tok_room_user import StableTikTokRoomUser  # noqa: PLC0415
 
         d = dict(src_dict)
         unique_id = d.pop("unique_id")

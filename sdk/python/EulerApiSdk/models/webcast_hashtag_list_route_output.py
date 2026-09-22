@@ -38,7 +38,7 @@ class WebcastHashtagListRouteOutput:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_hashtag_list_response import WebcastHashtagListResponse
+        from ..models.webcast_hashtag_list_response import WebcastHashtagListResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastHashtagListResponse.from_dict(d.pop("data"))

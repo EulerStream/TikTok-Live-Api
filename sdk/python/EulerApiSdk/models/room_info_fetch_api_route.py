@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RoomInfoFetchApiRoute(str, Enum):
+class RoomInfoFetchApiRoute(StrEnum):
     ALERTS = "ALERTS"
     API_LIVE = "API_LIVE"
     CACHE = "CACHE"

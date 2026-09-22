@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class DeleteKeyDeleteBy(str, Enum):
+class DeleteKeyDeleteBy(StrEnum):
     ID = "id"
     VALUE = "value"
 

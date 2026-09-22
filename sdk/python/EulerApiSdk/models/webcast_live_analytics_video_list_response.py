@@ -49,8 +49,12 @@ class WebcastLiveAnalyticsVideoListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_live_analytics_video_list_response_data import WebcastLiveAnalyticsVideoListResponseData
-        from ..models.webcast_live_analytics_video_list_response_extra import WebcastLiveAnalyticsVideoListResponseExtra
+        from ..models.webcast_live_analytics_video_list_response_data import (
+            WebcastLiveAnalyticsVideoListResponseData,  # noqa: PLC0415
+        )
+        from ..models.webcast_live_analytics_video_list_response_extra import (
+            WebcastLiveAnalyticsVideoListResponseExtra,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         data = WebcastLiveAnalyticsVideoListResponseData.from_dict(d.pop("data"))

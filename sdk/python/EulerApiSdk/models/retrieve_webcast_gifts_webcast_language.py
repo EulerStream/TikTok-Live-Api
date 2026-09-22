@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RetrieveWebcastGiftsWebcastLanguage(str, Enum):
+class RetrieveWebcastGiftsWebcastLanguage(StrEnum):
     EN = "en"
 
     def __str__(self) -> str:

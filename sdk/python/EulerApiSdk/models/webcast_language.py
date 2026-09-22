@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class WebcastLanguage(str, Enum):
+class WebcastLanguage(StrEnum):
     AA = "aa"
     AB = "ab"
     AF = "af"

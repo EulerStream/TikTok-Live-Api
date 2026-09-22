@@ -73,7 +73,9 @@ class UserLeaderboardsResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.user_leaderboards_response_leaderboards import UserLeaderboardsResponseLeaderboards
+        from ..models.user_leaderboards_response_leaderboards import (
+            UserLeaderboardsResponseLeaderboards,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         code = d.pop("code")

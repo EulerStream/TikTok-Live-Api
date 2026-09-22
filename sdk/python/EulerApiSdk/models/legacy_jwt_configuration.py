@@ -63,8 +63,8 @@ class LegacyJWTConfiguration:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.accounts_table_request_limits import AccountsTableRequestLimits
-        from ..models.jwt_configuration_web_socket_data import JWTConfigurationWebSocketData
+        from ..models.accounts_table_request_limits import AccountsTableRequestLimits  # noqa: PLC0415
+        from ..models.jwt_configuration_web_socket_data import JWTConfigurationWebSocketData  # noqa: PLC0415
 
         d = dict(src_dict)
         expire_after = d.pop("expireAfter")

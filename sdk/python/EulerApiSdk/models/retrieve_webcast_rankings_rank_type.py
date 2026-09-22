@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class RetrieveWebcastRankingsRankType(str, Enum):
+class RetrieveWebcastRankingsRankType(StrEnum):
     DAILY_RANK = "DAILY_RANK"
     FANS_TEAM_RANK = "FANS_TEAM_RANK"
 

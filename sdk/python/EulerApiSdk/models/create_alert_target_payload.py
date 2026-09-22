@@ -48,7 +48,7 @@ class CreateAlertTargetPayload:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.create_alert_target_payload_metadata import CreateAlertTargetPayloadMetadata
+        from ..models.create_alert_target_payload_metadata import CreateAlertTargetPayloadMetadata  # noqa: PLC0415
 
         d = dict(src_dict)
         url = d.pop("url")

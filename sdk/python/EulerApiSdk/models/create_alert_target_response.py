@@ -57,7 +57,7 @@ class CreateAlertTargetResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.alert_target_response_shape import AlertTargetResponseShape
+        from ..models.alert_target_response_shape import AlertTargetResponseShape  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

@@ -55,7 +55,7 @@ class WebcastGiftGalleryResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_gift_gallery_data import WebcastGiftGalleryData
+        from ..models.webcast_gift_gallery_data import WebcastGiftGalleryData  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

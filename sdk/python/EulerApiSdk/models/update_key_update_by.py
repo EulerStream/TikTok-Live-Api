@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class UpdateKeyUpdateBy(str, Enum):
+class UpdateKeyUpdateBy(StrEnum):
     ID = "id"
     VALUE = "value"
 

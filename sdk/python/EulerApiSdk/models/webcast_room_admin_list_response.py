@@ -52,8 +52,8 @@ class WebcastRoomAdminListResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_admin_list_response_admin import WebcastRoomAdminListResponseAdmin
-        from ..models.webcast_room_admin_list_response_extra import WebcastRoomAdminListResponseExtra
+        from ..models.webcast_room_admin_list_response_admin import WebcastRoomAdminListResponseAdmin  # noqa: PLC0415
+        from ..models.webcast_room_admin_list_response_extra import WebcastRoomAdminListResponseExtra  # noqa: PLC0415
 
         d = dict(src_dict)
         data = []

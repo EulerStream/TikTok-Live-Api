@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class PeerPresenceType(str, Enum):
+class PeerPresenceType(StrEnum):
     AGENT = "agent"
     API = "api"
 

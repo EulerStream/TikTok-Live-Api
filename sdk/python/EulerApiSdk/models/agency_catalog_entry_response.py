@@ -54,7 +54,7 @@ class AgencyCatalogEntryResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.agency_catalog_entry import AgencyCatalogEntry
+        from ..models.agency_catalog_entry import AgencyCatalogEntry  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

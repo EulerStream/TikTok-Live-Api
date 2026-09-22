@@ -38,7 +38,7 @@ class WebcastRoomAdminUpdateRouteOutput:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_admin_update_response import WebcastRoomAdminUpdateResponse
+        from ..models.webcast_room_admin_update_response import WebcastRoomAdminUpdateResponse  # noqa: PLC0415
 
         d = dict(src_dict)
         data = WebcastRoomAdminUpdateResponse.from_dict(d.pop("data"))

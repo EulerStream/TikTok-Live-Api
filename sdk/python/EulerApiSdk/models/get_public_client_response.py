@@ -54,7 +54,7 @@ class GetPublicClientResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.public_o_auth_client_info import PublicOAuthClientInfo
+        from ..models.public_o_auth_client_info import PublicOAuthClientInfo  # noqa: PLC0415
 
         d = dict(src_dict)
         code = d.pop("code")

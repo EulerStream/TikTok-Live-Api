@@ -54,7 +54,9 @@ class LiveAnalyticsVideoListAPIResponse:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_live_analytics_video_list_route_output import WebcastLiveAnalyticsVideoListRouteOutput
+        from ..models.webcast_live_analytics_video_list_route_output import (
+            WebcastLiveAnalyticsVideoListRouteOutput,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         code = d.pop("code")

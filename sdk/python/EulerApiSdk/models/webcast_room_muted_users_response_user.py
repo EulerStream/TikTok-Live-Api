@@ -419,12 +419,20 @@ class WebcastRoomMutedUsersResponseUser:
 
     @classmethod
     def from_dict(cls: type[T], src_dict: Mapping[str, Any]) -> T:
-        from ..models.webcast_room_muted_users_response_badge import WebcastRoomMutedUsersResponseBadge
-        from ..models.webcast_room_muted_users_response_enigma_info import WebcastRoomMutedUsersResponseEnigmaInfo
-        from ..models.webcast_room_muted_users_response_follow_info import WebcastRoomMutedUsersResponseFollowInfo
-        from ..models.webcast_room_muted_users_response_image import WebcastRoomMutedUsersResponseImage
-        from ..models.webcast_room_muted_users_response_pay_grade import WebcastRoomMutedUsersResponsePayGrade
-        from ..models.webcast_room_muted_users_response_user_attr import WebcastRoomMutedUsersResponseUserAttr
+        from ..models.webcast_room_muted_users_response_badge import WebcastRoomMutedUsersResponseBadge  # noqa: PLC0415
+        from ..models.webcast_room_muted_users_response_enigma_info import (
+            WebcastRoomMutedUsersResponseEnigmaInfo,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_muted_users_response_follow_info import (
+            WebcastRoomMutedUsersResponseFollowInfo,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_muted_users_response_image import WebcastRoomMutedUsersResponseImage  # noqa: PLC0415
+        from ..models.webcast_room_muted_users_response_pay_grade import (
+            WebcastRoomMutedUsersResponsePayGrade,  # noqa: PLC0415
+        )
+        from ..models.webcast_room_muted_users_response_user_attr import (
+            WebcastRoomMutedUsersResponseUserAttr,  # noqa: PLC0415
+        )
 
         d = dict(src_dict)
         allow_find_by_contacts = d.pop("allow_find_by_contacts")
