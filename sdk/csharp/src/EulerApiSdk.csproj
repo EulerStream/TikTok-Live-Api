@@ -13,7 +13,7 @@
     <Description>TikTok LIVE API SDK for C# / .NET. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed async clients for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics. Free tier available at https://www.eulerstream.com</Description>
     <Copyright>Copyright (c) EulerStream</Copyright>
     <RootNamespace>EulerApiSdk</RootNamespace>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EulerApiSdk.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/EulerStream/TikTok-Live-Api.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

@@ -1,6 +1,6 @@
 {
   "name": "tiktok-live-api-sdk",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "TikTok LIVE API SDK for Node.js & TypeScript. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
