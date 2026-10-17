@@ -230,6 +230,18 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
+      # The ubuntu-24.04 runner image (20261012+) ships Maven 3.10.0, under which
+      # central-publishing-maven-plugin 0.11.0 leaves maven-metadata-local.xml and
+      # _remote.repositories in the Central bundle; the Portal then rejects the
+      # deployment with "Bundle has content that does NOT have a .pom file". Pin
+      # the last 3.9 release until the plugin strips those files (upstream PR #80).
+      - name: Pin Maven 3.9.16
+        run: |
+          curl -fsSL https://archive.apache.org/dist/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz \
+            | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/apache-maven-3.9.16/bin" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/apache-maven-3.9.16/bin/mvn" -v
+
       - name: Bump version
         working-directory: sdk/java
         run: |
