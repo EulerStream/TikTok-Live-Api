@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import EulerStreamApiClient from "../src/index.js";
+import TikTokLiveApiSdk from "../src/index.js";
 
 let passed = 0;
 let failed = 0;
@@ -17,19 +17,15 @@ async function test(name: string, fn: () => Promise<void>): Promise<void> {
 }
 
 (async () => {
-    console.log("\n--- E2E: EulerStreamApiClient tests ---\n");
+    console.log("\n--- E2E: TikTokLiveApiSdk tests ---\n");
 
-    const client = new EulerStreamApiClient();
+    const client = new TikTokLiveApiSdk();
 
-    await test("getHosts returns status 200", async () => {
-        const response = await client.analytics.getHosts();
+    // The hashtag list is a TikTok LIVE route that answers without an API key,
+    // which CI needs: the test workflow has no secrets.
+    await test("retrieveHashtagList returns status 200", async () => {
+        const response = await client.webcast.retrieveHashtagList();
         assert.strictEqual(response.status, 200, `expected status 200, got ${response.status}`);
-    });
-
-    await test("getHosts returns data with hosts array", async () => {
-        const response = await client.analytics.getHosts();
-        assert.ok(typeof response.data === "object" && response.data !== null, "response.data should be an object");
-        assert.ok(Array.isArray(response.data.hosts), "response.data.hosts should be an array");
     });
 
     // Summary

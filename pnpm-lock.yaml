@@ -35,7 +35,9 @@ importers:
 
   sdk/python: {}
 
-  sdk/typescript:
+  sdk/typescript/common: {}
+
+  sdk/typescript/live:
     dependencies:
       axios:
         specifier: ^1.9.0

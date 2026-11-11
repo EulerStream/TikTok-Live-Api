@@ -1,3 +1,5 @@
 packages:
   - "sdk/*"
+  - "sdk/typescript/*"
+  - "sdk/python/*"
   - "sdk-examples"

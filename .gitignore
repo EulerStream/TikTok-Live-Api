@@ -39,3 +39,8 @@ sdk/go/generated/go.sum
 test.py
 publish.sh
 .turbo
+
+# Generated SDK output: produced by `pnpm run generate`, never committed
+sdk/typescript/*/src/
+sdk/typescript/*/openapitools.json
+sdk/typescript/*/test/sdk-manifest.json

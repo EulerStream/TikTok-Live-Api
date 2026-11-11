@@ -1,0 +1,7 @@
+{
+  "name": "@eulerstream/sdk-typescript-common",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Hand-written sources shared by tiktok-live-api-sdk and tiktok-api-sdk. Not published; each package pulls these in when it is generated.",
+  "type": "module"
+}

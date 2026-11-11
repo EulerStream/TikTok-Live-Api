@@ -6,7 +6,7 @@ export * from './sdk';
 export * from './utils';
 
 // Export an API Client
-export default class EulerStreamApiClient {
+export class {{CLIENT_CLASS}} {
 
   {{API_PROPERTIES}}
   public readonly configuration: ClientConfiguration;
@@ -29,3 +29,10 @@ export default class EulerStreamApiClient {
   }
 
 }
+
+export default {{CLIENT_CLASS}};
+
+/** @deprecated Use {@link {{CLIENT_CLASS}}} instead. This name will be removed in a future major version. */
+export const EulerStreamApiClient = {{CLIENT_CLASS}};
+/** @deprecated Use {@link {{CLIENT_CLASS}}} instead. This name will be removed in a future major version. */
+export type EulerStreamApiClient = {{CLIENT_CLASS}};

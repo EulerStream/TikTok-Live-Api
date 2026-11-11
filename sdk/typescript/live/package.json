@@ -1,7 +1,7 @@
 {
   "name": "tiktok-live-api-sdk",
-  "version": "0.8.0",
-  "description": "TikTok LIVE API SDK for Node.js & TypeScript. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for webcast signing, rooms, gifts, rankings, LIVE alerts, moderation, captchas and analytics.",
+  "version": "0.0.0",
+  "description": "TikTok LIVE API SDK for Node.js & TypeScript. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for LIVE rooms, creators, gifts, rankings, LIVE alerts, moderation and agencies.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
@@ -12,15 +12,16 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "generate": "mkdir -p build && cp ../../spec/openapi.json ./build/openapi.json && python3 ../../.github/scripts/normalize_spec.py ./build/openapi.json && rm -rf ./src/sdk && npx @openapitools/openapi-generator-cli generate -i ./build/openapi.json -g typescript-axios -o ./src/sdk && tsx ./scripts/render-template.ts",
+    "generate": "tsx ../common/scripts/generate.ts",
     "build": "tsdown",
-    "test": "tsx ./test/basic.test.ts",
+    "test": "tsx ./test/basic.test.ts && tsx ./test/surface.test.ts && tsx ./test/aliases.test.ts && tsc --noEmit -p tsconfig.test.json",
+    "test:e2e": "tsx ./test/e2e.test.ts",
     "format": "prettier --write src/**/*.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EulerStream/TikTok-Live-Api.git",
-    "directory": "sdk/typescript"
+    "directory": "sdk/typescript/live"
   },
   "bugs": {
     "url": "https://github.com/EulerStream/TikTok-Live-Api/issues"
@@ -43,7 +44,6 @@
     "tiktok live events",
     "tiktok live alerts",
     "tiktok live moderation",
-    "tiktok signing",
     "eulerstream",
     "euler stream",
     "live",
