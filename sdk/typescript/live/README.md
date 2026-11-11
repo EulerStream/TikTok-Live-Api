@@ -25,7 +25,7 @@ yarn add tiktok-live-api-sdk
 
 Requires Node.js 18+. Ships ESM with bundled TypeScript declarations.
 
-## Quick start
+## TikTok LIVE API quick start
 
 1. [Create a free EulerStream account](https://www.eulerstream.com/register) (no credit card required)
 2. Copy your API key from the dashboard
@@ -54,7 +54,7 @@ const byUsername = await client.anchors.fetchWebcastURLByUniqueId("tv_asahi_news
 
 Every method returns an Axios response (`res.status`, `res.data`, `res.headers`). The client defaults to `https://api.eulerstream.com`; pass `basePath` to override it.
 
-## What you can build
+## What you can build with the TikTok LIVE API
 
 - **Live stream overlays** for OBS and browser sources showing TikTok LIVE chat, gifts and top gifters
 - **Gift and follow alerts** that trigger sounds, animations or webhooks in real time
@@ -63,7 +63,7 @@ Every method returns an Axios response (`res.status`, `res.data`, `res.headers`)
 - **Analytics dashboards** tracking diamonds, viewer retention and top supporters
 - **LIVE monitoring**: bulk "is this creator live?" checks and LIVE start/end alerts for thousands of accounts
 
-## API coverage
+## TikTok LIVE API coverage
 
 The client exposes one typed property per API group. Each is generated from the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi), so it always matches the live API.
 
