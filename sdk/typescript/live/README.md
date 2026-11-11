@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/tiktok-live-api-sdk?color=0274b5)](https://www.npmjs.com/package/tiktok-live-api-sdk)
 [![npm downloads](https://img.shields.io/npm/dm/tiktok-live-api-sdk)](https://www.npmjs.com/package/tiktok-live-api-sdk)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Live-Api/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
 `tiktok-live-api-sdk` is the official Node.js / TypeScript client for the [EulerStream TikTok LIVE API](https://www.eulerstream.com). Connect to any TikTok LIVE stream by `@username` and receive real-time **chat messages, gifts, likes, follows, shares, viewer counts, room stats and PK battles** over a managed WebSocket, plus fully typed clients for LIVE rooms, creators, gifts, rankings, LIVE alerts, moderation and agencies.
@@ -112,8 +112,8 @@ The TikTok LIVE API SDK is also available for [Python](https://pypi.org/project/
 - OpenAPI reference: [eulerstream.com/docs/openapi](https://www.eulerstream.com/docs/openapi)
 - Pricing (free tier available): [eulerstream.com/pricing](https://www.eulerstream.com/pricing)
 - Community: [Discord](https://www.eulerstream.com/discord)
-- Source and issues: [github.com/EulerStream/TikTok-Live-Api](https://github.com/EulerStream/TikTok-Live-Api)
+- Source and issues: [github.com/EulerStream/TikTok-Api-Sdk](https://github.com/EulerStream/TikTok-Api-Sdk)
 
 ## License
 
-[MIT](https://github.com/EulerStream/TikTok-Live-Api/blob/master/LICENSE) © EulerStream
+[MIT](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE) © EulerStream

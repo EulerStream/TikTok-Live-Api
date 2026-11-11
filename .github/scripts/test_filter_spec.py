@@ -228,13 +228,25 @@ class FilterSpecTests(unittest.TestCase):
         with open(PACKAGES_PATH, encoding="utf-8") as fh:
             rules = json.load(fh)["live"]
 
+        # What the rules say should survive, worked out from the spec itself. No
+        # counts are pinned: the spec is refreshed from the server regularly and
+        # a new LIVE tag or route must not turn this test red.
+        expected = sorted(
+            (path, method)
+            for path, method, op in operations(spec)
+            if any(filter_spec.matches(tag, rules) for tag in op.get("tags") or [])
+        )
+        total_before = len(list(operations(spec)))
+
         filter_spec.filter_spec(spec, rules)
 
         kept = list(operations(spec))
-        self.assertEqual(len(kept), 69)
+        self.assertEqual(sorted((path, method) for path, method, _ in kept), expected)
+        self.assertTrue(0 < len(kept) < total_before, "the LIVE package should be a proper subset")
         tags = {op["tags"][0] for _, _, op in kept}
-        self.assertEqual(len(tags), 13)
         self.assertEqual(tags & GENERAL_ONLY_TAGS, set())
+        for tag in tags:
+            self.assertTrue(filter_spec.matches(tag, rules), tag)
 
         for target in all_refs(spec, set()):
             self.assertTrue(target.startswith("#/components/"), target)
@@ -261,9 +273,11 @@ class FilterSpecCliTests(unittest.TestCase):
     def test_cli_rewrites_file_in_place(self):
         result = self.run_cli("live")
         self.assertEqual(result.returncode, 0, result.stderr)
+        with open(SPEC_PATH, encoding="utf-8") as fh:
+            total_before = len(list(operations(json.load(fh))))
         with open(self.spec_copy, encoding="utf-8") as fh:
             spec = json.load(fh)
-        self.assertEqual(len(list(operations(spec))), 69)
+        self.assertTrue(0 < len(list(operations(spec))) < total_before)
         self.assertIn("kept", result.stdout)
         self.assertIn("dropped", result.stdout)
         self.assertIn("TikTok LIVE Gifts", result.stdout)

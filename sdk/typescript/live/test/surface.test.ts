@@ -36,10 +36,8 @@ for (const name of GENERAL_ONLY) {
     assert.ok(!classNames.includes(name), `tiktok-live-api-sdk must not expose ${name}`);
 }
 
-assert.strictEqual(
-    classNames.length,
-    13,
-    `tiktok-live-api-sdk should expose 13 API groups, got ${classNames.length}: ${classNames.join(", ")}`,
-);
+// No total is asserted. A new "TikTok LIVE ..." tag joins this package
+// automatically (spec/packages.json), and a fixed count would fail the build,
+// and with it every release, the day the server adds one.
 
 console.log(`surface OK: ${classNames.length} API groups`);

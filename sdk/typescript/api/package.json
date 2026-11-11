@@ -20,11 +20,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EulerStream/TikTok-Live-Api.git",
+    "url": "git+https://github.com/EulerStream/TikTok-Api-Sdk.git",
     "directory": "sdk/typescript/api"
   },
   "bugs": {
-    "url": "https://github.com/EulerStream/TikTok-Live-Api/issues"
+    "url": "https://github.com/EulerStream/TikTok-Api-Sdk/issues"
   },
   "keywords": [
     "tiktok",
