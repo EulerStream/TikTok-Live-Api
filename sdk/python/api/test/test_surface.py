@@ -98,6 +98,18 @@ def test_deprecated_import_name():
     assert PACKAGE in str(deprecations[0].message), "the warning should name the new import"
 
 
+def test_version_comes_from_the_package_version_file():
+    # Each package has its own version.txt; the generator's placeholder version
+    # in pyproject.toml must have been replaced with it.
+    import tomllib
+
+    with open(os.path.join(PACKAGE_DIR, "version.txt"), encoding="utf-8") as fh:
+        expected = fh.read().strip()
+    with open(os.path.join(PACKAGE_DIR, "pyproject.toml"), "rb") as fh:
+        actual = tomllib.load(fh)["tool"]["poetry"]["version"]
+    assert actual == expected, f"pyproject.toml has version {actual}, version.txt has {expected}"
+
+
 def test_deprecated_name_reaches_general_only_groups():
     # Migrating from the old EulerApiSdk package to this one is a package name
     # change only, so the old import paths for every group must still resolve.
@@ -114,6 +126,7 @@ if __name__ == "__main__":
         ("Shipped alias file matches the shared source", test_alias_file_matches_shared_source),
         ("Deprecated EulerApiSdk import resolves to this package and warns once", test_deprecated_import_name),
         ("Deprecated EulerApiSdk import reaches general-only groups", test_deprecated_name_reaches_general_only_groups),
+        ("Version comes from the package's version.txt", test_version_comes_from_the_package_version_file),
     ]
 
     print(f"\nRunning {len(tests)} surface tests...\n")

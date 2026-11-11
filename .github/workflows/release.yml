@@ -52,6 +52,18 @@ on:
         description: 'One-off: also publish the final EulerApiSdk release (moved notice)'
         type: boolean
         default: false
+      packages:
+        description: 'TypeScript/Python packages to release — both, only tiktok-api-sdk (api), or only tiktok-live-api-sdk (live)'
+        type: choice
+        options:
+          - both
+          - api
+          - live
+        default: both
+      upload_examples:
+        description: 'Sync the generated docs snippets to the website CDN'
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -69,32 +81,39 @@ jobs:
           echo "::error::Release must be triggered from the master branch, got ${{ github.ref }}"
           exit 1
 
-  # TypeScript and Python each publish two packages, tiktok-live-api-sdk and
-  # tiktok-api-sdk, that always carry the same version. That version lives in
-  # sdk/<language>/version.txt; the next one is worked out once here and used by
-  # both publish legs and by commit-versions.
+  # TypeScript and Python each publish two packages: tiktok-live-api-sdk (live)
+  # and tiktok-api-sdk (api). Each package has its own version, kept in
+  # sdk/<language>/<package>/version.txt. A language's bump input moves every
+  # package of that language being released; the `packages` input narrows a
+  # release to one of them. The next versions are worked out once here and used
+  # by the publish legs and by commit-versions.
   versions:
     needs: check-branch
     runs-on: ubuntu-latest
     outputs:
-      typescript: ${{ steps.next.outputs.typescript }}
-      python: ${{ steps.next.outputs.python }}
+      typescript_live: ${{ steps.next.outputs.typescript_live }}
+      typescript_api: ${{ steps.next.outputs.typescript_api }}
+      python_live: ${{ steps.next.outputs.python_live }}
+      python_api: ${{ steps.next.outputs.python_api }}
     steps:
       - uses: actions/checkout@v4
 
       - name: Compute next versions
         id: next
+        env:
+          TYPESCRIPT_BUMP: ${{ inputs.typescript_bump }}
+          PYTHON_BUMP: ${{ inputs.python_bump }}
         run: |
-          if [ "${{ inputs.typescript_bump }}" != "skip" ]; then
-            NEXT=$(python3 .github/scripts/next_version.py "$(cat sdk/typescript/version.txt)" "${{ inputs.typescript_bump }}")
-            echo "typescript=$NEXT" >> "$GITHUB_OUTPUT"
-            echo "TypeScript: $(tr -d ' \n' < sdk/typescript/version.txt) → $NEXT"
-          fi
-          if [ "${{ inputs.python_bump }}" != "skip" ]; then
-            NEXT=$(python3 .github/scripts/next_version.py "$(cat sdk/python/version.txt)" "${{ inputs.python_bump }}")
-            echo "python=$NEXT" >> "$GITHUB_OUTPUT"
-            echo "Python: $(tr -d ' \n' < sdk/python/version.txt) → $NEXT"
-          fi
+          for language in typescript python; do
+            if [ "$language" = "typescript" ]; then bump="$TYPESCRIPT_BUMP"; else bump="$PYTHON_BUMP"; fi
+            if [ "$bump" = "skip" ]; then continue; fi
+            for package in live api; do
+              current=$(tr -d ' \n' < "sdk/$language/$package/version.txt")
+              next=$(python3 .github/scripts/next_version.py "$current" "$bump")
+              echo "${language}_${package}=$next" >> "$GITHUB_OUTPUT"
+              echo "$language/$package: $current → $next"
+            done
+          done
 
   generate:
     needs: check-branch
@@ -103,6 +122,8 @@ jobs:
       typescript: ${{ inputs.typescript_bump != 'skip' }}
       python: ${{ inputs.python_bump != 'skip' }}
       python_legacy: ${{ inputs.python_legacy_final }}
+      packages: ${{ inputs.packages }}
+      upload_examples: ${{ inputs.upload_examples }}
       csharp: ${{ inputs.csharp_bump != 'skip' }}
       java: ${{ inputs.java_bump != 'skip' }}
       go: ${{ inputs.go_bump != 'skip' }}
@@ -122,10 +143,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [live, api]
+        package: ${{ fromJSON(inputs.packages == 'both' && '["live","api"]' || format('["{0}"]', inputs.packages)) }}
     permissions:
       contents: read
       id-token: write
+    env:
+      VERSION: ${{ needs.versions.outputs[format('typescript_{0}', matrix.package)] }}
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -143,16 +166,15 @@ jobs:
 
       - name: Set version
         working-directory: sdk/typescript/${{ matrix.package }}
-        run: npm version "${{ needs.versions.outputs.typescript }}" --no-git-tag-version --allow-same-version
+        run: npm version "$VERSION" --no-git-tag-version --allow-same-version
 
-      # If one leg failed last time, the version file was not committed, so a new
-      # dispatch computes the same version again. The package that already made
-      # it to the registry is skipped and the other one catches up.
+      # If one leg failed last time, the version files were not committed, so a
+      # new dispatch computes the same versions again. The package that already
+      # made it to the registry is skipped and the other one catches up.
       - name: Publish to npm
         working-directory: sdk/typescript/${{ matrix.package }}
         run: |
           NAME=$(node -p "require('./package.json').name")
-          VERSION="${{ needs.versions.outputs.typescript }}"
           if [ "$(npm view "$NAME@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
             echo "::notice::$NAME@$VERSION is already published; skipping."
             exit 0
@@ -162,6 +184,10 @@ jobs:
   # ── Python → PyPI ─────────────────────────────────────────────
 
   # One leg per package: tiktok-live-api-sdk (live) and tiktok-api-sdk (api).
+  # Both publish through PyPI trusted publishing: the job's OIDC token is
+  # exchanged for a short-lived upload token, so no PyPI secret is involved.
+  # Each project on PyPI must list this repository and this workflow file as a
+  # trusted publisher (a "pending publisher" before the project's first upload).
   publish-python:
     needs: [generate, versions]
     if: ${{ inputs.python_bump != 'skip' }}
@@ -169,7 +195,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [live, api]
+        package: ${{ fromJSON(inputs.packages == 'both' && '["live","api"]' || format('["{0}"]', inputs.packages)) }}
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      VERSION: ${{ needs.versions.outputs[format('python_{0}', matrix.package)] }}
     steps:
       # The checkout provides sdk/python/common (check_dist.py); the artifact
       # then lays the generated package over its folder.
@@ -190,25 +221,24 @@ jobs:
 
       - name: Set version
         working-directory: sdk/python/${{ matrix.package }}
-        run: poetry version "${{ needs.versions.outputs.python }}"
+        run: poetry version "$VERSION"
 
       # Build, then open the wheel and sdist to make sure the code is in them
-      # before anything is uploaded. See the note on publish-typescript for why
-      # an already-published version is skipped.
-      - name: Publish to PyPI
+      # before anything is uploaded.
+      - name: Build
         working-directory: sdk/python/${{ matrix.package }}
         run: |
-          NAME=$(poetry version | cut -d' ' -f1)
-          VERSION="${{ needs.versions.outputs.python }}"
-          if curl -fsS -o /dev/null "https://pypi.org/pypi/$NAME/$VERSION/json" 2>/dev/null; then
-            echo "::notice::$NAME $VERSION is already published; skipping."
-            exit 0
-          fi
           rm -rf dist
           poetry build
           python3 ../common/scripts/check_dist.py
-          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-          poetry publish --no-interaction
+
+      # skip-existing: see the note on publish-typescript for why a version that
+      # is already on the registry is skipped rather than treated as an error.
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: sdk/python/${{ matrix.package }}/dist
+          skip-existing: true
 
   # One-off: the final release of the retired EulerApiSdk package, at the version
   # fixed in sdk/python/legacy/sdk.json. Remove this job, the input and
@@ -428,16 +458,40 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # A matrix job succeeds only when both of its packages published (or were
-      # already published), so the shared version file moves only when both
-      # packages are at the new version.
-      - name: Record TypeScript version
-        if: needs.publish-typescript.result == 'success'
-        run: echo "${{ needs.versions.outputs.typescript }}" > sdk/typescript/version.txt
-
-      - name: Record Python version
-        if: needs.publish-python.result == 'success'
-        run: echo "${{ needs.versions.outputs.python }}" > sdk/python/version.txt
+      # A matrix job succeeds only when every package it was asked to release
+      # published (or was already published), so a language's version files move
+      # only once all of its released packages are at their new versions.
+      - name: Record TypeScript and Python versions
+        id: recorded
+        env:
+          PACKAGES: ${{ inputs.packages }}
+          TYPESCRIPT_RESULT: ${{ needs.publish-typescript.result }}
+          PYTHON_RESULT: ${{ needs.publish-python.result }}
+          TYPESCRIPT_LIVE: ${{ needs.versions.outputs.typescript_live }}
+          TYPESCRIPT_API: ${{ needs.versions.outputs.typescript_api }}
+          PYTHON_LIVE: ${{ needs.versions.outputs.python_live }}
+          PYTHON_API: ${{ needs.versions.outputs.python_api }}
+        run: |
+          PARTS=""
+          record() {
+            # record <language> <package> <version>
+            echo "$3" > "sdk/$1/$2/version.txt"
+            if [ -n "$PARTS" ]; then PARTS="${PARTS}, "; fi
+            PARTS="${PARTS}$1-$2@$3"
+          }
+          released() {
+            # released <package>: was this package part of the release?
+            [ "$PACKAGES" = "both" ] || [ "$PACKAGES" = "$1" ]
+          }
+          if [ "$TYPESCRIPT_RESULT" = "success" ]; then
+            if released live; then record typescript live "$TYPESCRIPT_LIVE"; fi
+            if released api; then record typescript api "$TYPESCRIPT_API"; fi
+          fi
+          if [ "$PYTHON_RESULT" = "success" ]; then
+            if released live; then record python live "$PYTHON_LIVE"; fi
+            if released api; then record python api "$PYTHON_API"; fi
+          fi
+          echo "parts=$PARTS" >> "$GITHUB_OUTPUT"
 
       - name: Download C# version
         if: needs.publish-csharp.result == 'success'
@@ -463,16 +517,7 @@ jobs:
       - name: Build commit message
         id: msg
         run: |
-          PARTS=""
-          if [ "${{ needs.publish-typescript.result }}" = "success" ]; then
-            TS=$(tr -d ' \n' < sdk/typescript/version.txt)
-            PARTS="typescript@${TS}"
-          fi
-          if [ "${{ needs.publish-python.result }}" = "success" ]; then
-            PY=$(tr -d ' \n' < sdk/python/version.txt)
-            [ -n "$PARTS" ] && PARTS="${PARTS}, "
-            PARTS="${PARTS}python@${PY}"
-          fi
+          PARTS="${{ steps.recorded.outputs.parts }}"
           if [ "${{ needs.publish-csharp.result }}" = "success" ]; then
             CS=$(grep '<Version>' sdk/csharp/src/EulerApiSdk.csproj | sed 's/.*<Version>\(.*\)<\/Version>.*/\1/')
             [ -n "$PARTS" ] && PARTS="${PARTS}, "
@@ -489,7 +534,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sdk/typescript/version.txt sdk/python/version.txt sdk/csharp/src/EulerApiSdk.csproj sdk/java/version.txt 2>/dev/null || true
+          git add sdk/typescript/live/version.txt sdk/typescript/api/version.txt sdk/python/live/version.txt sdk/python/api/version.txt sdk/csharp/src/EulerApiSdk.csproj sdk/java/version.txt 2>/dev/null || true
           git add sdk-examples/output/*.json 2>/dev/null || true
           git diff --cached --quiet && exit 0
           git commit -m "${{ steps.msg.outputs.msg }}"

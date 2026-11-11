@@ -11,8 +11,12 @@ The folder's sdk.json says what to build:
       "packageName": "TikTokLiveApiSdk",      import name
       "specPackage": "live",                  optional; a key in spec/packages.json
       "deprecatedAlias": true,                ship the deprecated EulerApiSdk import
-      "version": "0.6.1"                      optional; overrides ../version.txt
+      "version": "0.6.1"                      optional; overrides ./version.txt
     }
+
+The package's version normally lives in version.txt beside sdk.json: each
+package is versioned on its own, and the release workflow writes the new
+number back there after publishing.
 
 With `specPackage` the spec is cut down to that package's tags before
 generation; without it the package gets the full spec.
@@ -42,7 +46,7 @@ ALIAS_NAME = "EulerApiSdk"
 ALIAS_SOURCE = os.path.join(COMMON_DIR, "alias", ALIAS_NAME)
 
 # openapi-python-client regenerates pyproject.toml with this placeholder; the
-# real version is pinned at the end from sdk.json or ../version.txt.
+# real version is pinned at the end from sdk.json or the package's version.txt.
 PLACEHOLDER_VERSION = "0.0.2"
 
 
@@ -129,7 +133,7 @@ def main() -> None:
     run(sys.executable, os.path.join(HERE, "render_manifest.py"))
     version = sdk.get("version")
     if not version:
-        with open(os.path.join(PYTHON_DIR, "version.txt"), encoding="utf-8") as fh:
+        with open(os.path.join(package_dir, "version.txt"), encoding="utf-8") as fh:
             version = fh.read().strip()
     run("poetry", "version", version)
 

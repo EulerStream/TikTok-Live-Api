@@ -13,6 +13,16 @@ on:
       python_legacy:
         type: boolean
         default: false
+      # Which TypeScript/Python packages to build: `both`, or only `live`
+      # (tiktok-live-api-sdk) or `api` (tiktok-api-sdk).
+      packages:
+        type: string
+        default: both
+      # Sync the generated docs snippets to the website's CDN. Turn off for a run
+      # that must not change what the website shows.
+      upload_examples:
+        type: boolean
+        default: true
       csharp:
         type: boolean
         default: false
@@ -46,7 +56,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [live, api]
+        package: ${{ fromJSON(inputs.packages == 'both' && '["live","api"]' || format('["{0}"]', inputs.packages)) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -85,7 +95,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [live, api]
+        package: ${{ fromJSON(inputs.packages == 'both' && '["live","api"]' || format('["{0}"]', inputs.packages)) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -100,8 +110,8 @@ jobs:
       - name: Install tools
         run: pip install -r sdk/python/requirements.txt
 
-      # Also writes the test manifest and pins the version from
-      # sdk/python/version.txt (the generator resets it to a placeholder).
+      # Also writes the test manifest and pins the version from the package's
+      # version.txt (the generator resets it to a placeholder).
       - name: Generate
         working-directory: sdk/python/${{ matrix.package }}
         run: python3 ../common/scripts/generate.py
@@ -347,6 +357,7 @@ jobs:
           path: sdk-examples/output/
 
       - name: Upload examples to R2
+        if: ${{ inputs.upload_examples }}
         continue-on-error: true
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}

@@ -82,12 +82,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Both TypeScript packages share the version in sdk/typescript/version.txt.
+      # Each package has its own version in sdk/typescript/<package>/version.txt.
       - name: Preview version bump
         run: |
-          CURRENT=$(tr -d ' \n' < sdk/typescript/version.txt)
-          NEXT=$(python3 .github/scripts/next_version.py "$CURRENT" "${{ inputs.typescript_bump }}")
-          echo "### TypeScript (tiktok-live-api-sdk, tiktok-api-sdk): $CURRENT → $NEXT" >> "$GITHUB_STEP_SUMMARY"
+          for package in live api; do
+            CURRENT=$(tr -d ' \n' < "sdk/typescript/$package/version.txt")
+            NEXT=$(python3 .github/scripts/next_version.py "$CURRENT" "${{ inputs.typescript_bump }}")
+            echo "### TypeScript ($package): $CURRENT → $NEXT" >> "$GITHUB_STEP_SUMMARY"
+          done
 
   preview-python:
     needs: generate
@@ -96,12 +98,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Both Python packages share the version in sdk/python/version.txt.
+      # Each package has its own version in sdk/python/<package>/version.txt.
       - name: Preview version bump
         run: |
-          CURRENT=$(tr -d ' \n' < sdk/python/version.txt)
-          NEXT=$(python3 .github/scripts/next_version.py "$CURRENT" "${{ inputs.python_bump }}")
-          echo "### Python (tiktok-live-api-sdk, tiktok-api-sdk): $CURRENT → $NEXT" >> "$GITHUB_STEP_SUMMARY"
+          for package in live api; do
+            CURRENT=$(tr -d ' \n' < "sdk/python/$package/version.txt")
+            NEXT=$(python3 .github/scripts/next_version.py "$CURRENT" "${{ inputs.python_bump }}")
+            echo "### Python ($package): $CURRENT → $NEXT" >> "$GITHUB_STEP_SUMMARY"
+          done
 
   preview-csharp:
     needs: generate
