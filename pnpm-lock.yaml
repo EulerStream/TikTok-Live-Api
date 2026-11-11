@@ -35,6 +35,8 @@ importers:
 
   sdk/python/api: {}
 
+  sdk/python/legacy: {}
+
   sdk/python/live: {}
 
   sdk/typescript/api:

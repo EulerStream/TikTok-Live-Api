@@ -1,0 +1,21 @@
+{# The generator's stock package_init.py.jinja, plus a warning. EulerApiSdk is
+   retired: this template is only used for its final release, so that anyone
+   still installing it is told where the package went. #}
+{% from "helpers.jinja" import docstring %}
+
+{{ docstring(package_description | safe_for_docstring) }}
+import warnings
+
+from .client import AuthenticatedClient, Client
+
+__all__ = (
+    "AuthenticatedClient",
+    "Client",
+)
+
+warnings.warn(
+    "EulerApiSdk has moved. Install tiktok-api-sdk (everything) or "
+    "tiktok-live-api-sdk (TikTok LIVE only); see https://pypi.org/project/tiktok-api-sdk/",
+    DeprecationWarning,
+    stacklevel=2,
+)
