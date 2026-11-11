@@ -1,7 +1,8 @@
 """Guard the READMEs of the split TypeScript and Python SDKs.
 
-Each language publishes two packages: tiktok-live-api-sdk (TikTok LIVE only)
-and tiktok-api-sdk (everything). Their READMEs are what the registries show,
+Each language publishes two packages, one with only TikTok LIVE and one with
+everything: tiktok-live-api-sdk and tiktok-api-sdk on npm, TikTokLiveApiSdk and
+TikTokApiSdk on PyPI. Their READMEs are what the registries show,
 so each must name its own package, show its own client, avoid the deprecated
 names in examples, and, for the LIVE package, never show a call that the
 package no longer contains.
@@ -26,7 +27,7 @@ UNOFFICIAL = (
     "TikTok or ByteDance."
 )
 
-# Calls and client groups that exist only in tiktok-api-sdk, plus the gift
+# Calls and client groups that exist only in the full package, plus the gift
 # catalog, which needs a paid plan and so must not lead a quick start.
 NOT_IN_LIVE = [
     "tikTokUsers",
@@ -66,9 +67,9 @@ READMES = {
         "sdk_json": "sdk/python/live/sdk.json",
         "live": True,
         "heading": "# TikTok LIVE API SDK for Python",
-        "install": "pip install tiktok-live-api-sdk",
+        "install": "pip install TikTokLiveApiSdk",
         "client": "TikTokLiveApiSdk",
-        "other_package": "tiktok-api-sdk",
+        "other_package": "TikTokApiSdk",
         "migration_heading": "## Migrating from EulerApiSdk",
     },
     "python-api": {
@@ -76,9 +77,9 @@ READMES = {
         "sdk_json": "sdk/python/api/sdk.json",
         "live": False,
         "heading": "# TikTok API SDK for Python",
-        "install": "pip install tiktok-api-sdk",
+        "install": "pip install TikTokApiSdk",
         "client": "TikTokApiSdk",
-        "other_package": "tiktok-live-api-sdk",
+        "other_package": "TikTokLiveApiSdk",
         "migration_heading": "## Migrating",
     },
 }
@@ -179,8 +180,8 @@ class CrossLinkTests(unittest.TestCase):
                 for url in (
                     "npmjs.com/package/tiktok-api-sdk",
                     "npmjs.com/package/tiktok-live-api-sdk",
-                    "pypi.org/project/tiktok-api-sdk",
-                    "pypi.org/project/tiktok-live-api-sdk",
+                    "pypi.org/project/TikTokApiSdk",
+                    "pypi.org/project/TikTokLiveApiSdk",
                 ):
                     self.assertIn(url, text)
 

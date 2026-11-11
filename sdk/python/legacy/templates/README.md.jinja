@@ -2,27 +2,24 @@
 
 > ## `EulerApiSdk` is **deprecated** and no longer maintained.
 >
-> ## 👉 Use **[`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/)** or **[`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/)** instead.
+> ## 👉 Use **[`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/)** or **[`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/)** instead.
 
 `EulerApiSdk` is now two packages. Pick the one that fits:
 
 | You want | Install | Import as |
 |---|---|---|
-| Everything: TikTok users, videos, OAuth, signing, captchas and the full TikTok LIVE API | [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) | `TikTokApiSdk` |
-| TikTok LIVE only | [`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/) | `TikTokLiveApiSdk` |
+| Everything: TikTok users, videos, OAuth, signing, captchas and the full TikTok LIVE API | [`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/) | `TikTokApiSdk` |
+| TikTok LIVE only | [`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/) | `TikTokLiveApiSdk` |
 
-`tiktok-api-sdk` contains everything `EulerApiSdk` did, so it is the drop-in replacement.
+`TikTokApiSdk` contains everything `EulerApiSdk` did, so it is the drop-in replacement.
 
 ## Migrating
 
-Uninstall `EulerApiSdk` first, then install the new package:
+Install the new package, then change the import name. The modules inside keep their names:
 
 ```bash
-pip uninstall EulerApiSdk
-pip install tiktok-api-sdk
+pip install TikTokApiSdk
 ```
-
-Your existing code keeps running. Both new packages still answer to `import EulerApiSdk`, with a `DeprecationWarning`, so migrating is a package name change. Switch the imports when convenient:
 
 ```python
 # before
@@ -34,18 +31,20 @@ from TikTokApiSdk import AuthenticatedClient
 from TikTokApiSdk.api.tik_tok_users import retrieve_tik_tok_user_basic
 ```
 
-Uninstalling first matters: the new packages provide the old `EulerApiSdk` import name from the same folder this package installs into, and pip does not notice two packages sharing a folder.
+`EulerApiSdk` can stay installed while you switch, because it shares no files with the new packages. Remove it with `pip uninstall EulerApiSdk` once nothing imports it.
+
+Nothing is being taken away: every published version of `EulerApiSdk` stays on PyPI, so projects pinned to one keep installing.
 
 All future updates, bug fixes and new API coverage ship under the new names:
 
-### 📦 https://pypi.org/project/tiktok-api-sdk/
+### 📦 https://pypi.org/project/TikTokApiSdk/
 
-### 📦 https://pypi.org/project/tiktok-live-api-sdk/
+### 📦 https://pypi.org/project/TikTokLiveApiSdk/
 
 > Unofficial: this project is not affiliated with, endorsed by, or connected to TikTok or ByteDance.
 
 ---
 
 _This package will receive **no further updates**. Please migrate to
-[`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) or
-[`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/)._
+[`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/) or
+[`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/)._

@@ -53,7 +53,7 @@ on:
         type: boolean
         default: false
       packages:
-        description: 'TypeScript/Python packages to release — both, only tiktok-api-sdk (api), or only tiktok-live-api-sdk (live)'
+        description: 'TypeScript/Python packages to release — both, only the full API package (api), or only the TikTok LIVE package (live)'
         type: choice
         options:
           - both
@@ -81,8 +81,8 @@ jobs:
           echo "::error::Release must be triggered from the master branch, got ${{ github.ref }}"
           exit 1
 
-  # TypeScript and Python each publish two packages: tiktok-live-api-sdk (live)
-  # and tiktok-api-sdk (api). Each package has its own version, kept in
+  # TypeScript and Python each publish two packages: the TikTok LIVE package (live)
+  # and the full API package (api). Each package has its own version, kept in
   # sdk/<language>/<package>/version.txt. A language's bump input moves every
   # package of that language being released; the `packages` input narrows a
   # release to one of them. The next versions are worked out once here and used
@@ -133,7 +133,7 @@ jobs:
 
   # ── TypeScript → npm ──────────────────────────────────────────
 
-  # One leg per package: tiktok-live-api-sdk (live) and tiktok-api-sdk (api).
+  # One leg per package: the TikTok LIVE package (live) and the full API package (api).
   # npm trusted publishing is configured per package on npmjs.com, each naming
   # this repository and this workflow file.
   publish-typescript:
@@ -189,7 +189,7 @@ jobs:
 
   # ── Python → PyPI ─────────────────────────────────────────────
 
-  # One leg per package: tiktok-live-api-sdk (live) and tiktok-api-sdk (api).
+  # One leg per package: the TikTok LIVE package (live) and the full API package (api).
   # Both publish through PyPI trusted publishing: the job's OIDC token is
   # exchanged for a short-lived upload token, so no PyPI secret is involved.
   # Each project on PyPI must list this repository and this workflow file as a

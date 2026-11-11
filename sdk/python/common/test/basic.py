@@ -3,7 +3,7 @@ Basic tests shared by every Python SDK package.
 
 Each package's test/test_basic.py puts its own folder on sys.path and calls
 run_basic_tests with its import name, so the same checks run against
-tiktok-live-api-sdk and tiktok-api-sdk.
+TikTokLiveApiSdk and TikTokApiSdk.
 
 The API surface is determined dynamically at codegen time.
 scripts/render_manifest.py scans the generated SDK (itself produced from the

@@ -105,7 +105,7 @@ Then point your imports at `tiktok-api-sdk`. The client class is now called `Tik
 
 ## Other languages
 
-The TikTok API SDK is also available for [Python](https://pypi.org/project/tiktok-api-sdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can call the TikTok API over plain HTTP.
+The TikTok API SDK is also available for [Python](https://pypi.org/project/TikTokApiSdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can call the TikTok API over plain HTTP.
 
 ## Links
 

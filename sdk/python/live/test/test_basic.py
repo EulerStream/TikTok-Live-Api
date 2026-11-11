@@ -1,5 +1,5 @@
 """
-Basic tests for the tiktok-live-api-sdk Python package.
+Basic tests for the TikTokLiveApiSdk Python package.
 
 The checks themselves are shared by every Python SDK package and live in
 sdk/python/common/test/basic.py; this file points them at this package.

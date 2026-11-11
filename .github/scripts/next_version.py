@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Print the version that follows a given one for a patch, minor or major bump.
 
-The TypeScript and Python SDKs each publish two packages (tiktok-live-api-sdk
-and tiktok-api-sdk) that always carry the same version number. That number
+The TypeScript and Python SDKs each publish two packages (the TikTok LIVE package
+and the full API package) that always carry the same version number. That number
 lives in sdk/<language>/version.txt, and the release and dry-run workflows use
 this script to work out the next one once, for both packages.
 

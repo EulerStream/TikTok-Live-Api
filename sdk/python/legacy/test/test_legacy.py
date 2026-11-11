@@ -1,9 +1,9 @@
 """
 Tests for the final EulerApiSdk release.
 
-EulerApiSdk was renamed: it is now tiktok-api-sdk (everything) and
-tiktok-live-api-sdk (TikTok LIVE only). This folder builds one last EulerApiSdk
-release with the same code as tiktok-api-sdk, a README that says where the
+EulerApiSdk was renamed: it is now TikTokApiSdk (everything) and
+TikTokLiveApiSdk (TikTok LIVE only). This folder builds one last EulerApiSdk
+release with the same code as TikTokApiSdk, a README that says where the
 package went, and a warning on import. These tests check that release.
 
 Run with: python test/test_legacy.py
@@ -49,8 +49,29 @@ def test_import_warns_and_names_both_new_packages():
     ]
     assert len(moved) == 1, f"expected one moved warning, got {len(moved)}"
     message = str(moved[0].message)
-    assert "tiktok-api-sdk" in message, message
-    assert "tiktok-live-api-sdk" in message, message
+    assert "TikTokApiSdk" in message, message
+    assert "TikTokLiveApiSdk" in message, message
+
+
+def test_import_never_fails_when_warnings_are_errors():
+    # Programs and test suites that turn warnings into errors must still be
+    # able to import the final release: its notice may not break anyone.
+    result = subprocess.run(
+        [sys.executable, "-W", "error", "-c", "import EulerApiSdk"],
+        cwd=PACKAGE_DIR,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr.strip().splitlines()[-1:]
+
+
+def test_metadata_marks_the_package_inactive():
+    import tomllib
+
+    with open(os.path.join(PACKAGE_DIR, "pyproject.toml"), "rb") as fh:
+        poetry = tomllib.load(fh)["tool"]["poetry"]
+    assert "Development Status :: 7 - Inactive" in poetry["classifiers"], poetry["classifiers"]
+    assert poetry["description"].startswith("Deprecated"), poetry["description"]
 
 
 def test_package_is_the_full_client():
@@ -67,7 +88,7 @@ def test_package_is_the_full_client():
 def test_readme_says_where_the_package_went():
     with open(os.path.join(PACKAGE_DIR, "README.md"), encoding="utf-8") as fh:
         readme = fh.read()
-    for expected in ("tiktok-api-sdk", "tiktok-live-api-sdk", "pip uninstall EulerApiSdk"):
+    for expected in ("TikTokApiSdk", "TikTokLiveApiSdk", "pip uninstall EulerApiSdk"):
         assert expected in readme, f"README.md should mention {expected!r}"
 
 
@@ -79,6 +100,8 @@ def test_version_is_the_final_one():
 if __name__ == "__main__":
     tests = [
         ("Import warns once and names both new packages", test_import_warns_and_names_both_new_packages),
+        ("Import never fails when warnings are errors", test_import_never_fails_when_warnings_are_errors),
+        ("Metadata marks the package inactive", test_metadata_marks_the_package_inactive),
         ("Package is the full client under its old name", test_package_is_the_full_client),
         ("README says where the package went", test_readme_says_where_the_package_went),
         ("Version is the final 0.6.1", test_version_is_the_final_one),

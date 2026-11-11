@@ -3,7 +3,7 @@ boilerplate:
 
 variables:
   # The snippets cover every operation, so they import the general package:
-  # tiktok-live-api-sdk only has the TikTok LIVE groups.
+  # TikTokLiveApiSdk only has the TikTok LIVE groups.
   sdkImport: "from TikTokApiSdk.client import AuthenticatedClient"
   sdkPackage: TikTokApiSdk
   clientConstruction: |

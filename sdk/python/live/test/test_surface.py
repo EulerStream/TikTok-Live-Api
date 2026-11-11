@@ -1,19 +1,17 @@
 """
-Surface tests for the tiktok-live-api-sdk Python package.
+Surface tests for the TikTokLiveApiSdk Python package.
 
-tiktok-live-api-sdk ships the TikTok LIVE groups plus the account groups a
-LIVE integration needs; everything else lives only in tiktok-api-sdk. The split
-is decided by spec/packages.json. These tests pin the outcome, and check the
-deprecated ``EulerApiSdk`` import name that the package also provides.
+TikTokLiveApiSdk ships the TikTok LIVE groups plus the account groups a
+LIVE integration needs; everything else lives only in TikTokApiSdk. The split
+is decided by spec/packages.json. These tests pin the outcome, and check that
+the package installs nothing but its own import package.
 
 Run with: python test/test_surface.py
 """
 
-import importlib
 import json
 import os
 import sys
-import warnings
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PACKAGE_DIR = os.path.join(HERE, "..")
@@ -78,34 +76,16 @@ def test_general_only_groups_absent():
         assert name not in modules, f"{PACKAGE} must not include api.{name}"
 
 
-def test_alias_file_matches_shared_source():
-    shipped = os.path.join(PACKAGE_DIR, "EulerApiSdk", "__init__.py")
-    source = os.path.join(PACKAGE_DIR, "..", "common", "alias", "EulerApiSdk", "__init__.py")
-    with open(shipped, "rb") as fh:
-        shipped_bytes = fh.read()
-    with open(source, "rb") as fh:
-        source_bytes = fh.read()
-    assert shipped_bytes == source_bytes, "EulerApiSdk/__init__.py differs from the shared alias source"
+def test_installs_only_its_own_import_package():
+    # The package must not install anything under another import name. In
+    # particular it must not provide ``EulerApiSdk``: that folder belongs to the
+    # old EulerApiSdk package, and writing into it breaks programs that still
+    # use that package in the same environment.
+    import tomllib
 
-
-def test_deprecated_import_name():
-    with warnings.catch_warnings(record=True) as caught:
-        warnings.simplefilter("always")
-        old = importlib.import_module("EulerApiSdk")
-        new = importlib.import_module(PACKAGE)
-        assert old is new, "EulerApiSdk should be the same module as TikTokLiveApiSdk"
-
-        old_gifts = importlib.import_module("EulerApiSdk.api.tik_tok_live_gifts")
-        new_gifts = importlib.import_module(f"{PACKAGE}.api.tik_tok_live_gifts")
-        assert old_gifts is new_gifts, "EulerApiSdk submodules should be the same module objects"
-
-    deprecations = [
-        w
-        for w in caught
-        if issubclass(w.category, DeprecationWarning) and "EulerApiSdk is deprecated" in str(w.message)
-    ]
-    assert len(deprecations) == 1, f"expected one DeprecationWarning, got {len(deprecations)}"
-    assert PACKAGE in str(deprecations[0].message), "the warning should name the new import"
+    with open(os.path.join(PACKAGE_DIR, "pyproject.toml"), "rb") as fh:
+        packages = tomllib.load(fh)["tool"]["poetry"]["packages"]
+    assert packages == [{"include": PACKAGE}], f"pyproject.toml installs {packages}"
 
 
 def test_version_comes_from_the_package_version_file():
@@ -120,25 +100,11 @@ def test_version_comes_from_the_package_version_file():
     assert actual == expected, f"pyproject.toml has version {actual}, version.txt has {expected}"
 
 
-def test_deprecated_name_has_no_general_only_groups():
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        # The alias itself must resolve; only the general-only group is absent.
-        importlib.import_module("EulerApiSdk")
-        try:
-            importlib.import_module("EulerApiSdk.api.tik_tok_users")
-        except ModuleNotFoundError:
-            return
-    raise AssertionError("EulerApiSdk.api.tik_tok_users should not exist in the LIVE package")
-
-
 if __name__ == "__main__":
     tests = [
         ("LIVE and account groups are present", test_live_groups_present),
         ("General-only groups are absent", test_general_only_groups_absent),
-        ("Shipped alias file matches the shared source", test_alias_file_matches_shared_source),
-        ("Deprecated EulerApiSdk import resolves to this package and warns once", test_deprecated_import_name),
-        ("Deprecated EulerApiSdk import has no general-only groups", test_deprecated_name_has_no_general_only_groups),
+        ("Installs only its own import package", test_installs_only_its_own_import_package),
         ("Version comes from the package's version.txt", test_version_comes_from_the_package_version_file),
     ]
 

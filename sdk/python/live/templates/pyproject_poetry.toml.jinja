@@ -54,9 +54,6 @@ classifiers = [
 ]
 packages = [
     { include = "{{ package_name }}" },
-    # Deprecated import name, redirected to {{ package_name }}; see
-    # sdk/python/common/alias in the repository.
-    { include = "EulerApiSdk" },
 ]
 # The generated sources are git-ignored in the repository, and Poetry leaves
 # VCS-ignored files out of a build unless they are included explicitly. Without
@@ -65,7 +62,6 @@ packages = [
 include = [
     { path = "{{ package_name }}/**/*.py", format = ["sdist", "wheel"] },
     { path = "{{ package_name }}/py.typed", format = ["sdist", "wheel"] },
-    { path = "EulerApiSdk/**/*.py", format = ["sdist", "wheel"] },
 ]
 
 [tool.poetry.urls]
