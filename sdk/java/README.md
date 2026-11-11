@@ -97,7 +97,7 @@ Per-endpoint Java examples for every operation are in the [EulerStream API docs]
 
 ## Other languages
 
-The TikTok LIVE API SDK is also available for Node.js / TypeScript ([`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk), or [`tiktok-api-sdk`](https://www.npmjs.com/package/tiktok-api-sdk) for the full TikTok API), Python ([`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/), or [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) for the full TikTok API), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can use the language-agnostic WebSocket directly.
+The TikTok LIVE API SDK is also available for Node.js / TypeScript ([`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk), or [`tiktok-api-sdk`](https://www.npmjs.com/package/tiktok-api-sdk) for the full TikTok API), Python ([`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/), or [`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/) for the full TikTok API), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can use the language-agnostic WebSocket directly.
 
 ## Links
 

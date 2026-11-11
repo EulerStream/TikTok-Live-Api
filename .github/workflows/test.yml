@@ -10,8 +10,8 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
-  # The spec filter, the version helper, the README guard and the Python import
-  # alias are plain scripts with their own tests; none needs a generated SDK.
+  # The spec filter, the version helper, the README guard and the Python build
+  # check are plain scripts with their own tests; none needs a generated SDK.
   test-scripts:
     runs-on: ubuntu-latest
     steps:
@@ -24,8 +24,8 @@ jobs:
       - name: Spec, release and README script tests
         run: python3 -m unittest discover -s .github/scripts -p 'test_*.py' -v
 
-      - name: Python EulerApiSdk import alias tests
-        run: python3 sdk/python/common/test/test_alias.py -v
+      - name: Python build check tests
+        run: python3 sdk/python/common/test/test_check_dist.py -v
 
   # The generated TypeScript and Python code is not committed, so each package
   # is generated here before it is tested. That also runs the LIVE package

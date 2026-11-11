@@ -15,7 +15,7 @@ The TikTok API behind this SDK is hosted by EulerStream, the managed TikTok back
 
 > Unofficial: this project is not affiliated with, endorsed by, or connected to TikTok or ByteDance.
 
-Only need TikTok LIVE? [`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/) is the same client with just the LIVE groups.
+Only need TikTok LIVE? [`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/) is the same client with just the LIVE groups.
 
 ## Installation
 
@@ -87,7 +87,7 @@ Per-endpoint Python examples for every TikTok API operation are in the [EulerStr
 
 ## TikTok LIVE API included
 
-Everything in [`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/) is part of this package too:
+Everything in [`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/) is part of this package too:
 
 | Module | TikTok LIVE API group |
 |---|---|
@@ -131,16 +131,13 @@ See the docstrings on `Client` and `AuthenticatedClient` for every option, inclu
 
 ## Migrating
 
-Coming from `EulerApiSdk`? This package is the same client with everything it had, so migrating is a package name change. Uninstall the old package first, then install this one:
+Coming from `EulerApiSdk`? This package is the same client with everything it had, under a new name. Install it, then change `EulerApiSdk` to `{{ package_name }}` in your imports. The modules inside keep the names they had in `EulerApiSdk` 0.6.
 
 ```bash
-pip uninstall EulerApiSdk
 pip install {{ project_name }}
 ```
 
-Your existing code keeps running: `import EulerApiSdk` still works and resolves to the same modules, with a `DeprecationWarning`. Switch your imports to `{{ package_name }}` when convenient. If your program imports the SDK from several threads, import `EulerApiSdk` once before starting them, or use the new name, which has no such requirement.
-
-Uninstalling first matters: this package provides the old `EulerApiSdk` import name from the same folder the old package installed into, and pip does not notice two packages sharing a folder.
+The old package can stay installed while you switch, because the two share no files. Remove it with `pip uninstall EulerApiSdk` once nothing imports it.
 
 ## Other languages
 

@@ -15,7 +15,7 @@ EulerStream is the managed TikTok LIVE backend behind [TikTokLive](https://githu
 
 > Unofficial: this project is not affiliated with, endorsed by, or connected to TikTok or ByteDance.
 
-This package covers TikTok LIVE only. If you also need TikTok user profiles, videos, OAuth, request signing or captcha solving, install [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) instead: it is the same client with everything in this package plus those.
+This package covers TikTok LIVE only. If you also need TikTok user profiles, videos, OAuth, request signing or captcha solving, install [`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/) instead: it is the same client with everything in this package plus those.
 
 ## Installation
 
@@ -97,7 +97,7 @@ Every TikTok LIVE path/method in the [EulerStream OpenAPI spec](https://www.eule
 | `api.tik_tok_web_socket_api` | Your cloud WebSocket connections and their state |
 | `api.accounts` / `api.authentication` | Your EulerStream account, rate limits, API keys and JWTs |
 
-Moderation and sending chat act as a TikTok account, so those calls take either an OAuth access token or a cookie header. OAuth tokens are issued by the TikTok OAuth routes, which are part of [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/).
+Moderation and sending chat act as a TikTok account, so those calls take either an OAuth access token or a cookie header. OAuth tokens are issued by the TikTok OAuth routes, which are part of [`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/).
 
 Per-endpoint Python examples for every operation are in the [EulerStream API docs](https://www.eulerstream.com/docs/intro).
 
@@ -121,17 +121,15 @@ See the docstrings on `Client` and `AuthenticatedClient` for every option, inclu
 
 ## Migrating from EulerApiSdk
 
-`{{ project_name }}` is the TikTok LIVE part of what used to be published as `EulerApiSdk`. Uninstall the old package first, then install this one:
+`{{ project_name }}` is the TikTok LIVE part of what used to be published as `EulerApiSdk`. Install it:
 
 ```bash
-pip uninstall EulerApiSdk
 pip install {{ project_name }}
 ```
 
-Uninstalling first matters: this package provides the old `EulerApiSdk` import name from the same folder the old package installed into, and pip does not notice two packages sharing a folder.
-
-- **Imports.** The package is imported as `{{ package_name }}`. `import EulerApiSdk` still works and resolves to the same modules, with a `DeprecationWarning`; switch to `{{ package_name }}` when convenient. If your program imports the SDK from several threads, import `EulerApiSdk` once before starting them, or use the new name, which has no such requirement.
-- **The non-LIVE modules moved out.** User profiles, videos, OAuth, request signing, captcha solving and usage analytics are not in this package. They are in [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/), which has everything `EulerApiSdk` had. If you use any of them, install that instead; nothing else in your code has to change.
+- **Imports.** Change `EulerApiSdk` to `{{ package_name }}` in your imports. The modules inside keep the names they had in `EulerApiSdk` 0.6.
+- **The old package can stay installed while you switch.** The two share no files. Remove it with `pip uninstall EulerApiSdk` once nothing imports it.
+- **The non-LIVE modules moved out.** User profiles, videos, OAuth, request signing, captcha solving and usage analytics are not in this package. They are in [`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/), which has everything `EulerApiSdk` had. If you use any of them, install that instead; nothing else in your code has to change.
 
 ## Other languages
 

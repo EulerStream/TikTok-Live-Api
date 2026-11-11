@@ -103,7 +103,7 @@ Still on `@eulerstream/euler-api-sdk`? That package is deprecated. Uninstall it 
 
 ## Other languages
 
-The TikTok LIVE API SDK is also available for [Python](https://pypi.org/project/tiktok-live-api-sdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can use the language-agnostic WebSocket directly.
+The TikTok LIVE API SDK is also available for [Python](https://pypi.org/project/TikTokLiveApiSdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can use the language-agnostic WebSocket directly.
 
 ## Links
 

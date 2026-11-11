@@ -42,7 +42,7 @@ One API key and one client cover both sides of TikTok:
 | **TikTok captchas** | Puzzle, shapes, icon and whirl captcha solvers |
 | **TikTok LIVE API** | Real-time LIVE events over a WebSocket, plus LIVE rooms, creators, gifts, rankings, LIVE alerts, moderation and agencies |
 
-Only need LIVE? The TypeScript and Python SDKs also come as a smaller [`tiktok-live-api-sdk`](#sdks--supported-languages) package with just the TikTok LIVE API.
+Only need LIVE? The TypeScript and Python SDKs also come as a smaller [LIVE-only package](#sdks--supported-languages) with just the TikTok LIVE API.
 
 Full API documentation and the interactive OpenAPI spec live at [eulerstream.com/docs](https://www.eulerstream.com/docs/intro).
 
@@ -72,12 +72,12 @@ The core difference from self-hosted libraries is who carries the maintenance bu
 | Language | Package | Install |
 |----------|---------|---------|
 | TypeScript / Node.js | [`tiktok-api-sdk`](https://www.npmjs.com/package/tiktok-api-sdk) (TikTok API + TikTok LIVE API) · [`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk) (TikTok LIVE API only) | `npm i tiktok-api-sdk` or `npm i tiktok-live-api-sdk` |
-| Python | [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) (TikTok API + TikTok LIVE API) · [`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/) (TikTok LIVE API only) | `pip install tiktok-api-sdk` or `pip install tiktok-live-api-sdk` |
+| Python | [`TikTokApiSdk`](https://pypi.org/project/TikTokApiSdk/) (TikTok API + TikTok LIVE API) · [`TikTokLiveApiSdk`](https://pypi.org/project/TikTokLiveApiSdk/) (TikTok LIVE API only) | `pip install TikTokApiSdk` or `pip install TikTokLiveApiSdk` |
 | C# / .NET | [`EulerApiSdk`](https://www.nuget.org/packages/EulerApiSdk) | `dotnet add package EulerApiSdk` |
 | Java | [`com.eulerstream:euler-api-sdk`](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) | Maven / Gradle |
 | Go | [`github.com/EulerStream/TikTok-Live-Api/sdk/go`](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go) | `go get github.com/EulerStream/TikTok-Live-Api/sdk/go` |
 
-TypeScript and Python each come as two packages. `tiktok-api-sdk` has everything: TikTok user profiles, videos, OAuth, request signing and captcha solving, plus the full TikTok LIVE API. `tiktok-live-api-sdk` is the same client with only the TikTok LIVE routes. C#, Java and Go ship everything in one package.
+TypeScript and Python each come as two packages. The full one (`tiktok-api-sdk` on npm, `TikTokApiSdk` on PyPI) has everything: TikTok user profiles, videos, OAuth, request signing and captcha solving, plus the full TikTok LIVE API. The LIVE one (`tiktok-live-api-sdk` on npm, `TikTokLiveApiSdk` on PyPI) is the same client with only the TikTok LIVE routes. C#, Java and Go ship everything in one package.
 
 Everything else can use the language-agnostic WebSocket directly. A [payload decoder tool](https://www.eulerstream.com/docs/api/client-sdks/websocket-sdk/decoder) is available for debugging.
 
@@ -127,9 +127,9 @@ with client as c:
     print(hashtags.message)
 ```
 
-Both examples use `tiktok-api-sdk`. With `tiktok-live-api-sdk` the LIVE calls are the same apart from the name: `TikTokLiveApiSdk` in place of `TikTokApiSdk`.
+Both examples use the full package. With the LIVE-only package the LIVE calls are the same apart from the name: `TikTokLiveApiSdk` in place of `TikTokApiSdk`.
 
-Per-language SDK docs: TypeScript ([TikTok API](./sdk/typescript/api/README.md) · [TikTok LIVE API](./sdk/typescript/live/README.md)) · Python ([TikTok API](https://pypi.org/project/tiktok-api-sdk/) · [TikTok LIVE API](https://pypi.org/project/tiktok-live-api-sdk/)) · [C#](./sdk/csharp/README.md) · [Java](./sdk/java/README.md) · [Go](./sdk/go/README.md)
+Per-language SDK docs: TypeScript ([TikTok API](./sdk/typescript/api/README.md) · [TikTok LIVE API](./sdk/typescript/live/README.md)) · Python ([TikTok API](https://pypi.org/project/TikTokApiSdk/) · [TikTok LIVE API](https://pypi.org/project/TikTokLiveApiSdk/)) · [C#](./sdk/csharp/README.md) · [Java](./sdk/java/README.md) · [Go](./sdk/go/README.md)
 
 ---
 
@@ -206,7 +206,7 @@ Add-ons such as premium webcast routes, priority API requests, signature routes,
 
 SDKs are generated via GitHub Actions from the OpenAPI document committed at [`spec/openapi.json`](./spec/openapi.json). It is the public document the API server emits from its own source (`openapi:emit -- --public` in the `euler-api-server` app), so a release is generated from a reviewed, versioned spec rather than from whatever a running server happens to serve. Refresh it with `scripts/refresh-spec.sh <path-to-euler-api-server-app>`, which also refreshes the private SDK's full document, then commit the result.
 
-For TypeScript and Python, the same spec produces both packages: `tiktok-api-sdk` from the full document and `tiktok-live-api-sdk` from the TikTok LIVE subset declared in [`spec/packages.json`](./spec/packages.json).
+For TypeScript and Python, the same spec produces both packages: the full one from the full document and the LIVE one from the TikTok LIVE subset declared in [`spec/packages.json`](./spec/packages.json).
 
 | Workflow | Purpose |
 |----------|---------|
@@ -226,7 +226,7 @@ An unofficial, managed API for TikTok operated by EulerStream. It covers TikTok 
 No. TikTok's own developer platform offers official APIs to approved apps. This is an independent, unofficial third-party project. It is not affiliated with, endorsed by, or connected to TikTok or ByteDance.
 
 **How do I look up a TikTok user or video with an API?**
-Install `tiktok-api-sdk` (or the C#, Java or Go SDK), add your API key, and call the users or videos client with a `@username` or video ID, as in the Quick Start above.
+Install `tiktok-api-sdk` from npm or `TikTokApiSdk` from PyPI (or the C#, Java or Go SDK), add your API key, and call the users or videos client with a `@username` or video ID, as in the Quick Start above.
 
 **Does TikTok have an official LIVE API for chat and gifts?**
 No. TikTok does not offer an official public API for reading LIVE stream interaction data (chats, gifts, likes) in real time. EulerStream's TikTok LIVE API connects to TikTok's LIVE (webcast) service so you can receive these events over a WebSocket.
@@ -234,8 +234,8 @@ No. TikTok does not offer an official public API for reading LIVE stream interac
 **How do I read TikTok LIVE chat and gifts in real time?**
 Install an SDK above, add your API key, and subscribe to events for any streamer by their `@username`. Chat, gifts, likes, follows, viewer counts, and PK battle events arrive as they happen.
 
-**Should I install `tiktok-api-sdk` or `tiktok-live-api-sdk`?**
-`tiktok-api-sdk` has everything, including the TikTok LIVE API. `tiktok-live-api-sdk` is a smaller package with only the LIVE routes. If you are unsure, install `tiktok-api-sdk`.
+**Should I install the full package or the LIVE-only one?**
+The full package (`tiktok-api-sdk` on npm, `TikTokApiSdk` on PyPI) has everything, including the TikTok LIVE API. The LIVE-only one (`tiktok-live-api-sdk` on npm, `TikTokLiveApiSdk` on PyPI) is smaller, with only the LIVE routes. If you are unsure, install the full package.
 
 **Which languages are supported?**
 Node.js/TypeScript, Python, C#, Java, and Go, plus a language-agnostic WebSocket for everything else.

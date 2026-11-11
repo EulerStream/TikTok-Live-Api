@@ -6,6 +6,10 @@ explicitly. A build that silently drops them still succeeds and produces a
 wheel with nothing but metadata, so this script opens what `poetry build`
 wrote to dist/ and looks.
 
+It also checks that the package installs nothing but its own import package.
+A second one would be written into a folder another distribution may own:
+pip does not notice, and the other distribution's code is silently replaced.
+
 Run from the package folder after `poetry build`:
     python3 ../common/scripts/check_dist.py
 """
@@ -17,11 +21,6 @@ import sys
 import tarfile
 import zipfile
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-COMMON_DIR = os.path.abspath(os.path.join(HERE, ".."))
-ALIAS_NAME = "EulerApiSdk"
-ALIAS_SOURCE = os.path.join(COMMON_DIR, "alias", ALIAS_NAME, "__init__.py")
-
 
 def newest(pattern):
     matches = sorted(glob.glob(pattern), key=os.path.getmtime)
@@ -32,16 +31,19 @@ def newest(pattern):
 
 def required_files(sdk):
     package = sdk["packageName"]
-    files = [
+    return [
         f"{package}/__init__.py",
         f"{package}/py.typed",
         f"{package}/client.py",
         f"{package}/api/__init__.py",
         f"{package}/models/__init__.py",
     ]
-    if sdk.get("deprecatedAlias"):
-        files.append(f"{ALIAS_NAME}/__init__.py")
-    return files
+
+
+def other_import_packages(names, sdk):
+    """Top-level importable folders in the archive besides the package's own."""
+    top_level = {path.split("/")[0] for path in names if path.count("/") == 1 and path.endswith("/__init__.py")}
+    return sorted(top_level - {sdk["packageName"]})
 
 
 def check_archive(label, names, read, sdk):
@@ -50,11 +52,8 @@ def check_archive(label, names, read, sdk):
     for path in required_files(sdk):
         if path not in names:
             problems.append(f"{label} is missing {path}")
-    alias_path = f"{ALIAS_NAME}/__init__.py"
-    if sdk.get("deprecatedAlias") and alias_path in names:
-        with open(ALIAS_SOURCE, "rb") as fh:
-            if read(names[alias_path]) != fh.read():
-                problems.append(f"{label}: {alias_path} differs from the shared alias source")
+    for folder in other_import_packages(names, sdk):
+        problems.append(f"{label} also installs {folder}/, an import package it does not own")
     if any("__pycache__" in path for path in names):
         problems.append(f"{label} contains __pycache__ files")
     return problems

@@ -1,5 +1,5 @@
 """
-End-to-end tests for the tiktok-live-api-sdk Python package.
+End-to-end tests for the TikTokLiveApiSdk Python package.
 
 Makes real HTTP calls against the live API.
 

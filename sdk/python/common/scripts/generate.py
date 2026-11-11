@@ -7,10 +7,9 @@ Run from the package folder (its `pnpm run generate` does this):
 The folder's sdk.json says what to build:
 
     {
-      "projectName": "tiktok-live-api-sdk",   distribution name on PyPI
+      "projectName": "TikTokLiveApiSdk",   distribution name on PyPI
       "packageName": "TikTokLiveApiSdk",      import name
       "specPackage": "live",                  optional; a key in spec/packages.json
-      "deprecatedAlias": true,                ship the deprecated EulerApiSdk import
       "version": "0.6.1"                      optional; overrides ./version.txt
     }
 
@@ -21,9 +20,9 @@ number back there after publishing.
 With `specPackage` the spec is cut down to that package's tags before
 generation; without it the package gets the full spec.
 
-Everything this writes into the package folder (the import package, the
-EulerApiSdk alias, pyproject.toml, README.md, .gitignore,
-test/sdk_manifest.json, build/) is git-ignored build output. CI runs the same
+Everything this writes into the package folder (the import package,
+pyproject.toml, README.md, .gitignore, test/sdk_manifest.json, build/) is
+git-ignored build output. CI runs the same
 script.
 """
 
@@ -41,9 +40,6 @@ REPO_ROOT = os.path.abspath(os.path.join(PYTHON_DIR, "..", ".."))
 SPEC_PATH = os.path.join(REPO_ROOT, "spec", "openapi.json")
 PACKAGES_PATH = os.path.join(REPO_ROOT, "spec", "packages.json")
 SPEC_SCRIPTS_DIR = os.path.join(REPO_ROOT, ".github", "scripts")
-
-ALIAS_NAME = "EulerApiSdk"
-ALIAS_SOURCE = os.path.join(COMMON_DIR, "alias", ALIAS_NAME)
 
 # openapi-python-client regenerates pyproject.toml with this placeholder; the
 # real version is pinned at the end from sdk.json or the package's version.txt.
@@ -137,14 +133,7 @@ def main() -> None:
     # package (see post_hooks above), stop here rather than ship raw output.
     run("ruff", "format", "--check", "--quiet", package)
 
-    # 5. The deprecated EulerApiSdk import, copied byte-for-byte from the one
-    #    shared source so every package ships the same file.
-    if sdk.get("deprecatedAlias"):
-        alias_dir = os.path.join(package_dir, ALIAS_NAME)
-        shutil.rmtree(alias_dir, ignore_errors=True)
-        shutil.copytree(ALIAS_SOURCE, alias_dir, ignore=shutil.ignore_patterns("__pycache__"))
-
-    # 6. Test manifest, then the real version.
+    # 5. Test manifest, then the real version.
     run(sys.executable, os.path.join(HERE, "render_manifest.py"))
     version = sdk.get("version")
     if not version:

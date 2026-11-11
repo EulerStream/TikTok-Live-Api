@@ -14,7 +14,7 @@ on:
         type: boolean
         default: false
       # Which TypeScript/Python packages to build: `both`, or only `live`
-      # (tiktok-live-api-sdk) or `api` (tiktok-api-sdk).
+      # (the TikTok LIVE package) or `api` (the full API package).
       packages:
         type: string
         default: both
@@ -43,8 +43,8 @@ env:
 
 jobs:
   # TypeScript and Python are each published as two packages built from the same
-  # spec: tiktok-live-api-sdk (`live`, the TikTok LIVE groups only) and
-  # tiktok-api-sdk (`api`, everything). Each package folder has an sdk.json, and
+  # spec: the TikTok LIVE package (`live`, the TikTok LIVE groups only) and
+  # the full API package (`api`, everything). Each package folder has an sdk.json, and
   # one generate script per language turns it into a package: it copies and
   # normalizes the spec, cuts it down to the package's tags (spec/packages.json)
   # when the package asks for that, runs the generator, and adds the shared
@@ -138,7 +138,7 @@ jobs:
           path: sdk/python/${{ matrix.package }}
 
   # One-off: the final release of the retired EulerApiSdk package. Same code as
-  # tiktok-api-sdk under the old name, with a README and an import warning that
+  # the full API package under the old name, with a README and an import warning that
   # say where it went. Remove this job with sdk/python/legacy once it has shipped.
   generate-python-legacy:
     if: ${{ inputs.python_legacy }}

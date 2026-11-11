@@ -13,9 +13,14 @@ __all__ = (
     "Client",
 )
 
-warnings.warn(
-    "EulerApiSdk has moved. Install tiktok-api-sdk (everything) or "
-    "tiktok-live-api-sdk (TikTok LIVE only); see https://pypi.org/project/tiktok-api-sdk/",
-    DeprecationWarning,
-    stacklevel=2,
-)
+try:
+    warnings.warn(
+        "EulerApiSdk has moved. Install TikTokApiSdk (everything) or "
+        "TikTokLiveApiSdk (TikTok LIVE only); see https://pypi.org/project/TikTokApiSdk/",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+except DeprecationWarning:
+    # Warnings are being raised as errors (python -W error, or a test suite
+    # with filterwarnings = error). This notice must never break an import.
+    pass
