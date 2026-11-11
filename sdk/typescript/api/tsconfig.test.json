@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["test/aliases.test.ts"],
+  "compilerOptions": {
+    "noEmit": true
+  }
+}
