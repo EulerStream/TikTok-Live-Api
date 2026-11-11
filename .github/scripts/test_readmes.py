@@ -36,6 +36,8 @@ NOT_IN_LIVE = [
     "client.signing",
     "client.captchas",
     "client.general",
+    "tikTokOAuth",
+    "tik_tok_oauth",
     "client.analytics",
     "listWebcastGifts",
     "list_webcast_gifts",
@@ -163,6 +165,44 @@ class ReadmeTests(unittest.TestCase):
         self.check_each(
             lambda spec, text: self.assertIn(spec["migration_heading"], text.splitlines())
         )
+
+
+class OAuthGroupNameTests(unittest.TestCase):
+    """The READMEs that name the OAuth group must name it as the committed spec builds it.
+
+    The server renamed the tag "TikTok General" to "TikTok OAuth". The generated
+    names follow the tag, so the day spec/openapi.json carries the new tag these
+    two lines have to change with it, and this test fails until they do.
+    """
+
+    NAMED_IN = {
+        "sdk/java/README.md": {"TikTok General": "client.general()", "TikTok OAuth": "client.tikTokOAuth()"},
+        "sdk/python/api/templates/README.md.jinja": {"TikTok General": "api.tik_tok_general", "TikTok OAuth": "api.tik_tok_oauth"},
+    }
+
+    def spec_tag(self):
+        spec = json.loads(read("spec/openapi.json"))
+        tags = {
+            tag
+            for item in spec["paths"].values()
+            for operation in item.values()
+            if isinstance(operation, dict)
+            for tag in operation.get("tags", [])
+        }
+        present = [tag for tag in ("TikTok General", "TikTok OAuth") if tag in tags]
+        self.assertEqual(len(present), 1, f"expected exactly one OAuth tag in the spec, found {present}")
+        return present[0]
+
+    def test_readmes_name_the_group_the_spec_builds(self):
+        current = self.spec_tag()
+        for path, names in self.NAMED_IN.items():
+            with self.subTest(readme=path):
+                text = read(path)
+                for tag, accessor in names.items():
+                    if tag == current:
+                        self.assertIn(accessor, text)
+                    else:
+                        self.assertNotIn(accessor, text)
 
 
 class CrossLinkTests(unittest.TestCase):

@@ -29,6 +29,7 @@ RULES = {"includeTagPrefixes": ["TikTok LIVE"], "includeTags": ["Accounts"]}
 GENERAL_ONLY_TAGS = {
     "Analytics",
     "TikTok General",
+    "TikTok OAuth",
     "TikTok Signing",
     "TikTok Captchas",
     "TikTok Users",

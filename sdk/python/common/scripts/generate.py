@@ -39,6 +39,7 @@ REPO_ROOT = os.path.abspath(os.path.join(PYTHON_DIR, "..", ".."))
 
 SPEC_PATH = os.path.join(REPO_ROOT, "spec", "openapi.json")
 PACKAGES_PATH = os.path.join(REPO_ROOT, "spec", "packages.json")
+TAG_NAMES_PATH = os.path.join(COMMON_DIR, "tag_names.json")
 SPEC_SCRIPTS_DIR = os.path.join(REPO_ROOT, ".github", "scripts")
 
 # openapi-python-client regenerates pyproject.toml with this placeholder; the
@@ -71,7 +72,8 @@ def main() -> None:
     build_dir = os.path.join(package_dir, "build")
     os.makedirs(build_dir, exist_ok=True)
 
-    # 1. Spec: copy, normalize, and cut down to this package's tags if it has any.
+    # 1. Spec: copy, normalize, cut down to this package's tags if it has any,
+    #    then respell the tags Python would name badly.
     build_spec = os.path.join(build_dir, "openapi.json")
     shutil.copy(SPEC_PATH, build_spec)
     run(sys.executable, os.path.join(SPEC_SCRIPTS_DIR, "normalize_spec.py"), build_spec)
@@ -83,6 +85,14 @@ def main() -> None:
             PACKAGES_PATH,
             sdk["specPackage"],
         )
+    # The generator names a group by splitting its tag at capitals, which reads
+    # "OAuth" as two words; tag_names.json respells such tags for Python only.
+    run(
+        sys.executable,
+        os.path.join(SPEC_SCRIPTS_DIR, "rename_tags.py"),
+        build_spec,
+        TAG_NAMES_PATH,
+    )
 
     # 2. Templates: the generator takes one custom template folder, so the
     #    shared templates and this package's own are merged, package last.
