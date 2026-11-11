@@ -30,21 +30,25 @@ def run_test(name, fn):
 
 
 # ---------------------------------------------------------------------------
-# 1. retrieve_hashtag_list sync_detailed returns 200
+# 1. get_rate_limits sync_detailed returns 200 with parsed data
 #
-# The hashtag list is a TikTok LIVE route that answers without an API key,
-# which CI needs: the test workflow has no secrets.
+# CI has no secrets, so this must be a route that answers without an API key.
+# The TikTok LIVE routes do, but only a few times a minute per IP, so they
+# return 429 on a busy runner. The rate-limit route reports those limits and is
+# not itself subject to them.
 # ---------------------------------------------------------------------------
 
 
-def test_retrieve_hashtag_list_sync_detailed():
+def test_get_rate_limits_sync_detailed():
     from TikTokLiveApiSdk import Client
-    from TikTokLiveApiSdk.api.tik_tok_live import retrieve_hashtag_list
+    from TikTokLiveApiSdk.api.accounts import get_rate_limits
 
     client = Client(base_url="https://api.eulerstream.com")
-    response = retrieve_hashtag_list.sync_detailed(client=client)
+    response = get_rate_limits.sync_detailed(client=client)
 
     assert response.status_code.value == 200, f"Expected status 200, got {response.status_code.value}"
+    assert response.parsed is not None, "Expected parsed data, got None"
+    assert response.parsed.day.max_ > 0, "Expected a daily limit"
 
 
 # ---------------------------------------------------------------------------
@@ -53,7 +57,7 @@ def test_retrieve_hashtag_list_sync_detailed():
 
 if __name__ == "__main__":
     tests = [
-        ("retrieve_hashtag_list sync_detailed returns 200", test_retrieve_hashtag_list_sync_detailed),
+        ("get_rate_limits sync_detailed returns 200 with parsed data", test_get_rate_limits_sync_detailed),
     ]
 
     print(f"\nRunning {len(tests)} e2e tests...\n")

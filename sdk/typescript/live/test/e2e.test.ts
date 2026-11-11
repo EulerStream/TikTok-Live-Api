@@ -21,11 +21,18 @@ async function test(name: string, fn: () => Promise<void>): Promise<void> {
 
     const client = new TikTokLiveApiSdk();
 
-    // The hashtag list is a TikTok LIVE route that answers without an API key,
-    // which CI needs: the test workflow has no secrets.
-    await test("retrieveHashtagList returns status 200", async () => {
-        const response = await client.webcast.retrieveHashtagList();
+    // CI has no secrets, so this must be a route that answers without an API
+    // key. The TikTok LIVE routes do, but only a few times a minute per IP, so
+    // they return 429 on a busy runner. The rate-limit route reports those
+    // limits and is not itself subject to them.
+    await test("getRateLimits returns status 200", async () => {
+        const response = await client.accounts.getRateLimits();
         assert.strictEqual(response.status, 200, `expected status 200, got ${response.status}`);
+    });
+
+    await test("getRateLimits returns the daily limit", async () => {
+        const response = await client.accounts.getRateLimits();
+        assert.ok(typeof response.data.day?.max === "number", "response.data.day.max should be a number");
     });
 
     // Summary
