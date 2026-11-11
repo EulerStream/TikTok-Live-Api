@@ -2,8 +2,10 @@ boilerplate:
   showImports: true
 
 variables:
-  sdkImport: "from EulerApiSdk.client import AuthenticatedClient"
-  sdkPackage: EulerApiSdk
+  # The snippets cover every operation, so they import the general package:
+  # tiktok-live-api-sdk only has the TikTok LIVE groups.
+  sdkImport: "from TikTokApiSdk.client import AuthenticatedClient"
+  sdkPackage: TikTokApiSdk
   clientConstruction: |
     client = AuthenticatedClient(
         base_url="$baseUrl",
