@@ -29,9 +29,13 @@ REQUIRED = [
     "authentication",
 ]
 
+# The OAuth group is api.tik_tok_general or api.tik_tok_oauth, whichever tag the
+# committed spec carries; neither belongs here.
 GENERAL_ONLY = [
     "analytics",
     "tik_tok_general",
+    "tik_tok_oauth",
+    "tik_tok_o_auth",
     "tik_tok_signing",
     "tik_tok_captchas",
     "tik_tok_users",

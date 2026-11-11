@@ -31,12 +31,17 @@ SHARED_WITH_LIVE = [
 
 GENERAL_ONLY = [
     "analytics",
-    "tik_tok_general",
     "tik_tok_signing",
     "tik_tok_captchas",
     "tik_tok_users",
     "tik_tok_videos",
 ]
+
+# The OAuth group follows its tag: api.tik_tok_general while the committed spec
+# says "TikTok General", api.tik_tok_oauth once it carries the server's
+# "TikTok OAuth" (respelled for Python in common/tag_names.json; unrespelled it
+# would be api.tik_tok_o_auth).
+OAUTH_GROUP = ["tik_tok_oauth", "tik_tok_general"]
 
 passed = 0
 failed = 0
@@ -64,6 +69,9 @@ def test_every_group_present():
     modules = load_api_modules()
     for name in SHARED_WITH_LIVE + GENERAL_ONLY:
         assert name in modules, f"{PACKAGE} should include api.{name}"
+    present = [name for name in OAUTH_GROUP if name in modules]
+    assert len(present) == 1, f"{PACKAGE} should include the TikTok OAuth group exactly once, found {present}"
+    assert "tik_tok_o_auth" not in modules, "the TikTok OAuth tag reached the generator unrespelled"
 
 
 def test_installs_only_its_own_import_package():

@@ -20,6 +20,7 @@ apiClassMap:
   "TikTok LIVE Premium": premium
   "TikTok LIVE Moderation": moderation
   "TikTok General": general
+  "TikTok OAuth": tikTokOAuth
   "TikTok Captchas": captchas
   Analytics: analytics
   "TikTok LIVE Alerts": alerts

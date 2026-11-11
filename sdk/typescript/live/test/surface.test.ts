@@ -15,9 +15,12 @@ const REQUIRED = [
     "AuthenticationApi",
 ];
 
+// The OAuth group is TikTokGeneralApi or TikTokOAuthApi, whichever tag the
+// committed spec carries; neither belongs here.
 const GENERAL_ONLY = [
     "AnalyticsApi",
     "TikTokGeneralApi",
+    "TikTokOAuthApi",
     "TikTokSigningApi",
     "TikTokCaptchasApi",
     "TikTokUsersApi",
