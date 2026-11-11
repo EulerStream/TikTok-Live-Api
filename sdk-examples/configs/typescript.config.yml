@@ -2,8 +2,10 @@ boilerplate:
   showImports: true
 
 variables:
-  sdkImport: "import EulerStreamApiClient from 'tiktok-live-api-sdk'"
-  clientConstruction: "const client = new EulerStreamApiClient({ apiKey: '$apiKey', basePath: '$baseUrl' });"
+  # The snippets cover every operation, so they import the general package:
+  # tiktok-live-api-sdk only has the TikTok LIVE groups.
+  sdkImport: "import TikTokApiSdk from 'tiktok-api-sdk'"
+  clientConstruction: "const client = new TikTokApiSdk({ apiKey: '$apiKey', basePath: '$baseUrl' });"
   clientVar: client
   apiAccessPattern: dot
 

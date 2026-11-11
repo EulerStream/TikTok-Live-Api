@@ -51,11 +51,13 @@ Full API documentation and the interactive OpenAPI spec live at [eulerstream.com
 
 | Language | Package | Install |
 |----------|---------|---------|
-| TypeScript / Node.js | [`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk) | `npm i tiktok-live-api-sdk` |
-| Python | [`EulerApiSdk`](https://pypi.org/project/EulerApiSdk/) | `pip install EulerApiSdk` |
+| TypeScript / Node.js | [`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk) (TikTok LIVE) · [`tiktok-api-sdk`](https://www.npmjs.com/package/tiktok-api-sdk) (everything) | `npm i tiktok-live-api-sdk` or `npm i tiktok-api-sdk` |
+| Python | [`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/) (TikTok LIVE) · [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) (everything) | `pip install tiktok-live-api-sdk` or `pip install tiktok-api-sdk` |
 | C# / .NET | [`EulerApiSdk`](https://www.nuget.org/packages/EulerApiSdk) | `dotnet add package EulerApiSdk` |
 | Java | [`com.eulerstream:euler-api-sdk`](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) | Maven / Gradle |
 | Go | [`github.com/EulerStream/TikTok-Live-Api/sdk/go`](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go) | `go get github.com/EulerStream/TikTok-Live-Api/sdk/go` |
+
+TypeScript and Python each come as two packages. `tiktok-live-api-sdk` has the TikTok LIVE routes; `tiktok-api-sdk` has those plus TikTok user profiles, videos, OAuth, request signing and captcha solving. C#, Java and Go ship everything in one package.
 
 Everything else can use the language-agnostic WebSocket directly. A [payload decoder tool](https://www.eulerstream.com/docs/api/client-sdks/websocket-sdk/decoder) is available for debugging.
 
@@ -70,17 +72,17 @@ Everything else can use the language-agnostic WebSocket directly. A [payload dec
 ### TypeScript / Node.js
 
 ```ts
-import EulerStreamApiClient from "tiktok-live-api-sdk";
+import TikTokLiveApiSdk from "tiktok-live-api-sdk";
 
-const client = new EulerStreamApiClient({ apiKey: "YOUR_API_KEY" });
+const client = new TikTokLiveApiSdk({ apiKey: "YOUR_API_KEY" });
 
-// Look up any TikTok user by @username
-const user = await client.tikTokUsers.retrieveTikTokUserBasic("tv_asahi_news");
-console.log(user.data.user?.nickname);
+// List the hashtags TikTok LIVE streams are grouped under
+const hashtags = await client.webcast.retrieveHashtagList();
+console.log(hashtags.data.message);
 
-// Browse the TikTok LIVE gift catalog
-const catalog = await client.gifts.listWebcastGifts();
-console.log(catalog.data.gifts?.length, "gifts");
+// Get the TikTok LIVE gift list as a JSON file to download
+const gifts = await client.gifts.retrieveWebcastGifts();
+console.log(gifts.data.url);
 
 // Business plan: fetch the TikTok LIVE WebSocket URL straight from the creator's @username
 const webcast = await client.anchors.fetchWebcastURLByUniqueId("tv_asahi_news");
@@ -89,23 +91,25 @@ const webcast = await client.anchors.fetchWebcastURLByUniqueId("tv_asahi_news");
 ### Python
 
 ```python
-from EulerApiSdk import AuthenticatedClient
-from EulerApiSdk.api.tik_tok_users import retrieve_tik_tok_user_basic
-from EulerApiSdk.api.tik_tok_live_gifts import list_webcast_gifts
+from TikTokLiveApiSdk import AuthenticatedClient
+from TikTokLiveApiSdk.api.tik_tok_live import retrieve_hashtag_list
+from TikTokLiveApiSdk.api.tik_tok_live_gifts import retrieve_webcast_gifts
 
 client = AuthenticatedClient(base_url="https://api.eulerstream.com", token="YOUR_API_KEY")
 
 with client as c:
-    # Look up any TikTok user by @username
-    user = retrieve_tik_tok_user_basic.sync(unique_id="tv_asahi_news", client=c)
-    print(user.user.nickname)
+    # List the hashtags TikTok LIVE streams are grouped under
+    hashtags = retrieve_hashtag_list.sync(client=c)
+    print(hashtags.message)
 
-    # Browse the TikTok LIVE gift catalog
-    catalog = list_webcast_gifts.sync(client=c)
-    print(len(catalog.gifts), "gifts")
+    # Get the TikTok LIVE gift list as a JSON file to download
+    gifts = retrieve_webcast_gifts.sync(client=c)
+    print(gifts.url)
 ```
 
-Per-language SDK docs: [TypeScript](./sdk/typescript/README.md) · [Python](./sdk/python/README.md) · [C#](./sdk/csharp/README.md) · [Java](./sdk/java/README.md) · [Go](./sdk/go/README.md)
+Both examples use `tiktok-live-api-sdk`. With `tiktok-api-sdk` the code is the same apart from the name: `TikTokApiSdk` in place of `TikTokLiveApiSdk`.
+
+Per-language SDK docs: TypeScript ([LIVE](./sdk/typescript/live/README.md) · [everything](./sdk/typescript/api/README.md)) · Python ([LIVE](https://pypi.org/project/tiktok-live-api-sdk/) · [everything](https://pypi.org/project/tiktok-api-sdk/)) · [C#](./sdk/csharp/README.md) · [Java](./sdk/java/README.md) · [Go](./sdk/go/README.md)
 
 ---
 

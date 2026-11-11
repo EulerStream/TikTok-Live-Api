@@ -1,0 +1,38 @@
+import { {{API_IMPORTS}} } from "@/sdk";
+import {buildConfig, ClientConfiguration} from "@/utils";
+
+// Exports
+export * from './sdk';
+export * from './utils';
+
+// Export an API Client
+export class {{CLIENT_CLASS}} {
+
+  {{API_PROPERTIES}}
+  public readonly configuration: ClientConfiguration;
+
+  /**
+   * EulerStream API Client
+   *
+   * @param config The configuration for the API client
+   */
+  constructor(
+      config: Partial<ClientConfiguration> = {}
+  ) {
+
+    // Build the config
+    this.configuration = buildConfig(config);
+
+    // Set up the APIs
+    {{API_CONSTRUCTORS}}
+
+  }
+
+}
+
+export default {{CLIENT_CLASS}};
+
+/** @deprecated Use {@link {{CLIENT_CLASS}}} instead. This name will be removed in a future major version. */
+export const EulerStreamApiClient = {{CLIENT_CLASS}};
+/** @deprecated Use {@link {{CLIENT_CLASS}}} instead. This name will be removed in a future major version. */
+export type EulerStreamApiClient = {{CLIENT_CLASS}};

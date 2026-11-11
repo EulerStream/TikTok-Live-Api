@@ -1,0 +1,10 @@
+{
+  "name": "@eulerstream/sdk-python-api",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "generate": "python3 ../common/scripts/generate.py",
+    "build": "poetry build && python3 ../common/scripts/check_dist.py",
+    "test": "python3 test/test_basic.py && python3 test/test_surface.py"
+  }
+}

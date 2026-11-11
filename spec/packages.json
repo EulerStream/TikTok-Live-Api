@@ -1,0 +1,6 @@
+{
+  "live": {
+    "includeTagPrefixes": ["TikTok LIVE"],
+    "includeTags": ["TikTok WebSocket API", "Accounts", "Authentication"]
+  }
+}

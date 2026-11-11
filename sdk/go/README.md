@@ -97,7 +97,7 @@ Per-endpoint Go examples for every operation are in the [EulerStream API docs](h
 
 ## Other languages
 
-The TikTok LIVE API SDK is also available for [Node.js / TypeScript](https://www.npmjs.com/package/tiktok-live-api-sdk), [Python](https://pypi.org/project/EulerApiSdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk) and [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk), and anything else can use the language-agnostic WebSocket directly.
+The TikTok LIVE API SDK is also available for Node.js / TypeScript ([`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk), or [`tiktok-api-sdk`](https://www.npmjs.com/package/tiktok-api-sdk) for the full TikTok API), Python ([`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/), or [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/) for the full TikTok API), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk) and [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk), and anything else can use the language-agnostic WebSocket directly.
 
 ## Links
 

@@ -1,0 +1,88 @@
+{# Custom override of openapi-python-client's pyproject_poetry.toml.jinja.
+   The stock template emits placeholder metadata (no authors, keywords, URLs or
+   classifiers) and a description derived from the OpenAPI title, none of which
+   is what PyPI should show. Everything PyPI renders in the sidebar and search
+   results is set here; project_name / package_name / package_version still
+   come from the generator (config.yaml + `poetry version` in CI). #}
+[tool.poetry]
+name = "{{ project_name }}"
+version = "{{ package_version | in_double_quote_literal }}"
+description = "TikTok LIVE API SDK for Python. Real-time TikTok LIVE chat, gifts, likes, follows, viewer counts and PK battles via the EulerStream managed TikTok LIVE API, with typed clients for LIVE rooms, creators, gifts, rankings, LIVE alerts, moderation and agencies."
+authors = ["EulerStream"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://www.eulerstream.com"
+repository = "https://github.com/EulerStream/TikTok-Live-Api"
+documentation = "https://www.eulerstream.com/docs/intro"
+keywords = [
+    "tiktok",
+    "tiktok live",
+    "tiktok-live",
+    "tiktoklive",
+    "tiktok live api",
+    "tiktok api",
+    "tiktok live sdk",
+    "tiktok live chat",
+    "tiktok live gifts",
+    "tiktok live stream",
+    "tiktok webcast",
+    "tiktok live events",
+    "tiktok live alerts",
+    "tiktok live moderation",
+    "eulerstream",
+    "euler stream",
+    "livestream",
+    "websocket",
+    "webcast",
+    "api",
+    "sdk",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Communications :: Chat",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+packages = [
+    { include = "{{ package_name }}" },
+    # Deprecated import name, redirected to {{ package_name }}; see
+    # sdk/python/common/alias in the repository.
+    { include = "EulerApiSdk" },
+]
+# The generated sources are git-ignored in the repository, and Poetry leaves
+# VCS-ignored files out of a build unless they are included explicitly. Without
+# these entries a build inside a git checkout ships metadata and no code.
+# common/scripts/check_dist.py verifies what was built.
+include = [
+    { path = "{{ package_name }}/**/*.py", format = ["sdist", "wheel"] },
+    { path = "{{ package_name }}/py.typed", format = ["sdist", "wheel"] },
+    { path = "EulerApiSdk/**/*.py", format = ["sdist", "wheel"] },
+]
+
+[tool.poetry.urls]
+"Homepage" = "https://www.eulerstream.com"
+"Documentation" = "https://www.eulerstream.com/docs/intro"
+"OpenAPI Reference" = "https://www.eulerstream.com/docs/openapi"
+"Pricing" = "https://www.eulerstream.com/pricing"
+"Discord" = "https://www.eulerstream.com/discord"
+"Repository" = "https://github.com/EulerStream/TikTok-Live-Api"
+"Issues" = "https://github.com/EulerStream/TikTok-Live-Api/issues"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+httpx = ">=0.23.1,<0.29.0"
+attrs = ">=22.2.0"
+python-dateutil = "^2.8.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

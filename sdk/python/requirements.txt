@@ -1,2 +1,2 @@
-openapi-python-client
+openapi-python-client==0.29.1
 poetry

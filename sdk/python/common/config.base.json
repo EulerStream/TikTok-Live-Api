@@ -1,0 +1,17 @@
+{
+  "http_timeout": 30,
+  "class_overrides": {
+    "PartialAvatarUrlStringNicknameStringSecUidStringNumericUidStringSignatureStringIsVerifiedBooleanFollowingNumberFollowersNumber": {
+      "class_name": "PartialTikTokUserInfo",
+      "module_name": "partial_tiktok_user_info"
+    },
+    "PartialSignedUrlStringUserAgentStringBrowserNameStringBrowserVersionStringTokensRecordStringStringRequestHeadersRecordStringStringCookiesRecordStringStringArray": {
+      "class_name": "PartialSignedUrlInfo",
+      "module_name": "partial_signed_url_info"
+    },
+    "PartialStatusNumberIsLiveBooleanIdStringCoverUrlStringTitleStringStartTimeNumberCurrentViewersNumberTotalViewersNumberHlsPullUrlStringFlvPullUrlStringHlsPullUrlLdStringFlvPullUrlLdString": {
+      "class_name": "PartialTikTokLiveUserInfo",
+      "module_name": "partial_tiktok_live_user_info"
+    }
+  }
+}
