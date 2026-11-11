@@ -40,7 +40,9 @@ GENERAL_ONLY = [
     "tik_tok_videos",
 ]
 
-EXPECTED_GROUP_COUNT = 13
+# No total is asserted. A new "TikTok LIVE ..." tag joins this package
+# automatically (spec/packages.json), and a fixed count would fail the build,
+# and with it every release, the day the server adds one.
 
 passed = 0
 failed = 0
@@ -74,13 +76,6 @@ def test_general_only_groups_absent():
     modules = load_api_modules()
     for name in GENERAL_ONLY:
         assert name not in modules, f"{PACKAGE} must not include api.{name}"
-
-
-def test_group_count():
-    modules = load_api_modules()
-    assert len(modules) == EXPECTED_GROUP_COUNT, (
-        f"expected {EXPECTED_GROUP_COUNT} API groups, got {len(modules)}: {modules}"
-    )
 
 
 def test_alias_file_matches_shared_source():
@@ -141,7 +136,6 @@ if __name__ == "__main__":
     tests = [
         ("LIVE and account groups are present", test_live_groups_present),
         ("General-only groups are absent", test_general_only_groups_absent),
-        ("Exactly 13 API groups", test_group_count),
         ("Shipped alias file matches the shared source", test_alias_file_matches_shared_source),
         ("Deprecated EulerApiSdk import resolves to this package and warns once", test_deprecated_import_name),
         ("Deprecated EulerApiSdk import has no general-only groups", test_deprecated_name_has_no_general_only_groups),

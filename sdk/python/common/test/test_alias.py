@@ -143,6 +143,32 @@ class AliasTests(unittest.TestCase):
             "    raise SystemExit('expected ImportError')\n"
         )
 
+    def test_threads_are_safe_once_the_alias_has_been_imported(self):
+        # The supported pattern for threaded programs (see the alias docstring):
+        # import the old name once, then let threads import whatever they like.
+        self.install(general=True)
+        for name in ("rooms", "users", "alerts"):
+            write(os.path.join(self.site, "TikTokApiSdk", "api", f"{name}.py"), "VALUE = 1\n")
+        self.assert_passes(
+            "import importlib, sys, threading\n"
+            "import EulerApiSdk\n"
+            "names = ['gifts', 'rooms', 'users', 'alerts'] * 4\n"
+            "errors = []\n"
+            "start = threading.Barrier(len(names))\n"
+            "def load(name):\n"
+            "    try:\n"
+            "        start.wait()\n"
+            "        old = importlib.import_module('EulerApiSdk.api.' + name)\n"
+            "        new = importlib.import_module('TikTokApiSdk.api.' + name)\n"
+            "        assert old is new, name\n"
+            "    except BaseException as exc:\n"
+            "        errors.append(repr(exc))\n"
+            "threads = [threading.Thread(target=load, args=(n,)) for n in names]\n"
+            "[t.start() for t in threads]\n"
+            "[t.join() for t in threads]\n"
+            "assert not errors, errors\n"
+        )
+
     def test_stale_files_are_ignored(self):
         # The retired EulerApiSdk distribution owned this same folder. If its
         # files are still there, the redirect must win over them.

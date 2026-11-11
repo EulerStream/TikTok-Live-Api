@@ -168,9 +168,15 @@ jobs:
         working-directory: sdk/typescript/${{ matrix.package }}
         run: npm version "$VERSION" --no-git-tag-version --allow-same-version
 
-      # If one leg failed last time, the version files were not committed, so a
-      # new dispatch computes the same versions again. The package that already
-      # made it to the registry is skipped and the other one catches up.
+      # If one leg failed last time, this language's version files were not
+      # committed, so a new dispatch computes the same versions again. The
+      # package that already made it to the registry is skipped and the other
+      # one catches up.
+      #
+      # When retrying, re-dispatch ONLY the language that failed and set every
+      # other bump to `skip`. A language whose packages all published has had
+      # its version files committed, so repeating its bump would release it a
+      # second time at the next version.
       - name: Publish to npm
         working-directory: sdk/typescript/${{ matrix.package }}
         run: |

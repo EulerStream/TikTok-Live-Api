@@ -6,7 +6,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/{{ project_name }}?color=0274b5)](https://pypi.org/project/{{ project_name }}/)
 [![PyPI downloads](https://img.shields.io/pypi/dm/{{ project_name }})](https://pypi.org/project/{{ project_name }}/)
 [![Python versions](https://img.shields.io/pypi/pyversions/{{ project_name }})](https://pypi.org/project/{{ project_name }}/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Live-Api/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
 `{{ project_name }}` is the official Python client for the [EulerStream TikTok LIVE API](https://www.eulerstream.com). Connect to any TikTok LIVE stream by `@username` and receive real-time **chat messages, gifts, likes, follows, shares, viewer counts, room stats and PK battles** over a managed WebSocket, plus fully typed sync and async clients for LIVE rooms, creators, gifts, rankings, LIVE alerts, moderation and agencies.
@@ -130,7 +130,7 @@ pip install {{ project_name }}
 
 Uninstalling first matters: this package provides the old `EulerApiSdk` import name from the same folder the old package installed into, and pip does not notice two packages sharing a folder.
 
-- **Imports.** The package is imported as `{{ package_name }}`. `import EulerApiSdk` still works and resolves to the same modules, with a `DeprecationWarning`; switch to `{{ package_name }}` when convenient.
+- **Imports.** The package is imported as `{{ package_name }}`. `import EulerApiSdk` still works and resolves to the same modules, with a `DeprecationWarning`; switch to `{{ package_name }}` when convenient. If your program imports the SDK from several threads, import `EulerApiSdk` once before starting them, or use the new name, which has no such requirement.
 - **The non-LIVE modules moved out.** User profiles, videos, OAuth, request signing, captcha solving and usage analytics are not in this package. They are in [`tiktok-api-sdk`](https://pypi.org/project/tiktok-api-sdk/), which has everything `EulerApiSdk` had. If you use any of them, install that instead; nothing else in your code has to change.
 
 ## Other languages
@@ -144,8 +144,8 @@ The TikTok LIVE API SDK is also available for [Node.js / TypeScript](https://www
 - OpenAPI reference: [eulerstream.com/docs/openapi](https://www.eulerstream.com/docs/openapi)
 - Pricing (free tier available): [eulerstream.com/pricing](https://www.eulerstream.com/pricing)
 - Community: [Discord](https://www.eulerstream.com/discord)
-- Source and issues: [github.com/EulerStream/TikTok-Live-Api](https://github.com/EulerStream/TikTok-Live-Api)
+- Source and issues: [github.com/EulerStream/TikTok-Api-Sdk](https://github.com/EulerStream/TikTok-Api-Sdk)
 
 ## License
 
-[MIT](https://github.com/EulerStream/TikTok-Live-Api/blob/master/LICENSE) © EulerStream
+[MIT](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE) © EulerStream

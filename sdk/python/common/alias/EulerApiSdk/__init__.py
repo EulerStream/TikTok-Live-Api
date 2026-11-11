@@ -11,6 +11,14 @@ installed package, to the very same module objects, with a
 When both packages are installed the general one wins, since it contains
 everything the LIVE one does. This file is byte-identical in both packages so
 that either may own it on disk.
+
+Threads: import ``EulerApiSdk`` once (on the main thread is simplest) before
+starting threads that import through this name. On Python 3.13 and earlier the
+interpreter makes a package visible to other threads before its ``__init__``
+has run, so two threads whose very first SDK imports are different
+``EulerApiSdk.*`` paths can race the redirect below and get a
+``ModuleNotFoundError``. Once the first import has completed, imports from any
+thread are safe. The new import names are not affected.
 """
 
 import importlib

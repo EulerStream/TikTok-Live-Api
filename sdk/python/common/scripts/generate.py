@@ -99,11 +99,22 @@ def main() -> None:
     # 3. Generator config: the shared settings plus this package's names.
     with open(os.path.join(COMMON_DIR, "config.base.json"), encoding="utf-8") as fh:
         generator_config = json.load(fh)
+    package = sdk["packageName"]
     generator_config.update(
         {
             "project_name_override": sdk["projectName"],
-            "package_name_override": sdk["packageName"],
+            "package_name_override": package,
             "package_version_override": PLACEHOLDER_VERSION,
+            # The generator cleans up its output with ruff. Its default hooks
+            # run on "." and ruff skips git-ignored folders, which is what the
+            # generated package is in this repository, so the package folder
+            # is named explicitly. The "." hooks keep formatting the rest.
+            "post_hooks": [
+                f"ruff check --fix-only {package}",
+                f"ruff format {package}",
+                "ruff check --fix-only .",
+                "ruff format .",
+            ],
         }
     )
     generator_config_path = os.path.join(build_dir, "config.json")
@@ -121,6 +132,10 @@ def main() -> None:
         "--config", generator_config_path,
         "--custom-template-path", templates_dir,
     )
+
+    # The published code must be the cleaned-up code. If ruff did not reach the
+    # package (see post_hooks above), stop here rather than ship raw output.
+    run("ruff", "format", "--check", "--quiet", package)
 
     # 5. The deprecated EulerApiSdk import, copied byte-for-byte from the one
     #    shared source so every package ships the same file.
