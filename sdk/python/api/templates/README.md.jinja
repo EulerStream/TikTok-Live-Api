@@ -9,9 +9,9 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
-`{{ project_name }}` is the official Python client for the [EulerStream TikTok API](https://www.eulerstream.com). Look up **TikTok user profiles and videos**, run **TikTok OAuth**, **sign TikTok web requests** and **solve TikTok captchas** from fully typed sync and async clients. The complete TikTok LIVE API is included too: connect to any LIVE stream by `@username` and receive real-time chat messages, gifts, likes, follows, viewer counts and PK battles, with clients for LIVE rooms, gifts, rankings, alerts and moderation.
+`{{ project_name }}` is the official Python client for the [EulerStream TikTok API](https://www.eulerstream.com). Use one typed TikTok API client, sync or async, to **look up TikTok users and videos**, run **TikTok OAuth**, **sign TikTok web requests** and **solve TikTok captchas**. The complete TikTok LIVE API is included as well, so the same client can read real-time LIVE chat, gifts and viewer counts.
 
-EulerStream is the managed TikTok backend behind [TikTokLive](https://github.com/isaackogan/TikTokLive), the most popular Python library for TikTok LIVE. Signing, captcha solving and the LIVE connection layer are hosted and maintained for you, so your integration keeps working when TikTok changes.
+The TikTok API behind this SDK is hosted by EulerStream, the managed TikTok backend behind [TikTokLive](https://github.com/isaackogan/TikTokLive), the most popular Python library for TikTok LIVE. Request signing, captcha solving and the LIVE connection layer are maintained for you, so your integration keeps working when TikTok changes.
 
 > Unofficial: this project is not affiliated with, endorsed by, or connected to TikTok or ByteDance.
 
@@ -25,35 +25,35 @@ pip install {{ project_name }}
 
 Requires Python 3.11+. Built on [httpx](https://www.python-httpx.org/) and [attrs](https://www.attrs.org/); every endpoint has `sync`, `sync_detailed`, `asyncio` and `asyncio_detailed` variants and ships with full type hints (`py.typed`).
 
-## Quick start
+## TikTok API quick start
 
 1. [Create a free EulerStream account](https://www.eulerstream.com/register) (no credit card required)
 2. Copy your API key from the dashboard
-3. Make your first calls:
+3. Make your first TikTok API calls:
 
 ```python
 from {{ package_name }} import AuthenticatedClient
 from {{ package_name }}.api.tik_tok_users import retrieve_tik_tok_user_basic
+from {{ package_name }}.api.tik_tok_videos import retrieve_tik_tok_video_basic
 from {{ package_name }}.api.tik_tok_live import retrieve_hashtag_list
-from {{ package_name }}.api.tik_tok_live_gifts import retrieve_webcast_gifts
 
 client = AuthenticatedClient(base_url="https://api.eulerstream.com", token="YOUR_API_KEY")
 
 with client as c:
-    # Look up any TikTok user by @username
+    # TikTok users API: look up any TikTok user by @username
     user = retrieve_tik_tok_user_basic.sync(unique_id="tv_asahi_news", client=c)
     print(user.user.nickname)
 
-    # TikTok LIVE is included: list the hashtags LIVE streams are grouped under
+    # TikTok videos API: look up a TikTok video by its ID
+    video = retrieve_tik_tok_video_basic.sync(video_id="7318296342189919018", client=c)
+    print(video.message)
+
+    # TikTok LIVE API (included): list the hashtags LIVE streams are grouped under
     hashtags = retrieve_hashtag_list.sync(client=c)
     print(hashtags.message)
-
-    # Get the TikTok LIVE gift list (names, diamond values, images) as a JSON file to download
-    gifts = retrieve_webcast_gifts.sync(client=c)
-    print(gifts.url)
 ```
 
-The same calls with asyncio:
+The same TikTok API calls with asyncio:
 
 ```python
 import asyncio
@@ -70,26 +70,27 @@ asyncio.run(main())
 
 `AuthenticatedClient` sends your key in the `X-Api-Key` header; use `{{ package_name }}.Client` for the handful of routes that allow anonymous access.
 
-## What you can build
+## What the TikTok API covers
 
-- **Creator lookups and profile tools** backed by TikTok user profiles and the users catalog
-- **Video tools** that fetch TikTok video details and thumbnails by ID
-- **"Sign in with TikTok" flows** using the OAuth token, introspection and revocation routes
-- **Scrapers and data pipelines** that sign TikTok web requests through the API instead of maintaining signature code
-- **Captcha handling** for your own TikTok automation: puzzle, shapes, icon and whirl solvers
-- **Everything TikTok LIVE**: stream overlays, gift alerts, chat bots, moderation tools and LIVE monitoring
+Every path/method in the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi) becomes a module under `{{ package_name }}.api.<group>`, so the SDK always matches the live TikTok API.
 
-## API coverage
+| TikTok API | Module | Functions |
+|---|---|---|
+| **TikTok users API** | `api.tik_tok_users` | `retrieve_tik_tok_user_basic`, `retrieve_tik_tok_user_info`, `search_tik_tok_users_catalog`, `retrieve_tik_tok_users_catalog_username`, `retrieve_tik_tok_users_catalog_numeric_id` |
+| **TikTok videos API** | `api.tik_tok_videos` | `retrieve_tik_tok_video_basic`, `retrieve_tik_tok_video_detailed`, `retrieve_tik_tok_video_thumbnail` |
+| **TikTok OAuth** | `api.tik_tok_general` | `exchange_token`, `introspect_token`, `revoke_token`, `validate_refresh_token`, `get_user_info`, `get_public_client` |
+| **TikTok request signing** | `api.tik_tok_signing` | `sign_tik_tok_url`, plus decryptors for TikTok's encrypted payloads |
+| **TikTok captcha solving** | `api.tik_tok_captchas` | `complete_puzzle_captcha`, `complete_shapes_captcha`, `complete_icon_captcha`, `complete_whirl_captcha`, `retrieve_captcha_credits` |
+| **Your account** | `api.accounts` / `api.authentication` / `api.analytics` | Account details, rate limits, API keys, JWTs and usage analytics |
 
-Every path/method in the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi) becomes a module under `{{ package_name }}.api.<group>`, so the SDK always matches the live API.
+Per-endpoint Python examples for every TikTok API operation are in the [EulerStream API docs](https://www.eulerstream.com/docs/intro).
 
-| Module | TikTok API group |
+## TikTok LIVE API included
+
+Everything in [`tiktok-live-api-sdk`](https://pypi.org/project/tiktok-live-api-sdk/) is part of this package too:
+
+| Module | TikTok LIVE API group |
 |---|---|
-| `api.tik_tok_users` | TikTok user profiles and the users catalog |
-| `api.tik_tok_videos` | TikTok video details and thumbnails |
-| `api.tik_tok_general` | TikTok OAuth: token exchange, introspection, revocation, user info |
-| `api.tik_tok_signing` | TikTok request signing and payload decryption |
-| `api.tik_tok_captchas` | TikTok captcha solving |
 | `api.tik_tok_live` | Core TikTok LIVE: bulk live checks, webcast feed, hashtag lists, rankings |
 | `api.tik_tok_live_anchors` | LIVE creators: webcast URL by `@username`, room info / ID / cover, gift gallery, earnings, moderators, LIVE analytics |
 | `api.tik_tok_live_rooms` | LIVE rooms: webcast URL by room ID, room info, room gifts, send chat |
@@ -100,9 +101,15 @@ Every path/method in the [EulerStream OpenAPI spec](https://www.eulerstream.com/
 | `api.tik_tok_live_alerts` / `api.tik_tok_live_alert_targets` | TikTok LIVE start/end alerts and webhook targets |
 | `api.tik_tok_live_moderation` | LIVE kicks, bans, mutes, sensitive words and comment toggles |
 | `api.tik_tok_web_socket_api` | Your cloud WebSocket connections and their state |
-| `api.accounts` / `api.authentication` / `api.analytics` | Your EulerStream account, API keys, JWTs and usage analytics |
 
-Per-endpoint Python examples for every operation are in the [EulerStream API docs](https://www.eulerstream.com/docs/intro).
+## What you can build with the TikTok API
+
+- **Creator lookups and profile tools** backed by TikTok user profiles and the users catalog
+- **Video tools** that fetch TikTok video details and thumbnails by ID
+- **"Sign in with TikTok" flows** using the OAuth token, introspection and revocation routes
+- **Scrapers and data pipelines** that sign TikTok web requests through the API instead of maintaining signature code
+- **Captcha handling** for your own TikTok automation: puzzle, shapes, icon and whirl solvers
+- **Everything TikTok LIVE**: stream overlays, gift alerts, chat bots, moderation tools and LIVE monitoring
 
 ## Advanced usage
 
@@ -137,12 +144,12 @@ Uninstalling first matters: this package provides the old `EulerApiSdk` import n
 
 ## Other languages
 
-The TikTok API SDK is also available for [Node.js / TypeScript](https://www.npmjs.com/package/tiktok-api-sdk), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can use the language-agnostic WebSocket directly.
+The TikTok API SDK is also available for [Node.js / TypeScript](https://www.npmjs.com/package/tiktok-api-sdk), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can call the TikTok API over plain HTTP.
 
 ## Links
 
 - Website: [eulerstream.com](https://www.eulerstream.com)
-- Documentation: [eulerstream.com/docs](https://www.eulerstream.com/docs/intro)
+- TikTok API documentation: [eulerstream.com/docs](https://www.eulerstream.com/docs/intro)
 - OpenAPI reference: [eulerstream.com/docs/openapi](https://www.eulerstream.com/docs/openapi)
 - Pricing (free tier available): [eulerstream.com/pricing](https://www.eulerstream.com/pricing)
 - Community: [Discord](https://www.eulerstream.com/discord)

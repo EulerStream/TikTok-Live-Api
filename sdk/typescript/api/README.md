@@ -5,9 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
-`tiktok-api-sdk` is the official Node.js / TypeScript client for the [EulerStream TikTok API](https://www.eulerstream.com). Look up **TikTok user profiles and videos**, run **TikTok OAuth**, **sign TikTok web requests** and **solve TikTok captchas** from fully typed clients. The complete TikTok LIVE API is included too: connect to any LIVE stream by `@username` and receive real-time chat messages, gifts, likes, follows, viewer counts and PK battles, with clients for LIVE rooms, gifts, rankings, alerts and moderation.
+`tiktok-api-sdk` is the official Node.js / TypeScript client for the [EulerStream TikTok API](https://www.eulerstream.com). Use one typed TikTok API client to **look up TikTok users and videos**, run **TikTok OAuth**, **sign TikTok web requests** and **solve TikTok captchas**. The complete TikTok LIVE API is included as well, so the same client can read real-time LIVE chat, gifts and viewer counts.
 
-EulerStream is the managed TikTok backend behind [TikTokLive](https://github.com/isaackogan/TikTokLive) (Python) and [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector) (Node.js). Signing, captcha solving and the LIVE connection layer are hosted and maintained for you, so your integration keeps working when TikTok changes.
+The TikTok API behind this SDK is hosted by EulerStream, the managed TikTok backend behind [TikTokLive](https://github.com/isaackogan/TikTokLive) (Python) and [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector) (Node.js). Request signing, captcha solving and the LIVE connection layer are maintained for you, so your integration keeps working when TikTok changes.
 
 > Unofficial: this project is not affiliated with, endorsed by, or connected to TikTok or ByteDance.
 
@@ -25,52 +25,53 @@ yarn add tiktok-api-sdk
 
 Requires Node.js 18+. Ships ESM with bundled TypeScript declarations.
 
-## Quick start
+## TikTok API quick start
 
 1. [Create a free EulerStream account](https://www.eulerstream.com/register) (no credit card required)
 2. Copy your API key from the dashboard
-3. Make your first calls:
+3. Make your first TikTok API calls:
 
 ```ts
 import TikTokApiSdk from "tiktok-api-sdk";
 
 const client = new TikTokApiSdk({ apiKey: "YOUR_API_KEY" });
 
-// Look up any TikTok user by @username
+// TikTok users API: look up any TikTok user by @username
 const user = await client.tikTokUsers.retrieveTikTokUserBasic("tv_asahi_news");
 console.log(user.data.user?.nickname);
 
-// TikTok LIVE is included: list the hashtags LIVE streams are grouped under
+// TikTok videos API: look up a TikTok video by its ID
+const video = await client.tikTokVideos.retrieveTikTokVideoBasic("7318296342189919018");
+console.log(video.data.message);
+
+// TikTok LIVE API (included): list the hashtags LIVE streams are grouped under
 const hashtags = await client.webcast.retrieveHashtagList();
 console.log(hashtags.data.message);
-
-// Get the TikTok LIVE gift list (names, diamond values, images) as a JSON file to download
-const gifts = await client.gifts.retrieveWebcastGifts();
-console.log(gifts.data.url);
 ```
 
 Every method returns an Axios response (`res.status`, `res.data`, `res.headers`). The client defaults to `https://api.eulerstream.com`; pass `basePath` to override it.
 
-## What you can build
+## What the TikTok API covers
 
-- **Creator lookups and profile tools** backed by TikTok user profiles and the users catalog
-- **Video tools** that fetch TikTok video details and thumbnails by ID
-- **"Sign in with TikTok" flows** using the OAuth token, introspection and revocation routes
-- **Scrapers and data pipelines** that sign TikTok web requests through the API instead of maintaining signature code
-- **Captcha handling** for your own TikTok automation: puzzle, shapes, icon and whirl solvers
-- **Everything TikTok LIVE**: stream overlays, gift alerts, chat bots, moderation tools and LIVE monitoring
+The client exposes one typed property per API group. Each is generated from the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi), so it always matches the live TikTok API.
 
-## API coverage
+| TikTok API | Property | Methods |
+|---|---|---|
+| **TikTok users API** | `client.tikTokUsers` | `retrieveTikTokUserBasic`, `retrieveTikTokUserInfo`, `searchTikTokUsersCatalog`, `retrieveTikTokUsersCatalogUsername`, `retrieveTikTokUsersCatalogNumericId` |
+| **TikTok videos API** | `client.tikTokVideos` | `retrieveTikTokVideoBasic`, `retrieveTikTokVideoDetailed`, `retrieveTikTokVideoThumbnail` |
+| **TikTok OAuth** | `client.general` | `exchangeToken`, `introspectToken`, `revokeToken`, `validateRefreshToken`, `getUserInfo`, `getPublicClient` |
+| **TikTok request signing** | `client.signing` | `signTikTokUrl`, plus decryptors for TikTok's encrypted payloads |
+| **TikTok captcha solving** | `client.captchas` | `completePuzzleCaptcha`, `completeShapesCaptcha`, `completeIconCaptcha`, `completeWhirlCaptcha`, `retrieveCaptchaCredits` |
+| **Your account** | `client.accounts` / `client.authentication` / `client.analytics` | Account details, rate limits, API keys, JWTs and usage analytics |
 
-The client exposes one typed property per API group. Each is generated from the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi), so it always matches the live API.
+Per-endpoint TypeScript examples for every TikTok API operation are in the [EulerStream API docs](https://www.eulerstream.com/docs/intro).
 
-| Property | TikTok API group |
+## TikTok LIVE API included
+
+Everything in [`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-api-sdk) is part of this package too:
+
+| Property | TikTok LIVE API group |
 |---|---|
-| `client.tikTokUsers` | TikTok user profiles and the users catalog |
-| `client.tikTokVideos` | TikTok video details and thumbnails |
-| `client.general` | TikTok OAuth: token exchange, introspection, revocation, user info |
-| `client.signing` | TikTok request signing and payload decryption |
-| `client.captchas` | TikTok captcha solving |
 | `client.webcast` | Core TikTok LIVE: bulk live checks, webcast feed, hashtag lists, rankings |
 | `client.anchors` | LIVE creators: webcast URL by `@username`, room info / ID / cover, gift gallery, earnings, moderators, LIVE analytics |
 | `client.rooms` | LIVE rooms: webcast URL by room ID, room info, room gifts, send chat |
@@ -81,13 +82,19 @@ The client exposes one typed property per API group. Each is generated from the 
 | `client.alerts` / `client.alertTargets` | TikTok LIVE start/end alerts and webhook targets |
 | `client.moderation` | LIVE kicks, bans, mutes, sensitive words and comment toggles |
 | `client.tikTokWebSocketAPI` | Your cloud WebSocket connections and their state |
-| `client.accounts` / `client.authentication` / `client.analytics` | Your EulerStream account, API keys, JWTs and usage analytics |
 
-Per-endpoint TypeScript examples for every operation are in the [EulerStream API docs](https://www.eulerstream.com/docs/intro).
+## What you can build with the TikTok API
+
+- **Creator lookups and profile tools** backed by TikTok user profiles and the users catalog
+- **Video tools** that fetch TikTok video details and thumbnails by ID
+- **"Sign in with TikTok" flows** using the OAuth token, introspection and revocation routes
+- **Scrapers and data pipelines** that sign TikTok web requests through the API instead of maintaining signature code
+- **Captcha handling** for your own TikTok automation: puzzle, shapes, icon and whirl solvers
+- **Everything TikTok LIVE**: stream overlays, gift alerts, chat bots, moderation tools and LIVE monitoring
 
 ## Migrating
 
-Coming from `tiktok-live-api-sdk` 0.x or `@eulerstream/euler-api-sdk`? This package is the same client with everything it had, so migrating is a package name change:
+Coming from `tiktok-live-api-sdk` 0.8 or earlier, or from `@eulerstream/euler-api-sdk`? This package is the same client with everything it had, so migrating is a package name change:
 
 ```bash
 npm uninstall tiktok-live-api-sdk
@@ -98,12 +105,12 @@ Then point your imports at `tiktok-api-sdk`. The client class is now called `Tik
 
 ## Other languages
 
-The TikTok API SDK is also available for [Python](https://pypi.org/project/tiktok-api-sdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can use the language-agnostic WebSocket directly.
+The TikTok API SDK is also available for [Python](https://pypi.org/project/tiktok-api-sdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can call the TikTok API over plain HTTP.
 
 ## Links
 
 - Website: [eulerstream.com](https://www.eulerstream.com)
-- Documentation: [eulerstream.com/docs](https://www.eulerstream.com/docs/intro)
+- TikTok API documentation: [eulerstream.com/docs](https://www.eulerstream.com/docs/intro)
 - OpenAPI reference: [eulerstream.com/docs/openapi](https://www.eulerstream.com/docs/openapi)
 - Pricing (free tier available): [eulerstream.com/pricing](https://www.eulerstream.com/pricing)
 - Community: [Discord](https://www.eulerstream.com/discord)

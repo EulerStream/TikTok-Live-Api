@@ -25,7 +25,7 @@ pip install {{ project_name }}
 
 Requires Python 3.11+. Built on [httpx](https://www.python-httpx.org/) and [attrs](https://www.attrs.org/); every endpoint has `sync`, `sync_detailed`, `asyncio` and `asyncio_detailed` variants and ships with full type hints (`py.typed`).
 
-## Quick start
+## TikTok LIVE API quick start
 
 1. [Create a free EulerStream account](https://www.eulerstream.com/register) (no credit card required)
 2. Copy your API key from the dashboard
@@ -70,7 +70,7 @@ asyncio.run(main())
 
 Business plans can resolve a LIVE room straight from the creator's `@username` with `{{ package_name }}.api.tik_tok_live_anchors.fetch_webcast_url_by_unique_id`. `AuthenticatedClient` sends your key in the `X-Api-Key` header; use `{{ package_name }}.Client` for the handful of routes that allow anonymous access.
 
-## What you can build
+## What you can build with the TikTok LIVE API
 
 - **Live stream overlays** for OBS and browser sources showing TikTok LIVE chat, gifts and top gifters
 - **Gift and follow alerts** that trigger sounds, animations or webhooks in real time
@@ -79,7 +79,7 @@ Business plans can resolve a LIVE room straight from the creator's `@username` w
 - **Analytics dashboards** tracking diamonds, viewer retention and top supporters
 - **LIVE monitoring**: bulk "is this creator live?" checks and LIVE start/end alerts for thousands of accounts
 
-## API coverage
+## TikTok LIVE API coverage
 
 Every TikTok LIVE path/method in the [EulerStream OpenAPI spec](https://www.eulerstream.com/docs/openapi) becomes a module under `{{ package_name }}.api.<group>`, so the SDK always matches the live API.
 
