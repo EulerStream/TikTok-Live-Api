@@ -33,7 +33,7 @@ importers:
 
   sdk/java: {}
 
-  sdk/python: {}
+  sdk/python/live: {}
 
   sdk/typescript/api:
     dependencies:

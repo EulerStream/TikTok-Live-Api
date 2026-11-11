@@ -44,3 +44,9 @@ publish.sh
 sdk/typescript/*/src/
 sdk/typescript/*/openapitools.json
 sdk/typescript/*/test/sdk-manifest.json
+sdk/python/*/TikTok*ApiSdk/
+sdk/python/*/EulerApiSdk/
+sdk/python/*/pyproject.toml
+sdk/python/*/README.md
+sdk/python/*/.gitignore
+sdk/python/*/test/sdk_manifest.json
