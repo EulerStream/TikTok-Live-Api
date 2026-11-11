@@ -10,8 +10,32 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
+  # The spec filter, the version helper, the README guard and the Python import
+  # alias are plain scripts with their own tests; none needs a generated SDK.
+  test-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Spec, release and README script tests
+        run: python3 -m unittest discover -s .github/scripts -p 'test_*.py' -v
+
+      - name: Python EulerApiSdk import alias tests
+        run: python3 sdk/python/common/test/test_alias.py -v
+
+  # The generated TypeScript and Python code is not committed, so each package
+  # is generated here before it is tested. That also runs the LIVE package
+  # through the spec filter on every push.
   test-typescript:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [live, api]
     steps:
       - uses: actions/checkout@v4
 
@@ -23,17 +47,28 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        working-directory: sdk/typescript
         run: pnpm install
 
+      - name: Generate
+        working-directory: sdk/typescript/${{ matrix.package }}
+        run: pnpm run generate
+
+      - name: Build
+        working-directory: sdk/typescript/${{ matrix.package }}
+        run: pnpm run build
+
       - name: Run tests
-        working-directory: sdk/typescript
+        working-directory: sdk/typescript/${{ matrix.package }}
         run: |
           pnpm test
-          npx tsx ./test/e2e.test.ts
+          pnpm run test:e2e
 
   test-python:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [live, api]
     steps:
       - uses: actions/checkout@v4
 
@@ -42,14 +77,24 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        working-directory: sdk/python
-        run: pip install httpx attrs python-dateutil
+        run: pip install -r sdk/python/requirements.txt httpx attrs python-dateutil
+
+      - name: Generate
+        working-directory: sdk/python/${{ matrix.package }}
+        run: python3 ../common/scripts/generate.py
+
+      - name: Build
+        working-directory: sdk/python/${{ matrix.package }}
+        run: |
+          poetry build
+          python3 ../common/scripts/check_dist.py
 
       - name: Run tests
-        working-directory: sdk/python
+        working-directory: sdk/python/${{ matrix.package }}
         run: |
-          python test/test_basic.py
-          python test/test_e2e.py
+          python3 test/test_basic.py
+          python3 test/test_surface.py
+          python3 test/test_e2e.py
 
   test-csharp:
     runs-on: ubuntu-latest

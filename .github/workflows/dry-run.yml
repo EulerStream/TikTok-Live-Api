@@ -80,49 +80,28 @@ jobs:
     if: ${{ inputs.typescript_bump != 'skip' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: sdk-typescript
-          path: sdk/typescript
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22.22.1'
-
+      # Both TypeScript packages share the version in sdk/typescript/version.txt.
       - name: Preview version bump
-        working-directory: sdk/typescript
         run: |
-          CURRENT=$(node -p "require('./package.json').version")
-          npm version ${{ inputs.typescript_bump }} --no-git-tag-version
-          NEXT=$(node -p "require('./package.json').version")
-          echo "### TypeScript: $CURRENT → $NEXT" >> $GITHUB_STEP_SUMMARY
+          CURRENT=$(tr -d ' \n' < sdk/typescript/version.txt)
+          NEXT=$(python3 .github/scripts/next_version.py "$CURRENT" "${{ inputs.typescript_bump }}")
+          echo "### TypeScript (tiktok-live-api-sdk, tiktok-api-sdk): $CURRENT → $NEXT" >> "$GITHUB_STEP_SUMMARY"
 
   preview-python:
     needs: generate
     if: ${{ inputs.python_bump != 'skip' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: sdk-python
-          path: sdk/python
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install poetry
-        run: pip install poetry
-
+      # Both Python packages share the version in sdk/python/version.txt.
       - name: Preview version bump
-        working-directory: sdk/python
         run: |
-          CURRENT=$(poetry version -s)
-          poetry version ${{ inputs.python_bump }}
-          NEXT=$(poetry version -s)
-          echo "### Python: $CURRENT → $NEXT" >> $GITHUB_STEP_SUMMARY
+          CURRENT=$(tr -d ' \n' < sdk/python/version.txt)
+          NEXT=$(python3 .github/scripts/next_version.py "$CURRENT" "${{ inputs.python_bump }}")
+          echo "### Python (tiktok-live-api-sdk, tiktok-api-sdk): $CURRENT → $NEXT" >> "$GITHUB_STEP_SUMMARY"
 
   preview-csharp:
     needs: generate

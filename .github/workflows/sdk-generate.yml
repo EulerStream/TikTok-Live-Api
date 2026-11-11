@@ -9,6 +9,10 @@ on:
       python:
         type: boolean
         default: false
+      # One-off: also build the final EulerApiSdk release (sdk/python/legacy).
+      python_legacy:
+        type: boolean
+        default: false
       csharp:
         type: boolean
         default: false
@@ -28,9 +32,21 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
+  # TypeScript and Python are each published as two packages built from the same
+  # spec: tiktok-live-api-sdk (`live`, the TikTok LIVE groups only) and
+  # tiktok-api-sdk (`api`, everything). Each package folder has an sdk.json, and
+  # one generate script per language turns it into a package: it copies and
+  # normalizes the spec, cuts it down to the package's tags (spec/packages.json)
+  # when the package asks for that, runs the generator, and adds the shared
+  # hand-written sources from sdk/<language>/common.
+
   generate-typescript:
     if: ${{ inputs.typescript }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [live, api]
     steps:
       - uses: actions/checkout@v4
 
@@ -41,40 +57,81 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install root dependencies
+      - name: Install dependencies
         run: pnpm install
 
-      - name: Copy spec & generate
-        working-directory: sdk/typescript
-        run: |
-          mkdir -p build
-          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
-          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
-          rm -rf ./src/sdk
-          npx openapi-generator-cli generate -i ./build/openapi.json -g typescript-axios -o ./src/sdk
-
-      - name: Render client template
-        working-directory: sdk/typescript
-        run: |
-          pnpm install
-          npx tsx ./scripts/render-template.ts
+      - name: Generate
+        working-directory: sdk/typescript/${{ matrix.package }}
+        run: pnpm run generate
 
       - name: Build
-        working-directory: sdk/typescript
+        working-directory: sdk/typescript/${{ matrix.package }}
         run: pnpm run build
 
+      # After the build: the alias test checks the built declarations in dist/.
       - name: Test
-        working-directory: sdk/typescript
+        working-directory: sdk/typescript/${{ matrix.package }}
         run: pnpm test
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sdk-typescript
-          path: sdk/typescript
+          name: sdk-typescript-${{ matrix.package }}
+          path: sdk/typescript/${{ matrix.package }}
 
   generate-python:
     if: ${{ inputs.python }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [live, api]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # requirements.txt pins openapi-python-client: the generator's template
+      # variables changed between minors (0.29 wraps them in UntrustedString and
+      # needs the in_double_quote_literal filter), and the custom templates in
+      # sdk/python/common/templates and each package's templates/ target 0.29.1.
+      - name: Install tools
+        run: pip install -r sdk/python/requirements.txt
+
+      # Also writes the test manifest and pins the version from
+      # sdk/python/version.txt (the generator resets it to a placeholder).
+      - name: Generate
+        working-directory: sdk/python/${{ matrix.package }}
+        run: python3 ../common/scripts/generate.py
+
+      # The generated sources are git-ignored, and Poetry drops VCS-ignored files
+      # unless pyproject.toml includes them. check_dist.py opens the built wheel
+      # and sdist and fails if the code is not in them.
+      - name: Build
+        working-directory: sdk/python/${{ matrix.package }}
+        run: |
+          poetry build
+          python3 ../common/scripts/check_dist.py
+
+      - name: Test
+        working-directory: sdk/python/${{ matrix.package }}
+        run: |
+          python3 test/test_basic.py
+          python3 test/test_surface.py
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-python-${{ matrix.package }}
+          path: sdk/python/${{ matrix.package }}
+
+  # One-off: the final release of the retired EulerApiSdk package. Same code as
+  # tiktok-api-sdk under the old name, with a README and an import warning that
+  # say where it went. Remove this job with sdk/python/legacy once it has shipped.
+  generate-python-legacy:
+    if: ${{ inputs.python_legacy }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -83,49 +140,28 @@ jobs:
         with:
           python-version: '3.12'
 
-      # Pinned: the generator's template variables changed between minors
-      # (0.29 wraps them in UntrustedString and needs the in_double_quote_literal
-      # filter), and the custom templates in sdk/python/templates target this one.
       - name: Install tools
-        run: pip install "openapi-python-client==0.29.1" poetry
+        run: pip install -r sdk/python/requirements.txt
 
-      - name: Generate Python SDK
-        working-directory: sdk/python
-        run: |
-          mkdir -p build
-          cp "$GITHUB_WORKSPACE/spec/openapi.json" ./build/openapi.json
-          python3 "$GITHUB_WORKSPACE/.github/scripts/normalize_spec.py" ./build/openapi.json
-          openapi-python-client generate \
-            --path ./build/openapi.json \
-            --output-path ./ \
-            --overwrite \
-            --config config.yaml \
-            --custom-template-path templates
-
-      - name: Render test manifest
-        working-directory: sdk/python
-        run: python scripts/render_manifest.py
-
-      # openapi-python-client regenerates pyproject.toml from config.yaml
-      # (package_version_override), clobbering the real version. version.txt is the
-      # persisted source of truth (outside the regenerated output); pin it back in.
-      - name: Pin version from version.txt
-        working-directory: sdk/python
-        run: poetry version "$(tr -d ' \n' < version.txt)"
+      - name: Generate
+        working-directory: sdk/python/legacy
+        run: python3 ../common/scripts/generate.py
 
       - name: Build
-        working-directory: sdk/python
-        run: poetry build
+        working-directory: sdk/python/legacy
+        run: |
+          poetry build
+          python3 ../common/scripts/check_dist.py
 
       - name: Test
-        working-directory: sdk/python
-        run: python test/test_basic.py
+        working-directory: sdk/python/legacy
+        run: python3 test/test_legacy.py
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sdk-python
-          path: sdk/python
+          name: sdk-python-legacy
+          path: sdk/python/legacy
 
   generate-csharp:
     if: ${{ inputs.csharp }}

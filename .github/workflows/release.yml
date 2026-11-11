@@ -48,6 +48,10 @@ on:
           - minor
           - major
         default: skip
+      python_legacy_final:
+        description: 'One-off: also publish the final EulerApiSdk release (moved notice)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -65,12 +69,40 @@ jobs:
           echo "::error::Release must be triggered from the master branch, got ${{ github.ref }}"
           exit 1
 
+  # TypeScript and Python each publish two packages, tiktok-live-api-sdk and
+  # tiktok-api-sdk, that always carry the same version. That version lives in
+  # sdk/<language>/version.txt; the next one is worked out once here and used by
+  # both publish legs and by commit-versions.
+  versions:
+    needs: check-branch
+    runs-on: ubuntu-latest
+    outputs:
+      typescript: ${{ steps.next.outputs.typescript }}
+      python: ${{ steps.next.outputs.python }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute next versions
+        id: next
+        run: |
+          if [ "${{ inputs.typescript_bump }}" != "skip" ]; then
+            NEXT=$(python3 .github/scripts/next_version.py "$(cat sdk/typescript/version.txt)" "${{ inputs.typescript_bump }}")
+            echo "typescript=$NEXT" >> "$GITHUB_OUTPUT"
+            echo "TypeScript: $(tr -d ' \n' < sdk/typescript/version.txt) → $NEXT"
+          fi
+          if [ "${{ inputs.python_bump }}" != "skip" ]; then
+            NEXT=$(python3 .github/scripts/next_version.py "$(cat sdk/python/version.txt)" "${{ inputs.python_bump }}")
+            echo "python=$NEXT" >> "$GITHUB_OUTPUT"
+            echo "Python: $(tr -d ' \n' < sdk/python/version.txt) → $NEXT"
+          fi
+
   generate:
     needs: check-branch
     uses: ./.github/workflows/sdk-generate.yml
     with:
       typescript: ${{ inputs.typescript_bump != 'skip' }}
       python: ${{ inputs.python_bump != 'skip' }}
+      python_legacy: ${{ inputs.python_legacy_final }}
       csharp: ${{ inputs.csharp_bump != 'skip' }}
       java: ${{ inputs.java_bump != 'skip' }}
       go: ${{ inputs.go_bump != 'skip' }}
@@ -80,10 +112,17 @@ jobs:
 
   # ── TypeScript → npm ──────────────────────────────────────────
 
+  # One leg per package: tiktok-live-api-sdk (live) and tiktok-api-sdk (api).
+  # npm trusted publishing is configured per package on npmjs.com, each naming
+  # this repository and this workflow file.
   publish-typescript:
-    needs: generate
+    needs: [generate, versions]
     if: ${{ inputs.typescript_bump != 'skip' }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [live, api]
     permissions:
       contents: read
       id-token: write
@@ -91,8 +130,8 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: sdk-typescript
-          path: sdk/typescript
+          name: sdk-typescript-${{ matrix.package }}
+          path: sdk/typescript/${{ matrix.package }}
 
       - uses: actions/setup-node@v4
         with:
@@ -102,32 +141,45 @@ jobs:
       - name: Ensure npm supports trusted publishing
         run: npm install -g npm@11
 
-      - name: Bump version
-        working-directory: sdk/typescript
-        run: npm version ${{ inputs.typescript_bump }} --no-git-tag-version
+      - name: Set version
+        working-directory: sdk/typescript/${{ matrix.package }}
+        run: npm version "${{ needs.versions.outputs.typescript }}" --no-git-tag-version --allow-same-version
 
+      # If one leg failed last time, the version file was not committed, so a new
+      # dispatch computes the same version again. The package that already made
+      # it to the registry is skipped and the other one catches up.
       - name: Publish to npm
-        working-directory: sdk/typescript
-        run: npm publish --provenance --access public
-
-      - name: Upload version file
-        uses: actions/upload-artifact@v4
-        with:
-          name: typescript-version
-          path: sdk/typescript/package.json
+        working-directory: sdk/typescript/${{ matrix.package }}
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION="${{ needs.versions.outputs.typescript }}"
+          if [ "$(npm view "$NAME@$VERSION" version 2>/dev/null)" = "$VERSION" ]; then
+            echo "::notice::$NAME@$VERSION is already published; skipping."
+            exit 0
+          fi
+          npm publish --provenance --access public
 
   # ── Python → PyPI ─────────────────────────────────────────────
 
+  # One leg per package: tiktok-live-api-sdk (live) and tiktok-api-sdk (api).
   publish-python:
-    needs: generate
+    needs: [generate, versions]
     if: ${{ inputs.python_bump != 'skip' }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [live, api]
     steps:
+      # The checkout provides sdk/python/common (check_dist.py); the artifact
+      # then lays the generated package over its folder.
+      - uses: actions/checkout@v4
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: sdk-python
-          path: sdk/python
+          name: sdk-python-${{ matrix.package }}
+          path: sdk/python/${{ matrix.package }}
 
       - uses: actions/setup-python@v5
         with:
@@ -136,33 +188,65 @@ jobs:
       - name: Install poetry
         run: pip install poetry
 
-      - name: Bump version
-        working-directory: sdk/python
+      - name: Set version
+        working-directory: sdk/python/${{ matrix.package }}
+        run: poetry version "${{ needs.versions.outputs.python }}"
+
+      # Build, then open the wheel and sdist to make sure the code is in them
+      # before anything is uploaded. See the note on publish-typescript for why
+      # an already-published version is skipped.
+      - name: Publish to PyPI
+        working-directory: sdk/python/${{ matrix.package }}
         run: |
-          CURRENT=$(tr -d ' \n' < version.txt)
-          IFS='.' read -r MAJ MIN PAT <<< "$CURRENT"
-          case "${{ inputs.python_bump }}" in
-            patch) PAT=$((PAT+1)) ;;
-            minor) MIN=$((MIN+1)); PAT=0 ;;
-            major) MAJ=$((MAJ+1)); MIN=0; PAT=0 ;;
-          esac
-          NEXT="$MAJ.$MIN.$PAT"
-          echo "$NEXT" > version.txt
-          poetry version "$NEXT"
-          echo "Bumped Python version: $CURRENT → $NEXT"
+          NAME=$(poetry version | cut -d' ' -f1)
+          VERSION="${{ needs.versions.outputs.python }}"
+          if curl -fsS -o /dev/null "https://pypi.org/pypi/$NAME/$VERSION/json" 2>/dev/null; then
+            echo "::notice::$NAME $VERSION is already published; skipping."
+            exit 0
+          fi
+          rm -rf dist
+          poetry build
+          python3 ../common/scripts/check_dist.py
+          poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
+          poetry publish --no-interaction
+
+  # One-off: the final release of the retired EulerApiSdk package, at the version
+  # fixed in sdk/python/legacy/sdk.json. Remove this job, the input and
+  # sdk/python/legacy once it has shipped.
+  publish-python-legacy:
+    needs: generate
+    if: ${{ inputs.python_legacy_final }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: sdk-python-legacy
+          path: sdk/python/legacy
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install poetry
+        run: pip install poetry
 
       - name: Publish to PyPI
-        working-directory: sdk/python
+        working-directory: sdk/python/legacy
         run: |
+          NAME=$(poetry version | cut -d' ' -f1)
+          VERSION=$(poetry version -s)
+          if curl -fsS -o /dev/null "https://pypi.org/pypi/$NAME/$VERSION/json" 2>/dev/null; then
+            echo "::notice::$NAME $VERSION is already published; skipping."
+            exit 0
+          fi
           rm -rf dist
+          poetry build
+          python3 ../common/scripts/check_dist.py
           poetry config pypi-token.pypi ${{ secrets.PYPI_TOKEN }}
-          poetry publish --build --no-interaction
-
-      - name: Upload version file
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-version
-          path: sdk/python/version.txt
+          poetry publish --no-interaction
 
   # ── C# → NuGet ───────────────────────────────────────────────
 
@@ -332,7 +416,7 @@ jobs:
   # ── Commit version bumps back ─────────────────────────────────
 
   commit-versions:
-    needs: [generate, publish-typescript, publish-python, publish-csharp, publish-java, publish-go]
+    needs: [generate, versions, publish-typescript, publish-python, publish-csharp, publish-java, publish-go]
     if: |
       always() && (
         needs.publish-typescript.result == 'success' ||
@@ -344,19 +428,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download TypeScript version
+      # A matrix job succeeds only when both of its packages published (or were
+      # already published), so the shared version file moves only when both
+      # packages are at the new version.
+      - name: Record TypeScript version
         if: needs.publish-typescript.result == 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: typescript-version
-          path: sdk/typescript
+        run: echo "${{ needs.versions.outputs.typescript }}" > sdk/typescript/version.txt
 
-      - name: Download Python version
+      - name: Record Python version
         if: needs.publish-python.result == 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: python-version
-          path: sdk/python
+        run: echo "${{ needs.versions.outputs.python }}" > sdk/python/version.txt
 
       - name: Download C# version
         if: needs.publish-csharp.result == 'success'
@@ -379,26 +460,12 @@ jobs:
           path: sdk-examples/output
         continue-on-error: true
 
-      - uses: actions/setup-node@v4
-        if: needs.publish-typescript.result == 'success'
-        with:
-          node-version: '22.22.1'
-
-      - uses: actions/setup-python@v5
-        if: needs.publish-python.result == 'success'
-        with:
-          python-version: '3.12'
-
-      - name: Install poetry
-        if: needs.publish-python.result == 'success'
-        run: pip install poetry
-
       - name: Build commit message
         id: msg
         run: |
           PARTS=""
           if [ "${{ needs.publish-typescript.result }}" = "success" ]; then
-            TS=$(node -p "require('./sdk/typescript/package.json').version")
+            TS=$(tr -d ' \n' < sdk/typescript/version.txt)
             PARTS="typescript@${TS}"
           fi
           if [ "${{ needs.publish-python.result }}" = "success" ]; then
@@ -422,7 +489,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sdk/typescript/package.json sdk/python/version.txt sdk/csharp/src/EulerApiSdk.csproj sdk/java/version.txt 2>/dev/null || true
+          git add sdk/typescript/version.txt sdk/python/version.txt sdk/csharp/src/EulerApiSdk.csproj sdk/java/version.txt 2>/dev/null || true
           git add sdk-examples/output/*.json 2>/dev/null || true
           git diff --cached --quiet && exit 0
           git commit -m "${{ steps.msg.outputs.msg }}"
