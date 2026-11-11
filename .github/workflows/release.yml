@@ -192,12 +192,20 @@ jobs:
   # One leg per package: the TikTok LIVE package (live) and the full API package (api).
   # Both publish through PyPI trusted publishing: the job's OIDC token is
   # exchanged for a short-lived upload token, so no PyPI secret is involved.
-  # Each project on PyPI must list this repository and this workflow file as a
-  # trusted publisher (a "pending publisher" before the project's first upload).
+  # Each project on PyPI must list this repository, this workflow file and its
+  # leg's environment as a trusted publisher (a "pending publisher" before the
+  # project's first upload): pypi-api for TikTokApiSdk, pypi-live for
+  # TikTokLiveApiSdk.
+  #
+  # The environments exist to tell the two projects apart. PyPI allows only one
+  # pending publisher per repository, workflow file and environment, so without
+  # them the two new projects could not both be registered before their first
+  # upload. They carry no protection rules or secrets.
   publish-python:
     needs: [generate, versions]
     if: ${{ inputs.python_bump != 'skip' }}
     runs-on: ubuntu-latest
+    environment: pypi-${{ matrix.package }}
     strategy:
       fail-fast: false
       matrix:
