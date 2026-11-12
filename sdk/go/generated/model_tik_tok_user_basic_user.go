@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -27,6 +27,8 @@ type TikTokUserBasicUser struct {
 	Nickname string `json:"nickname"`
 	Region string `json:"region"`
 	UniqueId string `json:"unique_id"`
+	// What the user catalog knows about the account, however old: present only when it has a record of the handle. Each field is present only when the record carries it.
+	ExtraInfo *TikTokUserBasicExtraInfo `json:"extra_info,omitempty"`
 }
 
 type _TikTokUserBasicUser TikTokUserBasicUser
@@ -198,6 +200,38 @@ func (o *TikTokUserBasicUser) SetUniqueId(v string) {
 	o.UniqueId = v
 }
 
+// GetExtraInfo returns the ExtraInfo field value if set, zero value otherwise.
+func (o *TikTokUserBasicUser) GetExtraInfo() TikTokUserBasicExtraInfo {
+	if o == nil || IsNil(o.ExtraInfo) {
+		var ret TikTokUserBasicExtraInfo
+		return ret
+	}
+	return *o.ExtraInfo
+}
+
+// GetExtraInfoOk returns a tuple with the ExtraInfo field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TikTokUserBasicUser) GetExtraInfoOk() (*TikTokUserBasicExtraInfo, bool) {
+	if o == nil || IsNil(o.ExtraInfo) {
+		return nil, false
+	}
+	return o.ExtraInfo, true
+}
+
+// HasExtraInfo returns a boolean if a field has been set.
+func (o *TikTokUserBasicUser) HasExtraInfo() bool {
+	if o != nil && !IsNil(o.ExtraInfo) {
+		return true
+	}
+
+	return false
+}
+
+// SetExtraInfo gets a reference to the given TikTokUserBasicExtraInfo and assigns it to the ExtraInfo field.
+func (o *TikTokUserBasicUser) SetExtraInfo(v TikTokUserBasicExtraInfo) {
+	o.ExtraInfo = &v
+}
+
 func (o TikTokUserBasicUser) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -214,6 +248,9 @@ func (o TikTokUserBasicUser) ToMap() (map[string]interface{}, error) {
 	toSerialize["nickname"] = o.Nickname
 	toSerialize["region"] = o.Region
 	toSerialize["unique_id"] = o.UniqueId
+	if !IsNil(o.ExtraInfo) {
+		toSerialize["extra_info"] = o.ExtraInfo
+	}
 	return toSerialize, nil
 }
 

@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -26,7 +26,7 @@ type TikTokLIVEEventsAPIService service
 type ApiRetrieveWebcastAnchorEventsRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEEventsAPIService
-	anchorId string
+	numericId string
 	page *float64
 	xOauthToken *string
 	xCookieHeader *string
@@ -66,14 +66,14 @@ The upstream endpoint is session-bound, so a session is required.
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param anchorId The anchor's numeric TikTok user ID.
+ @param numericId The anchor's numeric TikTok user ID.
  @return ApiRetrieveWebcastAnchorEventsRequest
 */
-func (a *TikTokLIVEEventsAPIService) RetrieveWebcastAnchorEvents(ctx context.Context, anchorId string) ApiRetrieveWebcastAnchorEventsRequest {
+func (a *TikTokLIVEEventsAPIService) RetrieveWebcastAnchorEvents(ctx context.Context, numericId string) ApiRetrieveWebcastAnchorEventsRequest {
 	return ApiRetrieveWebcastAnchorEventsRequest{
 		ApiService: a,
 		ctx: ctx,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -92,8 +92,8 @@ func (a *TikTokLIVEEventsAPIService) RetrieveWebcastAnchorEventsExecute(r ApiRet
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/events/anchors/{anchor_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath := localBasePath + "/webcast/events/anchors/{numeric_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

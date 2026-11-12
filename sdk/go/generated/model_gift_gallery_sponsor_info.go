@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -19,9 +19,10 @@ import (
 // checks if the GiftGallerySponsorInfo type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &GiftGallerySponsorInfo{}
 
-// GiftGallerySponsorInfo Current sponsor of a gallery gift (`normal_gifts[].sponsor_info`).
+// GiftGallerySponsorInfo Current sponsor of a gallery gift (`sponsor_info` of every gift).
 type GiftGallerySponsorInfo struct {
 	UserHasOptout bool `json:"user_has_optout"`
+	// TikTok user id of the sponsor; \"0\" when there is none.
 	SponsorId string `json:"sponsor_id"`
 	SentCount float64 `json:"sent_count"`
 	Nickname string `json:"nickname"`

@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -41,7 +41,7 @@ var (
 	queryDescape    = strings.NewReplacer( "%5B", "[", "%5D", "]" )
 )
 
-// APIClient manages communication with the Euler Stream Sign API API vdev
+// APIClient manages communication with the Euler Stream API API vdev
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration
@@ -56,8 +56,6 @@ type APIClient struct {
 	AuthenticationAPI *AuthenticationAPIService
 
 	TikTokCaptchasAPI *TikTokCaptchasAPIService
-
-	TikTokGeneralAPI *TikTokGeneralAPIService
 
 	TikTokLIVEAPI *TikTokLIVEAPIService
 
@@ -79,7 +77,17 @@ type APIClient struct {
 
 	TikTokLIVERoomsAPI *TikTokLIVERoomsAPIService
 
+	TikTokLinksAPI *TikTokLinksAPIService
+
+	TikTokOAuthAPI *TikTokOAuthAPIService
+
+	TikTokSearchAPI *TikTokSearchAPIService
+
 	TikTokSigningAPI *TikTokSigningAPIService
+
+	TikTokSoundsAPI *TikTokSoundsAPIService
+
+	TikTokTagsAPI *TikTokTagsAPIService
 
 	TikTokUsersAPI *TikTokUsersAPIService
 
@@ -108,7 +116,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.AnalyticsAPI = (*AnalyticsAPIService)(&c.common)
 	c.AuthenticationAPI = (*AuthenticationAPIService)(&c.common)
 	c.TikTokCaptchasAPI = (*TikTokCaptchasAPIService)(&c.common)
-	c.TikTokGeneralAPI = (*TikTokGeneralAPIService)(&c.common)
 	c.TikTokLIVEAPI = (*TikTokLIVEAPIService)(&c.common)
 	c.TikTokLIVEAgenciesAPI = (*TikTokLIVEAgenciesAPIService)(&c.common)
 	c.TikTokLIVEAlertTargetsAPI = (*TikTokLIVEAlertTargetsAPIService)(&c.common)
@@ -119,7 +126,12 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.TikTokLIVEModerationAPI = (*TikTokLIVEModerationAPIService)(&c.common)
 	c.TikTokLIVERankingsAPI = (*TikTokLIVERankingsAPIService)(&c.common)
 	c.TikTokLIVERoomsAPI = (*TikTokLIVERoomsAPIService)(&c.common)
+	c.TikTokLinksAPI = (*TikTokLinksAPIService)(&c.common)
+	c.TikTokOAuthAPI = (*TikTokOAuthAPIService)(&c.common)
+	c.TikTokSearchAPI = (*TikTokSearchAPIService)(&c.common)
 	c.TikTokSigningAPI = (*TikTokSigningAPIService)(&c.common)
+	c.TikTokSoundsAPI = (*TikTokSoundsAPIService)(&c.common)
+	c.TikTokTagsAPI = (*TikTokTagsAPIService)(&c.common)
 	c.TikTokUsersAPI = (*TikTokUsersAPIService)(&c.common)
 	c.TikTokVideosAPI = (*TikTokVideosAPIService)(&c.common)
 	c.TikTokWebSocketAPIAPI = (*TikTokWebSocketAPIAPIService)(&c.common)

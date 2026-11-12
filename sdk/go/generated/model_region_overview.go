@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -23,6 +23,10 @@ var _ MappedNullable = &RegionOverview{}
 type RegionOverview struct {
 	Rankings []string `json:"rankings"`
 	Leagues []string `json:"leagues"`
+	// Creators on each advertised ranking's most recent board snapshot, keyed by rank name; RANKING_LEAGUE sums its league tiers. Empty for the worldwide pseudo-region, whose board is a capped merge of every region.
+	RankingCreatorCounts map[string]int32 `json:"ranking_creator_counts"`
+	// Creators on each league tier's most recent board snapshot, keyed by tier.
+	LeagueCreatorCounts map[string]int32 `json:"league_creator_counts"`
 }
 
 type _RegionOverview RegionOverview
@@ -31,10 +35,12 @@ type _RegionOverview RegionOverview
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegionOverview(rankings []string, leagues []string) *RegionOverview {
+func NewRegionOverview(rankings []string, leagues []string, rankingCreatorCounts map[string]int32, leagueCreatorCounts map[string]int32) *RegionOverview {
 	this := RegionOverview{}
 	this.Rankings = rankings
 	this.Leagues = leagues
+	this.RankingCreatorCounts = rankingCreatorCounts
+	this.LeagueCreatorCounts = leagueCreatorCounts
 	return &this
 }
 
@@ -94,6 +100,54 @@ func (o *RegionOverview) SetLeagues(v []string) {
 	o.Leagues = v
 }
 
+// GetRankingCreatorCounts returns the RankingCreatorCounts field value
+func (o *RegionOverview) GetRankingCreatorCounts() map[string]int32 {
+	if o == nil {
+		var ret map[string]int32
+		return ret
+	}
+
+	return o.RankingCreatorCounts
+}
+
+// GetRankingCreatorCountsOk returns a tuple with the RankingCreatorCounts field value
+// and a boolean to check if the value has been set.
+func (o *RegionOverview) GetRankingCreatorCountsOk() (*map[string]int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.RankingCreatorCounts, true
+}
+
+// SetRankingCreatorCounts sets field value
+func (o *RegionOverview) SetRankingCreatorCounts(v map[string]int32) {
+	o.RankingCreatorCounts = v
+}
+
+// GetLeagueCreatorCounts returns the LeagueCreatorCounts field value
+func (o *RegionOverview) GetLeagueCreatorCounts() map[string]int32 {
+	if o == nil {
+		var ret map[string]int32
+		return ret
+	}
+
+	return o.LeagueCreatorCounts
+}
+
+// GetLeagueCreatorCountsOk returns a tuple with the LeagueCreatorCounts field value
+// and a boolean to check if the value has been set.
+func (o *RegionOverview) GetLeagueCreatorCountsOk() (*map[string]int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LeagueCreatorCounts, true
+}
+
+// SetLeagueCreatorCounts sets field value
+func (o *RegionOverview) SetLeagueCreatorCounts(v map[string]int32) {
+	o.LeagueCreatorCounts = v
+}
+
 func (o RegionOverview) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -106,6 +160,8 @@ func (o RegionOverview) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["rankings"] = o.Rankings
 	toSerialize["leagues"] = o.Leagues
+	toSerialize["ranking_creator_counts"] = o.RankingCreatorCounts
+	toSerialize["league_creator_counts"] = o.LeagueCreatorCounts
 	return toSerialize, nil
 }
 
@@ -116,6 +172,8 @@ func (o *RegionOverview) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"rankings",
 		"leagues",
+		"ranking_creator_counts",
+		"league_creator_counts",
 	}
 
 	allProperties := make(map[string]interface{})

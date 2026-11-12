@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -21,16 +21,28 @@ type AvailableWebcastRankName string
 // List of AvailableWebcastRankName
 const (
 	AVAILABLE_WEBCAST_RANK_NAME_DAILY_RANK AvailableWebcastRankName = "DAILY_RANK"
+	AVAILABLE_WEBCAST_RANK_NAME_HOURLY_RANK AvailableWebcastRankName = "HOURLY_RANK"
 	AVAILABLE_WEBCAST_RANK_NAME_FANS_TEAM_RANK AvailableWebcastRankName = "FANS_TEAM_RANK"
 	AVAILABLE_WEBCAST_RANK_NAME_SALE_RANK AvailableWebcastRankName = "SALE_RANK"
+	AVAILABLE_WEBCAST_RANK_NAME_DAILY_GAME_RANK AvailableWebcastRankName = "DAILY_GAME_RANK"
+	AVAILABLE_WEBCAST_RANK_NAME_WEEKLY_GAME_RANK AvailableWebcastRankName = "WEEKLY_GAME_RANK"
+	AVAILABLE_WEBCAST_RANK_NAME_WEEKLY_GAME_HIGHLIGHT_1 AvailableWebcastRankName = "WEEKLY_GAME_HIGHLIGHT_1"
+	AVAILABLE_WEBCAST_RANK_NAME_WEEKLY_GAME_HIGHLIGHT_2 AvailableWebcastRankName = "WEEKLY_GAME_HIGHLIGHT_2"
+	AVAILABLE_WEBCAST_RANK_NAME_WEEKLY_GAME_HIGHLIGHT_3 AvailableWebcastRankName = "WEEKLY_GAME_HIGHLIGHT_3"
 	AVAILABLE_WEBCAST_RANK_NAME_RANKING_LEAGUE AvailableWebcastRankName = "RANKING_LEAGUE"
 )
 
 // All allowed values of AvailableWebcastRankName enum
 var AllowedAvailableWebcastRankNameEnumValues = []AvailableWebcastRankName{
 	"DAILY_RANK",
+	"HOURLY_RANK",
 	"FANS_TEAM_RANK",
 	"SALE_RANK",
+	"DAILY_GAME_RANK",
+	"WEEKLY_GAME_RANK",
+	"WEEKLY_GAME_HIGHLIGHT_1",
+	"WEEKLY_GAME_HIGHLIGHT_2",
+	"WEEKLY_GAME_HIGHLIGHT_3",
 	"RANKING_LEAGUE",
 }
 

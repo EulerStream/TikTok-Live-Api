@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -28,6 +28,8 @@ type StableWebcastUserEarningsOutput struct {
 	Diamonds NullableFloat64 `json:"diamonds"`
 	EarningsEstimate NullableFloat64 `json:"earnings_estimate"`
 	EarningsEstimateCurrency NullableString `json:"earnings_estimate_currency"`
+	// The creator's league tier as their daily board reports it (the same tier the leaderboard rows carry); null when the board does not label them.
+	League NullableRankingLeagueName `json:"league"`
 	User StableTikTokLiveUser `json:"user"`
 }
 
@@ -37,7 +39,7 @@ type _StableWebcastUserEarningsOutput StableWebcastUserEarningsOutput
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStableWebcastUserEarningsOutput(resetsIn NullableFloat64, resetsAt NullableTime, period WebcastUserEarningsOutputPeriod, diamonds NullableFloat64, earningsEstimate NullableFloat64, earningsEstimateCurrency NullableString, user StableTikTokLiveUser) *StableWebcastUserEarningsOutput {
+func NewStableWebcastUserEarningsOutput(resetsIn NullableFloat64, resetsAt NullableTime, period WebcastUserEarningsOutputPeriod, diamonds NullableFloat64, earningsEstimate NullableFloat64, earningsEstimateCurrency NullableString, league NullableRankingLeagueName, user StableTikTokLiveUser) *StableWebcastUserEarningsOutput {
 	this := StableWebcastUserEarningsOutput{}
 	this.ResetsIn = resetsIn
 	this.ResetsAt = resetsAt
@@ -45,6 +47,7 @@ func NewStableWebcastUserEarningsOutput(resetsIn NullableFloat64, resetsAt Nulla
 	this.Diamonds = diamonds
 	this.EarningsEstimate = earningsEstimate
 	this.EarningsEstimateCurrency = earningsEstimateCurrency
+	this.League = league
 	this.User = user
 	return &this
 }
@@ -211,6 +214,32 @@ func (o *StableWebcastUserEarningsOutput) SetEarningsEstimateCurrency(v string) 
 	o.EarningsEstimateCurrency.Set(&v)
 }
 
+// GetLeague returns the League field value
+// If the value is explicit nil, the zero value for RankingLeagueName will be returned
+func (o *StableWebcastUserEarningsOutput) GetLeague() RankingLeagueName {
+	if o == nil || o.League.Get() == nil {
+		var ret RankingLeagueName
+		return ret
+	}
+
+	return *o.League.Get()
+}
+
+// GetLeagueOk returns a tuple with the League field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *StableWebcastUserEarningsOutput) GetLeagueOk() (*RankingLeagueName, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.League.Get(), o.League.IsSet()
+}
+
+// SetLeague sets field value
+func (o *StableWebcastUserEarningsOutput) SetLeague(v RankingLeagueName) {
+	o.League.Set(&v)
+}
+
 // GetUser returns the User field value
 func (o *StableWebcastUserEarningsOutput) GetUser() StableTikTokLiveUser {
 	if o == nil {
@@ -251,6 +280,7 @@ func (o StableWebcastUserEarningsOutput) ToMap() (map[string]interface{}, error)
 	toSerialize["diamonds"] = o.Diamonds.Get()
 	toSerialize["earnings_estimate"] = o.EarningsEstimate.Get()
 	toSerialize["earnings_estimate_currency"] = o.EarningsEstimateCurrency.Get()
+	toSerialize["league"] = o.League.Get()
 	toSerialize["user"] = o.User
 	return toSerialize, nil
 }
@@ -266,6 +296,7 @@ func (o *StableWebcastUserEarningsOutput) UnmarshalJSON(data []byte) (err error)
 		"diamonds",
 		"earnings_estimate",
 		"earnings_estimate_currency",
+		"league",
 		"user",
 	}
 

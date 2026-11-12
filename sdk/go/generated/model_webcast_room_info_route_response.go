@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -25,9 +25,11 @@ type WebcastRoomInfoRouteResponse struct {
 	Message *string `json:"message,omitempty"`
 	Ok bool `json:"ok"`
 	RoutesAttempted []string `json:"routes_attempted"`
-	// Which source produced `data`. `CACHE` / `CACHE_UNVERIFIED` indicate the room info came out of Euler's cache — `CACHE` means its live state was revalidated, `CACHE_UNVERIFIED` means it could not be. Without this, `X-Cache-Hit` is a bare boolean and those two are indistinguishable.
+	// Which source produced `data`. `CACHE` means the room came from the cache; `ALERTS` means the live check answered offline and no room was fetched.
 	Source NullableRoomInfoFetchApiRoute `json:"source"`
 	Data NullableStableTikTokLiveUser `json:"data"`
+	// Why the answer came out as it did, or null when there is nothing to add. Only a 404 carries it today; read it on any answer.
+	Detail NullableRoomResolutionDetail `json:"detail"`
 }
 
 type _WebcastRoomInfoRouteResponse WebcastRoomInfoRouteResponse
@@ -36,13 +38,14 @@ type _WebcastRoomInfoRouteResponse WebcastRoomInfoRouteResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastRoomInfoRouteResponse(code float64, ok bool, routesAttempted []string, source NullableRoomInfoFetchApiRoute, data NullableStableTikTokLiveUser) *WebcastRoomInfoRouteResponse {
+func NewWebcastRoomInfoRouteResponse(code float64, ok bool, routesAttempted []string, source NullableRoomInfoFetchApiRoute, data NullableStableTikTokLiveUser, detail NullableRoomResolutionDetail) *WebcastRoomInfoRouteResponse {
 	this := WebcastRoomInfoRouteResponse{}
 	this.Code = code
 	this.Ok = ok
 	this.RoutesAttempted = routesAttempted
 	this.Source = source
 	this.Data = data
+	this.Detail = detail
 	return &this
 }
 
@@ -210,6 +213,32 @@ func (o *WebcastRoomInfoRouteResponse) SetData(v StableTikTokLiveUser) {
 	o.Data.Set(&v)
 }
 
+// GetDetail returns the Detail field value
+// If the value is explicit nil, the zero value for RoomResolutionDetail will be returned
+func (o *WebcastRoomInfoRouteResponse) GetDetail() RoomResolutionDetail {
+	if o == nil || o.Detail.Get() == nil {
+		var ret RoomResolutionDetail
+		return ret
+	}
+
+	return *o.Detail.Get()
+}
+
+// GetDetailOk returns a tuple with the Detail field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *WebcastRoomInfoRouteResponse) GetDetailOk() (*RoomResolutionDetail, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Detail.Get(), o.Detail.IsSet()
+}
+
+// SetDetail sets field value
+func (o *WebcastRoomInfoRouteResponse) SetDetail(v RoomResolutionDetail) {
+	o.Detail.Set(&v)
+}
+
 func (o WebcastRoomInfoRouteResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -228,6 +257,7 @@ func (o WebcastRoomInfoRouteResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["routes_attempted"] = o.RoutesAttempted
 	toSerialize["source"] = o.Source.Get()
 	toSerialize["data"] = o.Data.Get()
+	toSerialize["detail"] = o.Detail.Get()
 	return toSerialize, nil
 }
 
@@ -241,6 +271,7 @@ func (o *WebcastRoomInfoRouteResponse) UnmarshalJSON(data []byte) (err error) {
 		"routes_attempted",
 		"source",
 		"data",
+		"detail",
 	}
 
 	allProperties := make(map[string]interface{})

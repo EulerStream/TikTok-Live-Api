@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -29,6 +29,8 @@ type WebcastRoomIdRouteResponse struct {
 	RoomId *string `json:"room_id,omitempty"`
 	RoomStatus *float64 `json:"room_status,omitempty"`
 	Source *string `json:"source,omitempty"`
+	// Why the answer came out as it did, or null when there is nothing to add. Only a 404 carries it today; read it on any answer.
+	Detail NullableRoomResolutionDetail `json:"detail"`
 }
 
 type _WebcastRoomIdRouteResponse WebcastRoomIdRouteResponse
@@ -37,11 +39,12 @@ type _WebcastRoomIdRouteResponse WebcastRoomIdRouteResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastRoomIdRouteResponse(code float64, ok bool, routesAttempted []string) *WebcastRoomIdRouteResponse {
+func NewWebcastRoomIdRouteResponse(code float64, ok bool, routesAttempted []string, detail NullableRoomResolutionDetail) *WebcastRoomIdRouteResponse {
 	this := WebcastRoomIdRouteResponse{}
 	this.Code = code
 	this.Ok = ok
 	this.RoutesAttempted = routesAttempted
+	this.Detail = detail
 	return &this
 }
 
@@ -285,6 +288,32 @@ func (o *WebcastRoomIdRouteResponse) SetSource(v string) {
 	o.Source = &v
 }
 
+// GetDetail returns the Detail field value
+// If the value is explicit nil, the zero value for RoomResolutionDetail will be returned
+func (o *WebcastRoomIdRouteResponse) GetDetail() RoomResolutionDetail {
+	if o == nil || o.Detail.Get() == nil {
+		var ret RoomResolutionDetail
+		return ret
+	}
+
+	return *o.Detail.Get()
+}
+
+// GetDetailOk returns a tuple with the Detail field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *WebcastRoomIdRouteResponse) GetDetailOk() (*RoomResolutionDetail, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Detail.Get(), o.Detail.IsSet()
+}
+
+// SetDetail sets field value
+func (o *WebcastRoomIdRouteResponse) SetDetail(v RoomResolutionDetail) {
+	o.Detail.Set(&v)
+}
+
 func (o WebcastRoomIdRouteResponse) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -313,6 +342,7 @@ func (o WebcastRoomIdRouteResponse) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Source) {
 		toSerialize["source"] = o.Source
 	}
+	toSerialize["detail"] = o.Detail.Get()
 	return toSerialize, nil
 }
 
@@ -324,6 +354,7 @@ func (o *WebcastRoomIdRouteResponse) UnmarshalJSON(data []byte) (err error) {
 		"code",
 		"ok",
 		"routes_attempted",
+		"detail",
 	}
 
 	allProperties := make(map[string]interface{})

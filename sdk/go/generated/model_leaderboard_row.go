@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -24,6 +24,9 @@ type LeaderboardRow struct {
 	Rank float64 `json:"rank"`
 	Score float64 `json:"score"`
 	ScoreDescription string `json:"score_description"`
+	// The creator's league tier when the board reports it (Daily and Hourly Ranking).
+	League *RankingLeagueName `json:"league,omitempty"`
+	IsLive LeaderboardRowLiveStatus `json:"is_live"`
 	User LeaderboardRowUser `json:"user"`
 }
 
@@ -33,11 +36,12 @@ type _LeaderboardRow LeaderboardRow
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLeaderboardRow(rank float64, score float64, scoreDescription string, user LeaderboardRowUser) *LeaderboardRow {
+func NewLeaderboardRow(rank float64, score float64, scoreDescription string, isLive LeaderboardRowLiveStatus, user LeaderboardRowUser) *LeaderboardRow {
 	this := LeaderboardRow{}
 	this.Rank = rank
 	this.Score = score
 	this.ScoreDescription = scoreDescription
+	this.IsLive = isLive
 	this.User = user
 	return &this
 }
@@ -122,6 +126,62 @@ func (o *LeaderboardRow) SetScoreDescription(v string) {
 	o.ScoreDescription = v
 }
 
+// GetLeague returns the League field value if set, zero value otherwise.
+func (o *LeaderboardRow) GetLeague() RankingLeagueName {
+	if o == nil || IsNil(o.League) {
+		var ret RankingLeagueName
+		return ret
+	}
+	return *o.League
+}
+
+// GetLeagueOk returns a tuple with the League field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LeaderboardRow) GetLeagueOk() (*RankingLeagueName, bool) {
+	if o == nil || IsNil(o.League) {
+		return nil, false
+	}
+	return o.League, true
+}
+
+// HasLeague returns a boolean if a field has been set.
+func (o *LeaderboardRow) HasLeague() bool {
+	if o != nil && !IsNil(o.League) {
+		return true
+	}
+
+	return false
+}
+
+// SetLeague gets a reference to the given RankingLeagueName and assigns it to the League field.
+func (o *LeaderboardRow) SetLeague(v RankingLeagueName) {
+	o.League = &v
+}
+
+// GetIsLive returns the IsLive field value
+func (o *LeaderboardRow) GetIsLive() LeaderboardRowLiveStatus {
+	if o == nil {
+		var ret LeaderboardRowLiveStatus
+		return ret
+	}
+
+	return o.IsLive
+}
+
+// GetIsLiveOk returns a tuple with the IsLive field value
+// and a boolean to check if the value has been set.
+func (o *LeaderboardRow) GetIsLiveOk() (*LeaderboardRowLiveStatus, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IsLive, true
+}
+
+// SetIsLive sets field value
+func (o *LeaderboardRow) SetIsLive(v LeaderboardRowLiveStatus) {
+	o.IsLive = v
+}
+
 // GetUser returns the User field value
 func (o *LeaderboardRow) GetUser() LeaderboardRowUser {
 	if o == nil {
@@ -159,6 +219,10 @@ func (o LeaderboardRow) ToMap() (map[string]interface{}, error) {
 	toSerialize["rank"] = o.Rank
 	toSerialize["score"] = o.Score
 	toSerialize["score_description"] = o.ScoreDescription
+	if !IsNil(o.League) {
+		toSerialize["league"] = o.League
+	}
+	toSerialize["is_live"] = o.IsLive
 	toSerialize["user"] = o.User
 	return toSerialize, nil
 }
@@ -171,6 +235,7 @@ func (o *LeaderboardRow) UnmarshalJSON(data []byte) (err error) {
 		"rank",
 		"score",
 		"score_description",
+		"is_live",
 		"user",
 	}
 

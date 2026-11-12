@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -15,7 +15,7 @@ import (
 	"fmt"
 )
 
-// StableStreamQuality Mirrors of the SDK's `StreamQuality` / `StreamType` enums as literal unions.  Declared here rather than re-exported so the published spec is decoupled from SDK churn — the same reason the rest of this file exists. Same precedent as `RoomInfoForceSourceHeader`.
+// StableStreamQuality Mirrors of the SDK's `StreamQuality` / `StreamType` enums as literal unions.  Declared here rather than re-exported so the published spec is decoupled from SDK churn — the same reason the rest of this file exists.
 type StableStreamQuality string
 
 // List of StableStreamQuality

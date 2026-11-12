@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -28,6 +28,7 @@ const (
 	ACCOUNT_SCOPES_11 AccountScopes = 11
 	ACCOUNT_SCOPES_8 AccountScopes = 8
 	ACCOUNT_SCOPES_6 AccountScopes = 6
+	ACCOUNT_SCOPES_7 AccountScopes = 7
 	ACCOUNT_SCOPES_12 AccountScopes = 12
 	ACCOUNT_SCOPES_13 AccountScopes = 13
 	ACCOUNT_SCOPES_14 AccountScopes = 14
@@ -36,6 +37,8 @@ const (
 	ACCOUNT_SCOPES_17 AccountScopes = 17
 	ACCOUNT_SCOPES_18 AccountScopes = 18
 	ACCOUNT_SCOPES_19 AccountScopes = 19
+	ACCOUNT_SCOPES_20 AccountScopes = 20
+	ACCOUNT_SCOPES_22 AccountScopes = 22
 )
 
 // All allowed values of AccountScopes enum
@@ -48,6 +51,7 @@ var AllowedAccountScopesEnumValues = []AccountScopes{
 	11,
 	8,
 	6,
+	7,
 	12,
 	13,
 	14,
@@ -56,6 +60,8 @@ var AllowedAccountScopesEnumValues = []AccountScopes{
 	17,
 	18,
 	19,
+	20,
+	22,
 }
 
 func (v *AccountScopes) UnmarshalJSON(src []byte) error {

@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -23,62 +23,87 @@ import (
 // TikTokUsersAPIService TikTokUsersAPI service
 type TikTokUsersAPIService service
 
-type ApiRetrieveTikTokUserBasicRequest struct {
+type ApiRetrieveTikTokPlaylistVideosRequest struct {
 	ctx context.Context
 	ApiService *TikTokUsersAPIService
 	uniqueId string
+	playlistId string
+	page *int32
 	xImageSource *RouteImageSource
+	xCaptionSource *string
+}
+
+// Zero-based page to fetch. Defaults to 0.
+func (r ApiRetrieveTikTokPlaylistVideosRequest) Page(page int32) ApiRetrieveTikTokPlaylistVideosRequest {
+	r.page = &page
+	return r
 }
 
 // Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
-func (r ApiRetrieveTikTokUserBasicRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserBasicRequest {
+func (r ApiRetrieveTikTokPlaylistVideosRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokPlaylistVideosRequest {
 	r.xImageSource = &xImageSource
 	return r
 }
 
-func (r ApiRetrieveTikTokUserBasicRequest) Execute() (*RetrieveTikTokUserBasicResponse, *http.Response, error) {
-	return r.ApiService.RetrieveTikTokUserBasicExecute(r)
+// Where returned caption (subtitle) URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokPlaylistVideosRequest) XCaptionSource(xCaptionSource string) ApiRetrieveTikTokPlaylistVideosRequest {
+	r.xCaptionSource = &xCaptionSource
+	return r
+}
+
+func (r ApiRetrieveTikTokPlaylistVideosRequest) Execute() (*RetrieveTikTokPlaylistVideosResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokPlaylistVideosExecute(r)
 }
 
 /*
-RetrieveTikTokUserBasic Method for RetrieveTikTokUserBasic
+RetrieveTikTokPlaylistVideos Method for RetrieveTikTokPlaylistVideos
 
-Retrieve basic public profile info (avatars, nickname, region) for a TikTok user by their unique ID (handle).
+Retrieve the videos in a TikTok playlist by its numeric playlist ID. The playlist is found by its ID alone; the handle in the path is not checked. Requires the Business plan.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param uniqueId The unique ID (handle) of the TikTok user.
- @return ApiRetrieveTikTokUserBasicRequest
+ @param playlistId The numeric TikTok playlist ID.
+ @return ApiRetrieveTikTokPlaylistVideosRequest
 */
-func (a *TikTokUsersAPIService) RetrieveTikTokUserBasic(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserBasicRequest {
-	return ApiRetrieveTikTokUserBasicRequest{
+func (a *TikTokUsersAPIService) RetrieveTikTokPlaylistVideos(ctx context.Context, uniqueId string, playlistId string) ApiRetrieveTikTokPlaylistVideosRequest {
+	return ApiRetrieveTikTokPlaylistVideosRequest{
 		ApiService: a,
 		ctx: ctx,
 		uniqueId: uniqueId,
+		playlistId: playlistId,
 	}
 }
 
 // Execute executes the request
-//  @return RetrieveTikTokUserBasicResponse
-func (a *TikTokUsersAPIService) RetrieveTikTokUserBasicExecute(r ApiRetrieveTikTokUserBasicRequest) (*RetrieveTikTokUserBasicResponse, *http.Response, error) {
+//  @return RetrieveTikTokPlaylistVideosResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokPlaylistVideosExecute(r ApiRetrieveTikTokPlaylistVideosRequest) (*RetrieveTikTokPlaylistVideosResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *RetrieveTikTokUserBasicResponse
+		localVarReturnValue  *RetrieveTikTokPlaylistVideosResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserBasic")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokPlaylistVideos")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/tiktok/users/{unique_id}/basic"
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile/playlists/{playlist_id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"playlist_id"+"}", url.PathEscape(parameterValueToString(r.playlistId, "playlistId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
+		r.page = &defaultValue
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -98,6 +123,9 @@ func (a *TikTokUsersAPIService) RetrieveTikTokUserBasicExecute(r ApiRetrieveTikT
 	}
 	if r.xImageSource != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.xCaptionSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-caption-source", r.xCaptionSource, "simple", "")
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -185,7 +213,7 @@ func (a *TikTokUsersAPIService) RetrieveTikTokUserBasicExecute(r ApiRetrieveTikT
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiRetrieveTikTokUserDetailedRequest struct {
+type ApiRetrieveTikTokUserBasicRequest struct {
 	ctx context.Context
 	ApiService *TikTokUsersAPIService
 	uniqueId string
@@ -193,26 +221,26 @@ type ApiRetrieveTikTokUserDetailedRequest struct {
 }
 
 // Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
-func (r ApiRetrieveTikTokUserDetailedRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserDetailedRequest {
+func (r ApiRetrieveTikTokUserBasicRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserBasicRequest {
 	r.xImageSource = &xImageSource
 	return r
 }
 
-func (r ApiRetrieveTikTokUserDetailedRequest) Execute() (*RetrieveTikTokUserDetailedResponse, *http.Response, error) {
-	return r.ApiService.RetrieveTikTokUserDetailedExecute(r)
+func (r ApiRetrieveTikTokUserBasicRequest) Execute() (*RetrieveTikTokUserBasicResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserBasicExecute(r)
 }
 
 /*
-RetrieveTikTokUserDetailed Method for RetrieveTikTokUserDetailed
+RetrieveTikTokUserBasic Method for RetrieveTikTokUserBasic
 
-Retrieve a TikTok user's detailed public profile (bio, verification, privacy, follower, following and like counts) and their latest videos by their unique ID (handle).
+Retrieve basic public profile info (avatars, nickname, region) for a TikTok user by their unique ID (handle). Works for 18+ accounts & private accounts.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param uniqueId The unique ID (handle) of the TikTok user.
- @return ApiRetrieveTikTokUserDetailedRequest
+ @return ApiRetrieveTikTokUserBasicRequest
 */
-func (a *TikTokUsersAPIService) RetrieveTikTokUserDetailed(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserDetailedRequest {
-	return ApiRetrieveTikTokUserDetailedRequest{
+func (a *TikTokUsersAPIService) RetrieveTikTokUserBasic(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserBasicRequest {
+	return ApiRetrieveTikTokUserBasicRequest{
 		ApiService: a,
 		ctx: ctx,
 		uniqueId: uniqueId,
@@ -220,21 +248,21 @@ func (a *TikTokUsersAPIService) RetrieveTikTokUserDetailed(ctx context.Context, 
 }
 
 // Execute executes the request
-//  @return RetrieveTikTokUserDetailedResponse
-func (a *TikTokUsersAPIService) RetrieveTikTokUserDetailedExecute(r ApiRetrieveTikTokUserDetailedRequest) (*RetrieveTikTokUserDetailedResponse, *http.Response, error) {
+//  @return RetrieveTikTokUserBasicResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserBasicExecute(r ApiRetrieveTikTokUserBasicRequest) (*RetrieveTikTokUserBasicResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *RetrieveTikTokUserDetailedResponse
+		localVarReturnValue  *RetrieveTikTokUserBasicResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserDetailed")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserBasic")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/tiktok/users/{unique_id}/detailed"
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile/basic"
 	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -350,7 +378,7 @@ func (a *TikTokUsersAPIService) RetrieveTikTokUserDetailedExecute(r ApiRetrieveT
 type ApiRetrieveTikTokUserInfoRequest struct {
 	ctx context.Context
 	ApiService *TikTokUsersAPIService
-	numericUserId string
+	numericId string
 	xImageSource *RouteImageSource
 }
 
@@ -370,14 +398,14 @@ RetrieveTikTokUserInfo Method for RetrieveTikTokUserInfo
 Retrieve profile info (avatars, follow counts, verification) for a TikTok user by their numeric user ID.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param numericUserId The numeric TikTok user ID.
+ @param numericId The numeric TikTok user ID.
  @return ApiRetrieveTikTokUserInfoRequest
 */
-func (a *TikTokUsersAPIService) RetrieveTikTokUserInfo(ctx context.Context, numericUserId string) ApiRetrieveTikTokUserInfoRequest {
+func (a *TikTokUsersAPIService) RetrieveTikTokUserInfo(ctx context.Context, numericId string) ApiRetrieveTikTokUserInfoRequest {
 	return ApiRetrieveTikTokUserInfoRequest{
 		ApiService: a,
 		ctx: ctx,
-		numericUserId: numericUserId,
+		numericId: numericId,
 	}
 }
 
@@ -396,8 +424,8 @@ func (a *TikTokUsersAPIService) RetrieveTikTokUserInfoExecute(r ApiRetrieveTikTo
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/tiktok/users/{numeric_user_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"numeric_user_id"+"}", url.PathEscape(parameterValueToString(r.numericUserId, "numericUserId")), -1)
+	localVarPath := localBasePath + "/tiktok/users/{numeric_id}/profile/by_numeric_id"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -422,6 +450,1547 @@ func (a *TikTokUsersAPIService) RetrieveTikTokUserInfoExecute(r ApiRetrieveTikTo
 	}
 	if r.xImageSource != nil {
 		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUserPlaylistsRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+	page *int32
+	xImageSource *RouteImageSource
+}
+
+// Zero-based page to fetch. Defaults to 0.
+func (r ApiRetrieveTikTokUserPlaylistsRequest) Page(page int32) ApiRetrieveTikTokUserPlaylistsRequest {
+	r.page = &page
+	return r
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserPlaylistsRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserPlaylistsRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+func (r ApiRetrieveTikTokUserPlaylistsRequest) Execute() (*RetrieveTikTokUserPlaylistsResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserPlaylistsExecute(r)
+}
+
+/*
+RetrieveTikTokUserPlaylists Method for RetrieveTikTokUserPlaylists
+
+Retrieve the playlists on a TikTok user's profile by their unique ID (handle).
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUserPlaylistsRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUserPlaylists(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserPlaylistsRequest {
+	return ApiRetrieveTikTokUserPlaylistsRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUserPlaylistsResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserPlaylistsExecute(r ApiRetrieveTikTokUserPlaylistsRequest) (*RetrieveTikTokUserPlaylistsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUserPlaylistsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserPlaylists")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile/playlists"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
+		r.page = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUserProfileRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+	xImageSource *RouteImageSource
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserProfileRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserProfileRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+func (r ApiRetrieveTikTokUserProfileRequest) Execute() (*RetrieveTikTokUserProfileResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserProfileExecute(r)
+}
+
+/*
+RetrieveTikTokUserProfile Method for RetrieveTikTokUserProfile
+
+Retrieve a TikTok user's profile by their unique ID (handle): identifiers, nickname, bio, avatars, verification, and follower, following, like and video counts. A private account's profile is returned with `is_private` set.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUserProfileRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUserProfile(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserProfileRequest {
+	return ApiRetrieveTikTokUserProfileRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUserProfileResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserProfileExecute(r ApiRetrieveTikTokUserProfileRequest) (*RetrieveTikTokUserProfileResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUserProfileResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserProfile")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUserProfileCrawledRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+	xImageSource *RouteImageSource
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserProfileCrawledRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserProfileCrawledRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+func (r ApiRetrieveTikTokUserProfileCrawledRequest) Execute() (*RetrieveTikTokUserProfileCrawledResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserProfileCrawledExecute(r)
+}
+
+/*
+RetrieveTikTokUserProfileCrawled Method for RetrieveTikTokUserProfileCrawled
+
+Retrieve a TikTok user's profile by their unique ID (handle), read from their public profile page. Carries the same profile as the profile route, plus the account's creation time and language. Requires the Business plan.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUserProfileCrawledRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUserProfileCrawled(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserProfileCrawledRequest {
+	return ApiRetrieveTikTokUserProfileCrawledRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUserProfileCrawledResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserProfileCrawledExecute(r ApiRetrieveTikTokUserProfileCrawledRequest) (*RetrieveTikTokUserProfileCrawledResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUserProfileCrawledResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserProfileCrawled")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile/crawled"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUserRepostsRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+	page *int32
+	xImageSource *RouteImageSource
+	xCaptionSource *string
+}
+
+// Zero-based page to fetch. Defaults to 0. Pages after the first require the Business plan.
+func (r ApiRetrieveTikTokUserRepostsRequest) Page(page int32) ApiRetrieveTikTokUserRepostsRequest {
+	r.page = &page
+	return r
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserRepostsRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserRepostsRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+// Where returned caption (subtitle) URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserRepostsRequest) XCaptionSource(xCaptionSource string) ApiRetrieveTikTokUserRepostsRequest {
+	r.xCaptionSource = &xCaptionSource
+	return r
+}
+
+func (r ApiRetrieveTikTokUserRepostsRequest) Execute() (*RetrieveTikTokUserRepostsResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserRepostsExecute(r)
+}
+
+/*
+RetrieveTikTokUserReposts Method for RetrieveTikTokUserReposts
+
+Retrieve the videos a TikTok user has reposted, by their unique ID (handle). The first page is open to any API key; later pages require the Business plan.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUserRepostsRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUserReposts(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserRepostsRequest {
+	return ApiRetrieveTikTokUserRepostsRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUserRepostsResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserRepostsExecute(r ApiRetrieveTikTokUserRepostsRequest) (*RetrieveTikTokUserRepostsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUserRepostsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserReposts")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile/reposts"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.page != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
+	} else {
+		var defaultValue int32 = 0
+		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
+		r.page = &defaultValue
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.xCaptionSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-caption-source", r.xCaptionSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUserStoriesRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+	cursor *string
+	xImageSource *RouteImageSource
+	xCaptionSource *string
+}
+
+// &#x60;cursor&#x60; from the previous page. Omit for the first page. Pages after the first require the Business plan.
+func (r ApiRetrieveTikTokUserStoriesRequest) Cursor(cursor string) ApiRetrieveTikTokUserStoriesRequest {
+	r.cursor = &cursor
+	return r
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserStoriesRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserStoriesRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+// Where returned caption (subtitle) URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserStoriesRequest) XCaptionSource(xCaptionSource string) ApiRetrieveTikTokUserStoriesRequest {
+	r.xCaptionSource = &xCaptionSource
+	return r
+}
+
+func (r ApiRetrieveTikTokUserStoriesRequest) Execute() (*RetrieveTikTokUserStoriesResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserStoriesExecute(r)
+}
+
+/*
+RetrieveTikTokUserStories Method for RetrieveTikTokUserStories
+
+Retrieve a TikTok user's current stories by their unique ID (handle). Each story is a video with `story_expires_at` set. Omit `cursor` for the first page; while `has_more` is true, pass the returned `cursor` back for the next. The first page is open to any API key; later pages require the Business plan.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUserStoriesRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUserStories(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserStoriesRequest {
+	return ApiRetrieveTikTokUserStoriesRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUserStoriesResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserStoriesExecute(r ApiRetrieveTikTokUserStoriesRequest) (*RetrieveTikTokUserStoriesResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUserStoriesResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserStories")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/profile/stories"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.xCaptionSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-caption-source", r.xCaptionSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUserVideosRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+	cursor *string
+	xImageSource *RouteImageSource
+	xCaptionSource *string
+}
+
+// &#x60;cursor&#x60; from the previous page. Omit for the first page. Pages after the first require the Business plan.
+func (r ApiRetrieveTikTokUserVideosRequest) Cursor(cursor string) ApiRetrieveTikTokUserVideosRequest {
+	r.cursor = &cursor
+	return r
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserVideosRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveTikTokUserVideosRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+// Where returned caption (subtitle) URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveTikTokUserVideosRequest) XCaptionSource(xCaptionSource string) ApiRetrieveTikTokUserVideosRequest {
+	r.xCaptionSource = &xCaptionSource
+	return r
+}
+
+func (r ApiRetrieveTikTokUserVideosRequest) Execute() (*RetrieveTikTokUserVideosResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUserVideosExecute(r)
+}
+
+/*
+RetrieveTikTokUserVideos Method for RetrieveTikTokUserVideos
+
+Retrieve a TikTok user's videos and photo posts, newest first, by their unique ID (handle). Omit `cursor` for the first page; while `has_more` is true, pass the returned `cursor` back for the next. The first page is open to any API key; later pages require the Business plan.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUserVideosRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUserVideos(ctx context.Context, uniqueId string) ApiRetrieveTikTokUserVideosRequest {
+	return ApiRetrieveTikTokUserVideosRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUserVideosResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUserVideosExecute(r ApiRetrieveTikTokUserVideosRequest) (*RetrieveTikTokUserVideosResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUserVideosResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUserVideos")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/{unique_id}/videos"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.cursor != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "cursor", r.cursor, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.xCaptionSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-caption-source", r.xCaptionSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUsersCatalogNumericIdRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	numericId string
+}
+
+func (r ApiRetrieveTikTokUsersCatalogNumericIdRequest) Execute() (*RetrieveTikTokUsersCatalogNumericIdResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUsersCatalogNumericIdExecute(r)
+}
+
+/*
+RetrieveTikTokUsersCatalogNumericId Method for RetrieveTikTokUsersCatalogNumericId
+
+Look a numeric TikTok user ID up in the TikTok users catalog, from any record our pipelines have stored, however old.
+
+An ID the catalog has never seen answers 404; use the live user routes to resolve it from TikTok.
+
+This is a special route, it does NOT fetch data live, and therefore does not count to your hourly/daily rate limits.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param numericId The numeric ID of the TikTok user (e.g. 7602356191083907865).
+ @return ApiRetrieveTikTokUsersCatalogNumericIdRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUsersCatalogNumericId(ctx context.Context, numericId string) ApiRetrieveTikTokUsersCatalogNumericIdRequest {
+	return ApiRetrieveTikTokUsersCatalogNumericIdRequest{
+		ApiService: a,
+		ctx: ctx,
+		numericId: numericId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUsersCatalogNumericIdResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUsersCatalogNumericIdExecute(r ApiRetrieveTikTokUsersCatalogNumericIdRequest) (*RetrieveTikTokUsersCatalogNumericIdResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUsersCatalogNumericIdResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUsersCatalogNumericId")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/catalog/numeric_ids/{numeric_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveTikTokUsersCatalogUsernameRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	uniqueId string
+}
+
+func (r ApiRetrieveTikTokUsersCatalogUsernameRequest) Execute() (*RetrieveTikTokUsersCatalogUsernameResponse, *http.Response, error) {
+	return r.ApiService.RetrieveTikTokUsersCatalogUsernameExecute(r)
+}
+
+/*
+RetrieveTikTokUsersCatalogUsername Method for RetrieveTikTokUsersCatalogUsername
+
+Look a handle (unique_id) up in the TikTok users catalog: the user who most recently held it, from any record our pipelines have stored, however old.
+
+The handle is matched exactly after normalization (a leading @ and letter case are ignored). A handle the catalog has never seen answers 404; use the live user routes to resolve it from TikTok.
+
+This is a special route, it does NOT fetch data live, and therefore does not count to your hourly/daily rate limits.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveTikTokUsersCatalogUsernameRequest
+*/
+func (a *TikTokUsersAPIService) RetrieveTikTokUsersCatalogUsername(ctx context.Context, uniqueId string) ApiRetrieveTikTokUsersCatalogUsernameRequest {
+	return ApiRetrieveTikTokUsersCatalogUsernameRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return RetrieveTikTokUsersCatalogUsernameResponse
+func (a *TikTokUsersAPIService) RetrieveTikTokUsersCatalogUsernameExecute(r ApiRetrieveTikTokUsersCatalogUsernameRequest) (*RetrieveTikTokUsersCatalogUsernameResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *RetrieveTikTokUsersCatalogUsernameResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.RetrieveTikTokUsersCatalogUsername")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/catalog/usernames/{unique_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSearchTikTokUsersCatalogRequest struct {
+	ctx context.Context
+	ApiService *TikTokUsersAPIService
+	query *string
+	match *UserCatalogSearchMatch
+}
+
+// The handle or display name text to search for: 3 to 256 characters.
+func (r ApiSearchTikTokUsersCatalogRequest) Query(query string) ApiSearchTikTokUsersCatalogRequest {
+	r.query = &query
+	return r
+}
+
+// The one field the query is matched against: &#x60;unique_id&#x60; (the handle) or &#x60;nickname&#x60; (the display name). Defaults to &#x60;unique_id&#x60;.
+func (r ApiSearchTikTokUsersCatalogRequest) Match(match UserCatalogSearchMatch) ApiSearchTikTokUsersCatalogRequest {
+	r.match = &match
+	return r
+}
+
+func (r ApiSearchTikTokUsersCatalogRequest) Execute() (*SearchTikTokUsersCatalogResponse, *http.Response, error) {
+	return r.ApiService.SearchTikTokUsersCatalogExecute(r)
+}
+
+/*
+SearchTikTokUsersCatalog Method for SearchTikTokUsersCatalog
+
+Search the TikTok users catalog: every user our pipelines have recorded, matched on ONE field chosen by `match`: the handle (`unique_id`, the default) or the display name (`nickname`). A search never matches the other field.
+
+The match is a case-insensitive substring match served by the catalog's trigram index, so the query must be at least 3 characters. Results are ranked exact match first, then prefix match, then substring match; ties go to the higher follower count, then to the more recently updated record. At most 10 users are returned.
+
+This is a special route, it does NOT fetch data live, and therefore does not count to your hourly/daily rate limits.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSearchTikTokUsersCatalogRequest
+*/
+func (a *TikTokUsersAPIService) SearchTikTokUsersCatalog(ctx context.Context) ApiSearchTikTokUsersCatalogRequest {
+	return ApiSearchTikTokUsersCatalogRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return SearchTikTokUsersCatalogResponse
+func (a *TikTokUsersAPIService) SearchTikTokUsersCatalogExecute(r ApiSearchTikTokUsersCatalogRequest) (*SearchTikTokUsersCatalogResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SearchTikTokUsersCatalogResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokUsersAPIService.SearchTikTokUsersCatalog")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/tiktok/users/catalog/search"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.query == nil {
+		return localVarReturnValue, nil, reportError("query is required and must be specified")
+	}
+	if strlen(*r.query) < 3 {
+		return localVarReturnValue, nil, reportError("query must have at least 3 elements")
+	}
+	if strlen(*r.query) > 256 {
+		return localVarReturnValue, nil, reportError("query must have less than 256 elements")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "query", r.query, "form", "")
+	if r.match != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "match", r.match, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	if r.ctx != nil {
 		// API Key Authentication

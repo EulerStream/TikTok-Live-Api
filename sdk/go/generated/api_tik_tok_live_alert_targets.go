@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -220,7 +220,7 @@ func (r ApiDeleteAlertTargetRequest) Execute() (*DeleteAlertTargetResponse, *htt
 /*
 DeleteAlertTarget Method for DeleteAlertTarget
 
-Delete an alert target from the Sign API
+Delete an alert target from the Euler Stream API
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param accountId The ID of the account to delete the alert target from

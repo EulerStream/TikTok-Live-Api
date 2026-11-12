@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -27,7 +27,7 @@ type ApiAddRoomModeratorRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAnchorsAPIService
 	toUserId *string
-	anchorId string
+	numericId string
 	xOauthToken *string
 	xCookieHeader *string
 }
@@ -64,14 +64,14 @@ Add a moderator in a livestream room.
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param anchorId The streamer's user ID
+ @param numericId The streamer's user ID
  @return ApiAddRoomModeratorRequest
 */
-func (a *TikTokLIVEAnchorsAPIService) AddRoomModerator(ctx context.Context, anchorId string) ApiAddRoomModeratorRequest {
+func (a *TikTokLIVEAnchorsAPIService) AddRoomModerator(ctx context.Context, numericId string) ApiAddRoomModeratorRequest {
 	return ApiAddRoomModeratorRequest{
 		ApiService: a,
 		ctx: ctx,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -90,8 +90,8 @@ func (a *TikTokLIVEAnchorsAPIService) AddRoomModeratorExecute(r ApiAddRoomModera
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/anchors/{anchor_id}/moderation/moderators"
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath := localBasePath + "/webcast/anchors/{numeric_id}/moderation/moderators"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -291,6 +291,8 @@ Resolves the handle to its current Room ID, then behaves exactly as fetching by 
 - `x-oauth-token`: An OAuth access token. The sessionId and ttTargetIdc are resolved from the stored OAuth session. [Read More](https://www.eulerstream.com/docs/oauth)
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
+With a JWT, encode the session in the JWT instead (`websockets.config.oauthToken`, or `sessionId` and `ttTargetIdc`); a JWT request may not send these headers. The `mobile` platform requires a session.
+
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param uniqueId The unique ID (handle) of the TikTok user whose LIVE room to connect to.
  @return ApiFetchWebcastURLByUniqueIdRequest
@@ -486,7 +488,7 @@ type ApiRemoveRoomModeratorRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAnchorsAPIService
 	toUserId *string
-	anchorId string
+	numericId string
 	xOauthToken *string
 	xCookieHeader *string
 }
@@ -523,14 +525,14 @@ Remove a moderator from a livestream room.
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param anchorId The streamer's user ID
+ @param numericId The streamer's user ID
  @return ApiRemoveRoomModeratorRequest
 */
-func (a *TikTokLIVEAnchorsAPIService) RemoveRoomModerator(ctx context.Context, anchorId string) ApiRemoveRoomModeratorRequest {
+func (a *TikTokLIVEAnchorsAPIService) RemoveRoomModerator(ctx context.Context, numericId string) ApiRemoveRoomModeratorRequest {
 	return ApiRemoveRoomModeratorRequest{
 		ApiService: a,
 		ctx: ctx,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -549,8 +551,8 @@ func (a *TikTokLIVEAnchorsAPIService) RemoveRoomModeratorExecute(r ApiRemoveRoom
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/anchors/{anchor_id}/moderation/moderators"
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath := localBasePath + "/webcast/anchors/{numeric_id}/moderation/moderators"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1518,7 +1520,14 @@ func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomCoverExecute(r ApiRetrieveRoom
 type ApiRetrieveRoomIdRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAnchorsAPIService
-	uniqueId string
+	creatorId string
+	creatorIdType *CreatorIdType
+}
+
+// What creator_id is: unique_id (a handle, the default) or numeric_id (a numeric TikTok user ID). A numeric ID skips the handle lookup and still finds the creator after a handle change.
+func (r ApiRetrieveRoomIdRequest) CreatorIdType(creatorIdType CreatorIdType) ApiRetrieveRoomIdRequest {
+	r.creatorIdType = &creatorIdType
+	return r
 }
 
 func (r ApiRetrieveRoomIdRequest) Execute() (*WebcastRoomIdRouteResponse, *http.Response, error) {
@@ -1528,17 +1537,17 @@ func (r ApiRetrieveRoomIdRequest) Execute() (*WebcastRoomIdRouteResponse, *http.
 /*
 RetrieveRoomId Method for RetrieveRoomId
 
-Fetch Room ID for a given uniqueId & whether that user is live.
+Fetch the Room ID for a creator, by handle or numeric user ID, and whether they are live.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param uniqueId The unique ID of the TikTok user to fetch the data for.
+ @param creatorId The creator: a TikTok handle (unique_id) by default, or a numeric TikTok user ID when creator_id_type is numeric_id.
  @return ApiRetrieveRoomIdRequest
 */
-func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomId(ctx context.Context, uniqueId string) ApiRetrieveRoomIdRequest {
+func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomId(ctx context.Context, creatorId string) ApiRetrieveRoomIdRequest {
 	return ApiRetrieveRoomIdRequest{
 		ApiService: a,
 		ctx: ctx,
-		uniqueId: uniqueId,
+		creatorId: creatorId,
 	}
 }
 
@@ -1557,13 +1566,16 @@ func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomIdExecute(r ApiRetrieveRoomIdR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/anchors/{unique_id}/room_id"
-	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
+	localVarPath := localBasePath + "/webcast/anchors/{creator_id}/room_id"
+	localVarPath = strings.Replace(localVarPath, "{"+"creator_id"+"}", url.PathEscape(parameterValueToString(r.creatorId, "creatorId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.creatorIdType != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "creator_id_type", r.creatorIdType, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -1695,8 +1707,15 @@ func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomIdExecute(r ApiRetrieveRoomIdR
 type ApiRetrieveRoomInfoRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAnchorsAPIService
-	uniqueId string
+	creatorId string
+	creatorIdType *CreatorIdType
 	xImageSource *RouteImageSource
+}
+
+// What creator_id is: unique_id (a handle, the default) or numeric_id (a numeric TikTok user ID). A numeric ID skips the handle lookup and still finds the creator after a handle change.
+func (r ApiRetrieveRoomInfoRequest) CreatorIdType(creatorIdType CreatorIdType) ApiRetrieveRoomInfoRequest {
+	r.creatorIdType = &creatorIdType
+	return r
 }
 
 // Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
@@ -1712,17 +1731,17 @@ func (r ApiRetrieveRoomInfoRequest) Execute() (*WebcastRoomInfoRouteResponse, *h
 /*
 RetrieveRoomInfo Method for RetrieveRoomInfo
 
-Retrieve TikTok Live Room Information
+Retrieve TikTok Live Room Information for a creator, by handle or numeric user ID.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param uniqueId The unique identifier for the TikTok user or room
+ @param creatorId The creator: a TikTok handle (unique_id) by default, or a numeric TikTok user ID when creator_id_type is numeric_id.
  @return ApiRetrieveRoomInfoRequest
 */
-func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomInfo(ctx context.Context, uniqueId string) ApiRetrieveRoomInfoRequest {
+func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomInfo(ctx context.Context, creatorId string) ApiRetrieveRoomInfoRequest {
 	return ApiRetrieveRoomInfoRequest{
 		ApiService: a,
 		ctx: ctx,
-		uniqueId: uniqueId,
+		creatorId: creatorId,
 	}
 }
 
@@ -1741,7 +1760,183 @@ func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomInfoExecute(r ApiRetrieveRoomI
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/anchors/{unique_id}/room_info"
+	localVarPath := localBasePath + "/webcast/anchors/{creator_id}/room_info"
+	localVarPath = strings.Replace(localVarPath, "{"+"creator_id"+"}", url.PathEscape(parameterValueToString(r.creatorId, "creatorId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.creatorIdType != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "creator_id_type", r.creatorIdType, "form", "")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.xImageSource != nil {
+		parameterAddToHeaderOrQuery(localVarHeaderParams, "x-image-source", r.xImageSource, "simple", "")
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRetrieveRoomInfoFromHtmlRequest struct {
+	ctx context.Context
+	ApiService *TikTokLIVEAnchorsAPIService
+	uniqueId string
+	xImageSource *RouteImageSource
+}
+
+// Where returned image URLs are served from (ORIGIN, CDN, CDN_CNAME).
+func (r ApiRetrieveRoomInfoFromHtmlRequest) XImageSource(xImageSource RouteImageSource) ApiRetrieveRoomInfoFromHtmlRequest {
+	r.xImageSource = &xImageSource
+	return r
+}
+
+func (r ApiRetrieveRoomInfoFromHtmlRequest) Execute() (*WebcastRoomInfoFromHtmlRouteResponse, *http.Response, error) {
+	return r.ApiService.RetrieveRoomInfoFromHtmlExecute(r)
+}
+
+/*
+RetrieveRoomInfoFromHtml Method for RetrieveRoomInfoFromHtml
+
+Retrieve TikTok Live Room Information from the state the creator's LIVE page (`tiktok.com/@{unique_id}/live`) renders. `data.raw` is that page's `LiveRoom` state.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param uniqueId The unique ID (handle) of the TikTok user.
+ @return ApiRetrieveRoomInfoFromHtmlRequest
+*/
+func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomInfoFromHtml(ctx context.Context, uniqueId string) ApiRetrieveRoomInfoFromHtmlRequest {
+	return ApiRetrieveRoomInfoFromHtmlRequest{
+		ApiService: a,
+		ctx: ctx,
+		uniqueId: uniqueId,
+	}
+}
+
+// Execute executes the request
+//  @return WebcastRoomInfoFromHtmlRouteResponse
+func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomInfoFromHtmlExecute(r ApiRetrieveRoomInfoFromHtmlRequest) (*WebcastRoomInfoFromHtmlRouteResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *WebcastRoomInfoFromHtmlRouteResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVEAnchorsAPIService.RetrieveRoomInfoFromHtml")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/webcast/anchors/{unique_id}/room_info/crawled"
 	localVarPath = strings.Replace(localVarPath, "{"+"unique_id"+"}", url.PathEscape(parameterValueToString(r.uniqueId, "uniqueId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1868,7 +2063,7 @@ func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomInfoExecute(r ApiRetrieveRoomI
 type ApiRetrieveRoomModeratorsRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAnchorsAPIService
-	anchorId string
+	numericId string
 	xOauthToken *string
 	xCookieHeader *string
 	xImageSource *RouteImageSource
@@ -1906,14 +2101,14 @@ Retrieve the list of moderators in a livestream room.
 - `x-cookie-header`: A cookie header string containing `sessionid` and `tt-target-idc` cookies from TikTok.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param anchorId The streamer's numeric user ID
+ @param numericId The streamer's numeric user ID
  @return ApiRetrieveRoomModeratorsRequest
 */
-func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomModerators(ctx context.Context, anchorId string) ApiRetrieveRoomModeratorsRequest {
+func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomModerators(ctx context.Context, numericId string) ApiRetrieveRoomModeratorsRequest {
 	return ApiRetrieveRoomModeratorsRequest{
 		ApiService: a,
 		ctx: ctx,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -1932,8 +2127,8 @@ func (a *TikTokLIVEAnchorsAPIService) RetrieveRoomModeratorsExecute(r ApiRetriev
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/anchors/{anchor_id}/moderation/moderators"
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath := localBasePath + "/webcast/anchors/{numeric_id}/moderation/moderators"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -2103,8 +2298,8 @@ func (r ApiRetrieveWebcastGiftGalleryRequest) Execute() (*WebcastGiftGalleryResp
 /*
 RetrieveWebcastGiftGallery Method for RetrieveWebcastGiftGallery
 
-Retrieve the TikTok LIVE gift gallery (sponsorable gifts + sponsorship
-progress) for a creator.
+Retrieve the TikTok LIVE gift gallery (sponsorable gifts, special gift lists and
+sponsorship progress) for a creator, live or not.
 
 The gallery is rendered per-viewer, so a session is required.
 

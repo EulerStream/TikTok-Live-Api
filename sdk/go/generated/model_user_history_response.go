@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -23,7 +23,7 @@ var _ MappedNullable = &UserHistoryResponse{}
 type UserHistoryResponse struct {
 	Code float64 `json:"code"`
 	Message *string `json:"message,omitempty"`
-	User *UserHistoryResponseUser `json:"user,omitempty"`
+	User *UserDayHistoryResponseUser `json:"user,omitempty"`
 	Region *string `json:"region,omitempty"`
 	RankName *AvailableWebcastRankName `json:"rank_name,omitempty"`
 	History []UserHistoryPoint `json:"history,omitempty"`
@@ -106,9 +106,9 @@ func (o *UserHistoryResponse) SetMessage(v string) {
 }
 
 // GetUser returns the User field value if set, zero value otherwise.
-func (o *UserHistoryResponse) GetUser() UserHistoryResponseUser {
+func (o *UserHistoryResponse) GetUser() UserDayHistoryResponseUser {
 	if o == nil || IsNil(o.User) {
-		var ret UserHistoryResponseUser
+		var ret UserDayHistoryResponseUser
 		return ret
 	}
 	return *o.User
@@ -116,7 +116,7 @@ func (o *UserHistoryResponse) GetUser() UserHistoryResponseUser {
 
 // GetUserOk returns a tuple with the User field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UserHistoryResponse) GetUserOk() (*UserHistoryResponseUser, bool) {
+func (o *UserHistoryResponse) GetUserOk() (*UserDayHistoryResponseUser, bool) {
 	if o == nil || IsNil(o.User) {
 		return nil, false
 	}
@@ -132,8 +132,8 @@ func (o *UserHistoryResponse) HasUser() bool {
 	return false
 }
 
-// SetUser gets a reference to the given UserHistoryResponseUser and assigns it to the User field.
-func (o *UserHistoryResponse) SetUser(v UserHistoryResponseUser) {
+// SetUser gets a reference to the given UserDayHistoryResponseUser and assigns it to the User field.
+func (o *UserHistoryResponse) SetUser(v UserDayHistoryResponseUser) {
 	o.User = &v
 }
 

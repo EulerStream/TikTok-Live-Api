@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -29,7 +29,12 @@ type AccountWithPermissionsSafe struct {
 	WebhookSecret string `json:"webhook_secret"`
 	MaxAlerts float64 `json:"max_alerts"`
 	MaxWebsockets float64 `json:"max_websockets"`
+	// Distinct TikTok LIVE rooms the account may connect to per UTC day; null is unlimited.
+	MaxDailyRooms NullableFloat64 `json:"max_daily_rooms"`
+	// Until this time, a max_daily_rooms of 1,000 or more is not enforced; null when the account is not grandfathered.
+	DailyRoomsGrandfatheredUntil NullableTime `json:"daily_rooms_grandfathered_until"`
 	ExpiresAt NullableTime `json:"expires_at"`
+	// Deprecated: always 0. CAPTCHAs are limited by rate rather than billed for usage.
 	PurchasedCaptchaCredits float64 `json:"purchased_captcha_credits"`
 	UpdatedAt time.Time `json:"updated_at"`
 	CreatedAt time.Time `json:"created_at"`
@@ -43,7 +48,7 @@ type _AccountWithPermissionsSafe AccountWithPermissionsSafe
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAccountWithPermissionsSafe(day float64, hour float64, minute float64, name string, webhookSecret string, maxAlerts float64, maxWebsockets float64, expiresAt NullableTime, purchasedCaptchaCredits float64, updatedAt time.Time, createdAt time.Time, id float64, scopes []AccountScopes) *AccountWithPermissionsSafe {
+func NewAccountWithPermissionsSafe(day float64, hour float64, minute float64, name string, webhookSecret string, maxAlerts float64, maxWebsockets float64, maxDailyRooms NullableFloat64, dailyRoomsGrandfatheredUntil NullableTime, expiresAt NullableTime, purchasedCaptchaCredits float64, updatedAt time.Time, createdAt time.Time, id float64, scopes []AccountScopes) *AccountWithPermissionsSafe {
 	this := AccountWithPermissionsSafe{}
 	this.Day = day
 	this.Hour = hour
@@ -52,6 +57,8 @@ func NewAccountWithPermissionsSafe(day float64, hour float64, minute float64, na
 	this.WebhookSecret = webhookSecret
 	this.MaxAlerts = maxAlerts
 	this.MaxWebsockets = maxWebsockets
+	this.MaxDailyRooms = maxDailyRooms
+	this.DailyRoomsGrandfatheredUntil = dailyRoomsGrandfatheredUntil
 	this.ExpiresAt = expiresAt
 	this.PurchasedCaptchaCredits = purchasedCaptchaCredits
 	this.UpdatedAt = updatedAt
@@ -237,6 +244,58 @@ func (o *AccountWithPermissionsSafe) SetMaxWebsockets(v float64) {
 	o.MaxWebsockets = v
 }
 
+// GetMaxDailyRooms returns the MaxDailyRooms field value
+// If the value is explicit nil, the zero value for float64 will be returned
+func (o *AccountWithPermissionsSafe) GetMaxDailyRooms() float64 {
+	if o == nil || o.MaxDailyRooms.Get() == nil {
+		var ret float64
+		return ret
+	}
+
+	return *o.MaxDailyRooms.Get()
+}
+
+// GetMaxDailyRoomsOk returns a tuple with the MaxDailyRooms field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AccountWithPermissionsSafe) GetMaxDailyRoomsOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.MaxDailyRooms.Get(), o.MaxDailyRooms.IsSet()
+}
+
+// SetMaxDailyRooms sets field value
+func (o *AccountWithPermissionsSafe) SetMaxDailyRooms(v float64) {
+	o.MaxDailyRooms.Set(&v)
+}
+
+// GetDailyRoomsGrandfatheredUntil returns the DailyRoomsGrandfatheredUntil field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *AccountWithPermissionsSafe) GetDailyRoomsGrandfatheredUntil() time.Time {
+	if o == nil || o.DailyRoomsGrandfatheredUntil.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.DailyRoomsGrandfatheredUntil.Get()
+}
+
+// GetDailyRoomsGrandfatheredUntilOk returns a tuple with the DailyRoomsGrandfatheredUntil field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *AccountWithPermissionsSafe) GetDailyRoomsGrandfatheredUntilOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.DailyRoomsGrandfatheredUntil.Get(), o.DailyRoomsGrandfatheredUntil.IsSet()
+}
+
+// SetDailyRoomsGrandfatheredUntil sets field value
+func (o *AccountWithPermissionsSafe) SetDailyRoomsGrandfatheredUntil(v time.Time) {
+	o.DailyRoomsGrandfatheredUntil.Set(&v)
+}
+
 // GetExpiresAt returns the ExpiresAt field value
 // If the value is explicit nil, the zero value for time.Time will be returned
 func (o *AccountWithPermissionsSafe) GetExpiresAt() time.Time {
@@ -400,6 +459,8 @@ func (o AccountWithPermissionsSafe) ToMap() (map[string]interface{}, error) {
 	toSerialize["webhook_secret"] = o.WebhookSecret
 	toSerialize["max_alerts"] = o.MaxAlerts
 	toSerialize["max_websockets"] = o.MaxWebsockets
+	toSerialize["max_daily_rooms"] = o.MaxDailyRooms.Get()
+	toSerialize["daily_rooms_grandfathered_until"] = o.DailyRoomsGrandfatheredUntil.Get()
 	toSerialize["expires_at"] = o.ExpiresAt.Get()
 	toSerialize["purchased_captcha_credits"] = o.PurchasedCaptchaCredits
 	toSerialize["updated_at"] = o.UpdatedAt
@@ -421,6 +482,8 @@ func (o *AccountWithPermissionsSafe) UnmarshalJSON(data []byte) (err error) {
 		"webhook_secret",
 		"max_alerts",
 		"max_websockets",
+		"max_daily_rooms",
+		"daily_rooms_grandfathered_until",
 		"expires_at",
 		"purchased_captcha_credits",
 		"updated_at",

@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -27,12 +27,12 @@ type ApiCreateJWTRequest struct {
 	ctx context.Context
 	ApiService *AuthenticationAPIService
 	accountId float64
-	createJWTRequest *CreateJWTRequest
+	jWTConfiguration *JWTConfiguration
 }
 
 // The configuration for the JWT
-func (r ApiCreateJWTRequest) CreateJWTRequest(createJWTRequest CreateJWTRequest) ApiCreateJWTRequest {
-	r.createJWTRequest = &createJWTRequest
+func (r ApiCreateJWTRequest) JWTConfiguration(jWTConfiguration JWTConfiguration) ApiCreateJWTRequest {
+	r.jWTConfiguration = &jWTConfiguration
 	return r
 }
 
@@ -78,8 +78,8 @@ func (a *AuthenticationAPIService) CreateJWTExecute(r ApiCreateJWTRequest) (*Cre
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.createJWTRequest == nil {
-		return localVarReturnValue, nil, reportError("createJWTRequest is required and must be specified")
+	if r.jWTConfiguration == nil {
+		return localVarReturnValue, nil, reportError("jWTConfiguration is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -100,7 +100,7 @@ func (a *AuthenticationAPIService) CreateJWTExecute(r ApiCreateJWTRequest) (*Cre
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.createJWTRequest
+	localVarPostBody = r.jWTConfiguration
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {

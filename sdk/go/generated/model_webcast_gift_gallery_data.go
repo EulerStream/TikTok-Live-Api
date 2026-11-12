@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -12,13 +12,14 @@ package eulerapi
 
 import (
 	"encoding/json"
+	"bytes"
 	"fmt"
 )
 
 // checks if the WebcastGiftGalleryData type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &WebcastGiftGalleryData{}
 
-// WebcastGiftGalleryData Gallery entrance payload. Only the fields we model are typed; the rest of the (large) TikTok response rides through as `any`.
+// WebcastGiftGalleryData The creator's gift gallery: the fields of the former gallery entrance plus the gallery's own.
 type WebcastGiftGalleryData struct {
 	NormalGifts []NormalGiftItem `json:"normal_gifts"`
 	CurrentUserProgress *map[string]GiftGalleryProgressItem `json:"current_user_progress,omitempty"`
@@ -26,8 +27,20 @@ type WebcastGiftGalleryData struct {
 	CurrentPeriodStartsAt float64 `json:"current_period_starts_at"`
 	CurrentPeriodEndsAt float64 `json:"current_period_ends_at"`
 	ClassType RankingLeagueLevel `json:"class_type"`
-	AnchorRankingLeague string `json:"anchor_ranking_league"`
-	AdditionalProperties map[string]interface{}
+	// The anchor's league tier name, the same tier the leaderboard rows carry.
+	AnchorRankingLeague RankingLeagueName `json:"anchor_ranking_league"`
+	AnchorNickName string `json:"anchor_nick_name"`
+	AnchorAvatarUrl string `json:"anchor_avatar_url"`
+	// The league letter class of the gallery (\"A\" … \"D\").
+	GalleryRankingLeague string `json:"gallery_ranking_league"`
+	GalleryRankingIconUrl string `json:"gallery_ranking_icon_url"`
+	// The gallery period as a UTC date, yyyymmdd (e.g. 20261019).
+	Period float64 `json:"period"`
+	IsNewGalleryCreator bool `json:"is_new_gallery_creator"`
+	OpsGifts []NormalGiftItem `json:"ops_gifts"`
+	OpsInfo GiftGalleryOpsInfo `json:"ops_info"`
+	SpecialGiftLists []GiftGallerySpecialList `json:"special_gift_lists"`
+	GalleryDuelInfo GiftGalleryDuelInfo `json:"gallery_duel_info"`
 }
 
 type _WebcastGiftGalleryData WebcastGiftGalleryData
@@ -36,7 +49,7 @@ type _WebcastGiftGalleryData WebcastGiftGalleryData
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastGiftGalleryData(normalGifts []NormalGiftItem, currentTimestamp float64, currentPeriodStartsAt float64, currentPeriodEndsAt float64, classType RankingLeagueLevel, anchorRankingLeague string) *WebcastGiftGalleryData {
+func NewWebcastGiftGalleryData(normalGifts []NormalGiftItem, currentTimestamp float64, currentPeriodStartsAt float64, currentPeriodEndsAt float64, classType RankingLeagueLevel, anchorRankingLeague RankingLeagueName, anchorNickName string, anchorAvatarUrl string, galleryRankingLeague string, galleryRankingIconUrl string, period float64, isNewGalleryCreator bool, opsGifts []NormalGiftItem, opsInfo GiftGalleryOpsInfo, specialGiftLists []GiftGallerySpecialList, galleryDuelInfo GiftGalleryDuelInfo) *WebcastGiftGalleryData {
 	this := WebcastGiftGalleryData{}
 	this.NormalGifts = normalGifts
 	this.CurrentTimestamp = currentTimestamp
@@ -44,6 +57,16 @@ func NewWebcastGiftGalleryData(normalGifts []NormalGiftItem, currentTimestamp fl
 	this.CurrentPeriodEndsAt = currentPeriodEndsAt
 	this.ClassType = classType
 	this.AnchorRankingLeague = anchorRankingLeague
+	this.AnchorNickName = anchorNickName
+	this.AnchorAvatarUrl = anchorAvatarUrl
+	this.GalleryRankingLeague = galleryRankingLeague
+	this.GalleryRankingIconUrl = galleryRankingIconUrl
+	this.Period = period
+	this.IsNewGalleryCreator = isNewGalleryCreator
+	this.OpsGifts = opsGifts
+	this.OpsInfo = opsInfo
+	this.SpecialGiftLists = specialGiftLists
+	this.GalleryDuelInfo = galleryDuelInfo
 	return &this
 }
 
@@ -208,9 +231,9 @@ func (o *WebcastGiftGalleryData) SetClassType(v RankingLeagueLevel) {
 }
 
 // GetAnchorRankingLeague returns the AnchorRankingLeague field value
-func (o *WebcastGiftGalleryData) GetAnchorRankingLeague() string {
+func (o *WebcastGiftGalleryData) GetAnchorRankingLeague() RankingLeagueName {
 	if o == nil {
-		var ret string
+		var ret RankingLeagueName
 		return ret
 	}
 
@@ -219,7 +242,7 @@ func (o *WebcastGiftGalleryData) GetAnchorRankingLeague() string {
 
 // GetAnchorRankingLeagueOk returns a tuple with the AnchorRankingLeague field value
 // and a boolean to check if the value has been set.
-func (o *WebcastGiftGalleryData) GetAnchorRankingLeagueOk() (*string, bool) {
+func (o *WebcastGiftGalleryData) GetAnchorRankingLeagueOk() (*RankingLeagueName, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -227,8 +250,248 @@ func (o *WebcastGiftGalleryData) GetAnchorRankingLeagueOk() (*string, bool) {
 }
 
 // SetAnchorRankingLeague sets field value
-func (o *WebcastGiftGalleryData) SetAnchorRankingLeague(v string) {
+func (o *WebcastGiftGalleryData) SetAnchorRankingLeague(v RankingLeagueName) {
 	o.AnchorRankingLeague = v
+}
+
+// GetAnchorNickName returns the AnchorNickName field value
+func (o *WebcastGiftGalleryData) GetAnchorNickName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.AnchorNickName
+}
+
+// GetAnchorNickNameOk returns a tuple with the AnchorNickName field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetAnchorNickNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AnchorNickName, true
+}
+
+// SetAnchorNickName sets field value
+func (o *WebcastGiftGalleryData) SetAnchorNickName(v string) {
+	o.AnchorNickName = v
+}
+
+// GetAnchorAvatarUrl returns the AnchorAvatarUrl field value
+func (o *WebcastGiftGalleryData) GetAnchorAvatarUrl() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.AnchorAvatarUrl
+}
+
+// GetAnchorAvatarUrlOk returns a tuple with the AnchorAvatarUrl field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetAnchorAvatarUrlOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AnchorAvatarUrl, true
+}
+
+// SetAnchorAvatarUrl sets field value
+func (o *WebcastGiftGalleryData) SetAnchorAvatarUrl(v string) {
+	o.AnchorAvatarUrl = v
+}
+
+// GetGalleryRankingLeague returns the GalleryRankingLeague field value
+func (o *WebcastGiftGalleryData) GetGalleryRankingLeague() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.GalleryRankingLeague
+}
+
+// GetGalleryRankingLeagueOk returns a tuple with the GalleryRankingLeague field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetGalleryRankingLeagueOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.GalleryRankingLeague, true
+}
+
+// SetGalleryRankingLeague sets field value
+func (o *WebcastGiftGalleryData) SetGalleryRankingLeague(v string) {
+	o.GalleryRankingLeague = v
+}
+
+// GetGalleryRankingIconUrl returns the GalleryRankingIconUrl field value
+func (o *WebcastGiftGalleryData) GetGalleryRankingIconUrl() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.GalleryRankingIconUrl
+}
+
+// GetGalleryRankingIconUrlOk returns a tuple with the GalleryRankingIconUrl field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetGalleryRankingIconUrlOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.GalleryRankingIconUrl, true
+}
+
+// SetGalleryRankingIconUrl sets field value
+func (o *WebcastGiftGalleryData) SetGalleryRankingIconUrl(v string) {
+	o.GalleryRankingIconUrl = v
+}
+
+// GetPeriod returns the Period field value
+func (o *WebcastGiftGalleryData) GetPeriod() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+
+	return o.Period
+}
+
+// GetPeriodOk returns a tuple with the Period field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetPeriodOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Period, true
+}
+
+// SetPeriod sets field value
+func (o *WebcastGiftGalleryData) SetPeriod(v float64) {
+	o.Period = v
+}
+
+// GetIsNewGalleryCreator returns the IsNewGalleryCreator field value
+func (o *WebcastGiftGalleryData) GetIsNewGalleryCreator() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.IsNewGalleryCreator
+}
+
+// GetIsNewGalleryCreatorOk returns a tuple with the IsNewGalleryCreator field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetIsNewGalleryCreatorOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IsNewGalleryCreator, true
+}
+
+// SetIsNewGalleryCreator sets field value
+func (o *WebcastGiftGalleryData) SetIsNewGalleryCreator(v bool) {
+	o.IsNewGalleryCreator = v
+}
+
+// GetOpsGifts returns the OpsGifts field value
+func (o *WebcastGiftGalleryData) GetOpsGifts() []NormalGiftItem {
+	if o == nil {
+		var ret []NormalGiftItem
+		return ret
+	}
+
+	return o.OpsGifts
+}
+
+// GetOpsGiftsOk returns a tuple with the OpsGifts field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetOpsGiftsOk() ([]NormalGiftItem, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.OpsGifts, true
+}
+
+// SetOpsGifts sets field value
+func (o *WebcastGiftGalleryData) SetOpsGifts(v []NormalGiftItem) {
+	o.OpsGifts = v
+}
+
+// GetOpsInfo returns the OpsInfo field value
+func (o *WebcastGiftGalleryData) GetOpsInfo() GiftGalleryOpsInfo {
+	if o == nil {
+		var ret GiftGalleryOpsInfo
+		return ret
+	}
+
+	return o.OpsInfo
+}
+
+// GetOpsInfoOk returns a tuple with the OpsInfo field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetOpsInfoOk() (*GiftGalleryOpsInfo, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.OpsInfo, true
+}
+
+// SetOpsInfo sets field value
+func (o *WebcastGiftGalleryData) SetOpsInfo(v GiftGalleryOpsInfo) {
+	o.OpsInfo = v
+}
+
+// GetSpecialGiftLists returns the SpecialGiftLists field value
+func (o *WebcastGiftGalleryData) GetSpecialGiftLists() []GiftGallerySpecialList {
+	if o == nil {
+		var ret []GiftGallerySpecialList
+		return ret
+	}
+
+	return o.SpecialGiftLists
+}
+
+// GetSpecialGiftListsOk returns a tuple with the SpecialGiftLists field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetSpecialGiftListsOk() ([]GiftGallerySpecialList, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SpecialGiftLists, true
+}
+
+// SetSpecialGiftLists sets field value
+func (o *WebcastGiftGalleryData) SetSpecialGiftLists(v []GiftGallerySpecialList) {
+	o.SpecialGiftLists = v
+}
+
+// GetGalleryDuelInfo returns the GalleryDuelInfo field value
+func (o *WebcastGiftGalleryData) GetGalleryDuelInfo() GiftGalleryDuelInfo {
+	if o == nil {
+		var ret GiftGalleryDuelInfo
+		return ret
+	}
+
+	return o.GalleryDuelInfo
+}
+
+// GetGalleryDuelInfoOk returns a tuple with the GalleryDuelInfo field value
+// and a boolean to check if the value has been set.
+func (o *WebcastGiftGalleryData) GetGalleryDuelInfoOk() (*GiftGalleryDuelInfo, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.GalleryDuelInfo, true
+}
+
+// SetGalleryDuelInfo sets field value
+func (o *WebcastGiftGalleryData) SetGalleryDuelInfo(v GiftGalleryDuelInfo) {
+	o.GalleryDuelInfo = v
 }
 
 func (o WebcastGiftGalleryData) MarshalJSON() ([]byte, error) {
@@ -250,11 +513,16 @@ func (o WebcastGiftGalleryData) ToMap() (map[string]interface{}, error) {
 	toSerialize["current_period_ends_at"] = o.CurrentPeriodEndsAt
 	toSerialize["class_type"] = o.ClassType
 	toSerialize["anchor_ranking_league"] = o.AnchorRankingLeague
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
-
+	toSerialize["anchor_nick_name"] = o.AnchorNickName
+	toSerialize["anchor_avatar_url"] = o.AnchorAvatarUrl
+	toSerialize["gallery_ranking_league"] = o.GalleryRankingLeague
+	toSerialize["gallery_ranking_icon_url"] = o.GalleryRankingIconUrl
+	toSerialize["period"] = o.Period
+	toSerialize["is_new_gallery_creator"] = o.IsNewGalleryCreator
+	toSerialize["ops_gifts"] = o.OpsGifts
+	toSerialize["ops_info"] = o.OpsInfo
+	toSerialize["special_gift_lists"] = o.SpecialGiftLists
+	toSerialize["gallery_duel_info"] = o.GalleryDuelInfo
 	return toSerialize, nil
 }
 
@@ -269,6 +537,16 @@ func (o *WebcastGiftGalleryData) UnmarshalJSON(data []byte) (err error) {
 		"current_period_ends_at",
 		"class_type",
 		"anchor_ranking_league",
+		"anchor_nick_name",
+		"anchor_avatar_url",
+		"gallery_ranking_league",
+		"gallery_ranking_icon_url",
+		"period",
+		"is_new_gallery_creator",
+		"ops_gifts",
+		"ops_info",
+		"special_gift_lists",
+		"gallery_duel_info",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -287,26 +565,15 @@ func (o *WebcastGiftGalleryData) UnmarshalJSON(data []byte) (err error) {
 
 	varWebcastGiftGalleryData := _WebcastGiftGalleryData{}
 
-	err = json.Unmarshal(data, &varWebcastGiftGalleryData)
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varWebcastGiftGalleryData)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WebcastGiftGalleryData(varWebcastGiftGalleryData)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "normal_gifts")
-		delete(additionalProperties, "current_user_progress")
-		delete(additionalProperties, "current_timestamp")
-		delete(additionalProperties, "current_period_starts_at")
-		delete(additionalProperties, "current_period_ends_at")
-		delete(additionalProperties, "class_type")
-		delete(additionalProperties, "anchor_ranking_league")
-		o.AdditionalProperties = additionalProperties
-	}
 
 	return err
 }

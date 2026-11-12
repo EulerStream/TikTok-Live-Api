@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -24,6 +24,8 @@ const (
 	RATE_LIMIT_TYPE_ALERTS RateLimitType = "ALERTS"
 	RATE_LIMIT_TYPE_RATE_LIMITS RateLimitType = "RATE_LIMITS"
 	RATE_LIMIT_TYPE_CATALOG RateLimitType = "CATALOG"
+	RATE_LIMIT_TYPE_ROOMS RateLimitType = "ROOMS"
+	RATE_LIMIT_TYPE_CAPTCHAS RateLimitType = "CAPTCHAS"
 	RATE_LIMIT_TYPE_RANKINGS RateLimitType = "RANKINGS"
 )
 
@@ -33,6 +35,8 @@ var AllowedRateLimitTypeEnumValues = []RateLimitType{
 	"ALERTS",
 	"RATE_LIMITS",
 	"CATALOG",
+	"ROOMS",
+	"CAPTCHAS",
 	"RANKINGS",
 }
 

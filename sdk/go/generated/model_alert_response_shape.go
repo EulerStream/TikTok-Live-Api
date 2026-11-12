@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -32,6 +32,8 @@ type AlertResponseShape struct {
 	AlertCreatorUserId *string `json:"alert_creator_user_id,omitempty"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	// When the creator was last seen live: when they went live, or when that live ended. Unset when never seen live; a creator who has not been live for a long time may no longer exist on TikTok.
+	AlertCreatorLastLiveAt *time.Time `json:"alert_creator_last_live_at,omitempty"`
 	// Deprecated
 	AlertCreatorAvatarUrl *string `json:"alert_creator_avatar_url,omitempty"`
 	// Deprecated
@@ -289,6 +291,38 @@ func (o *AlertResponseShape) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
+// GetAlertCreatorLastLiveAt returns the AlertCreatorLastLiveAt field value if set, zero value otherwise.
+func (o *AlertResponseShape) GetAlertCreatorLastLiveAt() time.Time {
+	if o == nil || IsNil(o.AlertCreatorLastLiveAt) {
+		var ret time.Time
+		return ret
+	}
+	return *o.AlertCreatorLastLiveAt
+}
+
+// GetAlertCreatorLastLiveAtOk returns a tuple with the AlertCreatorLastLiveAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertResponseShape) GetAlertCreatorLastLiveAtOk() (*time.Time, bool) {
+	if o == nil || IsNil(o.AlertCreatorLastLiveAt) {
+		return nil, false
+	}
+	return o.AlertCreatorLastLiveAt, true
+}
+
+// HasAlertCreatorLastLiveAt returns a boolean if a field has been set.
+func (o *AlertResponseShape) HasAlertCreatorLastLiveAt() bool {
+	if o != nil && !IsNil(o.AlertCreatorLastLiveAt) {
+		return true
+	}
+
+	return false
+}
+
+// SetAlertCreatorLastLiveAt gets a reference to the given time.Time and assigns it to the AlertCreatorLastLiveAt field.
+func (o *AlertResponseShape) SetAlertCreatorLastLiveAt(v time.Time) {
+	o.AlertCreatorLastLiveAt = &v
+}
+
 // GetAlertCreatorAvatarUrl returns the AlertCreatorAvatarUrl field value if set, zero value otherwise.
 // Deprecated
 func (o *AlertResponseShape) GetAlertCreatorAvatarUrl() string {
@@ -380,6 +414,9 @@ func (o AlertResponseShape) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["created_at"] = o.CreatedAt
 	toSerialize["updated_at"] = o.UpdatedAt
+	if !IsNil(o.AlertCreatorLastLiveAt) {
+		toSerialize["alert_creator_last_live_at"] = o.AlertCreatorLastLiveAt
+	}
 	if !IsNil(o.AlertCreatorAvatarUrl) {
 		toSerialize["alert_creator_avatar_url"] = o.AlertCreatorAvatarUrl
 	}

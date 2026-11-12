@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -19,12 +19,14 @@ import (
 // checks if the NormalGiftItem type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &NormalGiftItem{}
 
-// NormalGiftItem An entry of `data.normal_gifts` — a sponsorable gallery gift.
+// NormalGiftItem A sponsorable gallery gift: an entry of `normal_gifts`, `ops_gifts` and every special list.
 type NormalGiftItem struct {
 	UnlightedImageUrl string `json:"unlighted_image_url"`
 	Swapped bool `json:"swapped"`
 	SponsorshipRequireCount float64 `json:"sponsorship_require_count"`
 	Sponsored bool `json:"sponsored"`
+	// Deprecated, slated for removal: TikTok's raw value, kept for backwards compatibility. `[]` when TikTok sends none.
+	// Deprecated
 	SponsorRank []interface{} `json:"sponsor_rank"`
 	SponsorInfo GiftGallerySponsorInfo `json:"sponsor_info"`
 	Name string `json:"name"`
@@ -32,11 +34,17 @@ type NormalGiftItem struct {
 	ImageUrl string `json:"image_url"`
 	GoalCount float64 `json:"goal_count"`
 	GiftId string `json:"gift_id"`
+	// Deprecated, slated for removal: TikTok's raw value, kept for backwards compatibility. Empty when TikTok sends none.
+	// Deprecated
 	GalleryGiftTagUrl string `json:"gallery_gift_tag_url"`
+	// Deprecated, slated for removal: TikTok's raw value, kept for backwards compatibility. `0` when TikTok sends none.
+	// Deprecated
 	GalleryGiftTagType float64 `json:"gallery_gift_tag_type"`
 	CurrentSentCount float64 `json:"current_sent_count"`
 	CoinPrice float64 `json:"coin_price"`
 	CanSponsor bool `json:"can_sponsor"`
+	// Deprecated, slated for removal: TikTok's raw value, kept for backwards compatibility. `{}` when TikTok sends none.
+	// Deprecated
 	BizExtra map[string]interface{} `json:"biz_extra"`
 }
 
@@ -173,6 +181,7 @@ func (o *NormalGiftItem) SetSponsored(v bool) {
 }
 
 // GetSponsorRank returns the SponsorRank field value
+// Deprecated
 func (o *NormalGiftItem) GetSponsorRank() []interface{} {
 	if o == nil {
 		var ret []interface{}
@@ -184,6 +193,7 @@ func (o *NormalGiftItem) GetSponsorRank() []interface{} {
 
 // GetSponsorRankOk returns a tuple with the SponsorRank field value
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *NormalGiftItem) GetSponsorRankOk() ([]interface{}, bool) {
 	if o == nil {
 		return nil, false
@@ -192,6 +202,7 @@ func (o *NormalGiftItem) GetSponsorRankOk() ([]interface{}, bool) {
 }
 
 // SetSponsorRank sets field value
+// Deprecated
 func (o *NormalGiftItem) SetSponsorRank(v []interface{}) {
 	o.SponsorRank = v
 }
@@ -341,6 +352,7 @@ func (o *NormalGiftItem) SetGiftId(v string) {
 }
 
 // GetGalleryGiftTagUrl returns the GalleryGiftTagUrl field value
+// Deprecated
 func (o *NormalGiftItem) GetGalleryGiftTagUrl() string {
 	if o == nil {
 		var ret string
@@ -352,6 +364,7 @@ func (o *NormalGiftItem) GetGalleryGiftTagUrl() string {
 
 // GetGalleryGiftTagUrlOk returns a tuple with the GalleryGiftTagUrl field value
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *NormalGiftItem) GetGalleryGiftTagUrlOk() (*string, bool) {
 	if o == nil {
 		return nil, false
@@ -360,11 +373,13 @@ func (o *NormalGiftItem) GetGalleryGiftTagUrlOk() (*string, bool) {
 }
 
 // SetGalleryGiftTagUrl sets field value
+// Deprecated
 func (o *NormalGiftItem) SetGalleryGiftTagUrl(v string) {
 	o.GalleryGiftTagUrl = v
 }
 
 // GetGalleryGiftTagType returns the GalleryGiftTagType field value
+// Deprecated
 func (o *NormalGiftItem) GetGalleryGiftTagType() float64 {
 	if o == nil {
 		var ret float64
@@ -376,6 +391,7 @@ func (o *NormalGiftItem) GetGalleryGiftTagType() float64 {
 
 // GetGalleryGiftTagTypeOk returns a tuple with the GalleryGiftTagType field value
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *NormalGiftItem) GetGalleryGiftTagTypeOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
@@ -384,6 +400,7 @@ func (o *NormalGiftItem) GetGalleryGiftTagTypeOk() (*float64, bool) {
 }
 
 // SetGalleryGiftTagType sets field value
+// Deprecated
 func (o *NormalGiftItem) SetGalleryGiftTagType(v float64) {
 	o.GalleryGiftTagType = v
 }
@@ -461,6 +478,7 @@ func (o *NormalGiftItem) SetCanSponsor(v bool) {
 }
 
 // GetBizExtra returns the BizExtra field value
+// Deprecated
 func (o *NormalGiftItem) GetBizExtra() map[string]interface{} {
 	if o == nil {
 		var ret map[string]interface{}
@@ -472,6 +490,7 @@ func (o *NormalGiftItem) GetBizExtra() map[string]interface{} {
 
 // GetBizExtraOk returns a tuple with the BizExtra field value
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *NormalGiftItem) GetBizExtraOk() (map[string]interface{}, bool) {
 	if o == nil {
 		return map[string]interface{}{}, false
@@ -480,6 +499,7 @@ func (o *NormalGiftItem) GetBizExtraOk() (map[string]interface{}, bool) {
 }
 
 // SetBizExtra sets field value
+// Deprecated
 func (o *NormalGiftItem) SetBizExtra(v map[string]interface{}) {
 	o.BizExtra = v
 }

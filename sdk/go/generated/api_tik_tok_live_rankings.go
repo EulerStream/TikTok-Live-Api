@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -28,7 +28,7 @@ type ApiGetAvailableDatesRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVERankingsAPIService
 	rankName AvailableWebcastRankName
-	region string
+	region LeaderboardRegion
 	league *RankingLeagueName
 }
 
@@ -54,7 +54,7 @@ Requests to catalogue endpoints do NOT count towards normal API limits.
  @param region The region to query (or \"WW\" for worldwide).
  @return ApiGetAvailableDatesRequest
 */
-func (a *TikTokLIVERankingsAPIService) GetAvailableDates(ctx context.Context, rankName AvailableWebcastRankName, region string) ApiGetAvailableDatesRequest {
+func (a *TikTokLIVERankingsAPIService) GetAvailableDates(ctx context.Context, rankName AvailableWebcastRankName, region LeaderboardRegion) ApiGetAvailableDatesRequest {
 	return ApiGetAvailableDatesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -384,7 +384,7 @@ type ApiGetLeaderboardRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVERankingsAPIService
 	rankName AvailableWebcastRankName
-	region string
+	region LeaderboardRegion
 	date *time.Time
 	league *RankingLeagueName
 }
@@ -417,7 +417,7 @@ Requests to catalogue endpoints do NOT count towards normal API limits.
  @param region The region to query (or \"WW\" for worldwide).
  @return ApiGetLeaderboardRequest
 */
-func (a *TikTokLIVERankingsAPIService) GetLeaderboard(ctx context.Context, rankName AvailableWebcastRankName, region string) ApiGetLeaderboardRequest {
+func (a *TikTokLIVERankingsAPIService) GetLeaderboard(ctx context.Context, rankName AvailableWebcastRankName, region LeaderboardRegion) ApiGetLeaderboardRequest {
 	return ApiGetLeaderboardRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -569,12 +569,192 @@ func (a *TikTokLIVERankingsAPIService) GetLeaderboardExecute(r ApiGetLeaderboard
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetUserDayHistoryRequest struct {
+	ctx context.Context
+	ApiService *TikTokLIVERankingsAPIService
+	rankName AvailableWebcastRankName
+	region RankingRegion
+	numericId string
+	date time.Time
+}
+
+func (r ApiGetUserDayHistoryRequest) Execute() (*UserDayHistoryResponse, *http.Response, error) {
+	return r.ApiService.GetUserDayHistoryExecute(r)
+}
+
+/*
+GetUserDayHistory Method for GetUserDayHistory
+
+Retrieve every intraday datapoint recorded for a creator on a given board
+for a single UTC date, oldest first. Consecutive points carry the day's
+cumulative score as it grew — the deltas between them are the creator's
+per-interval earnings (e.g. for an earnings-per-hour view).
+
+Requests to catalogue endpoints do NOT count towards normal API limits.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param rankName The rank type identifier (e.g. \"DAILY_RANK\", \"RANKING_LEAGUE\").
+ @param region The leaderboard region (e.g. \"US\").
+ @param numericId TikTok numeric user id of the creator.
+ @param date The UTC rank date to retrieve (e.g. \"2026-03-01\").
+ @return ApiGetUserDayHistoryRequest
+*/
+func (a *TikTokLIVERankingsAPIService) GetUserDayHistory(ctx context.Context, rankName AvailableWebcastRankName, region RankingRegion, numericId string, date time.Time) ApiGetUserDayHistoryRequest {
+	return ApiGetUserDayHistoryRequest{
+		ApiService: a,
+		ctx: ctx,
+		rankName: rankName,
+		region: region,
+		numericId: numericId,
+		date: date,
+	}
+}
+
+// Execute executes the request
+//  @return UserDayHistoryResponse
+func (a *TikTokLIVERankingsAPIService) GetUserDayHistoryExecute(r ApiGetUserDayHistoryRequest) (*UserDayHistoryResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *UserDayHistoryResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVERankingsAPIService.GetUserDayHistory")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/webcast/rankings/catalog/leaderboards/{region}/{rank_name}/anchors/{numeric_id}/history/{date}"
+	localVarPath = strings.Replace(localVarPath, "{"+"rank_name"+"}", url.PathEscape(parameterValueToString(r.rankName, "rankName")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"region"+"}", url.PathEscape(parameterValueToString(r.region, "region")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"date"+"}", url.PathEscape(parameterValueToString(r.date, "date")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetUserHistoryRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVERankingsAPIService
 	rankName AvailableWebcastRankName
-	region string
-	anchorId string
+	region RankingRegion
+	numericId string
 	from *time.Time
 	to *time.Time
 }
@@ -606,16 +786,16 @@ Requests to catalogue endpoints do NOT count towards normal API limits.
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param rankName
  @param region The leaderboard region (e.g. \"US\").
- @param anchorId TikTok numeric user id of the creator.
+ @param numericId TikTok numeric user id of the creator.
  @return ApiGetUserHistoryRequest
 */
-func (a *TikTokLIVERankingsAPIService) GetUserHistory(ctx context.Context, rankName AvailableWebcastRankName, region string, anchorId string) ApiGetUserHistoryRequest {
+func (a *TikTokLIVERankingsAPIService) GetUserHistory(ctx context.Context, rankName AvailableWebcastRankName, region RankingRegion, numericId string) ApiGetUserHistoryRequest {
 	return ApiGetUserHistoryRequest{
 		ApiService: a,
 		ctx: ctx,
 		rankName: rankName,
 		region: region,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -634,10 +814,10 @@ func (a *TikTokLIVERankingsAPIService) GetUserHistoryExecute(r ApiGetUserHistory
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/rankings/catalog/leaderboards/{region}/{rank_name}/anchors/{anchor_id}/history"
+	localVarPath := localBasePath + "/webcast/rankings/catalog/leaderboards/{region}/{rank_name}/anchors/{numeric_id}/history"
 	localVarPath = strings.Replace(localVarPath, "{"+"rank_name"+"}", url.PathEscape(parameterValueToString(r.rankName, "rankName")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"region"+"}", url.PathEscape(parameterValueToString(r.region, "region")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -768,7 +948,7 @@ func (a *TikTokLIVERankingsAPIService) GetUserHistoryExecute(r ApiGetUserHistory
 type ApiGetUserLeaderboardsOverTimespanRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVERankingsAPIService
-	anchorId string
+	numericId string
 	from *time.Time
 	to *time.Time
 }
@@ -798,14 +978,14 @@ returned as a map of region to rank_types.
 Rate limited to 30 requests/min. Does NOT count towards normal API limits.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param anchorId TikTok numeric user id of the creator.
+ @param numericId TikTok numeric user id of the creator.
  @return ApiGetUserLeaderboardsOverTimespanRequest
 */
-func (a *TikTokLIVERankingsAPIService) GetUserLeaderboardsOverTimespan(ctx context.Context, anchorId string) ApiGetUserLeaderboardsOverTimespanRequest {
+func (a *TikTokLIVERankingsAPIService) GetUserLeaderboardsOverTimespan(ctx context.Context, numericId string) ApiGetUserLeaderboardsOverTimespanRequest {
 	return ApiGetUserLeaderboardsOverTimespanRequest{
 		ApiService: a,
 		ctx: ctx,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -824,8 +1004,8 @@ func (a *TikTokLIVERankingsAPIService) GetUserLeaderboardsOverTimespanExecute(r 
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/rankings/catalog/anchors/{anchor_id}/rank_names"
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath := localBasePath + "/webcast/rankings/catalog/anchors/{numeric_id}/rank_names"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -881,6 +1061,203 @@ func (a *TikTokLIVERankingsAPIService) GetUserLeaderboardsOverTimespanExecute(r 
 					key = apiKey.Key
 				}
 				localVarHeaderParams["x-jwt-key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_header"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v RetrieveAccountSelf429Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v RetrieveAccountSelf500Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v GetAvailableDates503Response
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetUserStreamsRequest struct {
+	ctx context.Context
+	ApiService *TikTokLIVERankingsAPIService
+	rankName AvailableWebcastRankName
+	region RankingRegion
+	numericId string
+	from *time.Time
+	to *time.Time
+}
+
+// Start of the UTC date range, inclusive (e.g. \&quot;2026-03-01\&quot;).
+func (r ApiGetUserStreamsRequest) From(from time.Time) ApiGetUserStreamsRequest {
+	r.from = &from
+	return r
+}
+
+// End of the UTC date range, inclusive (e.g. \&quot;2026-03-31\&quot;).
+func (r ApiGetUserStreamsRequest) To(to time.Time) ApiGetUserStreamsRequest {
+	r.to = &to
+	return r
+}
+
+func (r ApiGetUserStreamsRequest) Execute() (*UserStreamsResponse, *http.Response, error) {
+	return r.ApiService.GetUserStreamsExecute(r)
+}
+
+/*
+GetUserStreams Method for GetUserStreams
+
+Retrieve the list of Room IDs in which a creator was observed in the Top 99 of the given
+TikTok LIVE board over a UTC date range, newest first, with their estimated earnings across each
+stream (daily board only; every other board reports null earnings).
+
+Requests to catalogue endpoints do NOT count towards normal API limits.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param rankName
+ @param region The leaderboard region (e.g. \"US\").
+ @param numericId TikTok numeric user id of the creator.
+ @return ApiGetUserStreamsRequest
+*/
+func (a *TikTokLIVERankingsAPIService) GetUserStreams(ctx context.Context, rankName AvailableWebcastRankName, region RankingRegion, numericId string) ApiGetUserStreamsRequest {
+	return ApiGetUserStreamsRequest{
+		ApiService: a,
+		ctx: ctx,
+		rankName: rankName,
+		region: region,
+		numericId: numericId,
+	}
+}
+
+// Execute executes the request
+//  @return UserStreamsResponse
+func (a *TikTokLIVERankingsAPIService) GetUserStreamsExecute(r ApiGetUserStreamsRequest) (*UserStreamsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *UserStreamsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TikTokLIVERankingsAPIService.GetUserStreams")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/webcast/rankings/catalog/leaderboards/{region}/{rank_name}/anchors/{numeric_id}/streams"
+	localVarPath = strings.Replace(localVarPath, "{"+"rank_name"+"}", url.PathEscape(parameterValueToString(r.rankName, "rankName")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"region"+"}", url.PathEscape(parameterValueToString(r.region, "region")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.from == nil {
+		return localVarReturnValue, nil, reportError("from is required and must be specified")
+	}
+	if r.to == nil {
+		return localVarReturnValue, nil, reportError("to is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "from", r.from, "form", "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "to", r.to, "form", "")
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarQueryParams.Add("apiKey", key)
 			}
 		}
 	}

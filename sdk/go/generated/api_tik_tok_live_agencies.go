@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -370,7 +370,7 @@ func (a *TikTokLIVEAgenciesAPIService) RetrieveAgencyApplyUrlExecute(r ApiRetrie
 type ApiRetrieveAgencyByAnchorIdRequest struct {
 	ctx context.Context
 	ApiService *TikTokLIVEAgenciesAPIService
-	anchorId string
+	numericId string
 }
 
 func (r ApiRetrieveAgencyByAnchorIdRequest) Execute() (*AgencyCatalogEntryResponse, *http.Response, error) {
@@ -385,14 +385,14 @@ Reverse-look up a TikTok LIVE agency by the numeric TikTok user id of its linked
 Requests to catalogue endpoints do NOT count towards normal API limits.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param anchorId The numeric TikTok user id of the agency's creator.
+ @param numericId The numeric TikTok user id of the agency's creator.
  @return ApiRetrieveAgencyByAnchorIdRequest
 */
-func (a *TikTokLIVEAgenciesAPIService) RetrieveAgencyByAnchorId(ctx context.Context, anchorId string) ApiRetrieveAgencyByAnchorIdRequest {
+func (a *TikTokLIVEAgenciesAPIService) RetrieveAgencyByAnchorId(ctx context.Context, numericId string) ApiRetrieveAgencyByAnchorIdRequest {
 	return ApiRetrieveAgencyByAnchorIdRequest{
 		ApiService: a,
 		ctx: ctx,
-		anchorId: anchorId,
+		numericId: numericId,
 	}
 }
 
@@ -411,8 +411,8 @@ func (a *TikTokLIVEAgenciesAPIService) RetrieveAgencyByAnchorIdExecute(r ApiRetr
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/webcast/agencies/catalog/anchors/{anchor_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"anchor_id"+"}", url.PathEscape(parameterValueToString(r.anchorId, "anchorId")), -1)
+	localVarPath := localBasePath + "/webcast/agencies/catalog/anchors/{numeric_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"numeric_id"+"}", url.PathEscape(parameterValueToString(r.numericId, "numericId")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

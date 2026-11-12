@@ -44,7 +44,6 @@ type EulerStreamClient struct {
 	Analytics *eulerapi.AnalyticsAPIService
 	Authentication *eulerapi.AuthenticationAPIService
 	Captchas *eulerapi.TikTokCaptchasAPIService
-	General *eulerapi.TikTokGeneralAPIService
 	Webcast *eulerapi.TikTokLIVEAPIService
 	TikTokLiveAgencies *eulerapi.TikTokLIVEAgenciesAPIService
 	AlertTargets *eulerapi.TikTokLIVEAlertTargetsAPIService
@@ -55,7 +54,12 @@ type EulerStreamClient struct {
 	Moderation *eulerapi.TikTokLIVEModerationAPIService
 	TikTokLiveRankings *eulerapi.TikTokLIVERankingsAPIService
 	TikTokLiveRooms *eulerapi.TikTokLIVERoomsAPIService
+	TikTokLinks *eulerapi.TikTokLinksAPIService
+	TikTokOAuth *eulerapi.TikTokOAuthAPIService
+	TikTokSearch *eulerapi.TikTokSearchAPIService
 	TikTokSigning *eulerapi.TikTokSigningAPIService
+	TikTokSounds *eulerapi.TikTokSoundsAPIService
+	TikTokTags *eulerapi.TikTokTagsAPIService
 	TikTokUsers *eulerapi.TikTokUsersAPIService
 	TikTokVideos *eulerapi.TikTokVideosAPIService
 	TikTokWebSocketAPI *eulerapi.TikTokWebSocketAPIAPIService
@@ -110,7 +114,6 @@ func NewEulerStreamClient(opts ...ClientOption) *EulerStreamClient {
 		Analytics: raw.AnalyticsAPI,
 		Authentication: raw.AuthenticationAPI,
 		Captchas: raw.TikTokCaptchasAPI,
-		General: raw.TikTokGeneralAPI,
 		Webcast: raw.TikTokLIVEAPI,
 		TikTokLiveAgencies: raw.TikTokLIVEAgenciesAPI,
 		AlertTargets: raw.TikTokLIVEAlertTargetsAPI,
@@ -121,7 +124,12 @@ func NewEulerStreamClient(opts ...ClientOption) *EulerStreamClient {
 		Moderation: raw.TikTokLIVEModerationAPI,
 		TikTokLiveRankings: raw.TikTokLIVERankingsAPI,
 		TikTokLiveRooms: raw.TikTokLIVERoomsAPI,
+		TikTokLinks: raw.TikTokLinksAPI,
+		TikTokOAuth: raw.TikTokOAuthAPI,
+		TikTokSearch: raw.TikTokSearchAPI,
 		TikTokSigning: raw.TikTokSigningAPI,
+		TikTokSounds: raw.TikTokSoundsAPI,
+		TikTokTags: raw.TikTokTagsAPI,
 		TikTokUsers: raw.TikTokUsersAPI,
 		TikTokVideos: raw.TikTokVideosAPI,
 		TikTokWebSocketAPI: raw.TikTokWebSocketAPIAPI,

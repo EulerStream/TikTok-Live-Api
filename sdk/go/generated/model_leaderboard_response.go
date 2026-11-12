@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -30,6 +30,10 @@ type LeaderboardResponse struct {
 	League *RankingLeagueName `json:"league,omitempty"`
 	ResetsAt NullableString `json:"resets_at,omitempty"`
 	IsLatest *bool `json:"is_latest,omitempty"`
+	// Diamond totals of the board for `date`, the day before, and the seven-day average; every field null unless the board scores in diamonds (DAILY_RANK).
+	Earnings *LeaderboardEarnings `json:"earnings,omitempty"`
+	// Creators live when this snapshot was taken: for a region, its rows whose `is_live.status` is true; for the worldwide merge (a capped list), the day's deduplicated live count across every region's daily board, so only DAILY_RANK carries it.
+	TotalLive *int32 `json:"total_live,omitempty"`
 	Ranks []LeaderboardRow `json:"ranks,omitempty"`
 }
 
@@ -343,6 +347,70 @@ func (o *LeaderboardResponse) SetIsLatest(v bool) {
 	o.IsLatest = &v
 }
 
+// GetEarnings returns the Earnings field value if set, zero value otherwise.
+func (o *LeaderboardResponse) GetEarnings() LeaderboardEarnings {
+	if o == nil || IsNil(o.Earnings) {
+		var ret LeaderboardEarnings
+		return ret
+	}
+	return *o.Earnings
+}
+
+// GetEarningsOk returns a tuple with the Earnings field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LeaderboardResponse) GetEarningsOk() (*LeaderboardEarnings, bool) {
+	if o == nil || IsNil(o.Earnings) {
+		return nil, false
+	}
+	return o.Earnings, true
+}
+
+// HasEarnings returns a boolean if a field has been set.
+func (o *LeaderboardResponse) HasEarnings() bool {
+	if o != nil && !IsNil(o.Earnings) {
+		return true
+	}
+
+	return false
+}
+
+// SetEarnings gets a reference to the given LeaderboardEarnings and assigns it to the Earnings field.
+func (o *LeaderboardResponse) SetEarnings(v LeaderboardEarnings) {
+	o.Earnings = &v
+}
+
+// GetTotalLive returns the TotalLive field value if set, zero value otherwise.
+func (o *LeaderboardResponse) GetTotalLive() int32 {
+	if o == nil || IsNil(o.TotalLive) {
+		var ret int32
+		return ret
+	}
+	return *o.TotalLive
+}
+
+// GetTotalLiveOk returns a tuple with the TotalLive field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LeaderboardResponse) GetTotalLiveOk() (*int32, bool) {
+	if o == nil || IsNil(o.TotalLive) {
+		return nil, false
+	}
+	return o.TotalLive, true
+}
+
+// HasTotalLive returns a boolean if a field has been set.
+func (o *LeaderboardResponse) HasTotalLive() bool {
+	if o != nil && !IsNil(o.TotalLive) {
+		return true
+	}
+
+	return false
+}
+
+// SetTotalLive gets a reference to the given int32 and assigns it to the TotalLive field.
+func (o *LeaderboardResponse) SetTotalLive(v int32) {
+	o.TotalLive = &v
+}
+
 // GetRanks returns the Ranks field value if set, zero value otherwise.
 func (o *LeaderboardResponse) GetRanks() []LeaderboardRow {
 	if o == nil || IsNil(o.Ranks) {
@@ -409,6 +477,12 @@ func (o LeaderboardResponse) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.IsLatest) {
 		toSerialize["is_latest"] = o.IsLatest
+	}
+	if !IsNil(o.Earnings) {
+		toSerialize["earnings"] = o.Earnings
+	}
+	if !IsNil(o.TotalLive) {
+		toSerialize["total_live"] = o.TotalLive
 	}
 	if !IsNil(o.Ranks) {
 		toSerialize["ranks"] = o.Ranks

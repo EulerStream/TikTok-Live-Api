@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -29,6 +29,8 @@ type PublicOAuthClientInfo struct {
 	Theme NullableString `json:"theme"`
 	Mode NullableOAuthClientMode `json:"mode"`
 	Logo NullableString `json:"logo"`
+	// Whether the consent screen shows the animated background
+	AnimatedBackground bool `json:"animated_background"`
 }
 
 type _PublicOAuthClientInfo PublicOAuthClientInfo
@@ -37,7 +39,7 @@ type _PublicOAuthClientInfo PublicOAuthClientInfo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPublicOAuthClientInfo(clientId string, name string, description NullableString, redirectUris []string, supportedScopes []OAuthScope, theme NullableString, mode NullableOAuthClientMode, logo NullableString) *PublicOAuthClientInfo {
+func NewPublicOAuthClientInfo(clientId string, name string, description NullableString, redirectUris []string, supportedScopes []OAuthScope, theme NullableString, mode NullableOAuthClientMode, logo NullableString, animatedBackground bool) *PublicOAuthClientInfo {
 	this := PublicOAuthClientInfo{}
 	this.ClientId = clientId
 	this.Name = name
@@ -47,6 +49,7 @@ func NewPublicOAuthClientInfo(clientId string, name string, description Nullable
 	this.Theme = theme
 	this.Mode = mode
 	this.Logo = logo
+	this.AnimatedBackground = animatedBackground
 	return &this
 }
 
@@ -258,6 +261,30 @@ func (o *PublicOAuthClientInfo) SetLogo(v string) {
 	o.Logo.Set(&v)
 }
 
+// GetAnimatedBackground returns the AnimatedBackground field value
+func (o *PublicOAuthClientInfo) GetAnimatedBackground() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.AnimatedBackground
+}
+
+// GetAnimatedBackgroundOk returns a tuple with the AnimatedBackground field value
+// and a boolean to check if the value has been set.
+func (o *PublicOAuthClientInfo) GetAnimatedBackgroundOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AnimatedBackground, true
+}
+
+// SetAnimatedBackground sets field value
+func (o *PublicOAuthClientInfo) SetAnimatedBackground(v bool) {
+	o.AnimatedBackground = v
+}
+
 func (o PublicOAuthClientInfo) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -276,6 +303,7 @@ func (o PublicOAuthClientInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize["theme"] = o.Theme.Get()
 	toSerialize["mode"] = o.Mode.Get()
 	toSerialize["logo"] = o.Logo.Get()
+	toSerialize["animated_background"] = o.AnimatedBackground
 	return toSerialize, nil
 }
 
@@ -292,6 +320,7 @@ func (o *PublicOAuthClientInfo) UnmarshalJSON(data []byte) (err error) {
 		"theme",
 		"mode",
 		"logo",
+		"animated_background",
 	}
 
 	allProperties := make(map[string]interface{})

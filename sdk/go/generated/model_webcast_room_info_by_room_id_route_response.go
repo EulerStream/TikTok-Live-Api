@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -25,8 +25,8 @@ type WebcastRoomInfoByRoomIdRouteResponse struct {
 	Message *string `json:"message,omitempty"`
 	Ok bool `json:"ok"`
 	RoutesAttempted []string `json:"routes_attempted"`
-	// Which source produced `data`. `CACHE` indicates an Euler cache hit. Typed `string` rather than `RoomInfoByRoomIdSource`: the pinned SDK (0.15.0) still types this route's `source` as a plain string. Tighten to the enum once the SDK carrying the room-info enum restructure is published.
-	Source NullableString `json:"source"`
+	// Which source produced `data`. `CACHE` means the room came from the cache.
+	Source NullableRoomInfoFetchApiRoute `json:"source"`
 	Data NullableStableTikTokLiveUser `json:"data"`
 }
 
@@ -36,7 +36,7 @@ type _WebcastRoomInfoByRoomIdRouteResponse WebcastRoomInfoByRoomIdRouteResponse
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWebcastRoomInfoByRoomIdRouteResponse(code float64, ok bool, routesAttempted []string, source NullableString, data NullableStableTikTokLiveUser) *WebcastRoomInfoByRoomIdRouteResponse {
+func NewWebcastRoomInfoByRoomIdRouteResponse(code float64, ok bool, routesAttempted []string, source NullableRoomInfoFetchApiRoute, data NullableStableTikTokLiveUser) *WebcastRoomInfoByRoomIdRouteResponse {
 	this := WebcastRoomInfoByRoomIdRouteResponse{}
 	this.Code = code
 	this.Ok = ok
@@ -159,10 +159,10 @@ func (o *WebcastRoomInfoByRoomIdRouteResponse) SetRoutesAttempted(v []string) {
 }
 
 // GetSource returns the Source field value
-// If the value is explicit nil, the zero value for string will be returned
-func (o *WebcastRoomInfoByRoomIdRouteResponse) GetSource() string {
+// If the value is explicit nil, the zero value for RoomInfoFetchApiRoute will be returned
+func (o *WebcastRoomInfoByRoomIdRouteResponse) GetSource() RoomInfoFetchApiRoute {
 	if o == nil || o.Source.Get() == nil {
-		var ret string
+		var ret RoomInfoFetchApiRoute
 		return ret
 	}
 
@@ -172,7 +172,7 @@ func (o *WebcastRoomInfoByRoomIdRouteResponse) GetSource() string {
 // GetSourceOk returns a tuple with the Source field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *WebcastRoomInfoByRoomIdRouteResponse) GetSourceOk() (*string, bool) {
+func (o *WebcastRoomInfoByRoomIdRouteResponse) GetSourceOk() (*RoomInfoFetchApiRoute, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -180,7 +180,7 @@ func (o *WebcastRoomInfoByRoomIdRouteResponse) GetSourceOk() (*string, bool) {
 }
 
 // SetSource sets field value
-func (o *WebcastRoomInfoByRoomIdRouteResponse) SetSource(v string) {
+func (o *WebcastRoomInfoByRoomIdRouteResponse) SetSource(v RoomInfoFetchApiRoute) {
 	o.Source.Set(&v)
 }
 

@@ -1,7 +1,7 @@
 /*
-Euler Stream Sign API
+Euler Stream API
 
-Sign Server API Documentation
+Euler Stream API Documentation
 
 API version: dev
 */
@@ -15,35 +15,27 @@ import (
 	"fmt"
 )
 
-// RoomInfoFetchApiRoute Every source that can answer a room-info request.  The complete vocabulary for `source` and `routes_attempted` across the room-info subsystem — room-info producers, the two room-ID producers (`LIVE_ROOM_ID` / `ALERTS`), and the two cache states. The scraper narrows this enum rather than declaring its own lookalike, so a value crosses the wire boundary without a cast: string enums are NOMINAL in TypeScript, and two separately-declared enums with identical members are not interchangeable.  `CACHE` means the payload came from Redis with its live state revalidated; `CACHE_UNVERIFIED` means it came from Redis but revalidation failed.
+// RoomInfoFetchApiRoute Every value `source` and `routes_attempted` can carry.  `GET_INFO_BY_ROOM_ID`, `PRELOAD_ROOM` and `ROOM_INFO_BY_ID` are the three upstreams that return a room; `CACHE` is a room served from the snapshot; `ALERTS` is the live check, named when the answer is \"offline\" and no room was fetched; `HTML` is the room the LIVE page server-renders. One enum narrowed per route, so a value crosses routes without a cast.
 type RoomInfoFetchApiRoute string
 
 // List of RoomInfoFetchApiRoute
 const (
 	ROOM_INFO_FETCH_API_ROUTE_CACHE RoomInfoFetchApiRoute = "CACHE"
-	ROOM_INFO_FETCH_API_ROUTE_CACHE_UNVERIFIED RoomInfoFetchApiRoute = "CACHE_UNVERIFIED"
-	ROOM_INFO_FETCH_API_ROUTE_API_LIVE RoomInfoFetchApiRoute = "API_LIVE"
-	ROOM_INFO_FETCH_API_ROUTE_INFO_BY_USER RoomInfoFetchApiRoute = "INFO_BY_USER"
-	ROOM_INFO_FETCH_API_ROUTE_GET_LATEST_ROOM RoomInfoFetchApiRoute = "GET_LATEST_ROOM"
 	ROOM_INFO_FETCH_API_ROUTE_PRELOAD_ROOM RoomInfoFetchApiRoute = "PRELOAD_ROOM"
-	ROOM_INFO_FETCH_API_ROUTE_MGET_INFO RoomInfoFetchApiRoute = "MGET_INFO"
+	ROOM_INFO_FETCH_API_ROUTE_GET_INFO_BY_ROOM_ID RoomInfoFetchApiRoute = "GET_INFO_BY_ROOM_ID"
 	ROOM_INFO_FETCH_API_ROUTE_ROOM_INFO_BY_ID RoomInfoFetchApiRoute = "ROOM_INFO_BY_ID"
-	ROOM_INFO_FETCH_API_ROUTE_LIVE_ROOM_ID RoomInfoFetchApiRoute = "LIVE_ROOM_ID"
 	ROOM_INFO_FETCH_API_ROUTE_ALERTS RoomInfoFetchApiRoute = "ALERTS"
+	ROOM_INFO_FETCH_API_ROUTE_HTML RoomInfoFetchApiRoute = "HTML"
 )
 
 // All allowed values of RoomInfoFetchApiRoute enum
 var AllowedRoomInfoFetchApiRouteEnumValues = []RoomInfoFetchApiRoute{
 	"CACHE",
-	"CACHE_UNVERIFIED",
-	"API_LIVE",
-	"INFO_BY_USER",
-	"GET_LATEST_ROOM",
 	"PRELOAD_ROOM",
-	"MGET_INFO",
+	"GET_INFO_BY_ROOM_ID",
 	"ROOM_INFO_BY_ID",
-	"LIVE_ROOM_ID",
 	"ALERTS",
+	"HTML",
 }
 
 func (v *RoomInfoFetchApiRoute) UnmarshalJSON(src []byte) error {
