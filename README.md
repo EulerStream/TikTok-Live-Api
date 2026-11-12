@@ -35,8 +35,10 @@ One API key and one client cover both sides of TikTok:
 
 | | What you get |
 |---|---|
-| **TikTok users** | Public profile lookups by `@username` or ID, and a searchable users catalog |
-| **TikTok videos** | Video details and thumbnails by video ID |
+| **TikTok users** | Public profiles by `@username` or ID, a creator's videos, reposts, stories and playlists, and a searchable users catalog |
+| **TikTok videos** | Video details, comments, replies, captions and thumbnails by video ID |
+| **TikTok search** | Search TikTok videos, users and photos, with autocomplete suggestions |
+| **TikTok sounds and hashtags** | A sound's details, and the videos under a sound or a hashtag |
 | **TikTok OAuth** | Token exchange, introspection, revocation and user info for "Sign in with TikTok" flows |
 | **TikTok request signing** | Sign TikTok web requests and decrypt TikTok payloads through the API |
 | **TikTok captchas** | Puzzle, shapes, icon and whirl captcha solvers |
@@ -157,7 +159,8 @@ Beyond the event stream, the TikTok LIVE REST API covers the gift catalog, room 
 **With the TikTok API**
 
 - **Creator lookups and profile tools**: resolve a `@username` to a public TikTok profile, or search the users catalog
-- **Video tools**: fetch TikTok video details and thumbnails by ID
+- **Video tools**: fetch TikTok video details, comments, captions and thumbnails by ID
+- **Search and discovery**: search TikTok videos, users and photos, or list the videos under a hashtag or a sound
 - **"Sign in with TikTok"**: run the OAuth token flow for your own app
 - **Scrapers and data pipelines**: sign TikTok web requests through the API instead of maintaining signature code
 - **Captcha handling**: solve TikTok puzzle, shapes, icon and whirl captchas in your own automation

@@ -82,7 +82,7 @@ The client exposes one typed property per API group. Each is generated from the 
 | `client.Moderation` | Kicks, bans, mutes, sensitive words and comment toggles |
 | `client.TikTokSigning` | TikTok request signing and payload decryption |
 | `client.Captchas` | TikTok captcha solving |
-| `client.General` | TikTok OAuth: token exchange, introspection, revocation, user info |
+| `client.TikTokOAuth` | TikTok OAuth: token exchange, introspection, revocation, user info |
 | `client.TikTokUsers` / `client.TikTokVideos` | TikTok user profiles and videos |
 | `client.TikTokWebSocketAPI` | Your cloud WebSocket connections and their state |
 | `client.Accounts` / `client.Authentication` / `client.Analytics` | Your EulerStream account, API keys, JWTs and usage analytics |

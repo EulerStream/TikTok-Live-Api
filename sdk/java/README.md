@@ -88,7 +88,7 @@ The client exposes one typed accessor per API group. Each is generated from the 
 | `client.moderation()` | Kicks, bans, mutes, sensitive words and comment toggles |
 | `client.tikTokSigning()` | TikTok request signing and payload decryption |
 | `client.captchas()` | TikTok captcha solving |
-| `client.general()` | TikTok OAuth: token exchange, introspection, revocation, user info |
+| `client.tikTokOAuth()` | TikTok OAuth: token exchange, introspection, revocation, user info |
 | `client.tikTokUsers()` / `client.tikTokVideos()` | TikTok user profiles and videos |
 | `client.tikTokWebSocketApi()` | Your cloud WebSocket connections and their state |
 | `client.accounts()` / `client.authentication()` / `client.analytics()` | Your EulerStream account, API keys, JWTs and usage analytics |

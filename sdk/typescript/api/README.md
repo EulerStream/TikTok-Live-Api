@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://github.com/EulerStream/TikTok-Api-Sdk/blob/master/LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2)](https://www.eulerstream.com/discord)
 
-`tiktok-api-sdk` is the official Node.js / TypeScript client for the [EulerStream TikTok API](https://www.eulerstream.com). Use one typed TikTok API client to **look up TikTok users and videos**, run **TikTok OAuth**, **sign TikTok web requests** and **solve TikTok captchas**. The complete TikTok LIVE API is included as well, so the same client can read real-time LIVE chat, gifts and viewer counts.
+`tiktok-api-sdk` is the official Node.js / TypeScript client for the [EulerStream TikTok API](https://www.eulerstream.com). Use one typed TikTok API client to **look up TikTok users, videos, comments, sounds and hashtags**, **search TikTok**, run **TikTok OAuth**, **sign TikTok web requests** and **solve TikTok captchas**. The complete TikTok LIVE API is included as well, so the same client can read real-time LIVE chat, gifts and viewer counts.
 
 The TikTok API behind this SDK is hosted by EulerStream, the managed TikTok backend behind [TikTokLive](https://github.com/isaackogan/TikTokLive) (Python) and [TikTok-Live-Connector](https://github.com/zerodytrash/TikTok-Live-Connector) (Node.js). Request signing, captcha solving and the LIVE connection layer are maintained for you, so your integration keeps working when TikTok changes.
 
@@ -40,9 +40,9 @@ const client = new TikTokApiSdk({ apiKey: "YOUR_API_KEY" });
 const user = await client.tikTokUsers.retrieveTikTokUserBasic("tv_asahi_news");
 console.log(user.data.user?.nickname);
 
-// TikTok videos API: look up a TikTok video by its ID
-const video = await client.tikTokVideos.retrieveTikTokVideoBasic("7318296342189919018");
-console.log(video.data.message);
+// TikTok videos API: a creator's latest videos, newest first
+const videos = await client.tikTokUsers.retrieveTikTokUserVideos("tv_asahi_news");
+console.log(videos.data.videos?.length);
 
 // TikTok LIVE API (included): list the hashtags LIVE streams are grouped under
 const hashtags = await client.webcast.retrieveHashtagList();
@@ -57,11 +57,15 @@ The client exposes one typed property per API group. Each is generated from the 
 
 | TikTok API | Property | Methods |
 |---|---|---|
-| **TikTok users API** | `client.tikTokUsers` | `retrieveTikTokUserBasic`, `retrieveTikTokUserInfo`, `searchTikTokUsersCatalog`, `retrieveTikTokUsersCatalogUsername`, `retrieveTikTokUsersCatalogNumericId` |
-| **TikTok videos API** | `client.tikTokVideos` | `retrieveTikTokVideoBasic`, `retrieveTikTokVideoDetailed`, `retrieveTikTokVideoThumbnail` |
-| **TikTok OAuth** | `client.general` | `exchangeToken`, `introspectToken`, `revokeToken`, `validateRefreshToken`, `getUserInfo`, `getPublicClient` |
+| **TikTok users API** | `client.tikTokUsers` | `retrieveTikTokUserBasic`, `retrieveTikTokUserProfile`, `retrieveTikTokUserVideos`, `retrieveTikTokUserReposts`, `retrieveTikTokUserStories`, `retrieveTikTokUserPlaylists`, `retrieveTikTokPlaylistVideos`, `retrieveTikTokUserInfo`, plus the users catalog (`searchTikTokUsersCatalog`, `retrieveTikTokUsersCatalogUsername`, `retrieveTikTokUsersCatalogNumericId`) |
+| **TikTok videos API** | `client.tikTokVideos` | `retrieveTikTokVideoDetailed`, `retrieveTikTokVideoComments`, `retrieveTikTokVideoCommentReplies`, `retrieveTikTokVideoCaptions`, `retrieveTikTokVideoThumbnail` |
+| **TikTok search API** | `client.tikTokSearch` | `searchTikTokGeneral`, `searchTikTokVideos`, `searchTikTokUsers`, `searchTikTokPhotos`, `searchTikTokAutocomplete` |
+| **TikTok sounds API** | `client.tikTokSounds` | `retrieveTikTokSound`, `retrieveTikTokSoundVideos` |
+| **TikTok hashtags API** | `client.tikTokTags` | `retrieveTikTokTagVideos` |
+| **TikTok short links** | `client.tikTokLinks` | `resolveTikTokShortLink` |
+| **TikTok OAuth** | `client.tikTokOAuth` | `exchangeToken`, `introspectToken`, `revokeToken`, `validateRefreshToken`, `getUserInfo`, `getPublicClient` |
 | **TikTok request signing** | `client.signing` | `signTikTokUrl`, plus decryptors for TikTok's encrypted payloads |
-| **TikTok captcha solving** | `client.captchas` | `completePuzzleCaptcha`, `completeShapesCaptcha`, `completeIconCaptcha`, `completeWhirlCaptcha`, `retrieveCaptchaCredits` |
+| **TikTok captcha solving** | `client.captchas` | `completePuzzleCaptcha`, `completeShapesCaptcha`, `completeIconCaptcha`, `completeWhirlCaptcha` |
 | **Your account** | `client.accounts` / `client.authentication` / `client.analytics` | Account details, rate limits, API keys, JWTs and usage analytics |
 
 Per-endpoint TypeScript examples for every TikTok API operation are in the [EulerStream API docs](https://www.eulerstream.com/docs/intro).
@@ -85,8 +89,9 @@ Everything in [`tiktok-live-api-sdk`](https://www.npmjs.com/package/tiktok-live-
 
 ## What you can build with the TikTok API
 
-- **Creator lookups and profile tools** backed by TikTok user profiles and the users catalog
-- **Video tools** that fetch TikTok video details and thumbnails by ID
+- **Creator lookups and profile tools** backed by TikTok user profiles, a creator's videos, reposts, stories and playlists, and the users catalog
+- **Video tools** that fetch TikTok video details, comments, replies, captions and thumbnails by ID
+- **Search and discovery** across TikTok videos, users and photos, plus the videos under a hashtag or a sound
 - **"Sign in with TikTok" flows** using the OAuth token, introspection and revocation routes
 - **Scrapers and data pipelines** that sign TikTok web requests through the API instead of maintaining signature code
 - **Captcha handling** for your own TikTok automation: puzzle, shapes, icon and whirl solvers
@@ -102,7 +107,6 @@ npm install tiktok-api-sdk
 ```
 
 Then point your imports at `tiktok-api-sdk`. The client class is now called `TikTokApiSdk`. The old name, `EulerStreamApiClient`, is still exported and still works, but it is deprecated and will be removed in a future major version. Default imports are unaffected, whatever you named them.
-
 ## Other languages
 
 The TikTok API SDK is also available for [Python](https://pypi.org/project/TikTokApiSdk/), [C# / .NET](https://www.nuget.org/packages/EulerApiSdk), [Java](https://central.sonatype.com/artifact/com.eulerstream/euler-api-sdk) and [Go](https://pkg.go.dev/github.com/EulerStream/TikTok-Live-Api/sdk/go), and anything else can call the TikTok API over plain HTTP.
